@@ -111,3 +111,8 @@ Wallpaper mode -- `stretch`, `fit`, `fill`, `center`, or `tile`.
 #### zen_profile_dir
 
 Absolute path to Zen Browser profile directory.
+
+## TODO
+- vencord config/theme
+- zen config
+- nvim config/theme
