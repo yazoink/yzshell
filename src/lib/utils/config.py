@@ -12,7 +12,8 @@ class Config:
             "screenshot_dir": f"{environ["HOME"]}/pic/screenshots",
             "wallpaper_dir": f"{environ["DATA_DIR"]}/assets/images/wallpapers",
             "wallpaper_image": "dolphins-tile.png",
-            "wallpaper_mode": "tile"
+            "wallpaper_mode": "tile",
+            "zen_profile_dir": f"{environ["HOME"]}/.config/zen/gd1z8qc7.Default (release)"
         }
         self.current = self.defaults
 
