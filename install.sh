@@ -52,6 +52,7 @@ deps=(
     "wl-clip-persist"
     "nm-tray"
     "wayland-pipewire-idle-inhibit"
+    "NetworkManager"
 )
 
 # activate services
@@ -61,6 +62,21 @@ fi
 
 if ! ls /var/service | grep -q "elogind"; then
     sudo ln -s /etc/sv/elogind /var/service
+fi
+
+if ! ls /var/service | grep -q "NetworkManager"; then
+    if ls /var/service | grep -q "wpa_supplicant"; then
+        sudo sv down wpa_supplicant
+        sudo rm /var/service/wpa_supplicant
+    fi
+    if ls /var/service | grep -q "dhcpcd"; then
+        sudo sv down dhcpcd
+        sudo rm /var/service/dhcpcd
+    fi
+    sudo ln -s /etc/sv/NetworkManager /var/service
+    user="$(whoami)"
+    sudo usermod -aG network "$user"
+    newgrp network
 fi
 
 for d in "${deps[@]}"; do
