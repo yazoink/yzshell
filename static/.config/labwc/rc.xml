@@ -248,6 +248,7 @@
     <windowRule serverDecoration="yes" title="Nicotine+" />
     <windowRule serverDecoration="yes" title="File Roller" />
     <windowRule serverDecoration="yes" title="Firefox" />
+    <windowRule serverDecoration="yes" title="Pipewire Volume Control" />
   </windowRules>
   <windowSwitcher>
     <osd style="thumbnail" />
