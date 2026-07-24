@@ -41,8 +41,8 @@ options:
     - reconfigure: reconfigure bar
 - colourscheme [name]: 
     set the colourscheme.
-    name must correspond a scheme in '${COLOURS_DIR}' -- the name being the file
-    name, omitting the '.json'.
+    name must correspond a with scheme in '${COLOURS_DIR}' -- the name being 
+    the file name, omitting the '.json'.
     'yzshell colourscheme' with no arguments will configure yzshell to use the
     colourscheme specified in '${YZSHELL_CONFIG_FILE}', or the default if
     unspecified.
