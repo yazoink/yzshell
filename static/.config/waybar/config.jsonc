@@ -61,6 +61,7 @@
     "format": "{icon}",
     "icon-size": 26,
     "icon-theme": "Papirus",
+    "all-outputs": true,
     "tooltip-format": "{title}",
     "on-click": "minimize-raise",
     "on-click-middle": "close"

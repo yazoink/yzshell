@@ -161,18 +161,27 @@ echo "Copied data files to '${DATA_DIR}'"
 
 configure_fonts=0
 configure_gtk=0
+configure_icons=0
 reconfigure=0
 for a in "$@"; do
     case "$a" in
         "--dont-configure-fonts" | "-df") configure_fonts=1;;
         "--dont-configure-gtk" | "-dg") configure_gtk=1;;
+        "--dont-configure-icons" | "-di") configure_icons=1;;
         "--dont-reconfigure" | "-dr") reconfigure=1;;
     esac
 done
 
 if [ $configure_gtk -eq 0 ]; then
     cp -rf "./static/.themes" "${HOME}/.themes"
+    gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3
     echo "Copied GTK themes"
+fi
+
+if [ $configure_icons -eq 0 ]; then
+    cp -rf "./static/.icons" "${HOME}/.icons"
+    gsettings set org.gnome.desktop.interface cursor-theme BreezeX-Light
+    echo "Copied icon themes"
 fi
 
 if [ $configure_fonts -eq 0 ]; then
