@@ -2,10 +2,8 @@
 
 status="$(playerctl status)"
 
-if [ "$status" == "Paused" ]; then
+if [ "$status" == "Playing" ]; then
     echo ""
-elif [ "$status" == "Stopped" ]; then
-    echo ""
 else
     echo ""
 fi

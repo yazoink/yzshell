@@ -42,6 +42,10 @@ deps=(
     "xdg-desktop-portal-wlr"
     "papirus-icon-theme"
     "papirus-folders"
+    "SwayOSD"
+    "swayidle"
+    "swaylock"
+    "wlopm"
 )
 
 # activate services

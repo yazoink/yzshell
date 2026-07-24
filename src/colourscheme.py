@@ -26,6 +26,7 @@ def main():
         MustacheTemplate("waybar.css.mustache", f"{environ["CONFIG_DIR"]}/waybar/colours.css"),
         MustacheTemplate("wofi.css.mustache", f"{environ["CONFIG_DIR"]}/wofi/style.css"),
         MustacheTemplate("yazi.toml.mustache", f"{environ["CONFIG_DIR"]}/yazi/theme.toml"),
+        MustacheTemplate("swayosd.css.mustache", f"{environ["CONFIG_DIR"]}/swayosd/style.css"),
     ]
 
     for t in templates:

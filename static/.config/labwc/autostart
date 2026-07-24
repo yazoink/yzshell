@@ -4,6 +4,12 @@ nm-applet &
 wl-clip-persist --clipboard regular &
 pipewire &
 wayland-pipewire-idle-inhibit &
+exec swayosd-server &
+swayidle -w \
+    timeout 300 'swaylock -f -c 000000' \
+    timeout 600 'wlopm --off \*' \
+    resume 'wlopm --on \*' \
+    before-sleep 'swaylock -f -c 000000' >/dev/null 2>&1 &
 
 ### SYSTEMD INTEGRATION ###
 dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP && systemctl --user stop labwc-session.target && systemctl --user start labwc-session.target
