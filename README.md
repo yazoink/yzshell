@@ -70,7 +70,21 @@ config would look as such:
   "wallpaper_dir": "/home/user/pic",
   "wallpaper_image": "a_painting_of_flowers_and_leaves.jpeg",
   "wallpaper_mode": "fill",
-  "zen_profile_dir": "/home/user/.config/zen/gd1z8qc7.Default (release)"
+  "zen_profile_dir": "/home/user/.config/zen/gd1z8qc7.Default (release)",
+  "file_manager": "pcmanfm",
+  "web_browser": "zen",
+  "document_reader": "zathura",
+  "terminal": "foot",
+  "media_player": "mpv",
+  "image_viewer": "imv-dir",
+  "run_launcher": "wofi --show drun",
+  "labwc_extra_autostart_cmds": [
+      "audacious"
+  ],
+  "labwc_extra_binds": {
+      "W-S-a": "audacious"
+  },
+  "labwc_desktops": 9
 }
 ```
 
