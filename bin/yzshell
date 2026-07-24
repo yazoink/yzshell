@@ -92,7 +92,7 @@ function launch_script() {
         launch_script "wallpaper" "update_thumbs"
         ;;
     "reconfigure") 
-        python "$HOME"/.local/share/yzshell/src/deploydots.py "${@:2}"
+        python "$HOME"/.local/share/yzshell/src/deploydots.py
         launch_script "colourscheme"
         ;;
     "wallpaper") python "$HOME"/.local/share/yzshell/src/wallpaper.py "${@:2}" ;;
