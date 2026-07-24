@@ -21,13 +21,6 @@ def main():
     cfg = Config()
     default_apps = DefaultApps(cfg)
 
-    if argc > 1:
-        match argv[1]:
-            case "ensure_default_apps":
-                default_apps.install_packages()
-            case "clean_default_apps":
-                default_apps.clean_packages()
-
     if path.exists(environ["CONFIG_DIR"]) == False:
         makedirs(environ["CONFIG_DIR"])
         

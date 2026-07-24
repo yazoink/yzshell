@@ -16,11 +16,13 @@ usage: yzshell [option] [args]
 'yzshell' with no arguments will launch the shell.
 
 options:
-- reconfigure [arg]: reconfigure dotfiles
+- reconfigure: reconfigure dotfiles
+- default_apps <args>:
     args:
-    - ensure_default_apps: 
+    - ensure_packages: 
         ensure that the default apps specified in config are installed
-    - clean_default_apps: remove orphaned packages
+    - clean_packages: remove orphaned packages
+    - change <category> <app>: change default app for category
 - wallpaper [arg]:
     'yzshell wallpaper' with no arguments will launch the wallpaper.
     args:
@@ -104,6 +106,7 @@ function launch_script() {
     "wm") python "$HOME"/.local/share/yzshell/src/windowmanager.py "${@:2}" ;;
     "lock") python "$HOME"/.local/share/yzshell/src/lock.py "${@:2}" ;;
     "osd") python "$HOME"/.local/share/yzshell/src/osd.py "${@:2}" ;;
+    "default_apps") python "$HOME"/.local/share/yzshell/src/defaultapps.py "${@:2}" ;;
     "kill")
         launch_script "widgets" "kill"
         launch_script "bar" "kill"

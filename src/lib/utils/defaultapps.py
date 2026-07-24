@@ -173,6 +173,19 @@ class DefaultApps:
             }
         }
 
+    def change_default(self, category, app):
+        if category not in self.available_apps:
+            print(f"Error: category '{category}' not recognised")
+            exit(1)
+        if app not in self.available_apps[category]:
+            print(f"Error: app '{app}' not recognised")
+            exit(1)
+        self._config.change(category, app)
+        self.install_packages()
+        self.clean_packages()
+        self.write_mimeapps_list()
+        print(f"Set '{app}' as default {category.replace("_", " ")}")
+
     def clean_packages(self):
         pkgs = []
         for a in self.available_apps:
