@@ -2,6 +2,7 @@ from os import listdir, environ
 import json
 import subprocess
 from lib.utils.config import Config
+from bs4 import BeautifulSoup
 
 class Waybar:
     def __init__(self, config = Config()):
@@ -46,8 +47,10 @@ class Waybar:
             print(f"Error: value '{val}' not recognised")
 
     def configure(self):
+        src = f"{environ["STATIC_CONFIG_DIR"]}/.config/waybar/config.jsonc"
+        dest = f"{environ["CONFIG_DIR"]}/waybar/config.jsonc"
         cfg = {}
-        with open(f"{environ["STATIC_CONFIG_DIR"]}/.config/waybar/config.jsonc", "r") as f:
+        with open(src, "r") as f:
             cfg = f.read()
             cfg = json.loads(cfg)
 
@@ -67,8 +70,25 @@ class Waybar:
         cfg["battery#icon"]["bat"] = battery_name
         cfg["battery#percentage"]["bat"] = battery_name
 
-        target = f"{environ["CONFIG_DIR"]}/waybar/config.jsonc"
-        with open(target, "w") as f:
+        with open(dest, "w") as f:
             f.write(json.dumps(cfg))
-            self.reload()
+
+        src = f"{environ["STATIC_CONFIG_DIR"]}/.config/waybar/workspaces.xml"
+        dest = f"{environ["CONFIG_DIR"]}/waybar/workspaces.xml"
+        data = ""
+        with open(src, "r") as f:
+            data = f.read()
+        soup = BeautifulSoup(data, "xml")
+        items = []
+        for i in range(1, self._config.current["labwc_desktops"] + 1):
+            s = f'''<child>
+                <object class="GtkMenuItem" id="w-{i}">
+                    <property name="label">Workspace {i}</property>
+                </object>
+            </child>'''
+            soup.object.append(BeautifulSoup(s, "xml"))
+        with open(dest, "w") as f:
+            f.write(soup.decode())
+        
+        #self.reload()
         print("Bar reconfigured")

@@ -7,7 +7,7 @@
     "class": "lock",
     "icon": "",
     "desc": "Lock",
-    "cmd": "yzshell widgets power close & swaylock -f -c 000000 &"
+    "cmd": "yzshell widgets power close & yzshell lock &"
   },
   {
     "class": "exit",

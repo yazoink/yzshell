@@ -39,11 +39,23 @@ class Labwc:
                 <action name="Execute" command="{self._config.current["run_launcher"]}" />
             </keybind>'''
         )
+
         for b in self._config.current["labwc_extra_binds"]:
             binds.append(f'''
             <keybind key="{b}">
                 <action name="Execute" command="{self._config.current["labwc_extra_binds"][b]}" />
             </keybind>''')
+
+
+        soup.desktops["number"] = self._config.current["labwc_desktops"]
+        for i in range(1, self._config.current["labwc_desktops"] + 1):
+            binds.append(f'''<keybind key="W-{i}">
+                <action name="GoToDesktop" to="{i}" />
+            </keybind>''')
+            binds.append(f'''<keybind key="W-S-{i}">
+                <action name="SendToDesktop" to="{i}" />
+            </keybind>''')
+
         for b in binds:
             soup.keyboard.append(BeautifulSoup(b, "xml"))
         with open(dest, "w") as f:
@@ -61,6 +73,7 @@ class Labwc:
                 autostart += " &"
         with open(dest, "w") as f:
             f.write(autostart)
+        #self.reload()
         print("Labwc reconfigured")
 
     def reload(self):

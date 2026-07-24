@@ -16,7 +16,11 @@ usage: yzshell [option] [args]
 'yzshell' with no arguments will launch the shell.
 
 options:
-- reconfigure: reconfigure dotfiles
+- reconfigure [arg]: reconfigure dotfiles
+    args:
+    - ensure_default_apps: 
+        ensure that the default apps specified in config are installed
+    - clean_default_apps: remove orphaned packages
 - wallpaper [arg]:
     'yzshell wallpaper' with no arguments will launch the wallpaper.
     args:
@@ -64,6 +68,11 @@ options:
     - get_option <name>: get current value of config option
     - get_default_option <name>: get default value of config option
     - set_option <name> <value>: set/modify config option
+- wm <arg>:
+    args:
+    - reload: reload window manager config
+    - reconfigure: reconfigure window manager
+- lock: launch lockscreen
 - kill: kill yzshell"
     exit 0
 }
@@ -76,11 +85,12 @@ function launch_script() {
         launch_script "bar"
         launch_script "wm"
         launch_script "widgets"
+        launch_script "osd"
         makoctl reload
         launch_script "wallpaper" "update_thumbs"
         ;;
     "reconfigure") 
-        python "$HOME"/.local/share/yzshell/src/deploydots.py
+        python "$HOME"/.local/share/yzshell/src/deploydots.py "${@:2}"
         launch_script "colourscheme"
         ;;
     "wallpaper") python "$HOME"/.local/share/yzshell/src/wallpaper.py "${@:2}" ;;
@@ -92,6 +102,8 @@ function launch_script() {
     "widgets") python "$HOME"/.local/share/yzshell/src/widgets.py "${@:2}" ;;
     "config") python "$HOME"/.local/share/yzshell/src/config.py "${@:2}" ;;
     "wm") python "$HOME"/.local/share/yzshell/src/windowmanager.py "${@:2}" ;;
+    "lock") python "$HOME"/.local/share/yzshell/src/lock.py "${@:2}" ;;
+    "osd") python "$HOME"/.local/share/yzshell/src/osd.py "${@:2}" ;;
     "kill")
         launch_script "widgets" "kill"
         launch_script "bar" "kill"

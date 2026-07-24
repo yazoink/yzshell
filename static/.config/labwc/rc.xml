@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <labwc_config>
-  <desktops number="5" />
+  <desktops number="1" />
   <focus>
     <followMouse>yes</followMouse>
     <raiseOnFocus>no</raiseOnFocus>
   </focus>
   <keyboard>
     <keybind key="W-C-l">
-      <action name="Execute" command="swaylock -f -c 000000" />
+      <action name="Execute" command="yzshell lock" />
     </keybind>
     <keybind key="W-S-d">
       <action name="Execute" command="toggle_dnd" />
@@ -116,36 +116,6 @@
     </keybind>
     <keybind key="W-A-Down">
       <action name="ToggleSnapToEdge" combine="yes" direction="down" />
-    </keybind>
-    <keybind key="W-1">
-      <action name="GoToDesktop" to="1" />
-    </keybind>
-    <keybind key="W-2">
-      <action name="GoToDesktop" to="2" />
-    </keybind>
-    <keybind key="W-3">
-      <action name="GoToDesktop" to="3" />
-    </keybind>
-    <keybind key="W-4">
-      <action name="GoToDesktop" to="4" />
-    </keybind>
-    <keybind key="W-5">
-      <action name="GoToDesktop" to="5" />
-    </keybind>
-    <keybind key="W-S-1">
-      <action name="SendToDesktop" to="1" />
-    </keybind>
-    <keybind key="W-S-2">
-      <action name="SendToDesktop" to="2" />
-    </keybind>
-    <keybind key="W-S-3">
-      <action name="SendToDesktop" to="3" />
-    </keybind>
-    <keybind key="W-S-4">
-      <action name="SendToDesktop" to="4" />
-    </keybind>
-    <keybind key="W-S-5">
-      <action name="SendToDesktop" to="5" />
     </keybind>
     <keybind key="W-C-Left">
       <action name="GoToDesktop" to="left" toggle="no" wrap="yes" />
