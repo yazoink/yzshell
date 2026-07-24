@@ -116,3 +116,7 @@ Absolute path to Zen Browser profile directory.
 - vencord config/theme
 - zen config
 - nvim config/theme
+- vscode config/theme
+- fix yazi config
+- tmux config/theme
+- set default apps
