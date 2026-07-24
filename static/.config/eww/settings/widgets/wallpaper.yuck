@@ -1,0 +1,97 @@
+(defpoll wallpaper_update :interval "2h" "yzshell wallpaper update_thumbs &")
+(defvar wallpaper_dir "")
+(defvar wallpapers "[]")
+(defvar current_wallpaper "")
+(defvar wallpaper_mode "")
+
+(defwidget fill_buttons []
+  (box
+    :space-evenly false
+    :spacing 8
+    :orientation "h"
+    :halign "center"
+    :hexpand true
+    (button 
+      :onclick "yzshell wallpaper set_mode 'stretch' &" 
+      :class "fill-button${wallpaper_mode == "stretch" ? " selected" : ""}"
+      "Stretch"
+    )
+    (button 
+      :onclick "yzshell wallpaper set_mode 'fit' &" 
+      :class "fill-button${wallpaper_mode == "fit" ? " selected" : ""}"
+      "Fit"
+    )
+    (button 
+      :onclick "yzshell wallpaper set_mode 'fill' &"
+      :class "fill-button${wallpaper_mode == "fill" ? " selected" : ""}"
+      "Fill"
+    )
+    (button 
+      :onclick "yzshell wallpaper set_mode 'center' &" 
+      :class "fill-button${wallpaper_mode == "center" ? " selected" : ""}"
+      "Center"
+    )
+    (button 
+      :onclick "yzshell wallpaper set_mode 'tile' &" 
+      :class "fill-button${wallpaper_mode == "tile" ? " selected" : ""}"
+      "Tile"
+    )
+  )
+)
+
+(defwidget wallpaper []
+  (box
+    :class "wp-box"
+    :orientation "v"
+    :space-evenly false
+    :spacing 8
+    (box
+      :space-evenly false
+      :spacing 8
+      :orientation "h"
+      (label :text "Directory:")
+      (input 
+        :value wallpaper_dir 
+        :onaccept "${EWW_CMD} update wallpaper_dir='{}' & ${EWW_CMD} update wallpapers='[]' & yzshell wallpaper update_thumbs '{}' & ${EWW_CMD} update wallpapers=\"$(settings/scripts/get_available_wallpapers.py '{}')\" &" 
+        :halign "fill"
+        :hexpand true
+      )
+    )
+    (scroll
+      :vscroll true
+      :hscroll false
+      :class "wp-scroller"
+      (box
+        :class "wp-button-box"
+        :orientation "v"
+        :spacing 8
+        :space-evenly false
+        (for row in wallpapers
+          (box
+            :orientation "h"
+            :spacing 8
+            :halign "center"
+            :hexpand true
+            (for wallpaper in row
+                (button
+                  :onclick "yzshell wallpaper set_image '${wallpaper_dir}/${wallpaper}' &"
+                  :class "wallpaper-button${current_wallpaper == "${wallpaper_dir}/${wallpaper}" ? " selected" : ""}"
+                  :tooltip wallpaper
+                  (box
+                    :orientation "v"
+                    :valign "center"
+                    :spacing 8
+                    :space-evenly false
+                    (image :path "${get_env("WALLPAPER_CACHE_DIR")}/${wallpaper}" :image-width 150)
+                    ;(label :text "${wallpaper_dir}/${wallpaper}")
+                    (label :text wallpaper :truncate true :limit-width 10)
+                  )
+                )
+            )
+          )
+        )
+      )
+    )
+    (fill_buttons)
+  )
+)

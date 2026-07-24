@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<labwc_config>
+  <desktops number="5" />
+  <focus>
+    <followMouse>yes</followMouse>
+    <raiseOnFocus>no</raiseOnFocus>
+  </focus>
+  <keyboard>
+    <default></default>
+    <keybind key="W-p">
+      <action name="Execute" command="wofi --show run" />
+    </keybind>
+    <keybind key="W-r">
+      <action name="Execute" command="wofi --show run" />
+    </keybind>
+    <keybind key="W-S-y">
+      <action name="Execute" command="yzshell reload" />
+    </keybind>
+    <keybind key="W-C-l">
+      <action name="Execute" command="hyprlock" />
+    </keybind>
+    <keybind key="W-S-d">
+      <action name="Execute" command="toggle_dnd" />
+    </keybind>
+    <keybind key="W-S-q">
+      <action name="Execute" command="yzshell widgets power toggle" />
+    </keybind>
+    <keybind key="W-S-c">
+      <action name="Execute" command="yzshell widgets calendar toggle" />
+    </keybind>
+    <keybind key="W-C-m">
+      <action name="Execute" command="yzshell widgets control_center toggle" />
+    </keybind>
+    <keybind key="W-A-s">
+      <action name="Execute" command="yzshell widgets control_center toggle" />
+    </keybind>
+    <keybind key="W-S-r">
+      <action name="Execute" command="yzshell" />
+    </keybind>
+    <keybind key="W-S-k">
+      <action name="ToggleKeybinds" />
+    </keybind>
+    <keybind key="W-A-m">
+      <action name="ToggleMagnify" />
+    </keybind>
+    <keybind key="W-equal">
+      <action name="ZoomIn" />
+    </keybind>
+    <keybind key="W-minus">
+      <action name="ZoomOut" />
+    </keybind>
+    <keybind key="A-F4">
+      <action name="Close" />
+    </keybind>
+    <keybind key="W-q">
+      <action name="Close" />
+    </keybind>
+    <keybind key="W-S-m">
+      <action name="ToggleFullscreen" />
+    </keybind>
+    <keybind key="W-m">
+      <action name="ToggleMaximize" />
+    </keybind>
+    <keybind key="W-A-s">
+      <action name="ToggleShade" />
+    </keybind>
+    <keybind key="W-t">
+      <action name="ToggleAlwaysOnTop" />
+    </keybind>
+    <keybind key="W-S-Return">
+      <action name="Raise" />
+    </keybind>
+    <keybind key="W-x">
+      <action name="ToggleOmnipresent" />
+    </keybind>
+    <keybind key="W-f">
+      <action name="UnSnap" />
+    </keybind>
+    <keybind key="W-i">
+      <action name="iconify" />
+    </keybind>
+    <keybind key="W-Tab">
+      <action name="NextWindow" identifier="all" output="all" workspace="current" />
+    </keybind>
+    <keybind key="W-S-Tab">
+      <action name="PreviousWindow" identifier="all" output="all" workspace="current" />
+    </keybind>
+    <keybind key="W-S-Left">
+      <action name="ResizeRelative" right="-10" />
+    </keybind>
+    <keybind key="W-S-Right">
+      <action name="ResizeRelative" right="10" />
+    </keybind>
+    <keybind key="W-S-Up">
+      <action name="ResizeRelative" bottom="-10" />
+    </keybind>
+    <keybind key="W-S-Down">
+      <action name="ResizeRelative" bottom="10" />
+    </keybind>
+    <keybind key="W-Left">
+      <action name="MoveRelative" x="-10" />
+    </keybind>
+    <keybind key="W-Right">
+      <action name="MoveRelative" x="10" />
+    </keybind>
+    <keybind key="W-Up">
+      <action name="MoveRelative" y="-10" />
+    </keybind>
+    <keybind key="W-Down">
+      <action name="MoveRelative" y="10" />
+    </keybind>
+    <keybind key="W-A-Left">
+      <action name="ToggleSnapToEdge" combine="yes" direction="left" />
+    </keybind>
+    <keybind key="W-A-Right">
+      <action name="ToggleSnapToEdge" combine="yes" direction="right" />
+    </keybind>
+    <keybind key="W-A-Up">
+      <action name="ToggleSnapToEdge" combine="yes" direction="up" />
+    </keybind>
+    <keybind key="W-A-Down">
+      <action name="ToggleSnapToEdge" combine="yes" direction="down" />
+    </keybind>
+    <keybind key="W-1">
+      <action name="GoToDesktop" to="1" />
+    </keybind>
+    <keybind key="W-2">
+      <action name="GoToDesktop" to="2" />
+    </keybind>
+    <keybind key="W-3">
+      <action name="GoToDesktop" to="3" />
+    </keybind>
+    <keybind key="W-4">
+      <action name="GoToDesktop" to="4" />
+    </keybind>
+    <keybind key="W-5">
+      <action name="GoToDesktop" to="5" />
+    </keybind>
+    <keybind key="W-S-1">
+      <action name="SendToDesktop" to="1" />
+    </keybind>
+    <keybind key="W-S-2">
+      <action name="SendToDesktop" to="2" />
+    </keybind>
+    <keybind key="W-S-3">
+      <action name="SendToDesktop" to="3" />
+    </keybind>
+    <keybind key="W-S-4">
+      <action name="SendToDesktop" to="4" />
+    </keybind>
+    <keybind key="W-S-5">
+      <action name="SendToDesktop" to="5" />
+    </keybind>
+    <keybind key="W-C-Left">
+      <action name="GoToDesktop" to="left" toggle="no" wrap="yes" />
+    </keybind>
+    <keybind key="W-C-Right">
+      <action name="GoToDesktop" to="right" toggle="no" wrap="yes" />
+    </keybind>
+    <keybind key="W-Return">
+      <action name="Execute" command="foot" />
+    </keybind>
+    <keybind key="W-s">
+      <action name="Execute" command="yzshell toggle screenshot" />
+    </keybind>
+    <keybind key="W-S-s">
+      <action name="Execute" command="yzshell cmd screenshot_full" />
+    </keybind>
+    <keybind key="W-A-s">
+      <action name="Execute" command="yzshell cmd screenshot_select" />
+    </keybind>
+    <keybind key="W-c">
+      <action name="Execute" command="yzshell cmd pick_colour" />
+    </keybind>
+    <keybind key="W-w">
+      <action name="Execute" command="firefox" />
+    </keybind>
+    <keybind key="W-e">
+      <action name="Execute" command="pcmanfm" />
+    </keybind>
+    <keybind key="W-S-b">
+      <action name="Execute" command="yzshell reload bar" />
+    </keybind>
+    <keybind key="XF86AudioPlay">
+      <action name="Execute" command="playerctl play-pause" />
+    </keybind>
+    <keybind key="XF86AudioPause">
+      <action name="Execute" command="playerctl play-pause" />
+    </keybind>
+    <keybind key="XF86AudioNext">
+      <action name="Execute" command="playerctl next" />
+    </keybind>
+    <keybind key="XF86AudioPrev">
+      <action name="Execute" command="playerctl previous" />
+    </keybind>
+    <keybind key="XF86AudioMute">
+      <action name="Execute" command="swayosd-client --output-volume mute-toggle" />
+    </keybind>
+    <keybind key="XF86AudioMicMute">
+      <action name="Execute" command="swayosd-client --input-volume mute-toggle" />
+    </keybind>
+    <keybind key="XF86AudioRaiseVolume">
+      <action name="Execute" command="swayosd-client --output-volume raise" />
+    </keybind>
+    <keybind key="XF86AudioLowerVolume">
+      <action name="Execute" command="swayosd-client --output-volume lower" />
+    </keybind>
+    <keybind key="W-F12">
+      <action name="Execute" command="swayosd-client --output-volume raise" />
+    </keybind>
+    <keybind key="W-F11">
+      <action name="Execute" command="swayosd-client --output-volume lower" />
+    </keybind>
+    <keybind key="W-F10">
+      <action name="Execute" command="swayosd-client --output-volume mute-toggle" />
+    </keybind>
+    <keybind key="XF86MonBrightnessDown">
+      <action name="Execute" command="swayosd-client --brightness lower" />
+    </keybind>
+    <keybind key="XF86MonBrightnessUp">
+      <action name="Execute" command="swayosd-client --brightness raise" />
+    </keybind>
+    <keybind key="Caps_Lock">
+      <action name="Execute" command="swayosd-client --caps-lock" />
+    </keybind>
+  </keyboard>
+  <libinput>
+    <device category="touchpad">
+      <scrollFactor>1</scrollFactor>
+    </device>
+  </libinput>
+  <margin bottom="0" left="0" right="0" top="0" />
+  <theme>
+    <cornerRadius>16</cornerRadius>
+    <dropShadows>yes</dropShadows>
+    <font name="sans" size="11" weight="bold" />
+    <icon>Papirus</icon>
+    <name>labwc-circles</name>
+    <titlebar>
+      <layout>close,iconify,max:</layout>
+      <showTitle>yes</showTitle>
+    </titlebar>
+  </theme>
+  <windowRules>
+    <windowRule identifier="VsCodium" serverDecoration="yes" />
+    <windowRule identifier="VsCode" serverDecoration="yes" />
+    <windowRule identifier="imv" serverDecoration="yes" />
+    <windowRule serverDecoration="yes" title="BleachBit" />
+    <windowRule serverDecoration="yes" title="wdisplays" />
+    <windowRule serverDecoration="yes" title="Fonts" />
+    <windowRule serverDecoration="yes" title="Nicotine+" />
+    <windowRule serverDecoration="yes" title="File Roller" />
+    <windowRule serverDecoration="yes" title="Firefox" />
+  </windowRules>
+  <windowSwitcher>
+    <osd style="thumbnail" />
+  </windowSwitcher>
+
+</labwc_config>

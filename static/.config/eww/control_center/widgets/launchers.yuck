@@ -1,0 +1,56 @@
+(defvar dnd false)
+(defvar dnd_icon "")
+
+(defwidget launchers []
+  (box
+    :orientation "v"
+    :class "launchers-box"
+    :space-evenly false
+    (box
+      :orientation "v"
+      :valign "start"
+      :spacing 8
+      :space-evenly false
+      :vexpand true
+      (button
+        :class "launcher-button settings"
+        :tooltip "Change appearance"
+        :onclick "yzshell widgets control_center close & yzshell widgets settings open &"
+        (label :text "" :class "icon")
+      )
+      (button
+        :class "launcher-button picker"
+        :onclick "yzshell widgets control_center close & colour_picker 'sleep' &"
+        :tooltip "Open colour picker"
+        (label :text "" :class "icon")
+      )
+      (button
+        :class "launcher-button shot"
+        :onclick "yzshell widgets control_center close & yzshell widgets screenshot open &"
+        :tooltip "Take screenshot"
+        (label :text "" :class "icon")
+      )
+      (button
+        :class "launcher-button dnd"
+        :tooltip "Toggle do-not-disturb"
+        :onclick "toggle_dnd &"
+        (label :text dnd_icon :class "icon")
+      )
+    )
+    (box
+      :orientation "v"
+      :valign "end"
+      :spacing 8
+      :space-evenly true
+      :vexpand true
+      (button
+        :class "launcher-button shutdown"
+        :tooltip "Open power menu"
+        :onclick "yzshell widgets control_center close & yzshell widgets power open"
+        (label :text "" :class "icon")
+      )
+    )
+  )
+)
+
+

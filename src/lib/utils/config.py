@@ -1,0 +1,40 @@
+from os import path, environ
+import json
+from sys import exit
+
+class Config:
+    def __init__(self):
+        self.defaults = {
+            "colourscheme": "camellia",
+            "bar_show_battery": False,
+            "bar_show_backlight": True,
+            "profile_image": f"{environ["DATA_DIR"]}/assets/images/profile_image.jpg",
+            "screenshot_dir": f"{environ["HOME"]}/pic/screenshots",
+            "wallpaper_dir": f"{environ["DATA_DIR"]}/assets/images/wallpapers",
+            "wallpaper_image": "dolphins-tile.png",
+            "wallpaper_mode": "tile"
+        }
+        self.current = self.defaults
+
+        if path.isfile(environ["YZSHELL_CONFIG_FILE"]):
+            user_config = {}
+            with open(environ["YZSHELL_CONFIG_FILE"], "r") as f:
+                j = f.read()
+                try:
+                    user_config = json.loads(j)
+                except:
+                    print(f"Error: could not load config at '{environ["YZSHELL_CONFIG_FILE"]}', please check for errors")
+                    exit(1)
+            for opt in user_config:
+                self.current[opt] = user_config[opt]
+
+    def change(self, opt, val):
+        if opt not in self.defaults:
+            print(f"Error: config option '{opt}' does not exist")
+            exit(1)
+        if type(self.defaults[opt]) != type(val):
+            print(f"Error: invalid value for '{opt}'")
+            exit(1)
+        self.current[opt] = val
+        with open(environ["YZSHELL_CONFIG_FILE"], "w") as f:
+            f.write(json.dumps(self.current))

@@ -1,0 +1,78 @@
+(defvar user_input "")
+(defvar search_results "[]")
+(defvar search_selected -1)
+(defpoll update_results :interval "1h" :initial "" "control_center/scripts/search.py update_cache")
+
+(defwidget search []
+  (box ; main window
+    :class "outer-box"
+    :orientation "v"
+    :space-evenly false
+    :spacing 8
+    (box ; results
+      :class "inner-box"
+      :halign "fill"
+      :orientation "v"
+      :valign "end"
+      (scroll
+        :class "search-results"
+        (box 
+          :orientation "v"
+          :valign "start"
+          :vexpand true
+          :spacing 8
+          (for app in search_results
+            (button
+              :class "entry${search_selected == app["index"] ? " selected" : ""}"
+              :onclick "${search_selected == app["index"] ? "control_center/scripts/search_confirm.sh &" : "eww update search_selected=${app["index"]}"}"
+              :tooltip {app["cmd"]}
+              (box
+                :orientation "h"
+                :space-evenly false
+                :spacing 8
+                (image :icon {app["icon"]} :icon-size "dialog" :class "icon")
+                (box
+                  :orientation "v"
+                  :space-evenly false
+                  :valign "center"
+                  (label 
+                    :class "name" 
+                    :halign "start"
+                    :text {app["name"]} 
+                    ;:truncate true 
+                    :show-truncated false 
+                    :limit-width 28
+                  )
+                  (label 
+                    :class "desc" 
+                    :halign "start"
+                    :text {app["desc"]}
+                    ;:truncate true 
+                    :show-truncated false 
+                    :limit-width 28
+                  )
+                )
+                (label :text "" :halign "end" :hexpand true :class "arrow")
+              )
+            )
+          )
+        )
+      )
+    )
+    (box
+      :orientation "h"
+      :space-evenly false
+      :halign "fill"
+      :class "search-bar"
+      :spacing 8
+      (label :text "" :class "icon search" :halign "start")
+      (input ; search bar
+        :value user_input 
+        :onchange "control_center/scripts/search.py 'get_results' '{}' &"
+        :onaccept "control_center/scripts/search_confirm.sh &"
+        :halign "fill"
+        :hexpand true
+      )
+    )
+  )
+)

@@ -1,0 +1,5 @@
+(include "calendar/eww.yuck")
+(include "control_center/eww.yuck")
+(include "settings/eww.yuck")
+(include "power/eww.yuck")
+(include "screenshot/eww.yuck")

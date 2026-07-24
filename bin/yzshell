@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+
+export CONFIG_DIR="${HOME}/.config"
+export YZSHELL_CONFIG_DIR="${CONFIG_DIR}/yzshell"
+export YZSHELL_CONFIG_FILE="${YZSHELL_CONFIG_DIR}/config.json"
+export DATA_DIR="${HOME}/.local/share/yzshell"
+export STATIC_CONFIG_DIR="${DATA_DIR}/static"
+export COLOURS_DIR="${DATA_DIR}/colourschemes"
+export TEMPLATES_DIR="${DATA_DIR}/templates"
+export WALLPAPER_CACHE_DIR="/tmp/wallpaper_thumbs"
+export WEATHER_CACHE_FILE="/tmp/weather.json"
+
+function help() {
+    echo "yzshell by yazoink
+usage: yzshell [option] [args]
+'yzshell' with no arguments will launch the shell.
+
+options:
+- reconfigure: reconfigure dotfiles
+- wallpaper [arg]:
+    'yzshell wallpaper' with no arguments will launch the wallpaper.
+    args:
+    - update_thumbs: update thumbnails for wallpaper picker
+    - set_image <path>: set wallpaper
+    - set_mode <mode>: set wallpaper mode
+        modes:
+        - stretch
+        - fit
+        - fill
+        - center
+        - tile
+    - kill: kill wallpaper
+    - reload: reload wallpaper
+- bar [arg]:
+    'yzshell bar' with no arguments will launch the status bar.
+    args:
+    - set_show_battery <true|false>: whether battery module should show
+    - set_show_backlight <true|false>: whether backlight module should show
+    - kill: kill bar
+    - reload: reload bar
+    - reconfigure: reconfigure bar
+- colourscheme [name]: 
+    set the colourscheme.
+    name must correspond a scheme in '${COLOURS_DIR}' -- the name being the file
+    name, omitting the '.json'.
+    'yzshell colourscheme' with no arguments will configure yzshell to use the
+    colourscheme specified in '${YZSHELL_CONFIG_FILE}', or the default if
+    unspecified.
+- widgets [arg]:
+    'yzshell widgets' with no arguments will launch the widgets as a daemon.
+    args:
+    - kill: kill the widgets daemon
+    - [name] open: open widget
+    - [name] close: close widget
+    - [name] toggle: toggle widget
+        names:
+        - control_center
+        - calendar
+        - settings
+        - power
+        - screenshot
+- kill: kill yzshell"
+    exit 0
+}
+
+function launch_script() {
+    case "$1" in
+    "") 
+        launch_script "kill"
+        launch_script "wallpaper"
+        launch_script "bar"
+        launch_script "widgets"
+        makoctl reload
+        launch_script "wallpaper" "update_thumbs"
+        ;;
+    "reconfigure") 
+        python "$HOME"/.local/share/yzshell/src/deploydots.py
+        launch_script "colourscheme"
+        ;;
+    "wallpaper") python "$HOME"/.local/share/yzshell/src/wallpaper.py "${@:2}" ;;
+    "bar") python "$HOME"/.local/share/yzshell/src/waybar.py "${@:2}" ;;
+    "colourscheme") 
+        python "$HOME"/.local/share/yzshell/src/colourscheme.py "${@:2}"
+        launch_script 
+        ;;
+    "widgets") python "$HOME"/.local/share/yzshell/src/widgets.py "${@:2}" ;;
+    "kill")
+        launch_script "widgets" "kill"
+        launch_script "bar" "kill"
+        launch_script "wallpaper" "kill"
+        ;;
+    "-h" | "--help") help ;;
+    esac
+}
+
+launch_script "$@"

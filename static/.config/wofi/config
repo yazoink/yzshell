@@ -1,0 +1,13 @@
+show=run
+width=35%
+height=45%
+location=0
+term=foot
+close_on_focus_loss=true
+always_parse_args=true
+show_all=false
+insensitive=true
+allow_images=true
+allow_markup=true
+use_search_box=false
+prompt=Run

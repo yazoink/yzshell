@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+file="$2"
+
+[ "$3" == "sleep" ] && sleep 0.5
+
+case "$1" in
+    "full") grim "$file" ;;
+    "select") grim -g "$(slurp)" "$file" ;;
+esac
+
+[ $? -eq 0 ] && notify-send -i "$file" "Screenshot saved" "$file"

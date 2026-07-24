@@ -1,0 +1,10 @@
+yzshell &
+poweralertd &
+nm-applet &
+wl-clip-persist --clipboard regular &
+pipewire &
+wayland-pipewire-idle-inhibit &
+
+### SYSTEMD INTEGRATION ###
+dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP && systemctl --user stop labwc-session.target && systemctl --user start labwc-session.target
+
