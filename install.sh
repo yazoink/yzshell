@@ -53,6 +53,7 @@ deps=(
     "nm-tray"
     "wayland-pipewire-idle-inhibit"
     "NetworkManager"
+    "pwvucontrol"
 )
 
 # activate services

@@ -7,7 +7,7 @@
     "class": "lock",
     "icon": "",
     "desc": "Lock",
-    "cmd": "hyprlock"
+    "cmd": "swaylock -f -c 000000"
   },
   {
     "class": "exit",
@@ -19,13 +19,13 @@
     "class": "reboot",
     "icon": "",
     "desc": "Reboot",
-    "cmd": "reboot"
+    "cmd": "loginctl reboot"
   },
   {
     "class": "shutdown",
     "icon": "",
     "desc": "Power off",
-    "cmd": "shutdown now"
+    "cmd": "loginctl poweroff"
   }
 ]`)
 (defvar selected "lock")
@@ -43,7 +43,7 @@
       :space-evenly false
       :valign "center"
       :halign "center"
-      (button :onclick "yzshell widgets power close & ${action} &" :class "yes base0B" "")
+      (button :onclick "yzshell widgets power close & ${cmd} &" :class "yes base0B" "")
       (button :onclick "yzshell widgets power close &" :class "no base08" "")
     )
   )

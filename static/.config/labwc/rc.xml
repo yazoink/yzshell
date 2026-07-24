@@ -170,7 +170,7 @@
       <action name="Execute" command="yzshell cmd pick_colour" />
     </keybind>
     <keybind key="W-w">
-      <action name="Execute" command="firefox" />
+      <action name="Execute" command="zen" />
     </keybind>
     <keybind key="W-e">
       <action name="Execute" command="pcmanfm" />

@@ -101,7 +101,7 @@
   "wireplumber#icon": {
     "format": "{icon}",
     "format-muted": "",
-    "on-click-right": "pavucontrol",
+    "on-click-right": "pwvucontrol",
     "on-click-middle": "amixer -D pipewire set Master toggle",
     "on-click": "amixer -D pipewire set Master toggle",
     "tooltip-format": "Volume\\n- Click to mute\\n- Right click to open settings\\n- Scroll to adjust",
@@ -112,7 +112,7 @@
     ]
   },
   "wireplumber#volume": {
-    "on-click-right": "pavucontrol",
+    "on-click-right": "pwvucontrol",
     "on-click-middle": "amixer -D pipewire set Master toggle",
     "on-click": "amixer -D pipewire set Master toggle",
     "format": "{volume}%",
