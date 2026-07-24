@@ -27,7 +27,7 @@ Prerequisites:
 - Base Void installation
 - Graphics drivers installed
 
-bash```
+```bash
 git clone https://github.com/yazoink/yzshell
 cd yzshell
 ./install.sh
