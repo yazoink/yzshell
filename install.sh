@@ -126,6 +126,14 @@ if ! which zen &> /dev/null; then
         ./xbps-src pkg zen-browser
         sudo xbps-install --repository=hostdir/binpkgs zen-browser
     )
+    echo "[Desktop Entry]
+    Name=Zen Browser
+    Comment=Browse the World Wide Web
+    Exec=zen %u
+    Icon=web-browser
+    Terminal=false
+    Type=Application
+    Categories=Network;WebBrowser;" | sudo tee /usr/share/applications/zen.desktop > /dev/null
     echo "Zen browser installed"
 fi
 
