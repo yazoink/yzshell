@@ -1,0 +1,155 @@
+ /* Common variables affecting all pages */
+@-moz-document url-prefix("about:") {
+    :root {
+    --in-content-page-color: #{{base05}} !important;
+    --color-accent-primary: #{{base0D}} !important;
+    --color-accent-primary-hover: #{{base0D}} !important;
+    --color-accent-primary-active: #{{base0D}} !important;
+    background-color: #{{base00}} !important;
+    --in-content-page-background: #{{base00}} !important;
+    }
+}
+
+/* Variables and styles specific to about:newtab and about:home */
+@-moz-document url("about:newtab"), url("about:home") {
+
+    :root {
+    --newtab-background-color: #{{base00}} !important;
+    --newtab-background-color-secondary: #{{base02}} !important;
+    --newtab-element-hover-color: #{{base02}} !important;
+    --newtab-text-primary-color: #{{base05}} !important;
+    --newtab-wordmark-color: #{{base05}} !important;
+    --newtab-primary-action-background: #{{base0D}} !important;
+    }
+
+    .icon {
+    color: #{{base0D}} !important;
+    }
+
+    .search-wrapper .logo-and-wordmark .logo {
+    display: inline-block !important;
+    height: 82px !important;
+    width: 82px !important;
+    background-size: 82px !important;
+    }
+
+    @media (max-width: 609px) {
+    .search-wrapper .logo-and-wordmark .logo {
+        background-size: 64px !important;
+        height: 64px !important;
+        width: 64px !important;
+    }
+    }
+
+    .card-outer:is(:hover, :focus, .active):not(.placeholder) .card-title {
+    color: #{{base0D}} !important;
+    }
+
+    .top-site-outer .search-topsite {
+    background-color: #{{base0D}} !important;
+    }
+
+    .compact-cards .card-outer .card-context .card-context-icon.icon-download {
+    fill: #{{base0B}} !important;
+    }
+}
+
+/* Variables and styles specific to about:preferences */
+@-moz-document url-prefix("about:preferences") {
+    :root {
+    --zen-colors-tertiary: #{{base01}} !important;
+    --in-content-text-color: #{{base05}} !important;
+    --link-color: #{{base0D}} !important;
+    --link-color-hover: #{{base0D}} !important;
+    --zen-colors-primary: #{{base02}} !important;
+    --in-content-box-background: #{{base02}} !important;
+    --zen-primary-color: #{{base0D}} !important;
+    }
+
+    groupbox , moz-card{
+    background: #{{base00}} !important;
+    }
+
+    button,
+    groupbox menulist {
+    background: #{{base02}} !important;
+    color: #{{base05}} !important;
+    }
+
+    .main-content {
+    background-color: #{{base00}} !important;
+    }
+
+    .identity-color-blue {
+    --identity-tab-color: #{{base0D}} !important;
+    --identity-icon-color: #{{base0D}} !important;
+    }
+
+    .identity-color-turquoise {
+    --identity-tab-color: #{{base0C}} !important;
+    --identity-icon-color: #{{base0C}} !important;
+    }
+
+    .identity-color-green {
+    --identity-tab-color: #{{base0B}} !important;
+    --identity-icon-color: #{{base0B}} !important;
+    }
+
+    .identity-color-yellow {
+    --identity-tab-color: #{{base0A}} !important;
+    --identity-icon-color: #{{base0A}} !important;
+    }
+
+    .identity-color-orange {
+    --identity-tab-color: #{{base09}} !important;
+    --identity-icon-color: #{{base09}} !important;
+    }
+
+    .identity-color-red {
+    --identity-tab-color: #{{base08}} !important;
+    --identity-icon-color: #{{base08}} !important;
+    }
+
+    .identity-color-pink {
+    --identity-tab-color: #{{base0E}} !important;
+    --identity-icon-color: #{{base0E}} !important;
+    }
+
+    .identity-color-purple {
+    --identity-tab-color: #{{base0F}} !important;
+    --identity-icon-color: #{{base0F}} !important;
+    }
+}
+
+/* Variables and styles specific to about:addons */
+@-moz-document url-prefix("about:addons") {
+    :root {
+    --zen-dark-color-mix-base: #{{base01}} !important;
+    --background-color-box: #{{base00}} !important;
+    }
+}
+
+/* Variables and styles specific to about:protections */
+@-moz-document url-prefix("about:protections") {
+    :root {
+    --zen-primary-color: #{{base00}} !important;
+    --social-color: #{{base0E}} !important;
+    --coockie-color: #{{base0D}} !important;
+    --fingerprinter-color: #{{base0A}} !important;
+    --cryptominer-color: #{{base0F}} !important;
+    --tracker-color: #{{base0B}} !important;
+    --in-content-primary-button-background-hover: #{base03} !important;
+    --in-content-primary-button-text-color-hover: #{{base05}} !important;
+    --in-content-primary-button-background: #{base03} !important;
+    --in-content-primary-button-text-color: #{{base05}} !important;
+    }
+
+    .card {
+    background-color: #{{base02}} !important;
+    }
+}
+
+::selection {
+    background-color: #{{base02}} !important;
+    color: #{{base05}} !important;
+}

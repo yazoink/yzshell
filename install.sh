@@ -10,6 +10,7 @@ deps=(
     "qt6ct" 
     "kvantum" 
     "eww"
+    "git"
     "dbus"
     "jq"
     "curl"
@@ -62,6 +63,22 @@ for d in "${deps[@]}"; do
         sudo xbps-install -y "$d"
     fi
 done
+
+# install zen browser
+if ! which zen; then
+    mkdir -p ~/src
+    (
+        cd ~/src || exit
+        git clone https://github.com/void-linux/void-packages.git
+        git clone https://github.com/salastro/zen-browser.git
+        cp -rf zen-browser void-packages/srcpkgs/
+        cd void-packages || exit
+        ./xbps-src binary-bootstrap
+        echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
+        ./xbps-src pkg zen-browser
+        sudo xbps-install --repository=hostdir/binpkgs zen-browser
+    )
+fi
 
 # install executable
 sudo install -Dm755 "./bin/yzshell" "/usr/bin/yzshell"

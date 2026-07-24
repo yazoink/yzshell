@@ -27,6 +27,8 @@ def main():
         MustacheTemplate("wofi.css.mustache", f"{environ["CONFIG_DIR"]}/wofi/style.css"),
         MustacheTemplate("yazi.toml.mustache", f"{environ["CONFIG_DIR"]}/yazi/theme.toml"),
         MustacheTemplate("swayosd.css.mustache", f"{environ["CONFIG_DIR"]}/swayosd/style.css"),
+        MustacheTemplate("zen_userchrome.css.mustache", f"{environ["CONFIG_DIR"]}/zen/userChrome.css"),
+        MustacheTemplate("zen_usercontent.css.mustache", f"{environ["CONFIG_DIR"]}/zen/userContent.css"),
     ]
 
     for t in templates:

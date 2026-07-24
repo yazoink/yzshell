@@ -1,0 +1,318 @@
+:root {
+    --zen-colors-primary: #{{base01}} !important;
+    --zen-primary-color: #{{base0D}} !important;
+    --zen-colors-secondary: #{{base01}} !important;
+    --zen-colors-tertiary: #{{base01}} !important;
+    --zen-colors-border: #{{base0D}} !important;
+    --toolbarbutton-icon-fill: #{{base0D}} !important;
+    --lwt-text-color: #{{base05}} !important;
+    --toolbar-field-color: #{{base05}} !important;
+    --toolbar-textcolor: #{{base05}} !important;
+    --toolbox-textcolor: #{{base05}} !important;
+    --tab-selected-textcolor: #{{base05}} !important;
+    --toolbar-field-focus-color: #{{base05}} !important;
+    --toolbar-color: #{{base05}} !important;
+    --newtab-text-primary-color: #{{base05}} !important;
+    --arrowpanel-color: #{{base05}} !important;
+    --arrowpanel-background: #{{base00}} !important;
+    --sidebar-text-color: #{{base05}} !important;
+    --lwt-sidebar-text-color: #{{base05}} !important;
+    --lwt-sidebar-background-color: #{{base00}} !important;
+    --toolbar-bgcolor: #{{base01}} !important;
+    --newtab-background-color: #{{base00}} !important;
+    --zen-themed-toolbar-bg: #{{base00}} !important;
+    --zen-main-browser-background: #{{base00}} !important;
+    --toolbox-bgcolor-inactive: #{{base01}} !important;
+    --zen-themed-toolbar-bg-transparent: #{{base01}} !important;
+    --input-color: #{{base05}} !important;
+    --zen-native-inner-radius: 16px !important;
+    --zen-toolbar-height: 48px !important;
+    --toolbarbutton-hover-background: #{{surface1}} !important;
+    --panel-color: #{{base05}} !important;
+    --panel-border-color: #{{base01}} !important;
+    --panel-border-radius: 15px !important;
+    --zen-toolbar-element-bg: #{{surface1}} !important;
+    }
+
+    .zen-toolbar-background {
+    box-shadow: none !important;;
+    &::before,
+    &::after {
+        border: none !important;
+        outline: none !important;
+    }
+
+    &,
+    &::before,
+    &::after {
+        border-radius: 16px !important;;
+    }
+    &,
+        &::before {
+        border: 1px solid #{{base01}} !important;
+    }
+    }
+
+    .urlbar {
+    :root[zen-single-toolbar="true"] &[breakout-extend="true"], &[zen-floating-urlbar="true"] {
+        --urlbar-container-padding: 0 !important;;
+    }
+    }
+
+    #urlbar[breakout-extend="true"] {
+        & .urlbar-background {
+        border-radius: 16px !important;
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+        }
+    }
+
+    .tab-background {
+    min-height: 40px !important;
+    }
+
+    .tab-content {
+    padding: 0 8px !important;
+    }
+
+    .tabbrowser-tab[zen-essential="true"], #zen-welcome-initial-essentials-browser-sidebar-essentials .tabbrowser-tab {
+    &:hover .tab-background {
+        background: var(--zen-toolbar-element-bg) !important;
+    }
+    }
+
+    :is(menupopup, panel) {
+    &::part(content) {
+        border-radius: 16px !important;
+        border: 1px solid #{{base01}} !important;
+        box-shadow: none !important;
+    }
+    }
+
+    .menupopup-arrowscrollbox {
+        border-radius: 16px !important;
+        border: 1px solid #{{base01}} !important;
+        box-shadow: none !important;
+    }
+
+    menuitem {
+    border-radius: 4px !important;
+    }
+
+    menuitem {
+    &:hover {
+    background-color: #{{surface1}} !important;
+    }
+    }
+
+    menupopup {
+    --panel-padding: 8px !important;
+    }
+
+    menuseparator {
+    &::before {
+        border-top: 1px solid #{{base01}} !important;
+        /*border-top: 2px dashed #{{base01}} !important;*/
+        content: "";
+        display: block;
+        flex: 1;
+    }
+    }
+
+    zen-workspace {
+    --toolbox-textcolor: #{{base05}} !important;
+    }
+
+    #permissions-granted-icon {
+    color: #{{base05}} !important;
+    }
+
+    #historySwipeAnimationPreviousArrow,#historySwipeAnimationNextArrow {
+    --swipe-nav-icon-primary-color: #{{base0D}} !important;
+    --swipe-nav-icon-accent-color: #{{base00}} !important;
+    }
+
+    #sidebar-box {
+    background-color: #{{base00}} !important;
+    }
+
+    .sidebar-placesTree {
+    background-color: #{{base00}} !important;
+    }
+
+    #zen-workspaces-button {
+    background-color: #{{base00}} !important;
+    }
+
+    .urlbar-background {
+    background-color: #{{surface1}} !important;
+    }
+
+    .content-shortcuts {
+    background-color: #{{base00}} !important;
+    border-color: #{{base0D}} !important;
+    }
+
+    .urlbarView-url, .urlbarView-title-separator::before {
+    color: #{{base0D}} !important;
+    }
+
+    .urlbarView-row {
+    color: #{{base05}} !important;
+    }
+
+    #urlbar-input::selection {
+    background-color: #{{base0D}} !important;
+    color: #{{base00}} !important;
+    }
+
+    .urlbarView-row {
+    &[selected] {
+        & *, & .urlbarView-title-separator::before {
+        color: #{{base05}} !important;
+        }
+    }
+    }
+
+    #zenEditBookmarkPanelFaviconContainer {
+    background: #{{base00}} !important;
+    }
+
+    #zen-media-controls-toolbar {
+    & #zen-media-progress-bar {
+        &::-moz-range-track {
+        background: #{base02} !important;
+        }
+    }
+    }
+
+    toolbar .toolbarbutton-1 {
+    &:not([disabled]) {
+        &:is([open], [checked])
+        > :is(
+            .toolbarbutton-icon,
+            .toolbarbutton-text,
+            .toolbarbutton-badge-stack
+        ) {
+        fill: #{{base00}};
+        }
+    }
+    }
+
+    .identity-color-blue {
+    --identity-tab-color: #{{base0D}} !important;
+    --identity-icon-color: #{{base0D}} !important;
+    }
+
+    .identity-color-turquoise {
+    --identity-tab-color: #{{base0C}} !important;
+    --identity-icon-color: #{{base0C}} !important;
+    }
+
+    .identity-color-green {
+    --identity-tab-color: #{{base0B}} !important;
+    --identity-icon-color: #{{base0B}} !important;
+    }
+
+    .identity-color-yellow {
+    --identity-tab-color: #{{base0A}} !important;
+    --identity-icon-color: #{{base0A}} !important;
+    }
+
+    .identity-color-orange {
+    --identity-tab-color: #{{base09}} !important;
+    --identity-icon-color: #{{base09}} !important;
+    }
+
+    .identity-color-red {
+    --identity-tab-color: #{{base08}} !important;
+    --identity-icon-color: #{{base08}} !important;
+    }
+
+    .identity-color-pink {
+    --identity-tab-color: #{{base0E}} !important;
+    --identity-icon-color: #{{base0E}} !important;
+    }
+
+    .identity-color-purple {
+    --identity-tab-color: #{{base0F}} !important;
+    --identity-icon-color: #{{base0F}} !important;
+    }
+
+    #zen-toolbar-background {
+    --zen-main-browser-background-toolbar: #{{base00}} !important;
+    }
+
+    #commonDialog {
+    background-color: #{{base00}} !important;
+    }
+
+    #zen-browser-background {
+    --zen-main-browser-background: #{{base00}} !important;
+    }
+
+    menu,
+    menuitem,
+    menupopup {
+    color: #{{base05}} !important;
+    }
+
+    #tabbrowser-tabs {
+    & .tabbrowser-tab {
+    & .tab-background {
+        border-radius: 8px !important;
+        box-shadow: none !important;
+    }
+    }
+
+    .tab-background {
+    &:is([selected], [multiselected]) {
+        background-color: #{{surface1}} !important;
+        outline-color: transparent;
+    }
+    }
+
+    #urlbar[breakout-extend="true"] {
+    &, & .urlbar-background {
+        border-radius: 16px !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+    }
+}
+
+#urlbar[open][zen-floating-urlbar="true"] {
+    & .urlbar-background {
+        background: #{{base00}} !important;
+        outline: none !important;
+        border: 1px solid #{{base01}} !important;
+        border-radius: 15px !important;
+    }
+    }
+
+    .urlbar-input-container {
+    background-color: #{{surface1}} !important;
+    }
+
+    .urlbar[breakout][breakout-extend] {
+    & > .urlbar-input-container {
+        height: 50px !important;
+        margin: 8px !important;
+        width: calc(100% - 20px) !important;;
+        padding-left: 4px !important;
+        padding-right: 16px !important;
+    }
+    }
+
+    .urlbar {
+    &[breakout-extend="true"] {
+        --urlbar-container-padding: 0;
+    }
+    }
+
+    .urlbarView-body-inner {
+    #urlbar[open] > .urlbarView > .urlbarView-body-outer > & {
+        border-top: 1px solid #{{base01}} !important;
+    }
+    }
