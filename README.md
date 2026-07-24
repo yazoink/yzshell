@@ -138,3 +138,4 @@ Absolute path to Zen Browser profile directory.
 - Configure a better lockscreen
 - Openbox support(?)
 - Add more colourschemes
+- Tidy/rewrite wrapper script
