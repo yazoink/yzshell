@@ -28,8 +28,14 @@
     <keybind key="W-C-m">
       <action name="Execute" command="yzshell widgets control_center toggle" />
     </keybind>
-    <keybind key="W-A-s">
-      <action name="Execute" command="yzshell widgets control_center toggle" />
+    <keybind key="W-s">
+      <action name="Execute" command="/usr/bin/screenshot select" />
+    </keybind>
+    <keybind key="W-S-s">
+      <action name="Execute" command="screenshot full" />
+    </keybind>
+    <keybind key="W-C-s">
+      <action name="Execute" command="yzshell widgets screenshot toggle" />
     </keybind>
     <keybind key="W-S-r">
       <action name="Execute" command="yzshell" />
@@ -156,15 +162,6 @@
     </keybind>
     <keybind key="W-Return">
       <action name="Execute" command="foot" />
-    </keybind>
-    <keybind key="W-s">
-      <action name="Execute" command="yzshell toggle screenshot" />
-    </keybind>
-    <keybind key="W-S-s">
-      <action name="Execute" command="yzshell cmd screenshot_full" />
-    </keybind>
-    <keybind key="W-A-s">
-      <action name="Execute" command="yzshell cmd screenshot_select" />
     </keybind>
     <keybind key="W-c">
       <action name="Execute" command="yzshell cmd pick_colour" />

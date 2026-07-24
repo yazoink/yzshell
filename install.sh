@@ -85,6 +85,7 @@ deps=(
     "system-config-printer"
     "nss-mdns"
     "avahi"
+    "poweralertd"
 )
 
 for d in "${deps[@]}"; do

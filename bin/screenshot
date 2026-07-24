@@ -1,8 +1,27 @@
 #!/usr/bin/env bash
 
-file="$2"
+dir=""
+file=""
 
-[ "$3" == "sleep" ] && sleep 0.5
+case "$2" in
+    "sleep" | "")
+        dir="$(cat .config/yzshell/config.json | jq -r '.screenshot_dir' || "${HOME}/pic/screenshots")"
+        file="${dir}/$(date +%Y%m%d_%H:%M:%S_screenshot).png"
+        ;;
+    *)
+        file="$2"
+        dir="$(basename "$file")"
+        ;;
+esac
+
+
+[ ! -d "$dir" ] && mkdir -p "$dir"
+
+sleep=1
+for a in "$@"; do
+    [ "$a" == "sleep" ] && sleep=0
+done
+[ $sleep -eq 0 ] && sleep 0.5
 
 case "$1" in
     "full") grim "$file" ;;
