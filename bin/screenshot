@@ -1,29 +1,40 @@
 #!/usr/bin/env bash
 
-dir=""
-file=""
+type="full"
+dir="$(yzshell config get_option screenshot_dir)"
+file="${dir}/$(date +%Y%m%d_%H:%M:%S_screenshot).png"
+sleep=0
 
-case "$2" in
-    "sleep" | "")
-        dir="$(cat .config/yzshell/config.json | jq -r '.screenshot_dir' || "${HOME}/pic/screenshots")"
-        file="${dir}/$(date +%Y%m%d_%H:%M:%S_screenshot).png"
+while getopts 'm:s:o:' OPTION; do
+  case "$OPTION" in
+    m)
+        echo "$OPTARG"
+        case "$OPTARG" in
+            "select" | "full" ) type="$OPTARG" ;;
+            * )
+                echo "Error: invalid argument provided to '-t'" >&2
+                exit 1
+                ;;
+        esac
         ;;
-    *)
-        file="$2"
+    s) sleep=$OPTARG ;;
+    o)
+        file="$OPTARG"
         dir="$(basename "$file")"
         ;;
-esac
-
+    ?)
+      echo "usage: $(basename \$0) [-m select|full] [-s <sleep time>] [-o /path/to/output.png]" >&2
+      exit 1
+      ;;
+  esac
+done
+shift "$(($OPTIND -1))"
 
 [ ! -d "$dir" ] && mkdir -p "$dir"
 
-sleep=1
-for a in "$@"; do
-    [ "$a" == "sleep" ] && sleep=0
-done
-[ $sleep -eq 0 ] && sleep 0.5
+sleep $sleep
 
-case "$1" in
+case "$type" in
     "full") grim "$file" ;;
     "select") grim -g "$(slurp)" "$file" ;;
 esac

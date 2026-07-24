@@ -59,6 +59,11 @@ options:
         - settings
         - power
         - screenshot
+- config <arg>:
+    args:
+    - get_option <name>: get current value of config option
+    - get_default_option <name>: get default value of config option
+    - set_option <name> <value>: set/modify config option
 - kill: kill yzshell"
     exit 0
 }
@@ -84,6 +89,7 @@ function launch_script() {
         launch_script 
         ;;
     "widgets") python "$HOME"/.local/share/yzshell/src/widgets.py "${@:2}" ;;
+    "config") python "$HOME"/.local/share/yzshell/src/config.py "${@:2}" ;;
     "kill")
         launch_script "widgets" "kill"
         launch_script "bar" "kill"

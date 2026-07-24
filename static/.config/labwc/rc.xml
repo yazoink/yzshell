@@ -29,10 +29,10 @@
       <action name="Execute" command="yzshell widgets control_center toggle" />
     </keybind>
     <keybind key="W-s">
-      <action name="Execute" command="/usr/bin/screenshot select" />
+      <action name="Execute" command="screenshot -m select" />
     </keybind>
     <keybind key="W-S-s">
-      <action name="Execute" command="screenshot full" />
+      <action name="Execute" command="screenshot -m full" />
     </keybind>
     <keybind key="W-C-s">
       <action name="Execute" command="yzshell widgets screenshot toggle" />
