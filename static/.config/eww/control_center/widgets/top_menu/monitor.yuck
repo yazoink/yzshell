@@ -1,5 +1,5 @@
-(defpoll cpu :run-while monitor_visible :interval "17s" "control_center/scripts/cpu_perc.sh")
-(defpoll temp :run-while monitor_visible :interval "17s" "control_center/scripts/cpu_temp.sh")
+(defpoll cpu :run-while {menu_item == 1} :interval "17s" "control_center/scripts/cpu_perc.sh")
+(defpoll temp :run-while {menu_item == 1} :interval "17s" "control_center/scripts/cpu_temp.sh")
 
 (defwidget monitor []
   (box
