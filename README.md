@@ -121,3 +121,4 @@ Absolute path to Zen Browser profile directory.
 - Tmux config/theme
 - Set default apps
 - Configure a better lockscreen
+- Openbox support(?)
