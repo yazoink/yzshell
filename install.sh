@@ -179,19 +179,22 @@ for a in "$@"; do
 done
 
 if [ $configure_gtk -eq 0 ]; then
-    cp -rf "./static/.themes" "${HOME}/.themes"
+    [ ! -d "${HOME}/.themes" ] && mkdir -p "${HOME}/.themes"
+    cp -rf "./static/.themes/"* "${HOME}/.themes"
     gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3
     echo "Copied GTK themes"
 fi
 
 if [ $configure_icons -eq 0 ]; then
-    cp -rf "./static/.icons" "${HOME}/.icons"
+    [ ! -d "${HOME}/.icons" ] && mkdir -p "${HOME}/.icons"
+    cp -rf "./static/.icons/"* "${HOME}/.icons"
     gsettings set org.gnome.desktop.interface cursor-theme BreezeX-Light
     echo "Copied icon themes"
 fi
 
 if [ $configure_fonts -eq 0 ]; then
-    cp -rf "./static/.fonts" "${HOME}/.fonts"
+    [ ! -d "${HOME}/.fonts" ] && mkdir -p "${HOME}/.fonts"
+    cp -rf "./static/.fonts/"* "${HOME}/.fonts"
     echo "Copied fonts"
     fc-cache -fv
 fi
