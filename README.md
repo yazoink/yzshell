@@ -122,4 +122,4 @@ Absolute path to Zen Browser profile directory.
 - Set default apps
 - Configure a better lockscreen
 - Openbox support(?)
-- Add more themes
+- Add more colourschemes
