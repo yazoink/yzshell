@@ -29,6 +29,7 @@ def main():
         MustacheTemplate("swayosd.css.mustache", f"{environ["CONFIG_DIR"]}/swayosd/style.css"),
         MustacheTemplate("zen_userchrome.css.mustache", f"{c.current["zen_profile_dir"]}/chrome/userChrome.css"),
         MustacheTemplate("zen_usercontent.css.mustache", f"{c.current["zen_profile_dir"]}/chrome/userContent.css"),
+        MustacheTemplate("zathurarc.mustache", f"{environ["CONFIG_DIR"]}/zathura/zathurarc"),
     ]
 
     for t in templates:
