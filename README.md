@@ -30,6 +30,16 @@ Features:
 - Do-not-disturb toggle
 - Media, system monitor, and weather widgets
 
+## Showcase
+
+<img width="1359" height="767" alt="20260724_19:05:54_screenshot" src="https://github.com/user-attachments/assets/0234cf5c-3980-4254-aa7c-c7fe08830152" />
+<img width="1366" height="766" alt="20260724_19:03:54_screenshot" src="https://github.com/user-attachments/assets/94eb5a97-ddf2-4c46-9014-5cea320a0ccd" />
+<img width="1366" height="768" alt="20260724_19:06:10_screenshot" src="https://github.com/user-attachments/assets/92b7ab56-204f-4d5d-9b6c-244284afa6c0" />
+<img width="1366" height="767" alt="20260724_19:06:44_screenshot" src="https://github.com/user-attachments/assets/d51d9271-28bd-401a-b0ab-6521737ae672" />
+<img width="1366" height="767" alt="20260724_19:06:27_screenshot" src="https://github.com/user-attachments/assets/3f119230-d7b5-4304-9bf2-6cad7148a823" />
+<img width="1366" height="767" alt="20260724_19:09:33_screenshot" src="https://github.com/user-attachments/assets/78084ab4-236f-4dce-8768-e961bb03339b" />
+
+
 ## Installation
 
 Prerequisites:
