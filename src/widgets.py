@@ -31,9 +31,9 @@ class Widgets(EwwDaemon):
                     pre_open=[
                         self.get_dnd_icon, 
                         self.get_profile_image, 
+                        self.get_search_results, 
                     ],
                     post_open=[
-                        self.get_search_results, 
                         self.update_weather
                     ],
                 )
