@@ -7,25 +7,25 @@
     "class": "lock",
     "icon": "",
     "desc": "Lock",
-    "cmd": "swaylock -f -c 000000"
+    "cmd": "yzshell widgets power close & swaylock -f -c 000000 &"
   },
   {
     "class": "exit",
     "icon": "",
     "desc": "Exit",
-    "cmd": "labwc --exit"
+    "cmd": "labwc --exit &"
   },
   {
     "class": "reboot",
     "icon": "",
     "desc": "Reboot",
-    "cmd": "loginctl reboot"
+    "cmd": "loginctl reboot &"
   },
   {
     "class": "shutdown",
     "icon": "",
     "desc": "Power off",
-    "cmd": "loginctl poweroff"
+    "cmd": "loginctl poweroff &"
   }
 ]`)
 (defvar selected "lock")
@@ -43,7 +43,7 @@
       :space-evenly false
       :valign "center"
       :halign "center"
-      (button :onclick "yzshell widgets power close & ${cmd} &" :class "yes base0B" "")
+      (button :onclick "${cmd}" :class "yes base0B" "")
       (button :onclick "yzshell widgets power close &" :class "no base08" "")
     )
   )

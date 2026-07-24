@@ -86,6 +86,8 @@ deps=(
     "nss-mdns"
     "avahi"
     "poweralertd"
+    "polkit"
+    "mate-polkit"
 )
 
 for d in "${deps[@]}"; do

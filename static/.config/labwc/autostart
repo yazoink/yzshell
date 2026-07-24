@@ -5,6 +5,7 @@ wl-clip-persist --clipboard regular &
 pipewire &
 wayland-pipewire-idle-inhibit &
 exec swayosd-server &
+/usr/libexec/polkit-mate-authentication-agent-1 &
 swayidle -w \
     timeout 300 'swaylock -f -c 000000' \
     timeout 600 'wlopm --off \*' \
