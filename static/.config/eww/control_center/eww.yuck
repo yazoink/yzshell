@@ -16,6 +16,7 @@
     :y 4
     :anchor "bottom left"
   )
+  :windowtype "dialog"
   :stacking "fg"
   :exclusive false
   :focusable true

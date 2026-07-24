@@ -1,5 +1,5 @@
-(defpoll song :run-while {menu_item == 0} :interval "3s"  "playerctl metadata title")
-(defpoll song_artist :run-while {menu_item == 0} :interval "3s"  "playerctl metadata artist")
+(defpoll song :run-while {menu_item == 0} :interval "3s"  "playerctl metadata title || echo 'n/a'")
+(defpoll song_artist :run-while {menu_item == 0} :interval "3s"  "playerctl metadata artist || echo 'n/a'")
 (defpoll song_status :run-while {menu_item == 0} :interval "3s"  "control_center/scripts/get_player_status.sh")
 (defpoll cover_art :run-while {menu_item == 0} :interval "3s"  "control_center/scripts/get_album_cover.sh")
 
