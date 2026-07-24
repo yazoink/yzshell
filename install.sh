@@ -92,6 +92,10 @@ deps=(
     "poweralertd"
     "polkit"
     "mate-polkit"
+    "pcmanfm"
+    "file-roller"
+    "tumbler"
+    "ffmpegthumbnailer"
 )
 
 for d in "${deps[@]}"; do
