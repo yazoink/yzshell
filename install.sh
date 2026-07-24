@@ -2,6 +2,29 @@
 
 DATA_DIR="${HOME}/.local/share/yzshell"
 
+function activate_service() {
+    if ! ls /etc/sv | grep "$1"; then
+        echo "error: service '${1}' not found"
+        exit 1
+    fi
+    if ! ls /var/service | grep -q "$1"; then
+        sudo ln -s /etc/sv/"$1" /var/service
+    fi
+}
+
+function deactivate_service() {
+    if ls /var/service | grep -q "$1"; then
+        sudo sv down wpa_supplicant
+        sudo rm /var/service/"$1"
+    fi
+}
+
+if [ "$EUID" -eq 0 ]; then 
+    echo "Please do not run as root"
+    exit 1
+fi
+
+# install deps
 deps=(
     "labwc"
     "foot"
@@ -54,37 +77,34 @@ deps=(
     "wayland-pipewire-idle-inhibit"
     "NetworkManager"
     "pwvucontrol"
+    "cups"
+    "cups-filters"
+    "gutenprint"
+    "system-config-printer"
+    "nss-mdns"
+    "avahi"
 )
-
-# activate services
-if ! ls /var/service | grep -q "dbus"; then
-    sudo ln -s /etc/sv/dbus /var/service
-fi
-
-if ! ls /var/service | grep -q "elogind"; then
-    sudo ln -s /etc/sv/elogind /var/service
-fi
-
-if ! ls /var/service | grep -q "NetworkManager"; then
-    if ls /var/service | grep -q "wpa_supplicant"; then
-        sudo sv down wpa_supplicant
-        sudo rm /var/service/wpa_supplicant
-    fi
-    if ls /var/service | grep -q "dhcpcd"; then
-        sudo sv down dhcpcd
-        sudo rm /var/service/dhcpcd
-    fi
-    sudo ln -s /etc/sv/NetworkManager /var/service
-    user="$(whoami)"
-    sudo usermod -aG network "$user"
-    newgrp network
-fi
 
 for d in "${deps[@]}"; do
     if ! xbps-query -l | grep -q "ii ${d}-[0-9]"; then
         sudo xbps-install -y "$d"
     fi
 done
+
+# activate services
+activate_service "dbus"
+activate_service "avahi-daemon"
+activate_service "cupsd"
+activate_service "elogind"
+
+if ! ls /var/service | grep -q "NetworkManager"; then
+    deactivate_service "wpa_supplicant"
+    deactivate_service "dhcpcd"
+    activate_service "NetworkManager"
+    user="$(whoami)"
+    sudo usermod -aG network "$user"
+    newgrp network
+fi
 
 # install zen browser
 if ! which zen; then
@@ -102,7 +122,7 @@ if ! which zen; then
     )
 fi
 
-# install executable
+# install executables
 sudo install -Dm755 "./bin/yzshell" "/usr/bin/yzshell"
 sudo install -Dm755 "./bin/screenshot" "/usr/bin/screenshot"
 sudo install -Dm755 "./bin/toggle_dnd" "/usr/bin/toggle_dnd"
@@ -117,9 +137,27 @@ cp -rf "./colourschemes" "${DATA_DIR}/colourschemes"
 cp -rf "./assets" "${DATA_DIR}/assets"
 cp -rf "./static" "${DATA_DIR}/static"
 cp -rf "./src" "${DATA_DIR}/src"
-cp -rf "./static/.themes" "${HOME}/.themes"
-cp -rf "./static/.fonts" "${HOME}/.fonts"
 
-fc-cache -fv
+configure_fonts=0
+configure_gtk=0
+reconfigure=0
+for a in "$@"; do
+    case "$a" in
+        "--dont-configure-fonts" | "-df") configure_fonts=1;;
+        "--dont-configure-gtk" | "-dg") configure_gtk=1;;
+        "--dont-reconfigure" | "-dr") reconfigure=1;;
+    esac
+done
 
-yzshell reconfigure
+if [ $configure_gtk -eq 0 ]; then
+    cp -rf "./static/.themes" "${HOME}/.themes"
+fi
+
+if [ $configure_fonts -eq 0 ]; then
+    cp -rf "./static/.fonts" "${HOME}/.fonts"
+    fc-cache -fv
+fi
+
+if [ $reconfigure -eq 0 ]; then
+    yzshell reconfigure
+fi

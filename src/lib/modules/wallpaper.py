@@ -4,6 +4,7 @@ from os import environ, path, listdir, makedirs
 from shutil import rmtree
 from lib.utils.config import Config
 from lib.modules.eww import EwwDaemon
+from PIL import Image
 
 class Wallpaper:
     def __init__(self, config=Config(), eww=EwwDaemon()):
