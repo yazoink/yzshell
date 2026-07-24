@@ -12,6 +12,7 @@ Software:
 - **Terminal** - Foot
 - **Browser** - Zen
 - **File Manager** - PCManFM (GUI), Yazi (TUI)
+- **Document Reader** - Zathura
 - **Application Launcher** - EWW
 - **Run Launcher** - Wofi
 - **Wallpaper** - Swaybg
