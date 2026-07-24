@@ -47,6 +47,11 @@ deps=(
     "swayidle"
     "swaylock"
     "wlopm"
+    "imv"
+    "zathura"
+    "wl-clip-persist"
+    "nm-tray"
+    "wayland-pipewire-idle-inhibit"
 )
 
 # activate services
