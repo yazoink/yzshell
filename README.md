@@ -68,7 +68,7 @@ config would look as such:
 #### colourscheme
 
 Value must be the name of a file in `./colourschemes`
-(`~/.local/share/yzshell/colourschemes` once installed), omitting the '.json'.
+(`~/.local/share/yzshell/colourschemes` once installed), omitting the `.json`.
 
 #### bar_show_battery
 
