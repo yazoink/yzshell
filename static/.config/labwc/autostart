@@ -1,3 +1,5 @@
+/usr/libexec/xdg-desktop-portal-gtk -r &
+/usr/libexec/xdg-document-portal -r &
 yzshell &
 poweralertd &
 nm-applet &
@@ -11,4 +13,5 @@ swayidle -w \
     timeout 600 'wlopm --off \*' \
     resume 'wlopm --on \*' \
     before-sleep 'swaylock -f -c 000000' >/dev/null 2>&1 &
-
+sh -c 'sleep 5;exec /usr/libexec/xdg-desktop-portal -r' &
+sh -c 'sleep 5;exec /usr/libexec/xdg-desktop-portal-wlr -r' &
