@@ -3,12 +3,13 @@
 DATA_DIR="${HOME}/.local/share/yzshell"
 
 function activate_service() {
-    if ! ls /etc/sv | grep "$1"; then
-        echo "error: service '${1}' not found"
+    if ! ls /etc/sv | grep -q "$1"; then
+        echo "Error: service '${1}' not found"
         exit 1
     fi
     if ! ls /var/service | grep -q "$1"; then
         sudo ln -s /etc/sv/"$1" /var/service
+        echo "Activated service '${1}'"
     fi
 }
 
@@ -16,6 +17,7 @@ function deactivate_service() {
     if ls /var/service | grep -q "$1"; then
         sudo sv down wpa_supplicant
         sudo rm /var/service/"$1"
+        echo "Deactivated service '${1}'"
     fi
 }
 
@@ -87,7 +89,9 @@ deps=(
 
 for d in "${deps[@]}"; do
     if ! xbps-query -l | grep -q "ii ${d}-[0-9]"; then
+        echo "Installing dependency '${d}'..."
         sudo xbps-install -y "$d"
+        echo "Dependency '${d}' installed"
     fi
 done
 
@@ -108,6 +112,7 @@ fi
 
 # install zen browser
 if ! which zen &> /dev/null; then
+    echo "Installing zen browser..."
     mkdir -p ~/src
     (
         cd ~/src || exit
@@ -120,13 +125,18 @@ if ! which zen &> /dev/null; then
         ./xbps-src pkg zen-browser
         sudo xbps-install --repository=hostdir/binpkgs zen-browser
     )
+    echo "Zen browser installed"
 fi
 
 # install executables
 sudo install -Dm755 "./bin/yzshell" "/usr/bin/yzshell"
+echo "Installed 'yzshell' to '/usr/bin'"
 sudo install -Dm755 "./bin/screenshot" "/usr/bin/screenshot"
+echo "Installed 'screenshot' to '/usr/bin'"
 sudo install -Dm755 "./bin/toggle_dnd" "/usr/bin/toggle_dnd"
+echo "Installed 'toggle_dnd' to '/usr/bin'"
 sudo install -Dm755 "./bin/colour_picker" "/usr/bin/colour_picker"
+echo "Installed 'colour_picker' to '/usr/bin'"
 
 # copy data
 [ -d "$DATA_DIR" ] && rm -rf "$DATA_DIR"
@@ -137,6 +147,8 @@ cp -rf "./colourschemes" "${DATA_DIR}/colourschemes"
 cp -rf "./assets" "${DATA_DIR}/assets"
 cp -rf "./static" "${DATA_DIR}/static"
 cp -rf "./src" "${DATA_DIR}/src"
+
+echo "Copied data files to '${DATA_DIR}'"
 
 configure_fonts=0
 configure_gtk=0
@@ -151,13 +163,17 @@ done
 
 if [ $configure_gtk -eq 0 ]; then
     cp -rf "./static/.themes" "${HOME}/.themes"
+    echo "Copied GTK themes"
 fi
 
 if [ $configure_fonts -eq 0 ]; then
     cp -rf "./static/.fonts" "${HOME}/.fonts"
+    echo "Copied fonts"
     fc-cache -fv
 fi
 
 if [ $reconfigure -eq 0 ]; then
     yzshell reconfigure
 fi
+
+echo "Installation complete!"

@@ -12,6 +12,7 @@ class Wallpaper:
         self._eww = eww
 
     def update_thumbs(self, dir = ""):
+        print("Updating wallpaper thumbnails...")
         if dir == "":
             dir = self._config.current["wallpaper_dir"]
         files = listdir(dir)
@@ -28,6 +29,7 @@ class Wallpaper:
                     MAX_SIZE = (150, 150)
                     i.thumbnail(MAX_SIZE)
                     i.save(path.join(environ["WALLPAPER_CACHE_DIR"], f))
+        print("Wallpaper thumbnails updated")
 
     def set_image(self, image):
         i = path.abspath(image)
