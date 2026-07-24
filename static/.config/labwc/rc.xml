@@ -14,7 +14,7 @@
       <action name="Execute" command="wofi --show run" />
     </keybind>
     <keybind key="W-C-l">
-      <action name="Execute" command="hyprlock" />
+      <action name="Execute" command="swaylock -f -c 000000" />
     </keybind>
     <keybind key="W-S-d">
       <action name="Execute" command="toggle_dnd" />
