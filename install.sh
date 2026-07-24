@@ -107,7 +107,7 @@ if ! ls /var/service | grep -q "NetworkManager"; then
 fi
 
 # install zen browser
-if ! which zen; then
+if ! which zen &> /dev/null; then
     mkdir -p ~/src
     (
         cd ~/src || exit
