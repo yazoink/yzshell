@@ -15,3 +15,5 @@ swayidle -w \
     before-sleep 'swaylock -f -c 000000' >/dev/null 2>&1 &
 sh -c 'sleep 5;exec /usr/libexec/xdg-desktop-portal -r' &
 sh -c 'sleep 5;exec /usr/libexec/xdg-desktop-portal-wlr -r' &
+xhost +SI:localuser:$(id -un) &
+xhost +SI:localuser:root &
