@@ -6,13 +6,6 @@
     <raiseOnFocus>no</raiseOnFocus>
   </focus>
   <keyboard>
-    <default></default>
-    <keybind key="W-p">
-      <action name="Execute" command="wofi --show run" />
-    </keybind>
-    <keybind key="W-r">
-      <action name="Execute" command="wofi --show run" />
-    </keybind>
     <keybind key="W-C-l">
       <action name="Execute" command="swaylock -f -c 000000" />
     </keybind>
@@ -160,17 +153,8 @@
     <keybind key="W-C-Right">
       <action name="GoToDesktop" to="right" toggle="no" wrap="yes" />
     </keybind>
-    <keybind key="W-Return">
-      <action name="Execute" command="foot" />
-    </keybind>
     <keybind key="W-c">
       <action name="Execute" command="yzshell cmd pick_colour" />
-    </keybind>
-    <keybind key="W-w">
-      <action name="Execute" command="zen" />
-    </keybind>
-    <keybind key="W-e">
-      <action name="Execute" command="pcmanfm" />
     </keybind>
     <keybind key="W-S-b">
       <action name="Execute" command="yzshell reload bar" />
@@ -238,6 +222,7 @@
   <windowRules>
     <windowRule identifier="VsCodium" serverDecoration="yes" />
     <windowRule identifier="VsCode" serverDecoration="yes" />
+    <windowRule title="Code - OSS" serverDecoration="yes" />
     <windowRule identifier="imv" serverDecoration="yes" />
     <windowRule serverDecoration="yes" title="BleachBit" />
     <windowRule serverDecoration="yes" title="wdisplays" />

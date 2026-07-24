@@ -23,7 +23,7 @@ class Waybar:
         self.launch()
 
     def kill(self):
-        r = subprocess.run(
+        subprocess.run(
             f"killall waybar", 
             shell=True, stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT

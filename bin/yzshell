@@ -74,6 +74,7 @@ function launch_script() {
         launch_script "kill"
         launch_script "wallpaper"
         launch_script "bar"
+        launch_script "wm"
         launch_script "widgets"
         makoctl reload
         launch_script "wallpaper" "update_thumbs"
@@ -90,6 +91,7 @@ function launch_script() {
         ;;
     "widgets") python "$HOME"/.local/share/yzshell/src/widgets.py "${@:2}" ;;
     "config") python "$HOME"/.local/share/yzshell/src/config.py "${@:2}" ;;
+    "wm") python "$HOME"/.local/share/yzshell/src/windowmanager.py "${@:2}" ;;
     "kill")
         launch_script "widgets" "kill"
         launch_script "bar" "kill"

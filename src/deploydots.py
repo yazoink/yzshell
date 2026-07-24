@@ -1,6 +1,8 @@
 from os import environ, path, listdir, makedirs
 from shutil import copytree, rmtree, copyfile
 from lib.modules.waybar import Waybar
+from lib.modules.labwc import Labwc
+from lib.utils.config import Config
 
 def write_file(src, dest):
     cfg = ""
@@ -12,6 +14,7 @@ def write_file(src, dest):
 
 # deploy/reconfigure dotfiles
 def main():
+    cfg = Config()
     if path.exists(environ["CONFIG_DIR"]) == False:
         makedirs(environ["CONFIG_DIR"])
         
@@ -30,6 +33,7 @@ def main():
             copytree(src, dest)
         print(f"Copied '{src}' to {dest}")
 
-    Waybar().configure()
+    Waybar(cfg).configure()
+    Labwc(cfg).configure()
 
 main()

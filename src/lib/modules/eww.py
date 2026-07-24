@@ -27,6 +27,10 @@ class EwwDaemon:
             stderr=subprocess.STDOUT
         )
     
+    def reload(self):
+        self.kill()
+        self.launch()
+    
     def update_var(self, var, val):
         subprocess.run(
             f"eww update {var}='{val}'", 

@@ -13,7 +13,18 @@ class Config:
             "wallpaper_dir": f"{environ["DATA_DIR"]}/assets/images/wallpapers",
             "wallpaper_image": "dolphins-tile.png",
             "wallpaper_mode": "tile",
-            "zen_profile_dir": f"{environ["HOME"]}/.config/zen/gd1z8qc7.Default (release)"
+            "zen_profile_dir": f"{environ["HOME"]}/.config/zen/gd1z8qc7.Default (release)",
+            "file_manager": "pcmanfm",
+            "web_browser": "zen",
+            "document_reader": "zathura",
+            "terminal": "foot",
+            "run_launcher": "wofi --show run",
+            "labwc_extra_autostart_cmds": [
+                #"audacious"
+            ],
+            "labwc_extra_binds": {
+                "W-S-a": "audacious"
+            }
         }
         self.current = self.defaults
 

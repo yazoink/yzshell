@@ -54,6 +54,8 @@ deps=(
     "python"
     "python3-gobject"
     "python3-Pillow"
+    "python3-BeautifulSoup4"
+    "python3-lxml"
     "xorg-server-xwayland"
     "elogind"
     "gsettings-desktop-schemas"

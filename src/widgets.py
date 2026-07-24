@@ -115,11 +115,13 @@ def main():
     eww.update_screenshot_output()
     argc = len(argv)
     if argc < 2:
-        eww.kill()
-        eww.launch()
+        eww.reload()
         exit(0)
     if argv[1] == "kill":
         eww.kill()
+        exit(0)
+    if argv[1] == "reload":
+        eww.reload()
         exit(0)
     if argc < 3:
         print("Error: not enough args")
