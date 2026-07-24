@@ -19,6 +19,7 @@ Software:
 - **OSD** - SwayOSD
 
 Features:
+- Extensive CLI interface
 - Custom GTK and Qt themes
 - Colourscheme switcher
 - Wallpaper switcher
