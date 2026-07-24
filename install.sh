@@ -74,12 +74,6 @@ deps=(
     "swayidle"
     "swaylock"
     "wlopm"
-    "imv"
-    "zathura"
-    "zathura-cb"
-    "zathura-djvu"
-    "zathura-pdf-mupdf"
-    "zathura-ps"
     "wl-clip-persist"
     "network-manager-applet"
     "wayland-pipewire-idle-inhibit"
@@ -94,10 +88,6 @@ deps=(
     "poweralertd"
     "polkit"
     "mate-polkit"
-    "pcmanfm"
-    "file-roller"
-    "tumbler"
-    "ffmpegthumbnailer"
 )
 
 for d in "${deps[@]}"; do

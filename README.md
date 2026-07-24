@@ -18,12 +18,8 @@ Software:
 - **Wallpaper** - Swaybg
 - **OSD** - SwayOSD
 
-Additional configurations:
-- GTK and Qt themes (customised adw-gtk3 and KvLibadwaita)
-- Icons (Papirus)
-- Fonts (Gabarito (sans), Aporetic Serif Mono (monospace), TeX Gyre Schola (sans-serif))
-
 Features:
+- Custom GTK and Qt themes
 - Colourscheme switcher
 - Wallpaper switcher
 - Screenshot utility
