@@ -94,6 +94,10 @@ Absolute path to directory containing wallpaper.
 
 Name of wallpaper file.
 
+#### wallpaper_mode
+
+Wallpaper mode -- `stretch`, `fit`, `fill`, `center`, or `tile`.
+
 #### zen_profile_dir
 
 Absolute path to Zen Browser profile directory.
