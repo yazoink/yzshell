@@ -75,7 +75,7 @@ deps=(
     "imv"
     "zathura"
     "wl-clip-persist"
-    "nm-tray"
+    "network-manager-applet"
     "wayland-pipewire-idle-inhibit"
     "NetworkManager"
     "pwvucontrol"

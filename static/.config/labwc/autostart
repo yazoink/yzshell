@@ -1,6 +1,6 @@
 yzshell &
 poweralertd &
-nm-tray &
+nm-applet &
 wl-clip-persist --clipboard regular &
 pipewire &
 wayland-pipewire-idle-inhibit &
