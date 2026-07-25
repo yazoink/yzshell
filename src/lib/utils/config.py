@@ -21,12 +21,6 @@ class Config:
             "media_player": "mpv",
             "image_viewer": "imv",
             "run_launcher": "wofi --show run",
-            "labwc_extra_autostart_cmds": [
-                #"audacious"
-            ],
-            "labwc_extra_binds": {
-                #"W-S-a": "audacious"
-            },
             "labwc_desktops": 9
         }
         self.current = self.defaults

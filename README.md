@@ -71,12 +71,6 @@ config would look as such:
   "media_player": "mpv",
   "image_viewer": "imv-dir",
   "run_launcher": "wofi --show drun",
-  "labwc_extra_autostart_cmds": [
-      "audacious"
-  ],
-  "labwc_extra_binds": {
-      "W-S-a": "audacious"
-  },
   "labwc_desktops": 9
 }
 ```
