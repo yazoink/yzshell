@@ -245,7 +245,7 @@ class DefaultApps():
         for category in self.apps:
             default = self._config.current[category]
             self.apps[category][default].is_default = True
-            print(f"Set '{default}' as default for '{category}'")
+            #print(f"Set '{default}' as default for '{category}'")
 
     def install_all(self):
         for category in self.apps:
