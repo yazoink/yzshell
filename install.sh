@@ -190,9 +190,10 @@ if [ $configure_fonts -eq 0 ]; then
     [ ! -d "${HOME}/.fonts" ] && mkdir -p "${HOME}/.fonts"
     cp -rf "./static/.fonts/"* "${HOME}/.fonts"
     echo "Copied fonts"
-    fc-cache -fv
+    fc-cache -fv &> /dev/null
 fi
 
-yzshell reconfigure ensure_default_apps
+yzshell default_apps install_all
+yzshell reconfigure
 
 echo "Installation complete!"

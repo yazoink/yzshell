@@ -19,7 +19,7 @@ class Config:
             "document_reader": "zathura",
             "terminal": "foot",
             "media_player": "mpv",
-            "image_viewer": "imv-dir",
+            "image_viewer": "imv",
             "run_launcher": "wofi --show run",
             "labwc_extra_autostart_cmds": [
                 #"audacious"

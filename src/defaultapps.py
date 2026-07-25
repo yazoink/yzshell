@@ -9,13 +9,11 @@ def main():
 
     if argc > 1:
         match argv[1]:
-            case "ensure_packages":
-                default_apps.install_packages()
-            case "clean_packages":
-                default_apps.clean_packages()
+            case "install_all":
+                default_apps.install_all()
             case "change":
                 if argc > 3:
-                    default_apps.change_default(argv[2], argv[3])
+                    default_apps.change(argv[2], argv[3])
     else:
         print("Error: not enough args")
         exit(1)

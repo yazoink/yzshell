@@ -19,7 +19,6 @@ def write_file(src, dest):
 def main():
     argc = len(argv)
     cfg = Config()
-    default_apps = DefaultApps(cfg)
 
     if path.exists(environ["CONFIG_DIR"]) == False:
         makedirs(environ["CONFIG_DIR"])
@@ -39,7 +38,7 @@ def main():
             copytree(src, dest)
         print(f"Copied '{src}' to {dest}")
 
-    default_apps.write_mimeapps_list()
+    DefaultApps(cfg).configure()
     Waybar(cfg).configure()
     Labwc(cfg).configure()
 

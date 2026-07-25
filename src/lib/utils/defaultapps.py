@@ -1,10 +1,126 @@
 import subprocess
 from sys import exit
 from lib.utils.config import Config
+from lib.utils.packagelist import PackageList
 from os import environ
 
-class DefaultApps:
-    def __init__(self, config=Config()):
+class DefaultApp():
+    def __init__(self, desktop_file, launch_cmd, install, uninstall):
+        self.desktop_file = desktop_file
+        self._launch_cmd = launch_cmd
+        self.install = install
+        self.uninstall = uninstall
+        self.is_default = False
+
+    def launch(self):
+        subprocess.Popen(
+            self._launch_cmd, 
+            shell=True,
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
+
+class PCManFM(DefaultApp):
+    def __init__(self):
+        self.deps = PackageList([
+            "pcmanfm",
+            "file-roller",
+            "tumbler",
+            "ffmpegthumbnailer"
+        ])
+        super().__init__(
+            desktop_file="pcmanfm.desktop",
+            launch_cmd="pcmanfm",
+            install=lambda: self.deps.install(),
+            uninstall=lambda: self.deps.uninstall()
+        )
+
+class Thunar(DefaultApp):
+    def __init__(self):
+        self.deps = PackageList([
+            "Thunar",
+            "thunar-archive-plugin",
+            "thunar-media-tags-plugin",
+            "thunar-volman",
+            "file-roller",
+            "tumbler",
+            "ffmpegthumbnailer",
+        ])
+        super().__init__(
+            desktop_file="thunar.desktop",
+            launch_cmd="thunar",
+            install=lambda: self.deps.install(),
+            uninstall=lambda: self.deps.uninstall()
+        )
+
+class Zathura(DefaultApp):
+    def __init__(self):
+        self.deps = PackageList([
+            "zathura",
+            "zathura-cb",
+            "zathura-djvu",
+            "zathura-pdf-mupdf",
+            "zathura-ps",
+        ])
+        super().__init__(
+            desktop_file="org.pwmt.zathura.desktop",
+            launch_cmd="zathura",
+            install=lambda: self.deps.install(),
+            uninstall=lambda: self.deps.uninstall()
+        )
+
+class Atril(DefaultApp):
+    def __init__(self):
+        self.deps = PackageList(["atril"])
+        super().__init__(
+            desktop_file="atril.desktop",
+            launch_cmd="atril",
+            install=lambda: self.deps.install(),
+            uninstall=lambda: self.deps.uninstall()
+        )
+
+class Ristretto(DefaultApp):
+    def __init__(self):
+        self.deps = PackageList(["ristretto"])
+        super().__init__(
+            desktop_file="org.xfce.ristretto.desktop",
+            launch_cmd="ristretto",
+            install=lambda: self.deps.install(),
+            uninstall=lambda: self.deps.uninstall()
+        )
+
+class Imv(DefaultApp):
+    def __init__(self):
+        self.deps = PackageList(["imv"])
+        super().__init__(
+            desktop_file="imv-dir.desktop",
+            launch_cmd="imv-dir",
+            install=lambda: self.deps.install(),
+            uninstall=lambda: self.deps.uninstall()
+        )
+
+class Mpv(DefaultApp):
+    def __init__(self):
+        self.deps = PackageList(["mpv"])
+        super().__init__(
+            desktop_file="mpv.desktop",
+            launch_cmd="mpv",
+            install=lambda: self.deps.install(),
+            uninstall=lambda: self.deps.uninstall()
+        )
+
+class Vlc(DefaultApp):
+    def __init__(self):
+        self.deps = PackageList(["vlc"])
+        super().__init__(
+            desktop_file="vlc.desktop",
+            launch_cmd="vlc",
+            install=lambda: self.deps.install(),
+            uninstall=lambda: self.deps.uninstall()
+        )
+
+class DefaultApps():
+    def __init__(self, config = Config()):
         self._config = config
         self.associations = {
             "file_manager": ["inode/directory"],
@@ -107,143 +223,56 @@ class DefaultApps:
                 "application/ogg"
             ]
         }
-        self.available_apps = {
+        self.apps = {
             "file_manager": {
-                "pcmanfm": {
-                    "desktop_file": "pcmanfm.desktop",
-                    "packages": [
-                        "pcmanfm",
-                        "file-roller",
-                        "tumbler",
-                        "ffmpegthumbnailer",
-                    ]
-                },
-                "thunar": {
-                    "desktop_file": "thunar.desktop",
-                    "packages": [
-                        "Thunar",
-                        "thunar-archive-plugin",
-                        "thunar-media-tags-plugin",
-                        "thunar-volman",
-                        "file-roller",
-                        "tumbler",
-                        "ffmpegthumbnailer",
-                    ]
-                }
+                "pcmanfm": PCManFM(),
+                "thunar": Thunar()
             },
             "document_reader": {
-                "zathura": {
-                    "desktop_file": "org.pwmt.zathura.desktop",
-                    "packages": [
-                        "zathura",
-                        "zathura-cb",
-                        "zathura-djvu",
-                        "zathura-pdf-mupdf",
-                        "zathura-ps",
-                    ]
-                },
-                "atril": {
-                    "desktop_file": "atril.desktop",
-                    "packages": ["atril"]
-                }
+                "zathura": Zathura(),
+                "atril": Atril()
             },
             "image_viewer": {
-                "ristretto": {
-                    "desktop_file": "org.xfce.ristretto.desktop",
-                    "packages": ["ristretto"]
-                },
-                "imv": {
-                    "desktop_file": "imv.desktop",
-                    "packages": ["imv"]
-                },
-                "imv-dir": {
-                    "desktop_file": "imv-dir.desktop",
-                    "packages": ["imv"]
-                }
+                "ristretto": Ristretto(),
+                "imv": Imv()
             },
             "media_player": {
-                "mpv": {
-                    "desktop_file": "mpv.desktop",
-                    "packages": ["mpv"]
-                },
-                "vlc": {
-                    "desktop_file": "vlc.desktop",
-                    "packages": ["vlc"]
-                }
+                "mpv": Mpv(),
+                "vlc": Vlc()
             }
         }
 
-    def change_default(self, category, app):
-        if category not in self.available_apps:
-            print(f"Error: category '{category}' not recognised")
+        for category in self.apps:
+            default = self._config.current[category]
+            self.apps[category][default].is_default = True
+            print(f"Set '{default}' as default for '{category}'")
+
+    def install_all(self):
+        for category in self.apps:
+            current = self._config.current[category]
+            self.apps[category][current].install()
+
+    def change(self, category, app):
+        if app not in self.apps[category]:
+            print(f"Error: app '{app}' not found in category '{category}'")
             exit(1)
-        if app not in self.available_apps[category]:
-            print(f"Error: app '{app}' not recognised")
-            exit(1)
+        current = self._config.current[category]
+        if current != app:
+            self.apps[category][current].is_default = False
+            self.apps[category][current].uninstall()
+        self.apps[category][app].is_default = True
+        self.apps[category][app].install()
         self._config.change(category, app)
-        self.install_packages()
-        self.clean_packages()
-        self.write_mimeapps_list()
-        print(f"Set '{app}' as default {category.replace("_", " ")}")
+        self.configure()
+        print(f"Set '{app}' as default for '{category}'")
 
-    def clean_packages(self):
-        pkgs = []
-        for a in self.available_apps:
-            # a: app category
-            # b: app name
-            selected = self._config.current[a]
-            for b in self.available_apps[a]:
-                if b != selected:
-                    for c in self.available_apps[a][b]["packages"]:
-                        if c not in self.available_apps[a][selected]["packages"]:
-                            pkgs.append(c)
-        for p in pkgs:
-            self._remove_package(p)
-
-    def _install_package(self, p):
-        r = subprocess.run(
-            f"xbps-query -l | grep -q \"ii {p}-[0-9]\"",
-            shell=True,
-            capture_output=True,
-        ).returncode
-        if r != 0:
-            print(f"Installing package {p}...")
-            subprocess.run(
-                f"sudo xbps-install {p}",
-                shell=True
-            )
-            print(f"Installed package {p}...")
-
-    def _remove_package(self, p):
-        r = subprocess.run(
-            f"xbps-query -l | grep -q \"ii {p}-[0-9]\"",
-            shell=True,
-            capture_output=True,
-        ).returncode
-        if r == 0:
-            print(f"Removing package {p}...")
-            subprocess.run(
-                f"sudo xbps-remove -o {p}",
-                shell=True
-            )
-            print(f"Removing package {p}...")
-
-    def install_packages(self):
-        pkgs = []
-        for a in self.available_apps:
-            selected = self._config.current[a]
-            pkgs += self.available_apps[a][selected]["packages"]
-        for p in pkgs:
-            self._install_package(p)
-
-    def write_mimeapps_list(self):
+    def configure(self):
         ml = "[Default Applications]"
-        for a in self.associations:
-            selected = self._config.current[a]
-            desktop_file = self.available_apps[a][selected]["desktop_file"]
-            associations = self.associations[a]
-            for b in associations:
-                ml += f"\n{b}={desktop_file}"
+        for category in self.associations:
+            current = self._config.current[category]
+            desktop_file = self.apps[category][current].desktop_file
+            for mimetype in self.associations[category]:
+                ml += f"\n{mimetype}={desktop_file}"
         with open(f"{environ["CONFIG_DIR"]}/mimeapps.list", "w") as f:
             f.write(ml)
         print("Default apps configured")
