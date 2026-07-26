@@ -124,3 +124,4 @@ Absolute path to Zen Browser profile directory.
 - Configure a better lockscreen
 - Openbox support(?)
 - Add more colourschemes
+- Improve Zsh config

@@ -1,12 +1,5 @@
 import subprocess
 from sys import exit
-from os import environ, path
-
-def make_thumb(f):
-        with Image.open(path.join(self._config.current["wallpaper_dir"], f)) as i:
-            MAX_SIZE = (150, 150)
-            i.thumbnail(MAX_SIZE)
-            i.save(path.join(environ["WALLPAPER_CACHE_DIR"], f))
 
 class Wallpaper:
     def __init__(self, config):
