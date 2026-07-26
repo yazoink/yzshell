@@ -31,6 +31,7 @@ fi
 # install deps
 deps=(
     "labwc"
+    "xorg-server-xwayland"
     "foot"
     "yazi" 
     "qt5ct" 
