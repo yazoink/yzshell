@@ -6,16 +6,6 @@ from time import sleep
 import argparse
 import subprocess
 
-from lib.utils.config import Config
-from lib.utils.colourscheme import Colourscheme, MustacheTemplate
-from lib.utils.defaultapps import DefaultApps
-from lib.modules.wallpaper import Wallpaper
-from lib.modules.swayosd import SwayOSD
-from lib.modules.waybar import Waybar
-from lib.modules.eww import Eww
-from lib.modules.labwc import Labwc
-from lib.modules.mako import Mako
-
 class Shell:
     def __init__(self):
         self.config = None
@@ -29,38 +19,47 @@ class Shell:
         self.default_apps = None
 
     def _set_osd(self):
+        from lib.modules.swayosd import SwayOSD
         if self.osd == None:
             self.osd = SwayOSD()
 
     def _set_bar(self):
+        from lib.modules.waybar import Waybar
         if self.bar == None:
             self.bar = Waybar(self.config)
 
     def _set_widgets(self):
+        from lib.modules.eww import Eww
         if self.widgets == None:
             self.widgets = Eww(self.config)
 
     def _set_wallpaper(self):
+        from lib.modules.wallpaper import Wallpaper
         if self.wallpaper == None:
             self.wallpaper = Wallpaper(self.config)
 
     def _set_windowmanager(self):
+        from lib.modules.labwc import Labwc
         if self.windowmanager == None:
             self.windowmanager = Labwc(self.config)
 
     def _set_notifs(self):
+        from lib.modules.mako import Mako
         if self.notifs == None:
             self.notifs = Mako()
 
     def _set_config(self):
+        from lib.utils.config import Config
         if self.config == None:
             self.config = Config()
 
     def _set_default_apps(self):
+        from lib.utils.defaultapps import DefaultApps
         if self.default_apps == None:
             self.default_apps = DefaultApps(self.config)
 
     def _set_colourscheme(self, scheme):
+        from lib.utils.colourscheme import Colourscheme
         if self.colourscheme == None:
             self.colourscheme = Colourscheme(scheme)
 
@@ -349,6 +348,8 @@ class Shell:
         self.reconfigure_colourscheme()
 
     def reconfigure_colourscheme(self, scheme=None):
+        from lib.utils.colourscheme import MustacheTemplate
+
         self._set_config()
         if scheme == None:
             scheme = self.config.current["colourscheme"]
