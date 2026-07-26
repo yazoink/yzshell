@@ -128,6 +128,7 @@ activate_service "elogind"
 activate_service "bluetoothd"
 
 # fstrim
+[ ! -d "/etc/cron.weekly" ] && sudo mkdir -p "/etc/cron.weekly"
 echo "#!/bin/sh
 fstrim /" | sudo tee /etc/cron.weekly/fstrim
 
@@ -145,7 +146,7 @@ fi
 if [ ! -d "/etc/pipewire/pipewire.conf.d" ]; then
     mkdir -p /etc/pipewire/pipewire.conf.d
 fi
-sudo ln -s /usr/share/examples/wireplumber/10-wireplumber.conf /etc/pipewire/pipewire.conf.d/
+sudo ln -sf /usr/share/examples/wireplumber/10-wireplumber.conf /etc/pipewire/pipewire.conf.d/
 
 # install vpsm
 if [ ! -d "${HOME}/.void-packages" ]; then
