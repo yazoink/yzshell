@@ -129,7 +129,7 @@ activate_service "bluetoothd"
 
 # fstrim
 echo "#!/bin/sh
-fstrim /" | sudo tee -a /etc/cron.weekly/fstrim
+fstrim /" | sudo tee /etc/cron.weekly/fstrim
 
 sudo chmod u+x /etc/cron.weekly/fstrim
 

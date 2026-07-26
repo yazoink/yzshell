@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <labwc_config>
+  <core>
+    <decoration>server</decoration>
+  </core>
   <desktops number="1">
     <popupTime>0</popupTime>
   </desktops>
