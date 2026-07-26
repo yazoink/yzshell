@@ -8,6 +8,7 @@ from threading import Thread
 import json
 from gi.repository import Gio
 import re
+import requests
 
 class EwwDaemon:
     def __init__(self, modules={}):
@@ -273,12 +274,57 @@ class Eww(EwwDaemon):
 
     def update_weather(self):
         print("Updating weather...")
-        subprocess.Popen(
-            f"{environ["CONFIG_DIR"]}/eww/control_center/scripts/weather.sh",
-            shell=True, 
-            stdout=subprocess.DEVNULL, 
-            stderr=subprocess.STDOUT
-        )
+        r = ""
+        try:
+            r = requests.get("https://api.open-meteo.com/v1/forecast?latitude=-37.814&longitude=144.9633&hourly=temperature_2m&current=temperature_2m,precipitation,cloud_cover,apparent_temperature,wind_speed_10m,is_day&timezone=auto&forecast_days=3")
+        except:
+            print("Error: could not update weather")
+            exit(0)
+
+        r = r.json()
+
+        temp = r["current"]["temperature_2m"]
+        unit = r["current_units"]["temperature_2m"]
+        self.update_var("weather_temp", f"{temp}{unit}")
+
+        temp = r["current"]["apparent_temperature"]
+        unit = r["current_units"]["apparent_temperature"]
+        self.update_var("weather_apparent_temp", f"Feels like {temp}{unit}")
+
+        rain = r["current"]["precipitation"]
+        cloud = r["current"]["cloud_cover"]
+        is_day = r["current"]["is_day"]
+
+        icon = ""
+        colour = ""
+
+        if rain > 0.1:
+            colour = "base0D"
+            if is_day == 1:
+                icon = ""
+            else:
+                icon = ""
+        else:
+            if cloud > 50:
+                if is_day == 1:
+                    colour = "base0A"
+                    icon = ""
+                else:
+                    colour = "base0D"
+                    icon = ""
+            else:
+                if is_day == 1:
+                    colour = "base0A"
+                    icon = ""
+                else:
+                    colour = "base0D"
+                    icon = ""
+        self.update_var("weather_icon", icon)
+        self.update_var("weather_colour", colour)
+
+        timezone = r["timezone"]
+        timezone_abv = r["timezone_abbreviation"]
+        self.update_var("weather_tz", f"{timezone} ({timezone_abv})")
 
     def get_profile_image(self):
         self.update_var("profile_image_path", self._config.current["profile_image"])

@@ -131,6 +131,10 @@ class Shell:
         self._set_widgets()
         self.widgets.get_search_results(query)
 
+    def update_weather(self):
+        self._set_widgets()
+        self.widgets.update_weather()
+
     def get_update_search_cache(self):
         self._set_widgets()
         self.widgets.update_search_cache()
@@ -391,6 +395,10 @@ if __name__ == "__main__":
                 if argc > 2:
                     too_many_args(cmd)
                 shell.update_search_cache()
+            case "update_weather":
+                if argc > 2:
+                    too_many_args(cmd)
+                shell.update_weather()
             case "set_wallpaper":
                 if argc < 3:
                     not_enough_args(cmd)

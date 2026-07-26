@@ -1,4 +1,4 @@
-(defpoll weather_updater :interval "15m" "control_center/scripts/weather.sh &")
+(defpoll weather_updater :interval "15m" "yzshell update_weather &")
 (defvar weather_temp "n/a")
 (defvar weather_apparent_temp "n/a")
 (defvar weather_icon "n/a")
