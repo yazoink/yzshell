@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export XBPS_DISTDIR="$HOME/.void-packages"
+
 DATA_DIR="${HOME}/.local/share/yzshell"
 
 function activate_service() {
@@ -120,12 +122,24 @@ fi
 # install vpsm
 if [ ! -d "${HOME}/.void-packages" ]; then
     git clone https://github.com/void-linux/void-packages.git ~/.void-packages
+    echo "XBPS_ALLOW_RESTRICTED=yes" >> ~/.void-packages/etc/conf
     git clone https://github.com/sinetoami/vpsm.git ~/.local/share/vpsm
     (
         cd ~/.local/share/vpsm || exit
         sudo make install
     )
 fi
+
+
+vpsm_deps=("discord")
+
+for d in "${vpsm_deps[@]}"; do
+    if ! xbps-query -l | grep -q "ii ${d}-[0-9]"; then
+        echo "Installing dependency '${d}'..."
+        vpsm install "$d"
+        echo "Dependency '${d}' installed"
+    fi
+done
 
 # install executables
 sudo install -Dm755 "./bin/yzshell" "/usr/bin/yzshell"
@@ -178,5 +192,7 @@ fi
 yzshell default_apps install_all
 yzshell reconfigure
 #yzshell
+
+echo "Install Vencord after first discord launch: 'sh -c \"\$(curl -sS https://vencord.dev/install.sh)\"'"
 
 echo "Installation complete!"

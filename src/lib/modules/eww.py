@@ -41,7 +41,7 @@ class EwwDaemon:
     
     def update_var(self, var, val):
         r = subprocess.run(
-            f"eww update {var}='{val}'", 
+            f"eww update {var}=\"{val.replace('"', '\\"')}\"", 
             shell=True, 
             capture_output=True
         )
@@ -302,10 +302,10 @@ class Eww(EwwDaemon):
     def update_search_cache(self):
         def add_app(app, i):
             if app.should_show() == False:
-                return
+                return False
             cmd = ""
             if app.get_boolean("Terminal"):
-                cmd = f"{environ["TERM"]} -e "
+                cmd = f"{self._config.current["terminal"]} -e "
             cmd += app.get_commandline()
             cmd = re.sub("%[a-zA-Z]", "", cmd)
             cmd = re.sub(" -- $", "", cmd)
@@ -326,16 +326,14 @@ class Eww(EwwDaemon):
                     "index": i,
                 }
             )
+            return True
+
         app_info = Gio.AppInfo.get_all()
         i = 0
-        threads = []
         for app in app_info:
-            threads.append(Thread(target=add_app, args=(app, i,)))
-            i += 1
-        for t in threads:
-            t.start()
-        for t in threads:
-            t.join()
+            ret = add_app(app, i)
+            if ret == True:
+                i += 1
         j = json.dumps(self._all_apps)
         with open(self._search_cache_file, "w") as f:
             f.write(j)
@@ -353,7 +351,7 @@ class Eww(EwwDaemon):
                     self._all_apps = json.loads(j)
 
         # if empty search, return all
-        if query.replace(" ", "") == "":
+        if query == "":
             r = json.dumps(self._all_apps)
         else:
             selected = 0
@@ -373,6 +371,6 @@ class Eww(EwwDaemon):
                 results[i]["index"] = i
             #print(results)
             r = json.dumps(results)
-        #print(r)
-        self.update_var("search_results", r)
+        print(r)
         self.update_var("search_selected", str(selected))
+        self.update_var("search_results", r)

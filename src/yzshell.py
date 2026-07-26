@@ -166,7 +166,7 @@ class Shell:
         self._set_widgets()
         self.widgets.update_weather()
 
-    def get_update_search_cache(self):
+    def update_search_cache(self):
         self._set_widgets()
         self.widgets.update_search_cache()
 
