@@ -24,7 +24,7 @@
       :space-evenly false
       :tooltip "Open music player"
       (button
-        :onclick "yzshell widgets control_center close & exec audacious &"
+        :onclick "yzshell close control_center & exec audacious &"
         (box
           :class "music-info"
           :orientation "v"
