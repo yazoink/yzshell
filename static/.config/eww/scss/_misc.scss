@@ -5,6 +5,7 @@ $inner-radius: 8px;
 * {
   all: unset;
   color: $fg;
+  -gtk-icon-theme: 'Papirus';
 }
 
 .hline {

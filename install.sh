@@ -34,7 +34,7 @@ deps=(
     "labwc-menu-generator"
     "xorg-server-xwayland"
     "noto-fonts-ttf"
-    "noto-nerd-fonts"
+    "nerd-fonts"
     "noto-fonts-emoji"
     "foot"
     "yazi" 
