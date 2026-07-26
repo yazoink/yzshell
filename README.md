@@ -121,8 +121,6 @@ Absolute path to Zen Browser profile directory.
 - VSCode config/theme
 - Fix Yazi config
 - Tmux config/theme
-- Set default apps
 - Configure a better lockscreen
 - Openbox support(?)
 - Add more colourschemes
-- Tidy/rewrite wrapper script
