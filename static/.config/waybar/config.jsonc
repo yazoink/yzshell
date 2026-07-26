@@ -114,7 +114,7 @@
     ]
   },
   "wireplumber#volume": {
-    "on-click-right": "pwvucontrol",
+    "on-click-right": "pavucontrol-qt",
     "on-click-middle": "amixer -D pipewire set Master toggle",
     "on-click": "amixer -D pipewire set Master toggle",
     "format": "{volume}%",

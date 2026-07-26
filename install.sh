@@ -33,8 +33,13 @@ deps=(
     "labwc"
     "labwc-menu-generator"
     "xorg-server-xwayland"
+    "noto-fonts-ttf"
+    "noto-nerd-fonts"
+    "noto-fonts-emoji"
     "foot"
     "yazi" 
+    "qt5-wayland"
+    "qt6-wayland"
     "qt5ct" 
     "qt6ct" 
     "kvantum" 
@@ -85,7 +90,7 @@ deps=(
     "network-manager-applet"
     "wayland-pipewire-idle-inhibit"
     "NetworkManager"
-    "pwvucontrol"
+    "pavucontrol-qt"
     "cups"
     "cups-filters"
     "gutenprint"
@@ -95,6 +100,16 @@ deps=(
     "poweralertd"
     "polkit"
     "mate-polkit"
+    "bluez"
+    "libspa-bluetooth"
+    "blueman"
+    "pipewire"
+    "wireplumber"
+    "alsa-utils"
+    "pulseaudio-utils"
+    "alsa-pipewire"
+    "libjack-pipewire"
+    "mesa-dri"
 )
 
 for d in "${deps[@]}"; do
@@ -110,6 +125,13 @@ activate_service "dbus"
 activate_service "avahi-daemon"
 activate_service "cupsd"
 activate_service "elogind"
+activate_service "bluetoothd"
+
+# fstrim
+echo "#!/bin/sh
+fstrim /" | sudo tee -a /etc/cron.weekly/fstrim
+
+sudo chmod u+x /etc/cron.weekly/fstrim
 
 if ! ls /var/service | grep -q "NetworkManager"; then
     deactivate_service "wpa_supplicant"
@@ -119,6 +141,11 @@ if ! ls /var/service | grep -q "NetworkManager"; then
     sudo usermod -aG network "$user"
     newgrp network
 fi
+
+if [ ! -d "/etc/pipewire/pipewire.conf.d" ]; then
+    mkdir -p /etc/pipewire/pipewire.conf.d
+fi
+sudo ln -s /usr/share/examples/wireplumber/10-wireplumber.conf /etc/pipewire/pipewire.conf.d/
 
 # install vpsm
 if [ ! -d "${HOME}/.void-packages" ]; then
