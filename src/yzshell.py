@@ -311,6 +311,18 @@ class Shell:
                 copytree(src, dest)
             print(f"Copied '{src}' to {dest}")
 
+        def configure_vencord():
+            cfg = ""
+            try:
+                makedirs(f"{environ["CONFIG_DIR"]}/Vencord/settings")
+            except:
+                pass
+            with open(f"{environ["TEMPLATES_DIR"]}/vencord_settings.json", "r") as f:
+                cfg = f.read()
+            with open(f"{environ["CONFIG_DIR"]}/Vencord/settings/settings.json", "w") as f:
+                f.write(cfg)
+            print("Configured Vencord")
+
         if path.exists(environ["CONFIG_DIR"]) == False:
             makedirs(environ["CONFIG_DIR"])
             
@@ -331,6 +343,8 @@ class Shell:
 
         for t in threads:
             t.join()
+
+        configure_vencord()
 
         self.reconfigure_colourscheme()
 
