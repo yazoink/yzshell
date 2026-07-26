@@ -17,17 +17,6 @@ from lib.modules.labwc import Labwc
 from lib.modules.mako import Mako
 
 class Shell:
-    __slots__ = (
-        "config",
-        "osd",
-        "bar",
-        "widgets",
-        "wallpaper",
-        "windowmanager",
-        "notifs",
-        "colourscheme",
-        "default_apps"
-    )
     def __init__(self):
         self.config = None
         self.osd = None
