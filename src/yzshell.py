@@ -413,8 +413,18 @@ if __name__ == "__main__":
                 else:
                     shell.toggle(argv[2])
             case "reconfigure":
+                reload = False
+                if argc > 2:
+                    if argc > 3:
+                        too_many_args(cmd)
+                    match argv[2]:
+                        case "-r" | "--reload":
+                            reload = True
+                        case _:
+                            arg_not_recognised(argv[2])
                 shell.reconfigure()
-                shell.launch()
+                if reload == True:
+                    shell.launch()
             case "colourscheme":
                 if argc < 3:
                     not_enough_args(cmd)
