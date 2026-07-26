@@ -356,6 +356,7 @@ class Shell:
             MustacheTemplate("zen_userchrome.css.mustache", f"{self.config.current["zen_profile_dir"]}/chrome/userChrome.css"),
             MustacheTemplate("zen_usercontent.css.mustache", f"{self.config.current["zen_profile_dir"]}/chrome/userContent.css"),
             MustacheTemplate("zathurarc.mustache", f"{environ["CONFIG_DIR"]}/zathura/zathurarc"),
+            MustacheTemplate("discord.css.mustache", f"{environ["CONFIG_DIR"]}/Vencord/themes/yzshell.theme.css"),
         ]
         threads = []
         for t in templates:

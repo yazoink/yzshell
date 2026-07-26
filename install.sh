@@ -189,9 +189,8 @@ if [ $configure_fonts -eq 0 ]; then
     fc-cache -fv &> /dev/null
 fi
 
-yzshell default_apps install_all
 yzshell reconfigure
-#yzshell
+yzshell default_apps install_all
 
 echo "Install Vencord after first discord launch: 'sh -c \"\$(curl -sS https://vencord.dev/install.sh)\"'"
 
