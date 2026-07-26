@@ -300,11 +300,14 @@ class Shell:
         def write_config(cfg):
             src = f"{environ["STATIC_CONFIG_DIR"]}/.config/{cfg}"
             dest = f"{environ["CONFIG_DIR"]}/{cfg}"
+            s = path.split(dest)
             if path.isfile(src):
                 write_file(src, dest)
             else:
-                if path.exists(dest) == True:
+                try:
                     rmtree(dest)
+                except:
+                    pass
                 copytree(src, dest)
             print(f"Copied '{src}' to {dest}")
 
