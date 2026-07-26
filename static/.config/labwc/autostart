@@ -3,7 +3,7 @@
 yzshell &
 poweralertd &
 nm-applet &
-wl-clip-persist --clipboard regular &
+wl-paste --watch cliphist store &
 pipewire &
 wayland-pipewire-idle-inhibit &
 exec swayosd-server &

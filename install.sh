@@ -82,7 +82,6 @@ deps=(
     "swayidle"
     "swaylock"
     "wlopm"
-    "wl-clip-persist"
     "network-manager-applet"
     "wayland-pipewire-idle-inhibit"
     "NetworkManager"
