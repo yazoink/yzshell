@@ -1,10 +1,6 @@
 from sys import exit, argv
 from threading import Thread
 from os import environ, path, listdir, makedirs
-from shutil import copytree, rmtree
-from time import sleep
-import argparse
-import subprocess
 
 class Shell:
     def __init__(self):
@@ -78,6 +74,8 @@ class Shell:
             print(a)
 
     def pick_colour(self, sleep_time=0):
+        import subprocess
+        from time import sleep
         sleep(sleep_time)
         r = subprocess.run(
             "hyprpicker",
@@ -170,6 +168,7 @@ class Shell:
         self.widgets.update_search_cache()
 
     def toggle_dnd(self):
+        import subprocess
         self._set_widgets()
         mode = subprocess.run(
             "makoctl mode",
@@ -216,6 +215,7 @@ class Shell:
             self.widgets.update_available_wallpapers(dir)
 
     def lock_screen(self):
+        import subprocess
         subprocess.Popen(
             f"swaylock -f -c 000000", 
             shell=True, stdout=subprocess.DEVNULL, 
@@ -223,6 +223,8 @@ class Shell:
         )
 
     def screenshot(self, output, mode, sleep_time):
+        from time import sleep
+        import subprocess
         self._set_config()
         sleep(sleep_time)
         if output == None:
@@ -291,6 +293,7 @@ class Shell:
         self.widgets.modules[widget].toggle()
 
     def reconfigure(self):
+        from shutil import copytree, rmtree
         self._set_config()
         self._set_default_apps()
         self._set_bar()
@@ -549,6 +552,7 @@ if __name__ == "__main__":
             case "lock":
                 shell.lock_screen()
             case "screenshot":
+                import argparse
                 parser = argparse.ArgumentParser(add_help=False)
                 parser.add_argument("-m", "--mode", default="full")
                 parser.add_argument("-o", "--output", default=None)
@@ -560,6 +564,7 @@ if __name__ == "__main__":
                     sleep_time=args.sleep_time
                 )
             case "pick_colour":
+                import argparse
                 parser = argparse.ArgumentParser(add_help=False)
                 parser.add_argument("-s", "--sleep-time", default=0, type=float)
                 args = parser.parse_args(argv[2:])

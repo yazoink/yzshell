@@ -1,7 +1,7 @@
 import subprocess
 from sys import exit
 from lib.utils.packagelist import PackageList
-from os import environ, remove, path, makedirs
+from os import environ
 
 class DefaultApp():
     def __init__(self, desktop_file, launch_cmd, install, uninstall):
@@ -130,11 +130,13 @@ class Zen(DefaultApp):
         )
 
     def uninstall_zen(self):
+        from os import remove, path
         self.deps.uninstall()
         if path.exists(desktop_apps_dir) == True:
             remove(desktop_file_path)
     
     def install_zen(self):
+        from os import path, makedirs
         self.deps.install()
         desktop_apps_dir = path.dirname(self.desktop_file_path)
         if path.exists(desktop_apps_dir) == False:

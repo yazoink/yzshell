@@ -1,7 +1,6 @@
 from os import listdir, environ
 import json
 import subprocess
-from bs4 import BeautifulSoup
 
 class Waybar:
     def __init__(self, config):
@@ -46,6 +45,7 @@ class Waybar:
             print(f"Error: value '{val}' not recognised")
 
     def configure(self):
+        from bs4 import BeautifulSoup
         src = f"{environ["STATIC_CONFIG_DIR"]}/.config/waybar/config.jsonc"
         dest = f"{environ["CONFIG_DIR"]}/waybar/config.jsonc"
         cfg = {}

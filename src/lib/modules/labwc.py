@@ -1,13 +1,11 @@
-from bs4 import BeautifulSoup
 from os import environ, path
-import subprocess
 
 class Labwc:
     def __init__(self, config):
         self._config = config
     
     def configure(self):
-        # rc.xml
+        from bs4 import BeautifulSoup
         src = path.join(environ["STATIC_CONFIG_DIR"], ".config/labwc/rc.xml")
         dest = path.join(environ["CONFIG_DIR"], "labwc/rc.xml")
         data = ""
@@ -58,6 +56,7 @@ class Labwc:
         #self.reload()
 
     def reload(self):
+        import subprocess
         subprocess.run(
             f"labwc -r", 
             shell=True, stdout=subprocess.DEVNULL, 

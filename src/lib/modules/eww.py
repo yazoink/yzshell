@@ -1,13 +1,8 @@
 import subprocess
 from sys import exit
 from os import environ, path, listdir, makedirs
-from math import floor
-from PIL import Image
 from threading import Thread
 import json
-from gi.repository import Gio
-import re
-import requests
 
 class EwwDaemon:
     def __init__(self, modules={}):
@@ -145,6 +140,7 @@ class Eww(EwwDaemon):
         )
 
     def update_wallpaper_thumbs(self, dir=""):
+        from PIL import Image
         def make_thumb(f):
             with Image.open(path.join(self._config.current["wallpaper_dir"], f)) as i:
                 MAX_SIZE = (150, 150)
@@ -191,6 +187,7 @@ class Eww(EwwDaemon):
         self.update_var("colourschemes", json.dumps(colourschemes))
 
     def update_available_wallpapers(self, dir=None):
+        from math import floor
         if dir == None:
             dir = self._config.current["wallpaper_dir"]
         self.update_var("wallpaper_dir", dir)
@@ -244,6 +241,7 @@ class Eww(EwwDaemon):
             self.update_var("dnd_icon", "")
 
     def update_weather(self):
+        import requests
         r = ""
         try:
             r = requests.get("https://api.open-meteo.com/v1/forecast?latitude=-37.814&longitude=144.9633&hourly=temperature_2m&current=temperature_2m,precipitation,cloud_cover,apparent_temperature,wind_speed_10m,is_day&timezone=auto&forecast_days=3")
@@ -300,6 +298,8 @@ class Eww(EwwDaemon):
         self.update_var("profile_image_path", self._config.current["profile_image"])
 
     def update_search_cache(self):
+        from gi.repository import Gio
+        import re
         def add_app(app, i):
             if app.should_show() == False:
                 return False
