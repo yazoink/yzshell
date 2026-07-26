@@ -122,8 +122,8 @@ class Eww(EwwDaemon):
                 ),
                 "settings": EwwWindow(
                     name="settings",
-                    pre_launch=[self.update_wallpaper_thumbs],
-                    pre_open=[self.wallpaper_settings_init],
+                    pre_launch=[Thread(target=self.update_wallpaper_thumbs).start],
+                    pre_open=[Thread(target=self.wallpaper_settings_init).start],
                     post_open=[
                         Thread(target=self.get_colourschemes).start
                     ],
