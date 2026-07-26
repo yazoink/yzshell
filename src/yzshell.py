@@ -11,7 +11,6 @@ from lib.utils.colourscheme import Colourscheme, MustacheTemplate
 from lib.utils.defaultapps import DefaultApps
 from lib.modules.wallpaper import Wallpaper
 from lib.modules.swayosd import SwayOSD
-from lib.modules.swaylock import Swaylock
 from lib.modules.waybar import Waybar
 from lib.modules.eww import Eww
 from lib.modules.labwc import Labwc
@@ -28,15 +27,10 @@ class Shell:
         self.notifs = None
         self.colourscheme = None
         self.default_apps = None
-        self.lock = None
 
     def _set_osd(self):
         if self.osd == None:
             self.osd = SwayOSD()
-
-    def _set_lock(self):
-        if self.lock == None:
-            self.lock = Swaylock()
 
     def _set_bar(self):
         if self.bar == None:
@@ -178,7 +172,33 @@ class Shell:
 
     def toggle_dnd(self):
         self._set_widgets()
-        self.widgets.toggle_dnd()
+        mode = subprocess.run(
+            "makoctl mode",
+            shell=True, 
+            text=True,
+            capture_output=True
+        ).stdout
+        if "do-not-disturb" in mode:
+            subprocess.run(
+                "makoctl mode -r do-not-disturb",
+                shell=True, 
+                stdout=subprocess.DEVNULL, 
+                stderr=subprocess.STDOUT
+            )
+            subprocess.Popen(
+                "notify-send 'Notifications' 'Do not disturb disabled'",
+                shell=True, 
+                stdout=subprocess.DEVNULL, 
+                stderr=subprocess.STDOUT
+            )
+        else:
+            subprocess.run(
+                "makoctl mode -a do-not-disturb",
+                shell=True, 
+                stdout=subprocess.DEVNULL, 
+                stderr=subprocess.STDOUT
+            )
+        self.widgets.get_dnd_icon()
 
     def update_wallpaper_thumbs(self, dir=None):
         self._set_config()
@@ -197,8 +217,11 @@ class Shell:
             self.widgets.update_available_wallpapers(dir)
 
     def lock_screen(self):
-        self._set_lock()
-        self.lock.launch()
+        subprocess.Popen(
+            f"swaylock -f -c 000000", 
+            shell=True, stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
 
     def screenshot(self, output, mode, sleep_time):
         self._set_config()
@@ -247,13 +270,12 @@ class Shell:
         self._set_notifs()
         self._set_wallpaper()
         self._set_widgets()
+        Thread(target=self.widgets.reload).start()
         Thread(target=self.wallpaper.reload).start()
         Thread(target=self.osd.reload).start()
         Thread(target=self.bar.reload).start()
         Thread(target=self.windowmanager.reload).start()
         Thread(target=self.notifs.reload).start()
-        Thread(target=self.wallpaper.reload).start()
-        Thread(target=self.widgets.reload).start()
 
     def open(self, widget):
         self._set_config()
@@ -275,14 +297,7 @@ class Shell:
         self._set_bar()
         self._set_windowmanager()
 
-        if path.exists(environ["CONFIG_DIR"]) == False:
-            makedirs(environ["CONFIG_DIR"])
-            
-        write_file(f"{environ["STATIC_CONFIG_DIR"]}/.zshrc", f"{environ["HOME"]}/.zshrc")
-        write_file(f"{environ["STATIC_CONFIG_DIR"]}/.zprofile", f"{environ["HOME"]}/.zprofile")
-
-        configs = listdir(f"{environ["STATIC_CONFIG_DIR"]}/.config")
-        for cfg in configs:
+        def write_config(cfg):
             src = f"{environ["STATIC_CONFIG_DIR"]}/.config/{cfg}"
             dest = f"{environ["CONFIG_DIR"]}/{cfg}"
             if path.isfile(src):
@@ -293,9 +308,26 @@ class Shell:
                 copytree(src, dest)
             print(f"Copied '{src}' to {dest}")
 
-        self.default_apps.configure()
-        self.bar.configure()
-        self.windowmanager.configure()
+        if path.exists(environ["CONFIG_DIR"]) == False:
+            makedirs(environ["CONFIG_DIR"])
+            
+        write_file(f"{environ["STATIC_CONFIG_DIR"]}/.zshrc", f"{environ["HOME"]}/.zshrc")
+        write_file(f"{environ["STATIC_CONFIG_DIR"]}/.zprofile", f"{environ["HOME"]}/.zprofile")
+
+        configs = listdir(f"{environ["STATIC_CONFIG_DIR"]}/.config")
+        threads = []
+        for cfg in configs:
+            threads.append(Thread(target=write_config, args=(cfg,)))
+            write_config(cfg)
+        threads.append(Thread(target=self.default_apps.configure))
+        threads.append(Thread(target=self.bar.configure))
+        threads.append(Thread(target=self.windowmanager.configure))
+        
+        for t in threads:
+            t.start()
+
+        for t in threads:
+            t.join()
 
         self.reconfigure_colourscheme()
 
@@ -323,7 +355,7 @@ class Shell:
             MustacheTemplate("zathurarc.mustache", f"{environ["CONFIG_DIR"]}/zathura/zathurarc"),
         ]
         for t in templates:
-            t.apply(self.colourscheme)
+            Thread(target=t.apply, args=(self.colourscheme,)).start()
 
         self.config.change("colourscheme", scheme)
 

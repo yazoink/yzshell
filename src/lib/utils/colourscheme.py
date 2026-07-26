@@ -40,8 +40,10 @@ class MustacheTemplate:
 
     def apply(self, scheme): # MustacheTemplate(<template>, <output>).apply(Colourscheme("<scheme name>"))
         s = path.split(self.out)
-        if path.exists(s[0]) == False:
+        try:
             makedirs(s[0])
+        except:
+            pass
         cfg = ""
         with open(self.src, "r") as f:
             cfg = f.read()

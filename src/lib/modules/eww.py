@@ -111,20 +111,21 @@ class Eww(EwwDaemon):
     def __init__(self, config):
         self._config = config
         self._search_cache_file = "/tmp/yzshell_search_cache.json"
+        self._all_apps = []
         super().__init__(
             modules={
                 "calendar": EwwWindow("calendar"),
                 "power": EwwWindow("power"),
                 "screenshot": EwwWindow(
                     name="screenshot",
-                    post_open=[self.update_screenshot_output]
+                    post_open=[Thread(target=self.update_screenshot_output).start]
                 ),
                 "settings": EwwWindow(
                     name="settings",
                     pre_launch=[self.update_wallpaper_thumbs],
                     pre_open=[self.wallpaper_settings_init],
                     post_open=[
-                        self.get_colourschemes
+                        Thread(target=self.get_colourschemes).start
                     ],
                 ),
                 "control_center": EwwWindow(
@@ -133,12 +134,12 @@ class Eww(EwwDaemon):
                         self.update_search_cache,
                     ],
                     pre_open=[
-                        self.get_dnd_icon, 
-                        self.get_profile_image, 
-                        self.get_search_results, 
+                        Thread(target=self.get_dnd_icon).start, 
+                        Thread(target=self.get_profile_image).start, 
+                        Thread(target=self.get_search_results).start
                     ],
                     post_open=[
-                        self.update_weather
+                        Thread(target=self.update_weather).start
                     ],
                 )
             },
@@ -243,35 +244,6 @@ class Eww(EwwDaemon):
         else:
             self.update_var("dnd_icon", "")
 
-    def toggle_dnd(self):
-        mode = subprocess.run(
-            "makoctl mode",
-            shell=True, 
-            text=True,
-            capture_output=True
-        ).stdout
-        if "do-not-disturb" in mode:
-            subprocess.run(
-                "makoctl mode -r do-not-disturb",
-                shell=True, 
-                stdout=subprocess.DEVNULL, 
-                stderr=subprocess.STDOUT
-            )
-            subprocess.Popen(
-                "notify-send 'Notifications' 'Do not disturb disabled'",
-                shell=True, 
-                stdout=subprocess.DEVNULL, 
-                stderr=subprocess.STDOUT
-            )
-        else:
-            subprocess.run(
-                "makoctl mode -a do-not-disturb",
-                shell=True, 
-                stdout=subprocess.DEVNULL, 
-                stderr=subprocess.STDOUT
-            )
-        self.get_dnd_icon()
-
     def update_weather(self):
         print("Updating weather...")
         r = ""
@@ -330,12 +302,9 @@ class Eww(EwwDaemon):
         self.update_var("profile_image_path", self._config.current["profile_image"])
 
     def update_search_cache(self):
-        all_apps = []
-        app_info = Gio.AppInfo.get_all()
-        i = 0
-        for app in app_info:
+        def add_app(app, i):
             if app.should_show() == False:
-                continue
+                return
             cmd = ""
             if app.get_boolean("Terminal"):
                 cmd = f"{environ["TERM"]} -e "
@@ -349,7 +318,7 @@ class Eww(EwwDaemon):
             desc = app.get_description()
             if desc == None:
                 desc = "No description"
-            all_apps.append(
+            self._all_apps.append(
                 {
                     "name": app.get_display_name(),
                     "desc": desc,
@@ -359,31 +328,40 @@ class Eww(EwwDaemon):
                     "index": i,
                 }
             )
+        app_info = Gio.AppInfo.get_all()
+        i = 0
+        threads = []
+        for app in app_info:
+            threads.append(Thread(target=add_app, args=(app, i,)))
             i += 1
-        j = json.dumps(all_apps)
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+        j = json.dumps(self._all_apps)
         with open(self._search_cache_file, "w") as f:
             f.write(j)
 
     def get_search_results(self, query=""):
         r = ""
         selected = -1
-        all_apps = []
         # load cached app array
-        if path.isfile(self._search_cache_file) == False:
-            self.update_search_cache()
-            
-        with open(self._search_cache_file, "r") as f:
-            j = f.read()
-            all_apps = json.loads(j)
+        if self._all_apps == []:
+            if path.isfile(self._search_cache_file) == False:
+                self.update_search_cache()
+            else:
+                with open(self._search_cache_file, "r") as f:
+                    j = f.read()
+                    self._all_apps = json.loads(j)
 
         # if empty search, return all
         if query.replace(" ", "") == "":
-            r = json.dumps(all_apps)
+            r = json.dumps(self._all_apps)
         else:
             selected = 0
             # get results array    
             results = []
-            for a in all_apps:
+            for a in self._all_apps:
                 n = a["name"].lower()
                 d = a["desc"].lower()
                 if query in n or query in d:
