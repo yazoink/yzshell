@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <labwc_config>
-  <desktops number="1" />
+  <desktops number="1">
+    <popupTime>0</popupTime>
+  </desktops>
   <focus>
     <followMouse>yes</followMouse>
     <raiseOnFocus>no</raiseOnFocus>
