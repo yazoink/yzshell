@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Zen Browser
+Comment=Browse the World Wide Web
+Exec=zen %u
+Icon=web-browser
+Terminal=false
+Type=Application
+Categories=Network;WebBrowser;

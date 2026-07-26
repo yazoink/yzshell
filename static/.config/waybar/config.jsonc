@@ -23,7 +23,7 @@
     "tooltip-format": "Open control panel (Mod+Ctrl+M)",
     "exec-on-event": true,
     "interval": 60,
-    "on-click": "yzshell widgets control_center toggle",
+    "on-click": "yzshell toggle control_center",
     "signal": 9
   },
   "ext/workspaces": {
@@ -202,7 +202,7 @@
   },
   "clock": {
     "format": "{:%I:%M %p}",
-    "on-click": "yzshell widgets calendar toggle",
+    "on-click": "yzshell toggle calendar",
     "tooltip": true,
     "tooltip-format": "Open calendar (Mod+Shift+C)"
   }

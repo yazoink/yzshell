@@ -37,6 +37,12 @@ class Config:
             for opt in user_config:
                 self.current[opt] = user_config[opt]
 
+    def get(self, opt):
+        if opt not in self.current:
+            print(f"Error: option '{opt}' does not exist")
+            exit(1)
+        print(self.current[opt])
+
     def change(self, opt, val):
         if opt not in self.defaults:
             print(f"Error: config option '{opt}' does not exist")

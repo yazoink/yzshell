@@ -10,25 +10,25 @@
       <action name="Execute" command="yzshell lock" />
     </keybind>
     <keybind key="W-S-d">
-      <action name="Execute" command="toggle_dnd" />
+      <action name="Execute" command="yzshell toggle_dnd" />
     </keybind>
     <keybind key="W-S-q">
-      <action name="Execute" command="yzshell widgets power toggle" />
+      <action name="Execute" command="yzshell toggle power" />
     </keybind>
     <keybind key="W-S-c">
-      <action name="Execute" command="yzshell widgets calendar toggle" />
+      <action name="Execute" command="yzshell toggle calendar" />
     </keybind>
     <keybind key="W-C-m">
-      <action name="Execute" command="yzshell widgets control_center toggle" />
+      <action name="Execute" command="yzshell toggle control_center" />
     </keybind>
     <keybind key="W-s">
-      <action name="Execute" command="screenshot -m select" />
+      <action name="Execute" command="yzshell screenshot -m select" />
     </keybind>
     <keybind key="W-S-s">
-      <action name="Execute" command="screenshot -m full" />
+      <action name="Execute" command="yzshell screenshot -m full" />
     </keybind>
     <keybind key="W-C-s">
-      <action name="Execute" command="yzshell widgets screenshot toggle" />
+      <action name="Execute" command="yzshell toggle screenshot" />
     </keybind>
     <keybind key="W-S-r">
       <action name="Execute" command="yzshell" />
@@ -124,10 +124,7 @@
       <action name="GoToDesktop" to="right" toggle="no" wrap="yes" />
     </keybind>
     <keybind key="W-c">
-      <action name="Execute" command="yzshell cmd pick_colour" />
-    </keybind>
-    <keybind key="W-S-b">
-      <action name="Execute" command="yzshell reload bar" />
+      <action name="Execute" command="yzshell pick_colour" />
     </keybind>
     <keybind key="XF86AudioPlay">
       <action name="Execute" command="playerctl play-pause" />

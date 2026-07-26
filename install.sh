@@ -36,6 +36,9 @@ deps=(
     "kvantum" 
     "eww"
     "git"
+    "make"
+    "ripgrep"
+    "xtools"
     "dbus"
     "jq"
     "curl"
@@ -113,39 +116,19 @@ if ! ls /var/service | grep -q "NetworkManager"; then
     newgrp network
 fi
 
-# install zen browser
-if ! which zen &> /dev/null; then
-    echo "Installing zen browser..."
-    mkdir -p ~/src
+# install vpsm
+if [ ! -d "${HOME}/.void-packages" ]; then
+    git clone https://github.com/void-linux/void-packages.git ~/.void-packages
+    git clone https://github.com/sinetoami/vpsm.git ~/.local/share/vpsm
     (
-        cd ~/src || exit
-        git clone https://github.com/void-linux/void-packages.git
-        git clone https://github.com/salastro/zen-browser.git
-        cp -rf zen-browser void-packages/srcpkgs/
-        cd void-packages || exit
-        ./xbps-src binary-bootstrap
-        echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
-        ./xbps-src pkg zen-browser
-        sudo xbps-install --repository=hostdir/binpkgs zen-browser
+        cd ~/.local/share/vpsm || exit
+        sudo make install
     )
-    echo "[Desktop Entry]
-    Name=Zen Browser
-    Comment=Browse the World Wide Web
-    Exec=zen %u
-    Icon=web-browser
-    Terminal=false
-    Type=Application
-    Categories=Network;WebBrowser;" | sudo tee /usr/share/applications/zen.desktop > /dev/null
-    echo "Zen browser installed"
 fi
 
 # install executables
 sudo install -Dm755 "./bin/yzshell" "/usr/bin/yzshell"
 echo "Installed 'yzshell' to '/usr/bin'"
-sudo install -Dm755 "./bin/screenshot" "/usr/bin/screenshot"
-echo "Installed 'screenshot' to '/usr/bin'"
-sudo install -Dm755 "./bin/toggle_dnd" "/usr/bin/toggle_dnd"
-echo "Installed 'toggle_dnd' to '/usr/bin'"
 sudo install -Dm755 "./bin/colour_picker" "/usr/bin/colour_picker"
 echo "Installed 'colour_picker' to '/usr/bin'"
 
@@ -195,5 +178,6 @@ fi
 
 yzshell default_apps install_all
 yzshell reconfigure
+#yzshell
 
 echo "Installation complete!"

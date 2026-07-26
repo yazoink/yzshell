@@ -33,17 +33,17 @@
         :valign "end"
         :spacing 8
         (button
-          :onclick "yzshell widgets screenshot close & screenshot -m 'full' -o '${output}' -s 0.5 &"
+          :onclick "yzshell close screenshot & yzshell screenshot -m 'full' -o '${output}' -s 0.5 &"
           :tooltip "Take a fullscreen screenshot"
           (label :text "" :class "icon screenshot-full")
         )
         (button
-          :onclick "yzshell widgets screenshot close & screenshot -m 'select' '${output}' &"
+          :onclick "yzshell close screenshot & yzshell screenshot -m 'select' -o '${output}' -s 0.5 &"
           :tooltip "Take a selective screenshot"
           (label :text "" :class "icon screenshot-select")
         )
         (button
-          :onclick "yzshell widgets screenshot close &"
+          :onclick "yzshell close screenshot &"
           :tooltip "Cancel"
           (label :text "" :class "icon screenshot-cancel")
         )

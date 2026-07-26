@@ -1,8 +1,7 @@
 import subprocess
 from sys import exit
-from lib.utils.config import Config
 from lib.utils.packagelist import PackageList
-from os import environ
+from os import environ, remove, path, makedirs
 
 class DefaultApp():
     def __init__(self, desktop_file, launch_cmd, install, uninstall):
@@ -119,8 +118,45 @@ class Vlc(DefaultApp):
             uninstall=lambda: self.deps.uninstall()
         )
 
+class Zen(DefaultApp):
+    def __init__(self):
+        self.deps = PackageList(vpsm_pkgs=["zen-browser"])
+        self.desktop_file_path = f"{environ["HOME"]}/.local/share/applications/zen.desktop"
+        super().__init__(
+            desktop_file="zen.desktop",
+            launch_cmd="zen",
+            install=self.install_zen,
+            uninstall=self.deps.uninstall
+        )
+
+    def uninstall_zen(self):
+        self.deps.uninstall()
+        if path.exists(desktop_apps_dir) == True:
+            remove(desktop_file_path)
+    
+    def install_zen(self):
+        self.deps.install()
+        desktop_apps_dir = path.dirname(self.desktop_file_path)
+        if path.exists(desktop_apps_dir) == False:
+            makedirs(desktop_apps_dir)
+        desktop_file_content=""
+        with open(f"{environ["STATIC_CONFIG_DIR"]}/.local/share/applications/zen.desktop", "r") as f:
+            desktop_file_content = f.read()
+        with open(self.desktop_file_path, "w") as f:
+            f.write(desktop_file_content)
+
+class Firefox(DefaultApp):
+    def __init__(self):
+        self.deps = PackageList(["firefox"])
+        super().__init__(
+            desktop_file="firefox.desktop",
+            launch_cmd="firefox",
+            install=self.deps.install,
+            uninstall=self.deps.uninstall
+        )
+
 class DefaultApps():
-    def __init__(self, config = Config()):
+    def __init__(self, config):
         self._config = config
         self.associations = {
             "file_manager": ["inode/directory"],
@@ -221,6 +257,12 @@ class DefaultApps():
                 "x-content/video-svcd",
                 "x-content/video-vcd",
                 "application/ogg"
+            ],
+            "web_browser": [
+                "x-scheme-handler/https",
+                "x-scheme-handler/http",
+                "x-scheme-handler/ftp",
+                "x-scheme-handler/mailto"
             ]
         }
         self.apps = {
@@ -239,6 +281,10 @@ class DefaultApps():
             "media_player": {
                 "mpv": Mpv(),
                 "vlc": Vlc()
+            },
+            "web_browser": {
+                "zen": Zen(),
+                "firefox": Firefox()
             }
         }
 
@@ -275,4 +321,3 @@ class DefaultApps():
                 ml += f"\n{mimetype}={desktop_file}"
         with open(f"{environ["CONFIG_DIR"]}/mimeapps.list", "w") as f:
             f.write(ml)
-        print("Default apps configured")

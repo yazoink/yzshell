@@ -12,27 +12,27 @@
     :halign "center"
     :hexpand true
     (button 
-      :onclick "yzshell wallpaper set_mode 'stretch' &" 
+      :onclick "yzshell set_wallpaper_mode 'stretch' &" 
       :class "fill-button${wallpaper_mode == "stretch" ? " selected" : ""}"
       "Stretch"
     )
     (button 
-      :onclick "yzshell wallpaper set_mode 'fit' &" 
+      :onclick "yzshell set_wallpaper_mode 'fit' &" 
       :class "fill-button${wallpaper_mode == "fit" ? " selected" : ""}"
       "Fit"
     )
     (button 
-      :onclick "yzshell wallpaper set_mode 'fill' &"
+      :onclick "yzshell set_wallpaper_mode 'fill' &"
       :class "fill-button${wallpaper_mode == "fill" ? " selected" : ""}"
       "Fill"
     )
     (button 
-      :onclick "yzshell wallpaper set_mode 'center' &" 
+      :onclick "yzshell set_wallpaper_mode 'center' &" 
       :class "fill-button${wallpaper_mode == "center" ? " selected" : ""}"
       "Center"
     )
     (button 
-      :onclick "yzshell wallpaper set_mode 'tile' &" 
+      :onclick "yzshell set_wallpaper_mode 'tile' &" 
       :class "fill-button${wallpaper_mode == "tile" ? " selected" : ""}"
       "Tile"
     )
@@ -52,7 +52,7 @@
       (label :text "Directory:")
       (input 
         :value wallpaper_dir 
-        :onaccept "${EWW_CMD} update wallpaper_dir='{}' & ${EWW_CMD} update wallpapers='[]' & yzshell wallpaper update_thumbs '{}' & ${EWW_CMD} update wallpapers=\"$(settings/scripts/get_available_wallpapers.py '{}')\" &" 
+        :onaccept "${EWW_CMD} update wallpapers='[]' & yzshell update_wallpaper_thumbs '{}' & yzshell update_available_wallpapers '{}' &" 
         :halign "fill"
         :hexpand true
       )
@@ -74,7 +74,7 @@
             :hexpand true
             (for wallpaper in row
                 (button
-                  :onclick "yzshell wallpaper set_image '${wallpaper_dir}/${wallpaper}' &"
+                  :onclick "yzshell set_wallpaper '${wallpaper_dir}/${wallpaper}' &"
                   :class "wallpaper-button${current_wallpaper == "${wallpaper_dir}/${wallpaper}" ? " selected" : ""}"
                   :tooltip wallpaper
                   (box

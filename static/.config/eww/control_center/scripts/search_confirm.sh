@@ -8,4 +8,4 @@ if [ $selected -gt -1 ]; then
     (cd "$HOME"; eval $c) & disown
 fi
 
-yzshell widgets control_center close
+yzshell close control_center

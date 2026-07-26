@@ -15,25 +15,25 @@
       (button
         :class "launcher-button settings"
         :tooltip "Change appearance"
-        :onclick "yzshell widgets control_center close & yzshell widgets settings open &"
+        :onclick "yzshell close control_center & yzshell open settings &"
         (label :text "" :class "icon")
       )
       (button
         :class "launcher-button picker"
-        :onclick "yzshell widgets control_center close & colour_picker 'sleep' &"
+        :onclick "yzshell close control_center & colour_picker 'sleep' &"
         :tooltip "Open colour picker"
         (label :text "" :class "icon")
       )
       (button
         :class "launcher-button shot"
-        :onclick "yzshell widgets control_center close & yzshell widgets screenshot open &"
+        :onclick "yzshell close control_center & yzshell open screenshot &"
         :tooltip "Take screenshot"
         (label :text "" :class "icon")
       )
       (button
         :class "launcher-button dnd"
         :tooltip "Toggle do-not-disturb"
-        :onclick "toggle_dnd &"
+        :onclick "yzshell toggle_dnd &"
         (label :text dnd_icon :class "icon")
       )
     )
@@ -46,7 +46,7 @@
       (button
         :class "launcher-button shutdown"
         :tooltip "Open power menu"
-        :onclick "yzshell widgets control_center close & yzshell widgets power open"
+        :onclick "yzshell close control_center & yzshell open power"
         (label :text "" :class "icon")
       )
     )

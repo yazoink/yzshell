@@ -1,10 +1,9 @@
 from bs4 import BeautifulSoup
 from os import environ, path
-from lib.utils.config import Config
 import subprocess
 
 class Labwc:
-    def __init__(self, config=Config()):
+    def __init__(self, config):
         self._config = config
     
     def configure(self):
@@ -55,7 +54,6 @@ class Labwc:
             f.write(soup.decode())
             
         #self.reload()
-        print("Labwc reconfigured")
 
     def reload(self):
         subprocess.run(

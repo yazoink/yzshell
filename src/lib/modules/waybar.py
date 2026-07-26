@@ -5,7 +5,7 @@ from lib.utils.config import Config
 from bs4 import BeautifulSoup
 
 class Waybar:
-    def __init__(self, config = Config()):
+    def __init__(self, config):
         self._config = config
 
     def launch(self):
@@ -91,4 +91,3 @@ class Waybar:
             f.write(soup.decode())
         
         #self.reload()
-        print("Bar reconfigured")

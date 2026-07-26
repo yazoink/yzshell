@@ -66,7 +66,7 @@
             )
           )
           (button
-            :onclick "yzshell widgets settings close &"
+            :onclick "yzshell close settings &"
             :tooltip "Close settings"
             :class "close ${settings_menu_item == 1 ? "selected" : ""}"
             (label :text "" :class "icon")

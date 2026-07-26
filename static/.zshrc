@@ -1,8 +1,6 @@
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 export HISTFILE=~/.zsh_history
 export HISTFILESIZE=100000
+export XBPS_DISTDIR=$HOME/.void-packages
 
 PROMPT="%n@%m~ "
 
@@ -27,3 +25,6 @@ alias chx="chmod +x"
 alias cpdir="wl-copy \"$(pwd)\""
 alias myip="curl http://ipecho.net/plain; echo"
 alias mu="ncmpcpp"
+
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

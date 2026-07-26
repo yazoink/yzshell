@@ -116,4 +116,5 @@ function launch_script() {
     esac
 }
 
-launch_script "$@"
+#launch_script "$@"
+python "$HOME"/.local/share/yzshell/src/yzshell.py "$@"
