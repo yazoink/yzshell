@@ -33,7 +33,9 @@ class Labwc:
         binds.append(f'''
             <keybind key="W-r">
                 <action name="Execute" command="{self._config.current["run_launcher"]}" />
-            </keybind>
+            </keybind>'''
+        )
+        binds.append(f'''
             <keybind key="W-p">
                 <action name="Execute" command="{self._config.current["run_launcher"]}" />
             </keybind>'''
