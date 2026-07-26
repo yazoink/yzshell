@@ -20,7 +20,7 @@
       )
       (button
         :class "launcher-button picker"
-        :onclick "yzshell close control_center & colour_picker 'sleep' &"
+        :onclick "yzshell close control_center & yzshell pick_colour &"
         :tooltip "Open colour picker"
         (label :text "" :class "icon")
       )

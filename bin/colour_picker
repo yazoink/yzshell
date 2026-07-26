@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-[ "$1" == "sleep" ] && sleep 0.5
-
-c="$(hyprpicker)"
-
-[ "$c" != "" ] \
-    && wl-copy "$c" \
-    && notify-send "$c" "Copied to clipboard"

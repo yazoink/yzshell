@@ -70,6 +70,29 @@ class Shell:
         if self.colourscheme == None:
             self.colourscheme = Colourscheme(scheme)
 
+    def pick_colour(self, sleep_time=0):
+        sleep(sleep_time)
+        r = subprocess.run(
+            "hyprpicker",
+            shell=True,
+            text=True,
+            capture_output=True
+        )
+        if r.returncode == 0:
+            colour = r.stdout.strip()
+            subprocess.Popen(
+                f"wl-copy '{colour}'",
+                shell=True,
+                stdout=subprocess.DEVNULL, 
+                stderr=subprocess.STDOUT
+            )
+            subprocess.Popen(
+                f"notify-send '{colour}' 'Copied to clipboard'",
+                shell=True,
+                stdout=subprocess.DEVNULL, 
+                stderr=subprocess.STDOUT
+            )
+
     def get_config_opt(self, opt):
         self._set_config()
         self.config.get(opt)
@@ -440,5 +463,10 @@ if __name__ == "__main__":
                     mode=args.mode,
                     sleep_time=args.sleep_time
                 )
+            case "pick_colour":
+                parser = argparse.ArgumentParser(add_help=False)
+                parser.add_argument("-s", "--sleep-time", default=0, type=float)
+                args = parser.parse_args(argv[2:])
+                shell.pick_colour(sleep_time=args.sleep_time)
             case _:
                 arg_not_recognised(cmd)

@@ -130,8 +130,6 @@ fi
 # install executables
 sudo install -Dm755 "./bin/yzshell" "/usr/bin/yzshell"
 echo "Installed 'yzshell' to '/usr/bin'"
-sudo install -Dm755 "./bin/colour_picker" "/usr/bin/colour_picker"
-echo "Installed 'colour_picker' to '/usr/bin'"
 
 # copy data
 [ -d "$DATA_DIR" ] && rm -rf "$DATA_DIR"
