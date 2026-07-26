@@ -1,6 +1,5 @@
 import subprocess
 from sys import exit
-import subprocess
 from os import environ, path, listdir, makedirs
 from math import floor
 from PIL import Image
