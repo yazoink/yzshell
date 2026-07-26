@@ -1,4 +1,6 @@
 from os import environ, path
+import subprocess
+
 
 class Labwc:
     def __init__(self, config):
@@ -6,6 +8,14 @@ class Labwc:
     
     def configure(self):
         from bs4 import BeautifulSoup
+        menu_xml = subprocess.run(
+            f"labwc-menu-generator -I -t '{self._config.current["terminal"]} -e'", 
+            shell=True, 
+            text=True,
+            capture_output=True
+        ).stdout.strip()
+        with open(f"{environ["CONFIG_DIR"]}/labwc/menu.xml", "w") as f:
+            f.write(menu_xml)
         src = path.join(environ["STATIC_CONFIG_DIR"], ".config/labwc/rc.xml")
         dest = path.join(environ["CONFIG_DIR"], "labwc/rc.xml")
         data = ""
@@ -56,7 +66,6 @@ class Labwc:
         #self.reload()
 
     def reload(self):
-        import subprocess
         subprocess.run(
             f"labwc -r", 
             shell=True, stdout=subprocess.DEVNULL, 

@@ -31,6 +31,7 @@ fi
 # install deps
 deps=(
     "labwc"
+    "labwc-menu-generator"
     "xorg-server-xwayland"
     "foot"
     "yazi" 
