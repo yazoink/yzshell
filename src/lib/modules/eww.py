@@ -145,13 +145,13 @@ class Eww(EwwDaemon):
             },
         )
 
-    def _make_thumb(self, f):
-        with Image.open(path.join(self._config.current["wallpaper_dir"], f)) as i:
-            MAX_SIZE = (150, 150)
-            i.thumbnail(MAX_SIZE)
-            i.save(path.join(environ["WALLPAPER_CACHE_DIR"], f))
-
     def update_wallpaper_thumbs(self, dir=""):
+        def make_thumb(f):
+            with Image.open(path.join(self._config.current["wallpaper_dir"], f)) as i:
+                MAX_SIZE = (150, 150)
+                i.thumbnail(MAX_SIZE)
+                i.save(path.join(environ["WALLPAPER_CACHE_DIR"], f))
+                
         print("Updating wallpaper thumbnails...")
         if dir == "":
             dir = self._config.current["wallpaper_dir"]
@@ -162,7 +162,7 @@ class Eww(EwwDaemon):
         for f in files:
             l = f.lower()
             if l.endswith(('.jpg', '.png', '.jpeg')):
-                Thread(target=self._make_thumb, args=(f,)).start()
+                Thread(target=make_thumb, args=(f,)).start()
 
     def update_screenshot_output(self):
         d = self._config.current["screenshot_dir"]

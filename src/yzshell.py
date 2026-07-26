@@ -17,6 +17,17 @@ from lib.modules.labwc import Labwc
 from lib.modules.mako import Mako
 
 class Shell:
+    __slots__ = (
+        "config",
+        "osd",
+        "bar",
+        "widgets",
+        "wallpaper",
+        "windowmanager",
+        "notifs",
+        "colourscheme",
+        "default_apps"
+    )
     def __init__(self):
         self.config = None
         self.osd = None
@@ -354,8 +365,13 @@ class Shell:
             MustacheTemplate("zen_usercontent.css.mustache", f"{self.config.current["zen_profile_dir"]}/chrome/userContent.css"),
             MustacheTemplate("zathurarc.mustache", f"{environ["CONFIG_DIR"]}/zathura/zathurarc"),
         ]
+        threads = []
         for t in templates:
-            Thread(target=t.apply, args=(self.colourscheme,)).start()
+            threads.append(Thread(target=t.apply, args=(self.colourscheme,)))
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
 
         self.config.change("colourscheme", scheme)
 
