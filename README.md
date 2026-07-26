@@ -115,7 +115,7 @@ Wallpaper mode -- `stretch`, `fit`, `fill`, `center`, or `tile`.
 Absolute path to Zen Browser profile directory.
 
 ## TODO
-- Vencord config/theme
+- Vencord config
 - Zen config
 - Nvim config/theme
 - VSCode config/theme
