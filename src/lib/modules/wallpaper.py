@@ -1,8 +1,6 @@
 import subprocess
 from sys import exit
-from os import environ, path, listdir, makedirs
-from shutil import rmtree
-from lib.utils.config import Config
+from os import environ, path
 
 def make_thumb(f):
         with Image.open(path.join(self._config.current["wallpaper_dir"], f)) as i:

@@ -1,7 +1,6 @@
 from os import listdir, environ
 import json
 import subprocess
-from lib.utils.config import Config
 from bs4 import BeautifulSoup
 
 class Waybar:

@@ -1,7 +1,7 @@
 from sys import exit, argv
 from threading import Thread
 from os import environ, path, listdir, makedirs
-from shutil import copytree, rmtree, copyfile
+from shutil import copytree, rmtree
 from time import sleep
 import argparse
 import subprocess
