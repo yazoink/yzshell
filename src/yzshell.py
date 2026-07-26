@@ -70,6 +70,20 @@ class Shell:
         if self.colourscheme == None:
             self.colourscheme = Colourscheme(scheme)
 
+    def get_default_app_categories(self):
+        self._set_config()
+        self._set_default_apps()
+        for category in self.default_apps.apps:
+            print(category)
+
+    def get_available_default_apps(self, category):
+        self._set_config()
+        self._set_default_apps()
+        if category not in self.default_apps.apps:
+            print("Error: category '{category}' does not exist")
+        for a in self.default_apps.apps[category]:
+            print(a)
+
     def pick_colour(self, sleep_time=0):
         sleep(sleep_time)
         r = subprocess.run(
@@ -399,6 +413,22 @@ if __name__ == "__main__":
                 match action:
                     case "install_all":
                         shell.install_all_default_apps()
+                    case "get":
+                        if argc < 4:
+                            not_enough_args(cmd)
+                        match argv[3]:
+                            case "categories":
+                                if argc > 4:
+                                    too_many_args(argv[3])
+                                shell.get_default_app_categories()
+                            case "apps":
+                                if argc < 5:
+                                    not_enough_args(argv[3])
+                                if argc > 5:
+                                    too_many_args(argv[3])
+                                shell.get_available_default_apps(argv[4])
+                            case _:
+                                arg_not_recognised(argv[3])
                     case "set":
                         if argc < 5:
                             not_enough_args(cmd)
