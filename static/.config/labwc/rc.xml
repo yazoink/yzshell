@@ -204,5 +204,9 @@
   <windowSwitcher>
     <osd style="thumbnail" />
   </windowSwitcher>
-
+  <privilegedInterfaces>
+    <allow>zwlr_layer_shell_v1</allow>
+    <allow>zwlr_virtual_pointer_manager_v1</allow>
+    <allow>zwp_virtual_keyboard_manager_v1</allow>
+  </privilegedInterfaces>
 </labwc_config>
