@@ -245,7 +245,6 @@ class Eww(EwwDaemon):
             self.update_var("dnd_icon", "")
 
     def update_weather(self):
-        print("Updating weather...")
         r = ""
         try:
             r = requests.get("https://api.open-meteo.com/v1/forecast?latitude=-37.814&longitude=144.9633&hourly=temperature_2m&current=temperature_2m,precipitation,cloud_cover,apparent_temperature,wind_speed_10m,is_day&timezone=auto&forecast_days=3")
