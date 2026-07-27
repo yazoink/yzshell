@@ -1,15 +1,22 @@
+PROMPT="%n@%m~ "
+
 export HISTFILE=~/.zsh_history
 export HISTFILESIZE=100000
 export XBPS_DISTDIR=$HOME/.void-packages
 
-PROMPT="%n@%m~ "
-
-copyfile() {
+function copyfile() {
     cat "$1" | wl-copy
 }
 
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+	command rm -f -- "$tmp"
+}
+
 alias ls="ls --color=auto"
-alias y="yazi"
 alias add="sudo xbps-install"
 alias del="sudo xbps-remove -o"
 alias upd="sudo xbps-install -Su"

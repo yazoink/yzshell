@@ -371,6 +371,6 @@ class Eww(EwwDaemon):
                 results[i]["index"] = i
             #print(results)
             r = json.dumps(results)
-        print(r)
+        #print(r)
         self.update_var("search_selected", str(selected))
         self.update_var("search_results", r)
