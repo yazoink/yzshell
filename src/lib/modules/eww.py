@@ -91,13 +91,13 @@ class EwwWindow:
 
     def close(self):
         try:
-            subprocess.Popen(
-                f"eww update {self.name}_visible=false; sleep 0.5; eww close '{self.name}' &", 
+            subprocess.run(
+                f"eww update {self.name}_visible=false; sleep 0.5; eww close '{self.name}'", 
                 shell=True, stdout=subprocess.DEVNULL, 
                 stderr=subprocess.STDOUT
             )
         except:
-            print(f"Error: could not open widget '{self.name}'")
+            print(f"Error: could not close widget '{self.name}'")
             exit(1)
 
 
