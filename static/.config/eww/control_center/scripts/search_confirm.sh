@@ -11,4 +11,4 @@ if [ $selected -gt -1 ]; then
     ) & disown
 fi
 
-yzshell close control_center
+yzshell close_all_widgets

@@ -33,6 +33,12 @@ class EwwDaemon:
     def close_all(self):
         for m in self.modules:
             Thread(target=self.modules[m].close).start()
+        subprocess.run(
+            "eww close closer",
+            shell=True,
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
     
     def reload(self):
         self.kill()
@@ -69,6 +75,12 @@ class EwwWindow:
         )
         if r.returncode == 0:
             self.close()
+            subprocess.run(
+                "eww close closer",
+                shell=True,
+                stdout=subprocess.DEVNULL, 
+                stderr=subprocess.STDOUT
+            )
         else:
             self.open()
 
@@ -99,7 +111,7 @@ class EwwWindow:
             p()
         try:
             subprocess.run(
-                f"eww close closer; eww update {self.name}_visible=false; sleep 0.5; eww close '{self.name}'", 
+                f"eww update {self.name}_visible=false; sleep 0.5; eww close '{self.name}'", 
                 shell=True, stdout=subprocess.DEVNULL, 
                 stderr=subprocess.STDOUT
             )

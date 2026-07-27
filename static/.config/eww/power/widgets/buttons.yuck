@@ -7,7 +7,7 @@
     "class": "lock",
     "icon": "",
     "desc": "Lock",
-    "cmd": "yzshell close power & yzshell lock &"
+    "cmd": "yzshell close_all_widgets & yzshell lock &"
   },
   {
     "class": "exit",
@@ -44,7 +44,7 @@
       :valign "center"
       :halign "center"
       (button :onclick "${cmd}" :class "yes base0B" "")
-      (button :onclick "yzshell close power &" :class "no base08" "")
+      (button :onclick "yzshell close_all_widgets &" :class "no base08" "")
     )
   )
 )

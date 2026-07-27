@@ -43,11 +43,6 @@ class Labwc:
                 <action name="Execute" command="{self._config.current["run_launcher"]}" />
             </keybind>'''
         )
-        binds.append(f'''
-            <keybind key="W-p">
-                <action name="Execute" command="{self._config.current["run_launcher"]}" />
-            </keybind>'''
-        )
 
         soup.desktops["number"] = self._config.current["labwc_desktops"]
         for i in range(1, self._config.current["labwc_desktops"] + 1):
