@@ -31,14 +31,14 @@ class EwwDaemon:
         )
 
     def close_all(self):
-        for m in self.modules:
-            Thread(target=self.modules[m].close).start()
-        subprocess.run(
+        subprocess.Popen(
             "eww close closer",
             shell=True,
             stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
         )
+        for m in self.modules:
+            Thread(target=self.modules[m].close).start()
     
     def reload(self):
         self.kill()
