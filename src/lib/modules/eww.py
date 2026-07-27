@@ -99,7 +99,7 @@ class EwwWindow:
             p()
         try:
             subprocess.run(
-                f"eww update {self.name}_visible=false; sleep 0.5; eww close '{self.name}'", 
+                f"eww close closer; eww update {self.name}_visible=false; sleep 0.5; eww close '{self.name}'", 
                 shell=True, stdout=subprocess.DEVNULL, 
                 stderr=subprocess.STDOUT
             )
