@@ -9,6 +9,6 @@ if [ $selected -gt -1 ]; then
         | jq -r ".[${selected}].cmd")"
     (
         cd "$HOME" || exit
-        eval "$c"
-    ) & disown
+        eval "$c" & disown
+    )
 fi
