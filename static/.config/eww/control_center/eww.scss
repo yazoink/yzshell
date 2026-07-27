@@ -299,21 +299,20 @@
       }
     }
   }
-  .search-bar {
-    background-color: $surface;
-    border-radius: $inner-radius;
-    .icon {
-      padding: $padding;
-      background-color: $base0D;
-      border-top-left-radius: $inner-radius;
-      border-bottom-left-radius: $inner-radius;
-      color: $bg;
-    }
-    entry {
-      // font-size: 13pt;
-      // font-weight: bold;
-    }
-  }
 }
 
-
+.search-bar {
+  background-color: $surface;
+  border-radius: $inner-radius;
+  .icon {
+    padding: $padding;
+    background-color: $base0D;
+    border-top-left-radius: $inner-radius;
+    border-bottom-left-radius: $inner-radius;
+    color: $bg;
+  }
+  entry {
+    // font-size: 13pt;
+    // font-weight: bold;
+  }
+}

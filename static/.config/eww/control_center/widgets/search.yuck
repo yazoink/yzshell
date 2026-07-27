@@ -1,8 +1,3 @@
-(defvar user_input "")
-(defvar search_results "[]")
-(defvar search_selected -1)
-(defpoll update_results :interval "1h" :initial "" "yzshell update_search_cache")
-
 (defwidget search []
   (box ; main window
     :class "outer-box"
@@ -66,10 +61,7 @@
       :class "search-bar"
       :spacing 8
       (label :text "" :class "icon search" :halign "start")
-      (input ; search bar
-        :value user_input 
-        :onchange "yzshell get_search_results '{}' &"
-        :onaccept "control_center/scripts/search_confirm.sh &"
+      (box ; search bar
         :halign "fill"
         :hexpand true
       )

@@ -46,11 +46,12 @@ class EwwDaemon:
             exit(1)
 
 class EwwWindow:
-    def __init__(self, name, pre_launch = [], pre_open = [], post_open = []):
+    def __init__(self, name, pre_launch = [], pre_open = [], post_open = [], pre_close=[]):
         self.name = name
         self.pre_launch = pre_launch
         self.pre_open = pre_open
         self.post_open = post_open
+        self.pre_close = pre_close
 
     def launch(self):
         for p in self.pre_launch:
@@ -90,6 +91,8 @@ class EwwWindow:
             p()
 
     def close(self):
+        for p in self.pre_close:
+            p()
         try:
             subprocess.run(
                 f"eww update {self.name}_visible=false; sleep 0.5; eww close '{self.name}'", 
@@ -133,10 +136,32 @@ class Eww(EwwDaemon):
                         Thread(target=self.get_search_results).start
                     ],
                     post_open=[
-                        Thread(target=self.update_weather).start
+                        Thread(target=self.update_weather).start,
+                        self.open_search_input
                     ],
+                    pre_close=[
+                        Thread(target=self.close_search_input).start
+                    ]
                 )
             },
+        )
+    
+    def open_search_input(self):
+        from time import sleep
+        sleep(0.5)
+        subprocess.run(
+            "eww open search_input", 
+            shell=True, 
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
+
+    def close_search_input(self):
+        subprocess.run(
+            "eww close search_input", 
+            shell=True, 
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
         )
 
     def update_wallpaper_thumbs(self, dir=""):
