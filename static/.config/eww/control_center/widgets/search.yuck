@@ -18,6 +18,7 @@
           :spacing 8
           (for app in search_results
             (button
+              :timeout 500
               :class "entry${search_selected == app["index"] ? " selected" : ""}"
               :onclick "${search_selected == app["index"] ? "control_center/scripts/search_confirm.sh &" : "eww update search_selected=${app["index"]}"}"
               :tooltip {app["cmd"]}

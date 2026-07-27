@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+yzshell close_all_widgets &
+
 selected=$(eww get search_selected)
 if [ $selected -gt -1 ]; then
     # get launch command of selected app
@@ -10,5 +12,3 @@ if [ $selected -gt -1 ]; then
         eval "$c"
     ) & disown
 fi
-
-yzshell close_all_widgets
