@@ -57,7 +57,7 @@
       :orientation "vertical"
       :space-evenly false
       :spacing 4
-      ;(control_center_menu)
+      (control_center_menu)
       (box
         :class "control-center-box"
         :orientation "vertical"
