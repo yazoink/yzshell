@@ -155,6 +155,11 @@
     border-radius: $inner-radius;
     box-shadow: $image-shadow;
     border: 1px solid $base04;
+    .music-placeholder {
+      font-family: "Font Awesome 6 Free";
+      font-weight: bold;
+      font-size: 50pt;
+    }
   }
   button {
     background-color: transparent;
