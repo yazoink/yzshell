@@ -21,7 +21,8 @@ class Config:
             "media_player": "mpv",
             "image_viewer": "imv",
             "run_launcher": "wofi --show run",
-            "labwc_desktops": 9
+            "labwc_desktops": 9,
+            "touchpad_scroll_factor": 0.15
         }
         self.current = self.defaults
 

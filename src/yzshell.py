@@ -313,13 +313,24 @@ class Shell:
                 copytree(src, dest)
             print(f"Copied '{src}' to {dest}")
 
+        def configure_zen():
+            cfg = ""
+            with open(f"{environ["STATIC_CONFIG_DIR"]}/user.js", "r") as f:
+                cfg = f.read()
+            try:
+                with open(f"{self.config.current["zen_profile_dir"]}/user.js", "w") as f:
+                    f.write(cfg)
+            except:
+                print("Could not configure Zen")
+                pass
+
         def configure_vencord():
             cfg = ""
             try:
                 makedirs(f"{environ["CONFIG_DIR"]}/Vencord/settings")
             except:
                 pass
-            with open(f"{environ["TEMPLATES_DIR"]}/vencord_settings.json", "r") as f:
+            with open(f"{environ["STATIC_CONFIG_DIR"]}/vencord_settings.json", "r") as f:
                 cfg = f.read()
             with open(f"{environ["CONFIG_DIR"]}/Vencord/settings/settings.json", "w") as f:
                 f.write(cfg)
@@ -347,6 +358,7 @@ class Shell:
             t.join()
 
         #configure_vencord()
+        configure_zen()
 
         self.reconfigure_colourscheme()
 

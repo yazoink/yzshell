@@ -58,6 +58,8 @@ class Labwc:
                 <action name="SendToDesktop" to="{i}" />
             </keybind>''')
 
+        soup.libinput.device.scrollFactor.string = str(self._config.current["touchpad_scroll_factor"])
+
         for b in binds:
             soup.keyboard.append(BeautifulSoup(b, "xml"))
         with open(dest, "w") as f:
