@@ -142,7 +142,7 @@ class Eww(EwwDaemon):
     def update_wallpaper_thumbs(self, dir=""):
         from PIL import Image
         def make_thumb(f):
-            with Image.open(path.join(self._config.current["wallpaper_dir"], f)) as i:
+            with Image.open(path.join(dir, f)) as i:
                 MAX_SIZE = (150, 150)
                 i.thumbnail(MAX_SIZE)
                 i.save(path.join(environ["WALLPAPER_CACHE_DIR"], f))
