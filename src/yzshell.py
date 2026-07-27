@@ -73,6 +73,11 @@ class Shell:
         for a in self.default_apps.apps[category]:
             print(a)
 
+    def close_all_widgets(self):
+        self._set_config()
+        self._set_widgets()
+        self.widgets.close_all()
+
     def pick_colour(self, sleep_time=0):
         import subprocess
         from time import sleep
@@ -562,7 +567,13 @@ if __name__ == "__main__":
                 else:
                     shell.update_available_wallpapers(argv[2])
             case "lock":
+                if argc > 2:
+                    too_many_args(cmd)
                 shell.lock_screen()
+            case "close_all_widgets":
+                if argc > 2:
+                    too_many_args(cmd)
+                shell.close_all_widgets()
             case "screenshot":
                 import argparse
                 parser = argparse.ArgumentParser(add_help=False)
