@@ -346,7 +346,7 @@ class Shell:
         for t in threads:
             t.join()
 
-        configure_vencord()
+        #configure_vencord()
 
         self.reconfigure_colourscheme()
 
