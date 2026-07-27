@@ -1,6 +1,3 @@
-(defvar music_visible true)
-(defvar monitor_visible false)
-(defvar weather_visible false)
 (defvar menu_visible true)
 (defvar control_center_visible false)
 
