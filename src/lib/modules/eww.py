@@ -31,7 +31,7 @@ class EwwDaemon:
         )
 
     def close_all(self):
-        subprocess.Popen(
+        subprocess.run(
             "eww close closer",
             shell=True,
             stdout=subprocess.DEVNULL, 

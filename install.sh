@@ -111,6 +111,10 @@ function install_deps() {
         "dbus"
         "jq"
         "curl"
+        "xz"
+        "unrar"
+        "zip"
+        "unzip"
         "lm_sensors"
         "mako"
         "libnotify"
@@ -174,6 +178,17 @@ function install_deps() {
         "zsh"
         "zsh-completions"
         "eza"
+        "cryptsetup"
+        "gvfs"
+        "gvfs-mtp"
+        "gvfs-cdda"
+        "gvfs-smb"
+        "udisks2"
+        "mtpfs"
+        "ntfs-3g"
+        "ffmpeg"
+        "yt-dlp"
+        "gnome-keyring"
     )
 
     for d in "${deps[@]}"; do
@@ -236,6 +251,7 @@ cp -rf "./src" "${DATA_DIR}/src" &
 
 # full setup
 if [ $refresh -eq 1 ]; then
+    install_deps &
     yzshell default_apps install_all &
     activate_service "dbus" &
     activate_service "avahi-daemon" &
@@ -246,7 +262,7 @@ if [ $refresh -eq 1 ]; then
     configure_gtk &
     configure_icons &
     configure_zsh &
-    configure_pipweire &
+    configure_pipewire &
     configure_fstrim &
     install_networkmanager &
     install_executable &
