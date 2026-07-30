@@ -329,18 +329,18 @@ if [ $refresh -eq 1 ]; then
     install_deps
     install_graphics_drivers
     yzshell default_apps install_all &
-    configure_zsh &
-    configure_fonts &
-    configure_gtk &
-    configure_icons &
-    configure_pipewire &
-    configure_fstrim &
-    install_executable &
-    activate_service "dbus" &
-    activate_service "avahi-daemon" &
-    activate_service "cupsd" &
-    activate_service "elogind" &
-    activate_service "bluetoothd" &
+    configure_zsh &>/dev/null
+    configure_fonts &>/dev/null
+    configure_gtk &>/dev/null
+    configure_icons &>/dev/null
+    configure_pipewire &>/dev/null
+    configure_fstrim &>/dev/null
+    install_executable &>/dev/null
+    activate_service "dbus" &>/dev/null
+    activate_service "avahi-daemon" &>/dev/null
+    activate_service "cupsd" &>/dev/null
+    activate_service "elogind" &>/dev/null
+    activate_service "bluetoothd" &>/dev/null
 fi
 
 wait < <(jobs -p)
