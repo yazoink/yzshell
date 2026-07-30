@@ -340,7 +340,7 @@ class Shell:
             rc = rc.replace('BROWSER="firefox"', f'BROWSER="{browser}"')
             with open(f"{environ["HOME"]}/.zshrc", "w") as f:
                 f.write(rc)
-
+                
         def configure_zen():
             import json
             import subprocess
@@ -444,11 +444,44 @@ class Shell:
 
     def reconfigure_colourscheme(self, scheme=None):
         from lib.utils.colourscheme import MustacheTemplate
-
         self._set_config()
         if scheme == None:
             scheme = self.config.current["colourscheme"]
         self._set_colourscheme(scheme)
+        
+        def configure_gtk_polarity():
+            import subprocess
+            cfg = ""
+            with open(f"{environ["STATIC_CONFIG_DIR"]}/gtk_settings.ini", "r") as f:
+                cfg = f.read()
+            if self.colourscheme.scheme["polarity"] == "dark":
+                cfg += "\ngtk-application-prefer-dark-theme = true"
+                cfg += "\ngtk-cursor-theme-name=BreezeX-Dark"
+            else:
+                cfg += "\ngtk-application-prefer-dark-theme = false"
+                cfg += "\ngtk-cursor-theme-name=BreezeX-Light"
+            with open(f"{environ["CONFIG_DIR"]}/gtk-3.0/settings.ini", "w") as f:
+                f.write(cfg)
+            with open(f"{environ["CONFIG_DIR"]}/gtk-4.0/settings.ini", "w") as f:
+                f.write(cfg)
+                
+            cfg = "" 
+            with open(f"{environ["STATIC_CONFIG_DIR"]}/.config/labwc/environment", "r") as f:
+                cfg = f.read()  
+            if self.colourscheme.scheme["polarity"] == "dark":
+                cfg += "\nXCURSOR_THEME=BreezeX-Dark"
+                subprocess.Popen(
+                    "gsettings set org.gnome.desktop.interface color-scheme prefer-dark",
+                    shell=True
+                )
+            else:
+                cfg += "\nXCURSOR_THEME=BreezeX-Light"
+                subprocess.Popen(
+                    "gsettings set org.gnome.desktop.interface color-scheme prefer-light",
+                    shell=True
+                )
+            with open(f"{environ["CONFIG_DIR"]}/labwc/environment", "w") as f:
+                f.write(cfg)
 
         templates = [
             MustacheTemplate("eww.scss.mustache", f"{environ["CONFIG_DIR"]}/eww/scss/_colours.scss"),
@@ -476,6 +509,8 @@ class Shell:
             t.start()
         for t in threads:
             t.join()
+            
+        configure_gtk_polarity()
 
         self.config.change("colourscheme", scheme)
 
