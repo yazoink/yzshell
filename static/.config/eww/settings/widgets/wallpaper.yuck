@@ -1,4 +1,4 @@
-(defpoll wallpaper_update :interval "2h" "yzshell wallpaper update_thumbs &")
+;(defpoll wallpapers :run-while settings_visible :interval "15s" "yzshell update_available_wallpapers")
 (defvar wallpaper_dir "")
 (defvar wallpapers "[]")
 (defvar current_wallpaper "")

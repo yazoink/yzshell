@@ -188,7 +188,6 @@ class Eww(EwwDaemon):
                 i.thumbnail(MAX_SIZE)
                 i.save(path.join(environ["WALLPAPER_CACHE_DIR"], f))
 
-        print("Updating wallpaper thumbnails...")
         if dir == "":
             dir = self._config.current["wallpaper_dir"]
         files = listdir(dir)
