@@ -4,7 +4,7 @@
   background: $bg;
   border: 1px solid $border;
    .settings label {
-     color: $base0E;
+     color: $purple;
    }
   .user-box {
     .reveal-button {
@@ -19,7 +19,7 @@
       box-shadow: $image-shadow;
       min-width: 70px;
       border-radius: $inner-radius;
-      border: 1px solid $base04;
+      border: 1px solid $surface4;
     }
     .username-hostname {
       font-weight: bold;
@@ -27,7 +27,7 @@
       .username {
       }
       .at {
-        color: $base0D;
+        color: $blue;
       }
       .hostname {
       }
@@ -99,13 +99,13 @@
 .menu-box {
   border-radius: $inner-radius;
   .music .icon {
-    color: $base0E;
+    color: $purple;
   }
   .monitor .icon {
-    color: $base0B;
+    color: $green;
   }
   .weather .icon {
-    color: $base0A;
+    color: $yellow;
   }
   .selected {
     .icon {
@@ -113,15 +113,15 @@
       border-bottom-left-radius: $inner-radius;
     }
     &.music .icon {
-      background-color: $base0E;
+      background-color: $purple;
       color: $bg;
     }
     &.monitor .icon {
-      background-color: $base0B;
+      background-color: $green;
       color: $bg;
     }
     &.weather .icon {
-      background-color: $base0A;
+      background-color: $yellow;
       color: $bg;
     }
   }
@@ -154,7 +154,7 @@
     margin-right: 0;
     border-radius: $inner-radius;
     box-shadow: $image-shadow;
-    border: 1px solid $base04;
+    border: 1px solid $surface4;
     .music-placeholder {
       font-family: "Font Awesome 6 Free";
       font-weight: bold;
@@ -289,7 +289,7 @@
         &:hover {
           background-image: none;
         }
-        background-color: $base0D;
+        background-color: $blue;
         label {
           color: $bg;
         }
@@ -306,7 +306,7 @@
   border-radius: $inner-radius;
   .icon {
     padding: $padding;
-    background-color: $base0D;
+    background-color: $blue;
     border-top-left-radius: $inner-radius;
     border-bottom-left-radius: $inner-radius;
     color: $bg;

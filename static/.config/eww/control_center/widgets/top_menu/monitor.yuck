@@ -13,12 +13,12 @@
       :spacing 8
       :halign "center"
       (box
-        :class "monitor-item cpu base08"
+        :class "monitor-item cpu red"
         (label :text "" :class "icon")
         (label :text "${cpu}%" :class "usage")
       )
       (box
-        :class "monitor-item ram base0A"
+        :class "monitor-item ram yellow"
         (label :text "" :class "icon")
         (label :text "${round(EWW_RAM.used_mem_perc, 0)}%" :class "usage")
       )
@@ -28,12 +28,12 @@
       :spacing 8
       :halign "center"
       (box
-        :class "monitor-item disk base0B"
+        :class "monitor-item disk green"
         (label :text "" :class "icon")
         (label :text "${round(EWW_DISK["/"].used_perc, 0)}%" :class "usage")
       )
       (box
-        :class "monitor-item temp base0D"
+        :class "monitor-item temp blue"
         (label :text "" :class "icon")
         (label :text "${temp}°C" :class "usage")
       )

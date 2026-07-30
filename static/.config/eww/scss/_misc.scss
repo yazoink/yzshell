@@ -22,23 +22,23 @@ $inner-radius: 8px;
   padding: $padding;
 }
 .picker label {
-  color: $base0D;
+  color: $blue;
 }
 
 .shot label {
-  color: $base0B;
+  color: $green;
 }
 
 .dnd label {
-  color: $base0A;
+  color: $yellow;
 }
 
 .search label {
-  color: $base0E;
+  color: $purple;
 }
 
 .shutdown label {
-  color: $base08;
+  color: $red;
 }
 
 tooltip {
@@ -48,31 +48,31 @@ tooltip {
   border: 1px solid $border;
 }
 
-.base0D .icon {
-  background-color: $base0D;
+.blue .icon {
+  background-color: $blue;
 }
-.base0B .icon {
-  background-color: $base0B;
+.green .icon {
+  background-color: $green;
 }
-.base0A .icon {
-  background-color: $base0A;
+.yellow .icon {
+  background-color: $yellow;
 }
-.base08 .icon {
-  background-color: $base08;
-}
-
-.base0D, .base0D label {
-  color: $base0D;
+.red .icon {
+  background-color: $red;
 }
 
-.base0B, .base0B label {
-  color: $base0B;
+.blue, .blue label {
+  color: $blue;
 }
 
-.base0A, .base0A label {
-  color: $base0A;
+.green, .green label {
+  color: $green;
 }
 
-.base08, .base08 label {
-  color: $base08;
+.yellow, .yellow label {
+  color: $yellow;
+}
+
+.red, .red label {
+  color: $red;
 }

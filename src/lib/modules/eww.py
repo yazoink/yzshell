@@ -308,7 +308,7 @@ class Eww(EwwDaemon):
         colour = ""
 
         if rain > 0.1:
-            colour = "base0D"
+            colour = "blue"
             if is_day == 1:
                 icon = ""
             else:
@@ -316,17 +316,17 @@ class Eww(EwwDaemon):
         else:
             if cloud > 50:
                 if is_day == 1:
-                    colour = "base0A"
+                    colour = "yellow"
                     icon = ""
                 else:
-                    colour = "base0D"
+                    colour = "blue"
                     icon = ""
             else:
                 if is_day == 1:
-                    colour = "base0A"
+                    colour = "yellow"
                     icon = ""
                 else:
-                    colour = "base0D"
+                    colour = "blue"
                     icon = ""
         self.update_var("weather_icon", icon)
         self.update_var("weather_colour", colour)

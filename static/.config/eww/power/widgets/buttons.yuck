@@ -43,8 +43,8 @@
       :space-evenly false
       :valign "center"
       :halign "center"
-      (button :onclick "${cmd}" :class "yes base0B" "")
-      (button :onclick "yzshell close_all_widgets &" :class "no base08" "")
+      (button :onclick "${cmd}" :class "yes green" "")
+      (button :onclick "yzshell close_all_widgets &" :class "no red" "")
     )
   )
 )

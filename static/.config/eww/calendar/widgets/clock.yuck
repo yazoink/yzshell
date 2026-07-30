@@ -22,9 +22,9 @@
         :valign "center"
         :spacing 4
         :class "separator"
-        (label :text "" :class "base08")
-        (label :text "" :class "base0B")
-        (label :text "" :class "base0D")
+        (label :text "" :class "red")
+        (label :text "" :class "green")
+        (label :text "" :class "blue")
       )
       (label :text "${minute}")
     )

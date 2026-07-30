@@ -22,13 +22,13 @@
     border-radius: $inner-radius;
     font-weight: bold;
     .wallpaper .icon {
-      color: $base0E;
+      color: $purple;
     }
     .colours .icon {
-      color: $base0B;
+      color: $green;
     }
     .close label {
-      color: $base08;
+      color: $red;
     }
     .selected {
       .icon {
@@ -36,11 +36,11 @@
         border-bottom-left-radius: $inner-radius;
       }
       &.wallpaper .icon {
-        background-color: $base0E;
+        background-color: $purple;
         color: $bg;
       }
       &.colours .icon {
-        background-color: $base0B;
+        background-color: $green;
         color: $bg;
       }
     }
@@ -108,7 +108,7 @@
         &:hover {
           background-image: none;
         }
-        background-color: $base0D;
+        background-color: $blue;
         color: $bg;
         border-radius: $inner-radius;
         label {

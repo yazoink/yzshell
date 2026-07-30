@@ -14,10 +14,10 @@ class Colourscheme:
             print(f"Error: colourscheme '{scheme_name}' not recognised")
             exit(1)
         
-        self.scheme["surface1"] = self._overlay_colour(self.scheme["base00"], self.scheme["base05"], 0.1)
-        self.scheme["surface2"] = self._overlay_colour(self.scheme["base00"], self.scheme["base05"], 0.2)
-        self.scheme["surface3"] = self._overlay_colour(self.scheme["base00"], self.scheme["base05"], 0.3)
-        self.scheme["surface4"] = self._overlay_colour(self.scheme["base00"], self.scheme["base05"], 0.4)
+        self.scheme["surface1"] = self._overlay_colour(self.scheme["background"], self.scheme["foreground"], 0.1)
+        self.scheme["surface2"] = self._overlay_colour(self.scheme["background"], self.scheme["foreground"], 0.2)
+        self.scheme["surface3"] = self._overlay_colour(self.scheme["background"], self.scheme["foreground"], 0.3)
+        self.scheme["surface4"] = self._overlay_colour(self.scheme["background"], self.scheme["foreground"], 0.4)
 
     def _hex_to_rgb(self, hex_colour):
         return tuple(int(hex_colour[i : i + 2], 16) for i in (0, 2, 4))

@@ -39,16 +39,16 @@
       margin-left: 0;
     }
     .lock .icon {
-      color: $base0D;
+      color: $blue;
     }
     .exit .icon {
-      color: $base0B;
+      color: $green;
     }
     .reboot .icon {
-      color: $base0A;
+      color: $yellow;
     }
     .shutdown .icon {
-      color: $base08;
+      color: $red;
     }
     .selected {
       .icon {
@@ -56,19 +56,19 @@
         border-bottom-left-radius: $inner-radius;
       }
       &.lock .icon {
-        background-color: $base0D;
+        background-color: $blue;
         color: $bg;
       }
       &.exit .icon {
-        background-color: $base0B;
+        background-color: $green;
         color: $bg;
       }
       &.reboot .icon {
-        background-color: $base0A;
+        background-color: $yellow;
         color: $bg;
       }
       &.shutdown .icon {
-        background-color: $base08;
+        background-color: $red;
         color: $bg;
       }
     }
