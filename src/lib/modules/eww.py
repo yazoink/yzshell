@@ -164,7 +164,7 @@ class Eww(EwwDaemon):
     
     def open_search_input(self):
         from time import sleep
-        sleep(0.5)
+        sleep(0.7)
         subprocess.run(
             "eww open search_input", 
             shell=True, 
