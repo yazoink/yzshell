@@ -25,6 +25,7 @@ class Config:
             "touchpad_scroll_factor": 0.15,
             "oh_my_zsh_theme": "robbyrussell",
             "enable_h264ify": False,
+            "papirus_folders_colour": "palebrown"
         }
         self.current = self.defaults
 

@@ -1,0 +1,15 @@
+{
+    "scheme": "Carob",
+    "author": "https://github.com/yazoink/carob-theme",
+    "polarity": "dark",
+    "background": "242120",
+    "foreground": "C8BAA4",
+    "red": "C65F5F",
+    "orange": "d08b65",
+    "yellow": "d9b27c",
+    "green": "859e82",
+    "cyan": "829e9b",
+    "blue": "728797",
+    "purple": "998396",
+    "brown": "ab9382"
+}

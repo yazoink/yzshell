@@ -34,14 +34,12 @@ function configure_fonts() {
 function configure_gtk() {
     [ ! -d "${HOME}/.themes" ] && mkdir -p "${HOME}/.themes"
     cp -rf "./static/.themes/"* "${HOME}/.themes"
-    gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3
     echo "Copied GTK themes"
 }
 
 function configure_icons() {
     [ ! -d "${HOME}/.icons" ] && mkdir -p "${HOME}/.icons"
     cp -rf "./static/.icons/"* "${HOME}/.icons"
-    gsettings set org.gnome.desktop.interface cursor-theme BreezeX-Light
     echo "Copied icon themes"
 }
 
@@ -82,7 +80,7 @@ function install_networkmanager() {
 
 function configure_pipewire() {
     if [ ! -d "/etc/pipewire/pipewire.conf.d" ]; then
-        mkdir -p /etc/pipewire/pipewire.conf.d
+        sudo mkdir -p /etc/pipewire/pipewire.conf.d
     fi
     sudo ln -sf /usr/share/examples/wireplumber/10-wireplumber.conf /etc/pipewire/pipewire.conf.d/
 }
@@ -118,10 +116,11 @@ function install_deps() {
         "make"
         "ripgrep"
         "xtools"
-	"direnv"
+	    "direnv"
         "dbus"
         "jq"
         "curl"
+        "wget"
         "xz"
         "p7zip"
         "zip"

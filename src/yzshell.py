@@ -304,6 +304,7 @@ class Shell:
 
     def reconfigure(self):
         from shutil import copytree, rmtree
+        import subprocess
         self._set_config()
         self._set_default_apps()
         self._set_bar()
@@ -343,7 +344,6 @@ class Shell:
                 
         def configure_zen():
             import json
-            import subprocess
             from os import makedirs
             from sys import stdin
             cfg = ""
@@ -401,6 +401,15 @@ class Shell:
                     stderr=subprocess.STDOUT
                 )
             print("Zen browser configured")
+            
+        def configure_qtct():
+            cfg = ""
+            with open(f"{environ["STATIC_CONFIG_DIR"]}/qtct.conf", "r") as f:
+                cfg = f.read()
+            with open(f"{environ["CONFIG_DIR"]}/qt5ct/qt5ct.conf", "w") as f:
+                f.write(cfg)
+            with open(f"{environ["CONFIG_DIR"]}/qt6ct/qt6ct.conf", "w") as f:
+                f.write(cfg)
 
         def configure_vencord():
             cfg = ""
@@ -439,8 +448,25 @@ class Shell:
             configure_zen()
         configure_vencord()
         configure_zsh()
-
+        configure_qtct()
+        
+        subprocess.Popen(
+            "gsettings set org.gnome.desktop.interface icon-theme 'Papirus'",
+            shell=True, 
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
+        subprocess.Popen(
+            f"papirus-folders -C {self.config.current["papirus_folders_colour"]} --theme Papirus",
+            shell=True, 
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
         self.reconfigure_colourscheme()
+        subprocess.Popen(
+            "gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3'",
+            shell=True
+        )
 
     def reconfigure_colourscheme(self, scheme=None):
         from lib.utils.colourscheme import MustacheTemplate
@@ -449,16 +475,16 @@ class Shell:
             scheme = self.config.current["colourscheme"]
         self._set_colourscheme(scheme)
         
-        def configure_gtk_polarity():
+        def configure_gtk_polarity(): # clean this up later -__-
             import subprocess
             cfg = ""
             with open(f"{environ["STATIC_CONFIG_DIR"]}/gtk_settings.ini", "r") as f:
                 cfg = f.read()
             if self.colourscheme.scheme["polarity"] == "dark":
-                cfg += "\ngtk-application-prefer-dark-theme = true"
+                cfg += "\ngtk-application-prefer-dark-theme=true"
                 cfg += "\ngtk-cursor-theme-name=BreezeX-Dark"
             else:
-                cfg += "\ngtk-application-prefer-dark-theme = false"
+                cfg += "\ngtk-application-prefer-dark-theme=false"
                 cfg += "\ngtk-cursor-theme-name=BreezeX-Light"
             with open(f"{environ["CONFIG_DIR"]}/gtk-3.0/settings.ini", "w") as f:
                 f.write(cfg)
@@ -474,8 +500,16 @@ class Shell:
                     "gsettings set org.gnome.desktop.interface color-scheme prefer-dark",
                     shell=True
                 )
+                subprocess.Popen(
+                    "gsettings set org.gnome.desktop.interface cursor-theme 'BreezeX-Dark'",
+                    shell=True
+                )
             else:
                 cfg += "\nXCURSOR_THEME=BreezeX-Light"
+                subprocess.Popen(
+                    "gsettings set org.gnome.desktop.interface cursor-theme 'BreezeX-Light'",
+                    shell=True
+                )
                 subprocess.Popen(
                     "gsettings set org.gnome.desktop.interface color-scheme prefer-light",
                     shell=True
