@@ -229,6 +229,7 @@ user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 user_pref("devtools.debugger.remote-enable", true);
 user_pref("devtools.chrome.enabled", true);
 user_pref("zen.theme.use-system-colors", true);
+user_pref("zen.urlbar.behavior", "float");
 user_pref("zen.theme.content-element-separation", 8);
 user_pref("zen.theme.gradient", false)
 user_pref("zen.workspaces.continue-where-left-off", true);
