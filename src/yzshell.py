@@ -318,6 +318,21 @@ class Shell:
                 copytree(src, dest)
             print(f"Copied '{src}' to {dest}")
 
+        rc = ""
+        def configure_zsh():
+            with open(f"{environ["HOME"]}/.zshrc", "r") as f:
+                rc = f.read()
+            theme = self.config.current["oh_my_zsh_theme"]
+            theme_file = f"{theme}.zsh-theme"
+            available_themes = listdir(f"{environ["HOME"]}/.oh-my-zsh/themes")
+            if theme_file not in available_themes:
+                print(f"Error: Zsh theme '{theme}' not found... falling back to default")
+                theme = self.config.defaults["oh_my_zsh_theme"]
+                self.config.change("oh_my_zsh_theme", theme)
+            rc = rc.replace('ZSH_THEME="robbyrussell"', f'ZSH_THEME="{theme}"')
+            with open(f"{environ["HOME"]}/.zshrc", "w") as f:
+                f.write(rc)
+
         def configure_zen():
             cfg = ""
             with open(f"{environ["STATIC_CONFIG_DIR"]}/user.js", "r") as f:
@@ -364,6 +379,7 @@ class Shell:
 
         configure_vencord()
         configure_zen()
+        configure_zsh()
 
         self.reconfigure_colourscheme()
 

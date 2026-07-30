@@ -22,7 +22,8 @@ class Config:
             "image_viewer": "imv",
             "run_launcher": "wofi --show run",
             "labwc_desktops": 9,
-            "touchpad_scroll_factor": 0.15
+            "touchpad_scroll_factor": 0.15,
+            "oh_my_zsh_theme": "robbyrussell",
         }
         self.current = self.defaults
 
