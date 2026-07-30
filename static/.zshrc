@@ -146,7 +146,7 @@ function y() {
 	command rm -f -- "$tmp"
 }
 
-alias ls="ls --color=auto"
+alias ls="eza --hyperlink=always"
 alias add="sudo xbps-install"
 alias del="sudo xbps-remove -o"
 alias upd="sudo xbps-install -Su"

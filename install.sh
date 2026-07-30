@@ -111,6 +111,7 @@ deps=(
     "mesa-dri"
     "zsh"
     "zsh-completions"
+    "eza"
 )
 
 for d in "${deps[@]}"; do
@@ -130,8 +131,8 @@ activate_service "bluetoothd"
 
 # fstrim
 [ ! -d "/etc/cron.weekly" ] && sudo mkdir -p "/etc/cron.weekly"
-echo "#!/bin/sh
-fstrim /" | sudo tee /etc/cron.weekly/fstrim
+[ ! -f "/etc/cron.weekly/fstrim" ] && echo "#!/bin/sh
+fstrim /" | sudo tee /etc/cron.weekly/fstrim >/dev/null
 
 sudo chmod u+x /etc/cron.weekly/fstrim
 
