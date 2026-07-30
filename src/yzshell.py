@@ -465,7 +465,9 @@ class Shell:
         self.reconfigure_colourscheme()
         subprocess.Popen(
             "gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3'",
-            shell=True
+            shell=True, 
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
         )
 
     def reconfigure_colourscheme(self, scheme=None):
@@ -498,21 +500,29 @@ class Shell:
                 cfg += "\nXCURSOR_THEME=BreezeX-Dark"
                 subprocess.Popen(
                     "gsettings set org.gnome.desktop.interface color-scheme prefer-dark",
-                    shell=True
+                    shell=True, 
+                    stdout=subprocess.DEVNULL, 
+                    stderr=subprocess.STDOUT
                 )
                 subprocess.Popen(
                     "gsettings set org.gnome.desktop.interface cursor-theme 'BreezeX-Dark'",
-                    shell=True
+                    shell=True,
+                    stdout=subprocess.DEVNULL, 
+                    stderr=subprocess.STDOUT
                 )
             else:
                 cfg += "\nXCURSOR_THEME=BreezeX-Light"
                 subprocess.Popen(
                     "gsettings set org.gnome.desktop.interface cursor-theme 'BreezeX-Light'",
-                    shell=True
+                    shell=True,
+                    stdout=subprocess.DEVNULL, 
+                    stderr=subprocess.STDOUT
                 )
                 subprocess.Popen(
                     "gsettings set org.gnome.desktop.interface color-scheme prefer-light",
-                    shell=True
+                    shell=True,
+                    stdout=subprocess.DEVNULL, 
+                    stderr=subprocess.STDOUT
                 )
             with open(f"{environ["CONFIG_DIR"]}/labwc/environment", "w") as f:
                 f.write(cfg)
