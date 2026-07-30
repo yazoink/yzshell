@@ -326,6 +326,7 @@ cp -rf "./src" "${DATA_DIR}/src" &
 
 # full setup
 if [ $refresh -eq 1 ]; then
+    install_unfree_repo
     install_deps
     install_graphics_drivers
     yzshell default_apps install_all
