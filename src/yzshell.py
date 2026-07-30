@@ -241,8 +241,9 @@ class Shell:
             date = subprocess.run(
                 "date +%Y%m%d_%H:%M:%S",
                 shell=True,
-                capture_output=True
-            ).stdout
+                capture_output=True,
+                text=True
+            ).stdout.strip()
             dir = self.config.current["screenshot_dir"]
             output = f"{dir}/{date}.png"
         else:
