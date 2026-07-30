@@ -30,6 +30,7 @@ function configure_fonts() {
     fc-cache -fv &> /dev/null
 }
 
+
 function configure_gtk() {
     [ ! -d "${HOME}/.themes" ] && mkdir -p "${HOME}/.themes"
     cp -rf "./static/.themes/"* "${HOME}/.themes"

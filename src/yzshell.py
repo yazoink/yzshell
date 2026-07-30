@@ -323,8 +323,9 @@ class Shell:
                 copytree(src, dest)
             print(f"Copied '{src}' to {dest}")
 
-        rc = ""
+        
         def configure_zsh():
+            rc = ""
             with open(f"{environ["HOME"]}/.zshrc", "r") as f:
                 rc = f.read()
             theme = self.config.current["oh_my_zsh_theme"]
@@ -341,6 +342,10 @@ class Shell:
                 f.write(rc)
 
         def configure_zen():
+            import json
+            import subprocess
+            from os import makedirs
+            from sys import stdin
             cfg = ""
             with open(f"{environ["STATIC_CONFIG_DIR"]}/user.js", "r") as f:
                 cfg = f.read()
@@ -348,8 +353,52 @@ class Shell:
                 with open(f"{self.config.current["zen_profile_dir"]}/user.js", "w") as f:
                     f.write(cfg)
             except:
-                print("Could not configure Zen")
+                print("Could not configure Zen user.js")
                 pass
+            cfg = ""
+            with open(f"{environ["STATIC_CONFIG_DIR"]}/zen-policies.json", "r") as f:
+                cfg = f.read()
+                cfg = json.loads(cfg)
+            addons = [
+                "uBlock0@raymondhill.net",
+                "sponsorBlocker@ajay.app",
+                "{7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}", # stylus
+                "{aecec67f-0d10-4fa7-b7c7-609a2db280cf}", # violentmonkey
+                "{b86e4813-687a-43e6-ab65-0bde4ab75758}", # localcdn
+                "{74145f27-f039-47ce-a470-a662b129930a}", # clearurls
+                "floccus@handmadeideas.org",
+                "{5cce4ab5-3d47-41b9-af5e-8203eea05245}", # control panel for twitter
+                "control-panel-for-youtube@jbscript.dev",
+                "keepassxc-browser@keepassxc.org",
+                "idcac-pub@guus.ninja" # i still don't care about cookies
+            ]
+            if self.config.current["enable_h264ify"] == True:
+                addons.append("{9a41dee2-b924-4161-a971-7fb35c053a4a}")
+            for a in addons:
+                cfg["policies"]["ExtensionSettings"][a] = {
+                    "installation_mode": "force_installed",
+                    "install_url": f"https://addons.mozilla.org/firefox/downloads/latest/{a}/latest.xpi"
+                }
+            with open(f"{environ["CONFIG_DIR"]}/zen/policies.json", "w") as f:
+                f.write(json.dumps(cfg))
+            sudo_cmd = "pkexec"
+            if stdin.isatty() == True:
+                sudo_cmd = "sudo"
+            if path.exists("/usr/lib/zen-browser/distribution") == False:
+                subprocess.run(
+                    f"{sudo_cmd} mkdir -p /usr/lib/zen-browser/distribution",
+                    shell=True, 
+                    stdout=subprocess.DEVNULL, 
+                    stderr=subprocess.STDOUT
+                )
+            if path.lexists("/usr/lib/zen-browser/distribution/policies.json") == False:
+                subprocess.run(
+                    f"{sudo_cmd} ln -sf {environ["CONFIG_DIR"]}/zen/policies.json /usr/lib/zen-browser/distribution/policies.json",
+                    shell=True, 
+                    stdout=subprocess.DEVNULL, 
+                    stderr=subprocess.STDOUT
+                )
+            print("Zen browser configured")
 
         def configure_vencord():
             cfg = ""
@@ -384,8 +433,9 @@ class Shell:
         for t in threads:
             t.join()
 
+        if self.config.current["web_browser"] == "zen":
+            configure_zen()
         configure_vencord()
-        configure_zen()
         configure_zsh()
 
         self.reconfigure_colourscheme()
