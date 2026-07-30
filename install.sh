@@ -83,6 +83,7 @@ function configure_pipewire() {
         sudo mkdir -p /etc/pipewire/pipewire.conf.d
     fi
     sudo ln -sf /usr/share/examples/wireplumber/10-wireplumber.conf /etc/pipewire/pipewire.conf.d/
+    sudo ln -sf /usr/share/examples/pipewire/20-pipewire-pulse.conf /etc/pipewire/pipewire.conf.d/
 }
 
 function install_package() {
@@ -202,6 +203,11 @@ function install_deps() {
         "gnome-keyring"
         "fastfetch"
         "mesa-dri"
+        "gimp"
+        "libreoffice"
+        "galculator"
+        "PrismLauncher"
+        "nicotine+"
     )
 
     for d in "${deps[@]}"; do
