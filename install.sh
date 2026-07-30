@@ -109,6 +109,8 @@ deps=(
     "alsa-pipewire"
     "libjack-pipewire"
     "mesa-dri"
+    "zsh"
+    "zsh-completions"
 )
 
 for d in "${deps[@]}"; do
@@ -188,27 +190,28 @@ echo "Copied data files to '${DATA_DIR}'"
 configure_fonts=0
 configure_gtk=0
 configure_icons=0
-install_oh_my_zsh=0
+install_default_apps=0
 for a in "$@"; do
     case "$a" in
         "--dont-configure-fonts" | "-df") configure_fonts=1;;
         "--dont-configure-gtk" | "-dg") configure_gtk=1;;
         "--dont-configure-icons" | "-di") configure_icons=1;;
-        "--dont-install-oh-my-zsh" | "-dz") install_oh_my_zsh=1;;
+        "--dont-install-default-apps" | "-da") install_default_apps=1;;
     esac
 done
 
 # oh-my-zsh
-if [ $install_oh_my_zsh -eq 0 ]; then
-    [ ! -d "${HOME}/.oh-my-zsh" ] \
-        && sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    # autosuggestions
-    [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions" ] \
-        && git clone https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions"
-    # syntax highlighting
-    [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting" ] \
-        && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
-fi
+[ ! -d "${HOME}/.oh-my-zsh" ] \
+    && sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+# autosuggestions
+[ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions" ] \
+    && git clone https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions"
+# syntax highlighting
+[ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting" ] \
+    && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
+
+[[ "$SHELL" != *"zsh"* ]] \
+    && chsh -s "$(which zsh)"
 
 if [ $configure_gtk -eq 0 ]; then
     [ ! -d "${HOME}/.themes" ] && mkdir -p "${HOME}/.themes"
@@ -232,7 +235,10 @@ if [ $configure_fonts -eq 0 ]; then
 fi
 
 yzshell reconfigure
-yzshell default_apps install_all
+
+if [ $install_default_apps -eq 0 ]; then
+    yzshell default_apps install_all
+fi
 
 echo "Install Vencord after first discord launch: 'sh -c \"\$(curl -sS https://vencord.dev/install.sh)\"'"
 
