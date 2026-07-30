@@ -330,6 +330,8 @@ class Shell:
                 theme = self.config.defaults["oh_my_zsh_theme"]
                 self.config.change("oh_my_zsh_theme", theme)
             rc = rc.replace('ZSH_THEME="robbyrussell"', f'ZSH_THEME="{theme}"')
+            browser = self.config.current["web_browser"]
+            rc = rc.replace('BROWSER="firefox"', f'BROWSER="{browser}"')
             with open(f"{environ["HOME"]}/.zshrc", "w") as f:
                 f.write(rc)
 

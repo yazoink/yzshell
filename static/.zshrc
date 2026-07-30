@@ -76,7 +76,6 @@ plugins=(
 	colored-man-pages
 	aliases
 	extract
-	history
 	command-not-found
 	zsh-autosuggestions
 	zsh-syntax-highlighting
@@ -123,7 +122,10 @@ setopt HIST_IGNORE_DUPS          # Don't record duplicates
 setopt HIST_FIND_NO_DUPS         # Don't show duplicates in search
 setopt HIST_REDUCE_BLANKS        # Remove unnecessary blanks
 setopt SHARE_HISTORY      
-export XBPS_DISTDIR=$HOME/.void-packages
+export XBPS_DISTDIR="${HOME}/.void-packages"
+export EDITOR="vim"
+export BROWSER="zen"
+
 
 function copyfile() {
     cat "$1" | wl-copy
