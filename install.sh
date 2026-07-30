@@ -90,6 +90,15 @@ function configure_pipewire() {
     sudo ln -sf /usr/share/examples/wireplumber/10-wireplumber.conf /etc/pipewire/pipewire.conf.d/
 }
 
+function install_package() {
+    p="$1"
+    if ! xbps-query -l | grep -q "ii ${p}-[0-9]"; then
+        echo "Installing dependency '${p}'..."
+        sudo xbps-install -y "$p"
+        echo "Dependency '${p}' installed"
+    fi
+}
+
 function install_deps() {
     deps=(
         "labwc"
@@ -98,12 +107,12 @@ function install_deps() {
         "noto-fonts-ttf"
         "noto-fonts-emoji"
         "foot"
-        "yazi" 
+        "yazi"
         "qt5-wayland"
         "qt6-wayland"
-        "qt5ct" 
-        "qt6ct" 
-        "kvantum" 
+        "qt5ct"
+        "qt6ct"
+        "kvantum"
         "eww"
         "git"
         "make"
@@ -192,14 +201,11 @@ function install_deps() {
         "yt-dlp"
         "gnome-keyring"
         "fastfetch"
+        "mesa-dri"
     )
 
     for d in "${deps[@]}"; do
-        if ! xbps-query -l | grep -q "ii ${d}-[0-9]"; then
-            echo "Installing dependency '${d}'..."
-            sudo xbps-install -y "$d"
-            echo "Dependency '${d}' installed"
-        fi
+        install_package "$d"
     done
 
     # install vpsm
@@ -225,8 +231,69 @@ function install_deps() {
     done
 }
 
+function install_intel_legacy_drivers() {
+    deps=(
+        "linux-firmware-intel"
+        "libva-intel-driver"
+        "libvdpau-va-gl"
+        "xf86-video-intel"
+    )
+    for d in "${deps[@]}"; do
+        install_package "$d"
+    done
+    echo "LIBVA_DRIVER_NAME=i965
+VDPAU_DRIVER=va_gl" | sudo tee /etc/environment >/dev/null
+}
+
+function install_intel_drivers() {
+    deps=(
+        "linux-firmware-intel"
+        "intel-media-driver"
+        "libvdpau-va-gl"
+        "vulkan-loader"
+    )
+    for d in "${deps[@]}"; do
+        install_package "$d"
+    done
+    echo "LIBVA_DRIVER_NAME=iHD
+VDPAU_DRIVER=va_gl" | sudo tee /etc/environment >/dev/null
+}
+
+function install_amd_drivers() {
+    deps=(
+        "linux-firmware-amd"
+        "vulkan-loader"
+        "mesa-vulkan-radeon"
+        "xf86-video-amdgpu"
+        "mesa-vaapi"
+        "libvdpau-va-gl"
+    )
+    for d in "${deps[@]}"; do
+        install_package "$d"
+    done
+    echo "LIBVA_DRIVER_NAME=radeonsi
+VDPAU_DRIVER=va_gl" | sudo tee /etc/environment >/dev/null
+}
+
+function install_graphics_drivers() {
+    gpu=""
+    while true; do
+        echo "0. None
+1. Intel
+2. Intel (legacy)
+3. AMD"
+        read -p "Select graphics card (0-3): " gpu
+        [[ "$gpu" =~ [0-3] ]] && break
+    done
+    case "$gpu" in
+        "1") install_intel_drivers & ;;
+        "2") install_intel_legacy_drivers & ;;
+        "3") install_amd_drivers & ;;
+    esac
+}
+
 # ensure script run as user
-if [ "$EUID" -eq 0 ]; then 
+if [ "$EUID" -eq 0 ]; then
     echo "Please do not run as root"
     exit 1
 fi
@@ -235,8 +302,8 @@ refresh=1
 update=1
 for a in "$@"; do
     case "$a" in
-        "--refresh" | "-r") refresh=0;; # refresh configs, don't do full setup
-        "--update" | "-u") update=0;; # pull update from github
+        "--refresh" | "-r") refresh=0 ;; # refresh configs, don't do full setup
+        "--update" | "-u") update=0 ;; # pull update from github
     esac
 done
 
@@ -254,7 +321,8 @@ cp -rf "./src" "${DATA_DIR}/src" &
 
 # full setup
 if [ $refresh -eq 1 ]; then
-    install_deps &
+    install_deps
+    install_graphics_drivers
     yzshell default_apps install_all &
     activate_service "dbus" &
     activate_service "avahi-daemon" &
