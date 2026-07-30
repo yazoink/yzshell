@@ -226,6 +226,7 @@ class Eww(EwwDaemon):
             colourschemes.append(j)
 
         self.update_var("colourschemes", json.dumps(colourschemes))
+        #print(json.dumps(colourschemes))
 
     def update_available_wallpapers(self, dir=None):
         from math import floor

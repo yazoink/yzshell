@@ -124,6 +124,11 @@ class Shell:
         self.windowmanager.configure()
         self.windowmanager.reload()
 
+    def update_colourschemes(self):
+        self._set_config()
+        self._set_widgets()
+        self.widgets.get_colourschemes()
+
     def set_wallpaper_image(self, image):
         if path.isfile(image) == False:
             print(f"Error: file '{image}' not found")
@@ -410,7 +415,7 @@ class Shell:
             MustacheTemplate("zen_usercontent.css.mustache", f"{self.config.current["zen_profile_dir"]}/chrome/userContent.css"),
             MustacheTemplate("zathurarc.mustache", f"{environ["CONFIG_DIR"]}/zathura/zathurarc"),
             MustacheTemplate("discord.css.mustache", f"{environ["CONFIG_DIR"]}/Vencord/themes/yzshell.theme.css"),
-            MustacheTemplate("vscode_theme.json.mustache", f"{environ["CONFIG_DIR"]}/Code - OSS/User/settings.json"),
+            MustacheTemplate("vscode.json.mustache", f"{environ["CONFIG_DIR"]}/Code - OSS/User/settings.json"),
         ]
         threads = []
         for t in templates:
@@ -574,6 +579,13 @@ if __name__ == "__main__":
             case "update_wallpaper_thumbs":
                 if argc < 3:
                     shell.update_wallpaper_thumbs()
+                elif argc > 3:
+                    too_many_args(cmd)
+                else:
+                    shell.update_wallpaper_thumbs(argv[2])
+            case "update_colourschemes":
+                if argc < 3:
+                    shell.update_colourschemes()
                 elif argc > 3:
                     too_many_args(cmd)
                 else:

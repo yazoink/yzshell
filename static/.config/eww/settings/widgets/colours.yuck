@@ -15,7 +15,7 @@
           :onclick "yzshell close settings & yzshell colourscheme '${scheme["id"]}' &"
           :class "scheme-button"
           :tooltip "Apply colourscheme"
-          :style "background-color: #${scheme["background"]}; border: 1px solid #${scheme["surface1"]};"
+          :style "background-color: #${scheme["background"]};"
           (box
             :orientation "v"
             :class "scheme-box"
