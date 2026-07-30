@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-yzshell close_all_widgets &
+yzshell close_all_widgets & disown
 
 selected=$(eww get search_selected)
 if [ $selected -gt -1 ]; then
@@ -9,6 +9,6 @@ if [ $selected -gt -1 ]; then
         | jq -r ".[${selected}].cmd")"
     (
         cd "$HOME" || exit
-        eval "$c" & disown
+        exec $c & disown
     )
 fi
