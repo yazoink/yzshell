@@ -107,7 +107,10 @@ function install_deps() {
         "noto-fonts-ttf"
         "noto-fonts-emoji"
         "foot"
+        "vim"
         "yazi"
+        "htop"
+        "tree"
         "qt5-wayland"
         "qt6-wayland"
         "qt5ct"
@@ -290,6 +293,11 @@ function install_graphics_drivers() {
         "2") install_intel_legacy_drivers & ;;
         "3") install_amd_drivers & ;;
     esac
+}
+
+function install_unfree_repo() {
+    sudo xbps-install void-repo-nonfree
+    sudo xbps-install -S
 }
 
 # ensure script run as user

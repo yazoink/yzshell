@@ -151,7 +151,7 @@ function y() {
 alias ff="fastfetch"
 alias ls="eza --hyperlink=always"
 alias add="sudo xbps-install"
-alias del="sudo xbps-remove -o"
+alias del="sudo xbps-remove -Oo"
 alias upd="sudo xbps-install -Su"
 alias qry="xbps-query -Rs"
 alias gcl="git clone"
