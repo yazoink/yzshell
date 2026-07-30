@@ -115,13 +115,10 @@ Wallpaper mode -- `stretch`, `fit`, `fill`, `center`, or `tile`.
 Absolute path to Zen Browser profile directory.
 
 ## TODO
-- Vencord config
 - Zen config
 - Nvim config/theme
-- VSCode config/theme
-- Fix Yazi config
+- VSCode config
 - Tmux config/theme
 - Configure a better lockscreen
 - Openbox support(?)
 - Add more colourschemes
-- Improve Zsh config

@@ -1,0 +1,15 @@
+{
+    "scheme": "Brewer",
+    "author": "Timothée Poisot (http://github.com/tpoisot)",
+    "polarity": "dark",
+    "background": "0C0D0E",
+    "foreground": "B7B8B9",
+    "red": "E31A1C",
+    "orange": "E6550D",
+    "yellow": "DCA060",
+    "green": "31A354",
+    "cyan": "80B1D3",
+    "blue": "3182BD",
+    "purple": "756BB1",
+    "brown": "B15928"
+}

@@ -1,0 +1,15 @@
+{
+    "scheme": "Kanagawa Dragon",
+    "author": "Stefan Weigl-Bosker (https://github.com/sweiglbosker)\nTommaso Laurenzi (https://github.com/rebelot/kanagawa.nvim)",
+    "polarity": "dark",
+    "background": "181616",
+    "foreground": "C5C9C5",
+    "red": "C4746E",
+    "orange": "B6927B",
+    "yellow": "C4B28A",
+    "green": "8A9A7B",
+    "cyan": "8EA4A2",
+    "blue": "8BA4B0",
+    "purple": "A292A3",
+    "brown": "B98D7B"
+}

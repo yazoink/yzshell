@@ -190,6 +190,7 @@ function install_deps() {
         "ffmpeg"
         "yt-dlp"
         "gnome-keyring"
+        "fastfetch"
     )
 
     for d in "${deps[@]}"; do

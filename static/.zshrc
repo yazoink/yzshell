@@ -148,6 +148,7 @@ function y() {
 	command rm -f -- "$tmp"
 }
 
+alias ff="fastfetch"
 alias ls="eza --hyperlink=always"
 alias add="sudo xbps-install"
 alias del="sudo xbps-remove -o"
