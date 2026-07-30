@@ -138,7 +138,7 @@ class Shell:
         self._set_wallpaper()
         i = path.abspath(image)
         s = path.split(i)
-        self.widgets.update_var("current_wallpaper", s[0])
+        self.widgets.update_var("current_wallpaper", i)
         self.config.change("wallpaper_image", s[1])
         if s[0] != self.config.current["wallpaper_dir"]:
             self.config.change("wallpaper_dir", s[0])
