@@ -226,6 +226,8 @@ user_pref("permissions.default.desktop-notification", 0);
 ****************************************************************************/
 
 user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
+user_pref("devtools.debugger.remote-enable", true);
+user_pref("devtools.chrome.enabled", true);
 user_pref("zen.theme.use-system-colors", true);
 user_pref("media.videocontrols.picture-in-picture.video-toggle.enabled", true)
 user_pref("browser.gesture.swipe.left", "")
