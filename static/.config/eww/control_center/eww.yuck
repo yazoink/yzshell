@@ -4,7 +4,7 @@
 (defvar user_input "")
 (defvar search_results "[]")
 (defvar search_selected -1)
-(defpoll update_results :interval "1h" :initial "" "yzshell update_search_cache")
+(defpoll update_results :interval "15m" :initial "" "yzshell update_search_cache")
 
 (include "control_center/widgets/top_menu/top_menu.yuck")
 (include "control_center/widgets/launchers.yuck")
@@ -54,27 +54,31 @@
     :transition "slideup"
     :reveal control_center_visible
     (box
-      :orientation "vertical"
       :space-evenly false
-      :spacing 4
-      (control_center_menu)
+      (label :text update_results :visible false)
       (box
-        :class "control-center-box"
         :orientation "vertical"
-        :halign "fill"
         :space-evenly false
-        :spacing 8
-        (user)
+        :spacing 4
+        (control_center_menu)
         (box
-          :class "control-center-body"
-          :orientation "horizontal"
-          :space-evenly "false"
+          :class "control-center-box"
+          :orientation "vertical"
           :halign "fill"
-          :valign "start"
+          :space-evenly false
           :spacing 8
-          ;(apps)
-          (search)
-          (launchers)
+          (user)
+          (box
+            :class "control-center-body"
+            :orientation "horizontal"
+            :space-evenly "false"
+            :halign "fill"
+            :valign "start"
+            :spacing 8
+            ;(apps)
+            (search)
+            (launchers)
+          )
         )
       )
     )
