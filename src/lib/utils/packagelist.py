@@ -28,7 +28,7 @@ class PackageList:
 
     def _uninstall_pkg(self, p):
         print(f"Uninstalling package {p}...")
-        subprocess.run(f"sudo xbps-remove -Oo -y {p}", shell=True)
+        subprocess.run(f"sudo xbps-remove -R -y {p}", shell=True)
         print(f"Uninstalled package {p}...")
 
     def install(self):
