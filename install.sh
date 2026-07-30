@@ -121,6 +121,7 @@ function install_deps() {
         "make"
         "ripgrep"
         "xtools"
+	"direnv"
         "dbus"
         "jq"
         "curl"
