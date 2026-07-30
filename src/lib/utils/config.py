@@ -1,4 +1,4 @@
-from os import path, environ
+from os import path, environ, makedirs
 import json
 from sys import exit
 
@@ -54,5 +54,7 @@ class Config:
             print(f"Error: invalid value for '{opt}'")
             exit(1)
         self.current[opt] = val
+        if path.exists(environ["YZSHELL_CONFIG_DIR"]) == False:
+            makedirs(environ["YZSHELL_CONFIG_DIR"])
         with open(environ["YZSHELL_CONFIG_FILE"], "w") as f:
             f.write(json.dumps(self.current))

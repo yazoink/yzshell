@@ -379,6 +379,8 @@ class Shell:
                     "installation_mode": "force_installed",
                     "install_url": f"https://addons.mozilla.org/firefox/downloads/latest/{a}/latest.xpi"
                 }
+            if path.exists(f"{environ["CONFIG_DIR"]}/zen") == False:
+                makedirs(f"{environ["CONFIG_DIR"]}/zen")
             with open(f"{environ["CONFIG_DIR"]}/zen/policies.json", "w") as f:
                 f.write(json.dumps(cfg))
             sudo_cmd = "pkexec"

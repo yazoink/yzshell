@@ -137,6 +137,11 @@ class Zen(DefaultApp):
     
     def install_zen(self):
         from os import path, makedirs
+        if path.exists(f"{environ["HOME"]}/.void-packages/srcpkgs/zen-browser") == False:
+            subprocess.run(
+                f"git clone https://github.com/salastro/zen-browser.git {environ["HOME"]}/.void-packages/srcpkgs/zen-browser",
+                shell=True
+            )
         self.deps.install()
         desktop_apps_dir = path.dirname(self.desktop_file_path)
         if path.exists(desktop_apps_dir) == False:

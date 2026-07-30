@@ -331,23 +331,25 @@ cp -rf "./src" "${DATA_DIR}/src" &
 if [ $refresh -eq 1 ]; then
     install_deps
     install_graphics_drivers
+    configure_zsh
     yzshell default_apps install_all &
+    configure_fonts &
+    configure_gtk &
+    configure_icons &
+    configure_pipewire &
+    configure_fstrim &
+    install_executable &
     activate_service "dbus" &
     activate_service "avahi-daemon" &
     activate_service "cupsd" &
     activate_service "elogind" &
     activate_service "bluetoothd" &
-    configure_fonts &
-    configure_gtk &
-    configure_icons &
-    configure_zsh &
-    configure_pipewire &
-    configure_fstrim &
-    install_networkmanager &
-    install_executable &
 fi
 
+wait < <(jobs -p)
+
 yzshell reconfigure
+install_networkmanager
 
 echo "Install Vencord after first discord launch: 'sh -c \"\$(curl -sS https://vencord.dev/install.sh)\"'"
 echo "Installation complete!"
