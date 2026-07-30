@@ -55,9 +55,6 @@ function configure_zsh() {
     # syntax highlighting
     [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting" ] \
         && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
-
-    [[ "$SHELL" != *"zsh"* ]] \
-        && chsh -s "$(which zsh)"
 }
 
 function install_executable() {
@@ -332,8 +329,8 @@ cp -rf "./src" "${DATA_DIR}/src" &
 if [ $refresh -eq 1 ]; then
     install_deps
     install_graphics_drivers
-    configure_zsh
     yzshell default_apps install_all &
+    configure_zsh &
     configure_fonts &
     configure_gtk &
     configure_icons &
@@ -352,5 +349,6 @@ wait < <(jobs -p)
 yzshell reconfigure
 install_networkmanager
 
-echo "Install Vencord after first discord launch: 'sh -c \"\$(curl -sS https://vencord.dev/install.sh)\"'"
+echo ">> Install Vencord after first discord launch: 'sh -c \"\$(curl -sS https://vencord.dev/install.sh)\"'"
+echo ">> Switch to Zsh with 'chsh -s \"\$(which zsh)\"'"
 echo "Installation complete!"
