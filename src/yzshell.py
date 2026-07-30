@@ -450,20 +450,20 @@ class Shell:
         configure_zsh()
         configure_qtct()
         
-        subprocess.Popen(
-            "gsettings set org.gnome.desktop.interface icon-theme 'Papirus'",
-            shell=True, 
-            stdout=subprocess.DEVNULL, 
-            stderr=subprocess.STDOUT
-        )
-        subprocess.Popen(
+        subprocess.run(
             f"papirus-folders -C {self.config.current["papirus_folders_colour"]} --theme Papirus",
             shell=True, 
             stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
         )
+        subprocess.run(
+            "gsettings set org.gnome.desktop.interface icon-theme 'Papirus'",
+            shell=True, 
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
         self.reconfigure_colourscheme()
-        subprocess.Popen(
+        subprocess.run(
             "gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3'",
             shell=True, 
             stdout=subprocess.DEVNULL, 
@@ -498,13 +498,13 @@ class Shell:
                 cfg = f.read()  
             if self.colourscheme.scheme["polarity"] == "dark":
                 cfg += "\nXCURSOR_THEME=BreezeX-Dark"
-                subprocess.Popen(
+                subprocess.run(
                     "gsettings set org.gnome.desktop.interface color-scheme prefer-dark",
                     shell=True, 
                     stdout=subprocess.DEVNULL, 
                     stderr=subprocess.STDOUT
                 )
-                subprocess.Popen(
+                subprocess.run(
                     "gsettings set org.gnome.desktop.interface cursor-theme 'BreezeX-Dark'",
                     shell=True,
                     stdout=subprocess.DEVNULL, 
@@ -512,13 +512,13 @@ class Shell:
                 )
             else:
                 cfg += "\nXCURSOR_THEME=BreezeX-Light"
-                subprocess.Popen(
+                subprocess.run(
                     "gsettings set org.gnome.desktop.interface cursor-theme 'BreezeX-Light'",
                     shell=True,
                     stdout=subprocess.DEVNULL, 
                     stderr=subprocess.STDOUT
                 )
-                subprocess.Popen(
+                subprocess.run(
                     "gsettings set org.gnome.desktop.interface color-scheme prefer-light",
                     shell=True,
                     stdout=subprocess.DEVNULL, 
