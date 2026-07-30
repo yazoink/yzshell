@@ -228,13 +228,11 @@ done
 [ -d "$DATA_DIR" ] && rm -rf "$DATA_DIR"
 mkdir -p "$DATA_DIR"
 
-cp -rf "./templates" "${DATA_DIR}/templates"
-cp -rf "./colourschemes" "${DATA_DIR}/colourschemes"
-cp -rf "./assets" "${DATA_DIR}/assets"
-cp -rf "./static" "${DATA_DIR}/static"
-cp -rf "./src" "${DATA_DIR}/src"
-
-echo "Copied data files to '${DATA_DIR}'"
+cp -rf "./templates" "${DATA_DIR}/templates" &
+cp -rf "./colourschemes" "${DATA_DIR}/colourschemes" &
+cp -rf "./assets" "${DATA_DIR}/assets" &
+cp -rf "./static" "${DATA_DIR}/static" &
+cp -rf "./src" "${DATA_DIR}/src" &
 
 # full setup
 if [ $refresh -eq 1 ]; then
