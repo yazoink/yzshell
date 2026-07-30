@@ -277,11 +277,11 @@ VDPAU_DRIVER=va_gl" | sudo tee /etc/environment >/dev/null
 
 function install_graphics_drivers() {
     gpu=""
-    while true; do
-        echo "0. None
+    echo "0. None
 1. Intel
 2. Intel (legacy)
 3. AMD"
+    while true; do
         read -p "Select graphics card (0-3): " gpu
         [[ "$gpu" =~ [0-3] ]] && break
     done
