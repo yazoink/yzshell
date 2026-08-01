@@ -137,6 +137,7 @@ function install_deps() {
         "papirus-folders"
         "poweralertd"
         "ttf-gabarito-git"
+        "ttf-aporetic"
     )
 
     for d in "${aur_deps[@]}"; do

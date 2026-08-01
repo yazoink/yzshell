@@ -268,7 +268,7 @@ class DefaultApps():
                 "vlc": Vlc()
             },
             "web_browser": {
-                "zen": Zen(),
+                "zen-browser": Zen(),
                 "firefox": Firefox()
             }
         }

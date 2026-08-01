@@ -59,7 +59,25 @@ class Waybar:
             cfg["group/quick-access"]["modules"].insert(1, "group/battery-expander")
         if show_backlight == True:
             cfg["group/quick-access"]["modules"].insert(1, "group/backlight-expander")
-            
+
+        desktops = 9
+        wm = self._config.current["window_manager"]
+        if wm == "labwc":
+            desktops = self._config.current["labwc_desktops"] + 1
+            for i in range(1, desktops):
+                s = str(i)
+                cfg["custom/workspaces"]["menu-actions"][f"w-{s}"] = f"wtype -M win {s} -s 500 -m win"
+            cfg["ext/workspaces"]["format"] = "{name}"
+            cfg["ext/workspaces"]["on-scroll-up"] = "wtype -M win -M ctrl -P left -p left -m ctrl -s 500 -m win"
+            cfg["ext/workspaces"]["on-scroll-down"] = "wtype -M win -M ctrl -P right -p right -m ctrl -s 500 -m win"
+        elif wm == "hyprland":
+            for i in range(1, desktops):
+                s = str(i)
+                cfg["custom/workspaces"]["menu-actions"][f"w-{s}"] = f"hyprctl dispatch 'hl.dsp.focus({{ workspace = \"{s}\" }})'"
+            cfg["ext/workspaces"]["format"] = "Workspace {name}"
+            cfg["ext/workspaces"]["on-scroll-up"] = "hyprctl dispatch 'hl.dsp.focus({ workspace = \"-1\" })'"
+            cfg["ext/workspaces"]["on-scroll-down"] = "hyprctl dispatch 'hl.dsp.focus({ workspace = \"+1\" })'"
+        
         battery_name = "AC"
         bats = sorted(listdir("/sys/class/power_supply"))
         for b in bats:
@@ -79,7 +97,7 @@ class Waybar:
             data = f.read()
         soup = BeautifulSoup(data, "xml")
         items = []
-        for i in range(1, self._config.current["labwc_desktops"] + 1):
+        for i in range(1, desktops):
             s = f'''<child>
                 <object class="GtkMenuItem" id="w-{i}">
                     <property name="label">Workspace {i}</property>
