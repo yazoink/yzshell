@@ -339,9 +339,9 @@ optional_deps=1
 for a in "$@"; do
     case "$a" in
         "-h" | "--help") help ;;
-        "--refresh" | "-r") refresh=0 ;; # refresh configs, don't do full setup
-        "--update" | "-u") update=0 ;; # pull update from github
-        "--install-optional-deps" | "-o") optional_deps=0 ;; # pull update from github
+        "--refresh" | "-r") refresh=0 ;;
+        "--update" | "-u") update=0 ;;
+        "--install-optional-deps" | "-o") optional_deps=0 ;;
         *) echo "Error: argument '${a}' not recognised"
     esac
 done
