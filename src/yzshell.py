@@ -492,6 +492,12 @@ class Shell:
             stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
         )
+        subprocess.run(
+            "gsettings set org.gnome.desktop.interface font-name 'sans 11'",
+            shell=True, 
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
 
     def reconfigure_colourscheme(self, scheme=None):
         from lib.utils.colourscheme import MustacheTemplate
