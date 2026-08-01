@@ -34,7 +34,7 @@ hl.plugin.hyprbars.add_button({
     fg_color = red,
     size = 16,
     icon = "",
-    action = "hyprctl dispatch killactive",
+    action = "hyprctl dispatch 'hl.dsp.window.close()'",
 })
 
 hl.plugin.hyprbars.add_button({
@@ -42,7 +42,7 @@ hl.plugin.hyprbars.add_button({
     fg_color = yellow,
     size = 16,
     icon = "",
-    action = "hyprctl dispatch movetoworkspacesilent special",
+    action = "hyprctl dispatch 'hl.dsp.window.move({workspace=\"special:special\", follow=false})'",
 })
 
 hl.plugin.hyprbars.add_button({
@@ -50,5 +50,5 @@ hl.plugin.hyprbars.add_button({
     fg_color = green,
     size = 16,
     icon = "",
-    action = "hyprctl dispatch fullscreen 1",
+    action = "hyprctl dispatch 'hl.dsp.window.fullscreen({action=\"toggle\"})'",
 })

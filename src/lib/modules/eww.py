@@ -42,6 +42,8 @@ class EwwDaemon:
             stderr=subprocess.STDOUT
         )
         for m in self.modules:
+            # for p in self.modules[m].pre_close:
+            #     p()
             subprocess.run(
                 f"eww update {m}_visible=false", 
                 shell=True, 
