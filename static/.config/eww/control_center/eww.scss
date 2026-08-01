@@ -23,13 +23,15 @@
     }
     .username-hostname {
       font-weight: bold;
-      font-size: 18pt;
       .username {
+        font-size: 18pt;
       }
       .at {
         color: $blue;
+        font-size: 18pt;
       }
       .hostname {
+        font-size: 18pt;
       }
     }
     .os-version {
