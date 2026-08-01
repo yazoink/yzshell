@@ -342,7 +342,7 @@ for a in "$@"; do
         "--refresh" | "-r") refresh=0 ;;
         "--update" | "-u") update=0 ;;
         "--install-optional-deps" | "-o") optional_deps=0 ;;
-        *) echo "Error: argument '${a}' not recognised"
+        *) echo "Error: argument '${a}' not recognised"; exit 1 ;;
     esac
 done
 
