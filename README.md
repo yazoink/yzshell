@@ -3,9 +3,9 @@
 My very messy dotfiles.
 
 Software:
-- **OS** - Void
+- **OS** - Arch
 - **Shell** - Zsh
-- **Window Manager** - Labwc
+- **Window Manager** - Hyprland/Labwc
 - **Bar** - Waybar
 - **Widgets** - EWW
 - **Notifications** - Mako
@@ -37,8 +37,8 @@ Features:
 ## Installation
 
 Prerequisites:
-- Base Void installation
-- Graphics drivers installed
+- Base Arch installation
+- Internet connection
 
 ```bash
 git clone https://github.com/yazoink/yzshell
