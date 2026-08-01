@@ -395,16 +395,16 @@ class Shell:
             sudo_cmd = "pkexec"
             if stdin.isatty() == True:
                 sudo_cmd = "sudo"
-            if path.exists("/usr/lib/zen-browser/distribution") == False:
+            if path.exists("/opt/zen-browser-bin/distribution") == False:
                 subprocess.run(
-                    f"{sudo_cmd} mkdir -p /usr/lib/zen-browser/distribution",
+                    f"{sudo_cmd} mkdir -p /opt/zen-browser-bin/distribution",
                     shell=True, 
                     stdout=subprocess.DEVNULL, 
                     stderr=subprocess.STDOUT
                 )
-            if path.lexists("/usr/lib/zen-browser/distribution/policies.json") == False:
+            if path.lexists("/opt/zen-browser-bin/distribution/policies.json") == False:
                 subprocess.run(
-                    f"{sudo_cmd} ln -sf {environ["CONFIG_DIR"]}/zen/policies.json /usr/lib/zen-browser/distribution/policies.json",
+                    f"{sudo_cmd} ln -sf {environ["CONFIG_DIR"]}/zen/policies.json /opt/zen-browser-bin/distribution/policies.json",
                     shell=True, 
                     stdout=subprocess.DEVNULL, 
                     stderr=subprocess.STDOUT
