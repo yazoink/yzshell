@@ -1,0 +1,12 @@
+hl.config({
+    misc = {
+        disable_hyprland_logo = true,
+        disable_splash_rendering = true,
+        enable_swallow = true,
+        swallow_regex = "(wagoogus|foot|kitty|alacritty|Alacritty)",
+        force_default_wallpaper = 0,
+        font_family = "Sans",
+        mouse_move_enables_dpms = true,
+        key_press_enables_dpms = true
+    }
+})

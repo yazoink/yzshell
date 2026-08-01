@@ -65,6 +65,7 @@ class Labwc:
     def reload(self):
         subprocess.run(
             f"labwc -r", 
-            shell=True, stdout=subprocess.DEVNULL, 
+            shell=True, 
+            stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
         )

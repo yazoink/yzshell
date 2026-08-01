@@ -35,9 +35,15 @@ class Shell:
             self.wallpaper = Wallpaper(self.config)
 
     def _set_windowmanager(self):
-        from lib.modules.labwc import Labwc
-        if self.windowmanager == None:
-            self.windowmanager = Labwc(self.config)
+        match self.config.current["window_manager"]:
+            case "labwc":
+                from lib.modules.labwc import Labwc
+                if self.windowmanager == None:
+                    self.windowmanager = Labwc(self.config)
+            case "hyprland":
+                from lib.modules.hyprland import Hyprland
+                if self.windowmanager == None:
+                    self.windowmanager = Hyprland(self.config)
 
     def _set_notifs(self):
         from lib.modules.mako import Mako
@@ -438,7 +444,6 @@ class Shell:
             write_config(cfg)
         threads.append(Thread(target=self.default_apps.configure))
         threads.append(Thread(target=self.bar.configure))
-        threads.append(Thread(target=self.windowmanager.configure))
         
         for t in threads:
             t.start()
@@ -448,6 +453,7 @@ class Shell:
 
         if self.config.current["web_browser"] == "zen":
             configure_zen()
+        self.windowmanager.configure()
         configure_vencord()
         configure_zsh()
         configure_qtct()
@@ -547,6 +553,7 @@ class Shell:
             MustacheTemplate("zathurarc.mustache", f"{environ["CONFIG_DIR"]}/zathura/zathurarc"),
             MustacheTemplate("discord.css.mustache", f"{environ["CONFIG_DIR"]}/vesktop/themes/yzshell.theme.css"),
             MustacheTemplate("vscode.json.mustache", f"{environ["CONFIG_DIR"]}/Code - OSS/User/settings.json"),
+            MustacheTemplate("hyprland.lua.mustache", f"{environ["CONFIG_DIR"]}/hypr/generated.lua"),
         ]
         threads = []
         for t in templates:

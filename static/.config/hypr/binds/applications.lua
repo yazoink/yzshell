@@ -1,0 +1,16 @@
+hl.bind("SUPER + Return", hl.dsp.exec_cmd("foot"))
+hl.bind("SUPER + W", hl.dsp.exec_cmd("zen"))
+hl.bind("SUPER + E", hl.dsp.exec_cmd("thunar"))
+hl.bind("SUPER + R", hl.dsp.exec_cmd("wofi --show run"))
+
+-- yzshell
+hl.bind("SUPER + SHIFT + R", hl.dsp.exec_cmd("yzshell"))
+hl.bind("SUPER + SHIFT + L", hl.dsp.exec_cmd("yzshell lock"))
+hl.bind("SUPER + P", hl.dsp.exec_cmd("yzshell toggle control_center"))
+hl.bind("SUPER + C", hl.dsp.exec_cmd("yzshell toggle calendar"))
+hl.bind("SUPER + SHIFT + Q", hl.dsp.exec_cmd("yzshell toggle power"))
+hl.bind("SUPER + SHIFT + A", hl.dsp.exec_cmd("yzshell toggle settings"))
+hl.bind("SUPER + C", hl.dsp.exec_cmd("yzshell pick_colour"))
+hl.bind("SUPER + S", hl.dsp.exec_cmd("yzshell screenshot -m select"))
+hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("yzshell screenshot -m full"))
+hl.bind("SUPER + CTRL + S", hl.dsp.exec_cmd("yzshell toggle screenshot"))

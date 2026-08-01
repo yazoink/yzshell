@@ -138,8 +138,6 @@ function install_optional_deps() {
 
 function install_deps() {
     deps=(
-        "labwc"
-        "labwc-menu-generator"
         "xorg-server-xwayland"
         "foot"
         "vim"
@@ -152,6 +150,9 @@ function install_deps() {
         "eww"
         "git"
         "make"
+        "gcc"
+        "cmake"
+        "meson"
         "ripgrep"
         "xtools"
 	    "direnv"
@@ -168,7 +169,6 @@ function install_deps() {
         "libnotify"
         "Waybar"
         "font-awesome6"
-        "wtype"
         "hyprpicker"
         "wl-clipboard"
         "grim"
@@ -197,7 +197,6 @@ function install_deps() {
         "SwayOSD"
         "swayidle"
         "swaylock"
-        "wlopm"
         "network-manager-applet"
         "wayland-pipewire-idle-inhibit"
         "NetworkManager"
@@ -296,6 +295,59 @@ function install_amd_drivers() {
 VDPAU_DRIVER=va_gl" | sudo tee /etc/environment >/dev/null
 }
 
+function install_labwc() {
+    deps=(
+        "labwc"
+        "labwc-menu-generator"
+        "wlopm"
+        "wtype"
+    )
+    for d in "${deps[@]}"; do
+        install_package "$d"
+    done
+    echo "{ \"window_manager\": \"labwc\" }" > "${HOME}/.config/yzshell/config.json"
+}
+
+function install_hyprland() {
+    deps=(
+        "hyprland"
+        "wayland-protocols"
+        "xdg-desktop-portal-hyprland"
+        "hyprland-devel"
+        "hyprland-guiutils"
+        "pkgconf"
+        "cpio"
+        "cmake"
+        "git"
+        "meson"
+        "gcc"
+    )
+    for d in "${deps[@]}"; do
+        install_package "$d"
+    done
+    sudo xbps-remove -R pkg-config
+    hyprpm update
+    hyprpm add https://github.com/hyprwm/hyprland-plugins
+    hyprpm update
+    hyprpm enable hyprbars
+    echo "{ \"window_manager\": \"hyprland\" }" > "${HOME}/.config/yzshell/config.json"
+}
+
+function install_window_manager() {
+    wm=""
+    echo "0. None
+1. Hyprland
+2. Labwc"
+    while true; do
+        read -p "Select window manager (0-2): " wm
+        [[ "$wm" =~ [0-2] ]] && break
+    done
+    case "$wm" in
+        "1") install_hyprland & ;;
+        "2") install_labwc & ;;
+    esac
+}
+
 function install_graphics_drivers() {
     gpu=""
     echo "0. None
@@ -366,6 +418,7 @@ if [ $refresh -eq 1 ]; then
     install_deps
     [ $optional_deps -eq 0 ] && install_optional_deps
     install_graphics_drivers
+    install_window_manager
     yzshell default_apps install_all
     configure_zsh &>/dev/null
     configure_fonts &>/dev/null

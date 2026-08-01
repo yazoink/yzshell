@@ -34,7 +34,6 @@
       :onchange "yzshell get_search_results '{}' &"
       :onaccept "control_center/scripts/search_confirm.sh &"
       :halign "fill"
-      :hexpand true
     )
   )
 )

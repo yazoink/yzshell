@@ -5,6 +5,7 @@ from sys import exit
 class Config:
     def __init__(self):
         self.defaults = {
+            "window_manager": "hyprland",
             "colourscheme": "camellia",
             "bar_show_battery": False,
             "bar_show_backlight": True,
@@ -58,4 +59,4 @@ class Config:
         if path.exists(environ["YZSHELL_CONFIG_DIR"]) == False:
             makedirs(environ["YZSHELL_CONFIG_DIR"])
         with open(environ["YZSHELL_CONFIG_FILE"], "w") as f:
-            f.write(json.dumps(self.current))
+            f.write(json.dumps(self.current, indent=4))
