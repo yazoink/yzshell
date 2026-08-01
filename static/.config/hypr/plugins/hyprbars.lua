@@ -8,7 +8,7 @@ hl.config({
             bar_text_size = 14,
             bar_text_align = "center",
             bar_precedence_over_border = true,
-            bar_padding = 12,
+            bar_padding = 14,
             bar_button_padding = 8,
             bar_buttons_alignment = "left",
             bar_part_of_window = true,
