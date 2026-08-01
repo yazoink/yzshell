@@ -132,7 +132,7 @@ function install_deps() {
     done
 
     aur_deps=(
-        "eww"
+        "eww-git"
         "papirus-folders"
     )
 
