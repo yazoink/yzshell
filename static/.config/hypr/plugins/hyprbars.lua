@@ -21,6 +21,14 @@ hl.config({
     }
 })
 
+hl.window_rule({  
+  name="BAR INACTIVE",  
+    match = {  
+    focus = false  
+  },  
+  ["hyprbars:title_color"] = surface4
+})
+
 hl.plugin.hyprbars.add_button({
     bg_color = red,
     fg_color = red,

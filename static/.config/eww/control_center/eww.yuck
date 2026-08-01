@@ -27,6 +27,7 @@
     :space-evenly false
     :halign "fill"
     :class "search-bar"
+    ;:visible control_center_visible
     :spacing 8
     (label :text "" :class "icon search" :halign "start")
     (input ; search bar

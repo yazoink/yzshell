@@ -33,6 +33,21 @@ class EwwDaemon:
     def reload(self):
         self.kill()
         self.launch()
+
+    def close_all(self):
+        subprocess.run(
+            "eww close-all", 
+            shell=True, 
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
+        for m in self.modules:
+            subprocess.run(
+                f"eww update {m}_visible=false", 
+                shell=True, 
+                stdout=subprocess.DEVNULL, 
+                stderr=subprocess.STDOUT
+            )
     
     def update_var(self, var, val):
         r = subprocess.run(

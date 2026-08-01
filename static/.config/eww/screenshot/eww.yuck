@@ -12,6 +12,7 @@
   :exclusive false
   :focusable "ondemand"
   (box
+    ;:visible screenshot_visible
     :orientation "h"
     :class "screenshot-box"
     :space-evenly false

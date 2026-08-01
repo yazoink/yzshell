@@ -16,6 +16,7 @@
   :exclusive false
   :focusable "ondemand"
   (box
+    ;:visible settings_visible
     :orientation "v"
     :class "settings-box"
     :space-evenly false

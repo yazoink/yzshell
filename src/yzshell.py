@@ -82,7 +82,7 @@ class Shell:
     def close_all_widgets(self):
         self._set_config()
         self._set_widgets()
-        self.widgets.reload()
+        self.widgets.close_all()
 
     def pick_colour(self, sleep_time=0):
         import subprocess

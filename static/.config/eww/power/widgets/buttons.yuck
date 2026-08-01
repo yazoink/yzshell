@@ -76,6 +76,7 @@
     :vexpand false
     :valign "end"
     :spacing 8
+    ;:visible power_visible
     (for button in power_buttons_arr
       (power_button
         :class {button["class"]}
