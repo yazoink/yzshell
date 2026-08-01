@@ -86,6 +86,12 @@ function configure_pipewire() {
     sudo ln -sf /usr/share/examples/pipewire/20-pipewire-pulse.conf /etc/pipewire/pipewire.conf.d/
 }
 
+function install_black_hole_repo() {
+    sudo cp /usr/share/xbps.d/00-repository-main.conf /etc/xbps.d/
+    sudo sed -i "1i repository=https://mirror.black-hole.dev/$(xbps-uhelper arch)" /etc/xbps.d/00-repository-main.conf
+    sudo xbps-install -S
+}
+
 function install_package() {
     p="$1"
     if ! xbps-query -l | grep -q "ii ${p}-[0-9]"; then
@@ -95,18 +101,49 @@ function install_package() {
     fi
 }
 
+function install_vpsm() {
+    if [ ! -d "${HOME}/.void-packages" ]; then
+        git clone https://github.com/void-linux/void-packages.git ~/.void-packages
+        echo "XBPS_ALLOW_RESTRICTED=yes" >> ~/.void-packages/etc/conf
+        git clone https://github.com/sinetoami/vpsm.git ~/.local/share/vpsm
+        (
+            cd ~/.local/share/vpsm || exit
+            sudo make install
+        )
+    fi
+}
+
+function install_optional_deps() {
+    deps=(
+        "noto-fonts-ttf"
+        "noto-fonts-emoji"
+        "htop"
+        "tree"
+        "keepassxc"
+        "vscode"
+        "fastfetch"
+        "yt-dlp"
+        "gimp"
+        "libreoffice"
+        "galculator"
+        "PrismLauncher"
+        "nicotine+"
+        "vesktop"
+        "pluma"
+    )
+    for d in "${deps[@]}"; do
+        install_package "$d"
+    done
+}
+
 function install_deps() {
     deps=(
         "labwc"
         "labwc-menu-generator"
         "xorg-server-xwayland"
-        "noto-fonts-ttf"
-        "noto-fonts-emoji"
         "foot"
         "vim"
         "yazi"
-        "htop"
-        "tree"
         "qt5-wayland"
         "qt6-wayland"
         "qt5ct"
@@ -129,7 +166,6 @@ function install_deps() {
         "lm_sensors"
         "mako"
         "libnotify"
-        "mako"
         "Waybar"
         "font-awesome6"
         "wtype"
@@ -152,8 +188,6 @@ function install_deps() {
         "psmisc"
         "bc"
         "audacious"
-        "keepassxc"
-        "vscode"
         "playerctl"
         "xdg-desktop-portal-gtk"
         "xdg-desktop-portal-wlr"
@@ -199,34 +233,15 @@ function install_deps() {
         "mtpfs"
         "ntfs-3g"
         "ffmpeg"
-        "yt-dlp"
         "gnome-keyring"
-        "fastfetch"
         "mesa-dri"
-        "gimp"
-        "libreoffice"
-        "galculator"
-        "PrismLauncher"
-        "nicotine+"
     )
 
     for d in "${deps[@]}"; do
         install_package "$d"
     done
 
-    # install vpsm
-    if [ ! -d "${HOME}/.void-packages" ]; then
-        git clone https://github.com/void-linux/void-packages.git ~/.void-packages
-        echo "XBPS_ALLOW_RESTRICTED=yes" >> ~/.void-packages/etc/conf
-        git clone https://github.com/sinetoami/vpsm.git ~/.local/share/vpsm
-        (
-            cd ~/.local/share/vpsm || exit
-            sudo make install
-        )
-    fi
-
-
-    vpsm_deps=("discord")
+    vpsm_deps=()
 
     for d in "${vpsm_deps[@]}"; do
         if ! xbps-query -l | grep -q "ii ${d}-[0-9]"; then
@@ -303,6 +318,15 @@ function install_unfree_repo() {
     sudo xbps-install -S
 }
 
+function help() {
+    echo "usage: ./install.sh [args]
+    args:
+        --refresh | -r: Refresh configs, don't do full setup (mainly for development).
+        --update | -u: Update yzshell from github.
+        --install-optional-deps | -o: Install optional dependencies."
+    exit 0
+}
+
 # ensure script run as user
 if [ "$EUID" -eq 0 ]; then
     echo "Please do not run as root"
@@ -311,10 +335,14 @@ fi
 
 refresh=1
 update=1
+optional_deps=1
 for a in "$@"; do
     case "$a" in
+        "-h" | "--help") help ;;
         "--refresh" | "-r") refresh=0 ;; # refresh configs, don't do full setup
         "--update" | "-u") update=0 ;; # pull update from github
+        "--install-optional-deps" | "-o") optional_deps=0 ;; # pull update from github
+        *) echo "Error: argument '${a}' not recognised"
     esac
 done
 
@@ -333,7 +361,10 @@ cp -rf "./src" "${DATA_DIR}/src" &
 # full setup
 if [ $refresh -eq 1 ]; then
     install_unfree_repo
+    install_black_hole_repo
+    install_vpsm
     install_deps
+    [ $optional_deps -eq 0 ] && install_optional_deps
     install_graphics_drivers
     yzshell default_apps install_all
     configure_zsh &>/dev/null
@@ -348,6 +379,8 @@ if [ $refresh -eq 1 ]; then
     activate_service "cupsd" &>/dev/null
     activate_service "elogind" &>/dev/null
     activate_service "bluetoothd" &>/dev/null
+else
+    [ $optional_deps -eq 0 ] && install_optional_deps
 fi
 
 wait < <(jobs -p)
@@ -357,6 +390,5 @@ install_networkmanager &>/dev/null
 
 wait < <(jobs -p)
 
-echo ">> Install Vencord after first discord launch: 'sh -c \"\$(curl -sS https://vencord.dev/install.sh)\"'"
 echo ">> Switch to Zsh with 'chsh -s \"\$(which zsh)\"'"
 echo "Installation complete!"

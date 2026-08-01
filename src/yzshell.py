@@ -416,12 +416,12 @@ class Shell:
         def configure_vencord():
             cfg = ""
             try:
-                makedirs(f"{environ["CONFIG_DIR"]}/Vencord/settings")
+                makedirs(f"{environ["CONFIG_DIR"]}/vesktop/settings")
             except:
                 pass
             with open(f"{environ["STATIC_CONFIG_DIR"]}/vencord_settings.json", "r") as f:
                 cfg = f.read()
-            with open(f"{environ["CONFIG_DIR"]}/Vencord/settings/settings.json", "w") as f:
+            with open(f"{environ["CONFIG_DIR"]}/vesktop/settings/settings.json", "w") as f:
                 f.write(cfg)
             print("Configured Vencord")
 
@@ -545,7 +545,7 @@ class Shell:
             MustacheTemplate("zen_userchrome.css.mustache", f"{self.config.current["zen_profile_dir"]}/chrome/userChrome.css"),
             MustacheTemplate("zen_usercontent.css.mustache", f"{self.config.current["zen_profile_dir"]}/chrome/userContent.css"),
             MustacheTemplate("zathurarc.mustache", f"{environ["CONFIG_DIR"]}/zathura/zathurarc"),
-            MustacheTemplate("discord.css.mustache", f"{environ["CONFIG_DIR"]}/Vencord/themes/yzshell.theme.css"),
+            MustacheTemplate("discord.css.mustache", f"{environ["CONFIG_DIR"]}/vesktop/themes/yzshell.theme.css"),
             MustacheTemplate("vscode.json.mustache", f"{environ["CONFIG_DIR"]}/Code - OSS/User/settings.json"),
         ]
         threads = []

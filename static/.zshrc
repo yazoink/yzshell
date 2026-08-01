@@ -148,6 +148,11 @@ function y() {
 	command rm -f -- "$tmp"
 }
 
+function add() {
+	sudo xbps-install $1
+	yzshell update_search_cache &>/dev/null disown
+}
+
 alias ff="fastfetch"
 alias ls="eza --hyperlink=always"
 alias add="sudo xbps-install"
