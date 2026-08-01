@@ -307,7 +307,6 @@ if [ $refresh -eq 1 ]; then
     install_graphics_drivers
     install_window_manager
     sudo systemctl enable fstrim.timer
-    yzshell default_apps install_all
     configure_zsh &>/dev/null
     configure_fonts &>/dev/null
     configure_gtk &>/dev/null
@@ -319,6 +318,7 @@ fi
 
 wait < <(jobs -p)
 
+#yzshell default_apps install_all
 yzshell reconfigure &>/dev/null
 install_networkmanager &>/dev/null
 
