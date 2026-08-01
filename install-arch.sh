@@ -303,6 +303,7 @@ if [ $refresh -eq 1 ]; then
     [ $optional_deps -eq 0 ] && install_optional_deps
     install_graphics_drivers
     install_window_manager
+    sudo systemctl enable fstrim.timer
     yzshell default_apps install_all
     configure_zsh &>/dev/null
     configure_fonts &>/dev/null
