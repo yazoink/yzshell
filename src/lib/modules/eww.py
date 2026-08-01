@@ -128,12 +128,6 @@ class EwwWindow:
         except:
             print(f"Error: could not close widget '{self.name}'")
             exit(1)
-        subprocess.run(
-            f"pkill eww && eww daemon", # fix weird freezing bug that happens randomly sometimes??
-            shell=True, 
-            stdout=subprocess.DEVNULL, 
-            stderr=subprocess.STDOUT
-        )
 
 
 class Eww(EwwDaemon):
