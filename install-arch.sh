@@ -308,8 +308,6 @@ if [ $refresh -eq 1 ]; then
     configure_fonts &>/dev/null
     configure_gtk &>/dev/null
     configure_icons &>/dev/null
-    configure_pipewire &>/dev/null
-    configure_fstrim &>/dev/null
     install_executable &>/dev/null
 else
     [ $optional_deps -eq 0 ] && install_optional_deps
