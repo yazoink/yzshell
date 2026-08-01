@@ -52,6 +52,8 @@ function install_yay() {
 function install_optional_deps() {
     deps=(
         "code"
+        "fastfetch"
+        "gimp"
     )
     for d in "${deps[@]}"; do
         sudo pacman -S "$d"

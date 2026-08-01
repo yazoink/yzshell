@@ -29,7 +29,7 @@ class EwwDaemon:
             stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
         )
-    
+
     def reload(self):
         self.kill()
         self.launch()
