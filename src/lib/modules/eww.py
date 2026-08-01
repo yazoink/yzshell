@@ -143,7 +143,7 @@ class Eww(EwwDaemon):
                     name="settings",
                     pre_launch=[Thread(target=self.update_wallpaper_thumbs).start],
                     pre_open=[
-                        Thread(target=self.update_settings_menu_item).start,
+                        #Thread(target=self.update_settings_menu_item).start,
                         Thread(target=self.wallpaper_settings_init).start
                     ],
                     post_open=[
@@ -159,7 +159,7 @@ class Eww(EwwDaemon):
                         Thread(target=self.get_dnd_icon).start, 
                         Thread(target=self.get_profile_image).start, 
                         Thread(target=self.get_search_results).start,
-                        Thread(target=self.update_menu_item).start
+                        #Thread(target=self.update_menu_item).start
                     ],
                     post_open=[
                         Thread(target=self.update_weather).start,
