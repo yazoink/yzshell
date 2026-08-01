@@ -5,7 +5,7 @@ hl.config({
             bar_height = 38,
             bar_text_font = "Sans",
             bar_text_weight = "bold",
-            bar_text_size = 15,
+            bar_text_size = 14,
             bar_text_align = "center",
             bar_precedence_over_border = true,
             bar_padding = 12,

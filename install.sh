@@ -199,12 +199,17 @@ VDPAU_DRIVER=va_gl" | sudo tee /etc/environment >/dev/null
 function install_labwc() {
     deps=(
         "labwc"
-        "labwc-menu-generator"
         "wlopm"
         "wtype"
     )
     for d in "${deps[@]}"; do
         sudo pacman -S "$d"
+    done
+    aur_deps=(
+        "labwc-menu-generator-git"
+    )
+    for d in "${aur_deps[@]}"; do
+        yay -S "$d"
     done
     echo "{ \"window_manager\": \"labwc\" }" > "${HOME}/.config/yzshell/config.json"
 }
