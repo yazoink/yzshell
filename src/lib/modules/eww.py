@@ -116,6 +116,8 @@ class EwwWindow:
             p()
 
     def close(self):
+        for c in self.pre_close:
+            c()
         try:
             subprocess.run(
                 f"eww update {self.name}_visible=false; sleep 0.5; eww close '{self.name}'", 
