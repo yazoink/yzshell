@@ -402,6 +402,13 @@ class Shell:
                     stdout=subprocess.DEVNULL, 
                     stderr=subprocess.STDOUT
                 )
+            if path.isfile("/opt/zen-browser-bin/distribution/policies.json") == True:
+                subprocess.run(
+                    f"{sudo_cmd} rm /opt/zen-browser-bin/distribution/policies.json",
+                    shell=True, 
+                    stdout=subprocess.DEVNULL, 
+                    stderr=subprocess.STDOUT
+                )
             if path.lexists("/opt/zen-browser-bin/distribution/policies.json") == False:
                 subprocess.run(
                     f"{sudo_cmd} ln -sf {environ["CONFIG_DIR"]}/zen/policies.json /opt/zen-browser-bin/distribution/policies.json",
@@ -459,7 +466,7 @@ class Shell:
         for t in threads:
             t.join()
 
-        if self.config.current["web_browser"] == "zen":
+        if self.config.current["web_browser"] == "zen-browser":
             configure_zen()
         self.windowmanager.configure()
         configure_vencord()
