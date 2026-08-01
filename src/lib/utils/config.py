@@ -7,7 +7,7 @@ class Config:
         self.defaults = {
             "window_manager": "hyprland",
             "colourscheme": "camellia",
-            "bar_show_battery": False,
+            "bar_show_battery": True,
             "bar_show_backlight": True,
             "profile_image": f"{environ["DATA_DIR"]}/assets/images/profile_image.jpg",
             "screenshot_dir": f"{environ["HOME"]}/pic/screenshots",
