@@ -412,6 +412,14 @@ class Shell:
             
         def configure_qtct():
             cfg = ""
+            try:
+                makedirs(f"{environ["CONFIG_DIR"]}/qt5ct")
+            except:
+                pass
+            try:
+                makedirs(f"{environ["CONFIG_DIR"]}/qt6ct")
+            except:
+                pass
             with open(f"{environ["STATIC_CONFIG_DIR"]}/qtct.conf", "r") as f:
                 cfg = f.read()
             with open(f"{environ["CONFIG_DIR"]}/qt5ct/qt5ct.conf", "w") as f:
