@@ -36,7 +36,7 @@
         (label :text "" :class "icon screenshot-full")
       )
       (button
-        :onclick "yzshell closeall_widgets & yzshell screenshot -m 'select' -o '${output}' -s 0.5 &"
+        :onclick "yzshell close_all_widgets & yzshell screenshot -m 'select' -o '${output}' -s 0.5 &"
         :tooltip "Take a selective screenshot"
         (label :text "" :class "icon screenshot-select")
       )
