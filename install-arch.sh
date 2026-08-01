@@ -120,7 +120,6 @@ function install_deps() {
         "network-manager-applet"
         "wayland-pipewire-idle-inhibit"
         "pavucontrol"
-        "poweralertd"
         "zsh"
         "zsh-completions"
         "eza"
@@ -131,9 +130,13 @@ function install_deps() {
         sudo pacman -S --needed "$d"
     done
 
+    curl -sS https://github.com/elkowar.gpg | gpg --import -i -
+    curl -sS https://github.com/web-flow.gpg | gpg --import -i -
+
     aur_deps=(
-        "eww-git"
+        "eww"
         "papirus-folders"
+        "poweralertd"
     )
 
     for d in "${aur_deps[@]}"; do
