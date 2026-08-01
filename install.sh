@@ -252,9 +252,9 @@ function install_graphics_drivers() {
         [[ "$gpu" =~ [0-3] ]] && break
     done
     case "$gpu" in
-        "1") install_intel_drivers & ;;
-        "2") install_intel_legacy_drivers & ;;
-        "3") install_amd_drivers & ;;
+        "1") install_intel_drivers ;;
+        "2") install_intel_legacy_drivers ;;
+        "3") install_amd_drivers ;;
     esac
 }
 
