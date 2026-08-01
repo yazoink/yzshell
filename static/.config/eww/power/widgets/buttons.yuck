@@ -6,13 +6,13 @@
   {
     "class": "lock",
     "icon": "",
-    "desc": "Lock",
+    "desc": "Lock screen",
     "cmd": "yzshell close_all_widgets & yzshell lock &"
   },
   {
     "class": "exit",
     "icon": "",
-    "desc": "Exit",
+    "desc": "Exit desktop",
     "cmd": "labwc --exit &"
   },
   {
