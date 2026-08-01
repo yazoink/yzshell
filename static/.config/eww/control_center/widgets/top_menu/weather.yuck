@@ -17,8 +17,8 @@
       :space-evenly false
       :halign "center"
       :hexpand true
-      (label :text weather_icon :class "icon ${weather_colour}")
       (label :text weather_updater :visible false)
+      (label :text weather_icon :class "icon ${weather_colour}")
       (box
         :class "temp-apparent-temp"
         :orientation "v"

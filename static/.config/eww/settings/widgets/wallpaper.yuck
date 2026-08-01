@@ -84,7 +84,11 @@
                     :space-evenly false
                     (image :path "${get_env("WALLPAPER_CACHE_DIR")}/${wallpaper}" :image-width 150)
                     ;(label :text "${wallpaper_dir}/${wallpaper}")
-                    (label :text wallpaper :truncate true :limit-width 10)
+                    (label
+                      :text wallpaper 
+                      ;:truncate true 
+                      :limit-width 10
+                    )
                   )
                 )
             )

@@ -42,8 +42,8 @@ class EwwDaemon:
                 stderr=subprocess.STDOUT
             )
         sleep(0.5)
-        subprocess.run(
-            "eww close-all",
+        subprocess.run( # fix weird freezing bug????
+            "pkill eww && eww daemon",
             shell=True,
             stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
@@ -121,12 +121,19 @@ class EwwWindow:
         try:
             subprocess.run(
                 f"eww update {self.name}_visible=false; sleep 0.5; eww close '{self.name}'", 
-                shell=True, stdout=subprocess.DEVNULL, 
+                shell=True, 
+                stdout=subprocess.DEVNULL, 
                 stderr=subprocess.STDOUT
             )
         except:
             print(f"Error: could not close widget '{self.name}'")
             exit(1)
+        subprocess.run(
+            f"pkill eww && eww daemon", # fix weird freezing bug that happens randomly sometimes??
+            shell=True, 
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
 
 
 class Eww(EwwDaemon):
@@ -145,7 +152,10 @@ class Eww(EwwDaemon):
                 "settings": EwwWindow(
                     name="settings",
                     pre_launch=[Thread(target=self.update_wallpaper_thumbs).start],
-                    pre_open=[Thread(target=self.wallpaper_settings_init).start],
+                    pre_open=[
+                        Thread(target=self.update_settings_menu_item).start,
+                        Thread(target=self.wallpaper_settings_init).start
+                    ],
                     post_open=[
                         Thread(target=self.get_colourschemes).start
                     ],
@@ -158,11 +168,12 @@ class Eww(EwwDaemon):
                     pre_open=[
                         Thread(target=self.get_dnd_icon).start, 
                         Thread(target=self.get_profile_image).start, 
-                        Thread(target=self.get_search_results).start
+                        Thread(target=self.get_search_results).start,
+                        Thread(target=self.update_menu_item).start
                     ],
                     post_open=[
                         Thread(target=self.update_weather).start,
-                        self.open_search_input
+                        Thread(target=self.open_search_input).start
                     ],
                     pre_close=[
                         Thread(target=self.close_search_input).start
@@ -387,6 +398,22 @@ class Eww(EwwDaemon):
         j = json.dumps(self._all_apps)
         with open(self._search_cache_file, "w") as f:
             f.write(j)
+            
+    def update_menu_item(self):
+        subprocess.run(
+            "eww update menu_item=0", 
+            shell=True, 
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
+        
+    def update_settings_menu_item(self):
+        subprocess.run(
+            "eww update settings_menu_item=0", 
+            shell=True,
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
 
     def get_search_results(self, query=""):
         r = ""
