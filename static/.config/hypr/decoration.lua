@@ -16,5 +16,6 @@ hl.config({
             color = "rgba(00000020)"
         },
         --animations = { enabled = true },
+        blur = { enabled = false }
     }
 })

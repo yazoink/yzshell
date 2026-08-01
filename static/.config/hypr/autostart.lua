@@ -1,6 +1,7 @@
 hl.on("hyprland.start", function () 
   hl.exec_cmd("dbus-update-activation-environment")
-  hl.exec_cmd("sleep 1 && hyprpm reload")
+  --hl.exec_cmd("sleep 1 && hyprpm reload")
+  hl.exec_cmd("hyprpm reload")
   hl.exec_cmd("yzshell &")
   hl.exec_cmd("nm-applet &")
   hl.exec_cmd("poweralertd &")
