@@ -82,7 +82,7 @@ class Shell:
     def close_all_widgets(self):
         self._set_config()
         self._set_widgets()
-        self.widgets.close_all()
+        self.widgets.reload()
 
     def pick_colour(self, sleep_time=0):
         import subprocess
@@ -302,6 +302,7 @@ class Shell:
         self.widgets.modules[widget].open()
 
     def close(self, widget):
+        self._set_config()
         self._set_widgets()
         self.widgets.modules[widget].close()
 
@@ -443,7 +444,6 @@ class Shell:
             makedirs(environ["CONFIG_DIR"])
             
         write_file(f"{environ["STATIC_CONFIG_DIR"]}/.zshrc", f"{environ["HOME"]}/.zshrc")
-        write_file(f"{environ["STATIC_CONFIG_DIR"]}/.zprofile", f"{environ["HOME"]}/.zprofile")
 
         configs = listdir(f"{environ["STATIC_CONFIG_DIR"]}/.config")
         threads = []
@@ -561,7 +561,7 @@ class Shell:
             MustacheTemplate("zathurarc.mustache", f"{environ["CONFIG_DIR"]}/zathura/zathurarc"),
             MustacheTemplate("discord.css.mustache", f"{environ["CONFIG_DIR"]}/vesktop/themes/yzshell.theme.css"),
             MustacheTemplate("vscode.json.mustache", f"{environ["CONFIG_DIR"]}/Code - OSS/User/settings.json"),
-            MustacheTemplate("hyprland.lua.mustache", f"{environ["CONFIG_DIR"]}/hypr/generated.lua"),
+            MustacheTemplate("hyprland_colours.lua.mustache", f"{environ["CONFIG_DIR"]}/hypr/colours.lua"),
         ]
         threads = []
         for t in templates:

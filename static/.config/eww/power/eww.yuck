@@ -12,9 +12,5 @@
   :stacking "fg"
   :exclusive false
   :focusable false
-  (revealer
-    :transition "slideup"
-    :reveal power_visible
-    (power_buttons)
-  )
+  (power_buttons)
 )

@@ -61,6 +61,13 @@ class Labwc:
             f.write(soup.decode())
             
         #self.reload()
+        src = f"{environ["TEMPLATES_DIR"]}/zprofile.mustache"
+        dest = f"{environ["HOME"]}/.zprofile"
+        with open(src, "r") as f:
+            cfg = f.read()
+        cfg = cfg.replace("{{window_manager}}", "labwc")
+        with open(dest, "w") as f:
+            f.write(cfg)
 
     def reload(self):
         subprocess.run(

@@ -136,6 +136,7 @@ function install_deps() {
         "eww-git"
         "papirus-folders"
         "poweralertd"
+        "ttf-gabarito-git"
     )
 
     for d in "${aur_deps[@]}"; do

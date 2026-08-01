@@ -7,7 +7,7 @@
 window#waybar,
 tooltip label,
 menuitem {
-  font-family: "sans", "Font Awesome 6 Free";
+  font-family: "sans", "Font Awesome 7 Free";
 }
 
 #custom-tray-icon,
@@ -21,7 +21,7 @@ menuitem {
 #custom-search,
 #custom-power,
 #custom-left-arrow {
-  font-family: "Font Awesome 6 Free";
+  font-family: "Font Awesome 7 Free";
   font-size: 10pt;
 }
 

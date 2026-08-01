@@ -12,19 +12,15 @@
   :stacking "fg"
   :exclusive false
   :focusable false
-  (revealer
-    :transition "slideup"
-    :reveal calendar_visible
-    (box
-      :orientation "vertical"
-      :space-evenly false
-      :class "calendar-box"
-      :spacing 8
-      :halign "fill"
-      (calendar_clock)
-      (box :class "calendar" :orientation "v"
-        (calendar :class "cal" :halign "center")
-      )
+  (box
+    :orientation "vertical"
+    :space-evenly false
+    :class "calendar-box"
+    :spacing 8
+    :halign "fill"
+    (calendar_clock)
+    (box :class "calendar" :orientation "v"
+      (calendar :class "cal" :halign "center")
     )
   )
 )

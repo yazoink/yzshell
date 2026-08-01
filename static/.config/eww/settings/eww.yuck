@@ -14,73 +14,69 @@
   )
   :stacking "fg"
   :exclusive false
-  :focusable true
-  (revealer
-    :transition "slideup"
-    :reveal settings_visible
+  :focusable "ondemand"
+  (box
+    :orientation "v"
+    :class "settings-box"
+    :space-evenly false
+    :vexpand false
+    :spacing 8
     (box
-      :orientation "v"
-      :class "settings-box"
-      :space-evenly false
-      :vexpand false
-      :spacing 8
+      :class "settings-menu"
+      :orientation "h"
+      :halign "fill"
+      :space-evenly true
+      :hexpand true
       (box
-        :class "settings-menu"
         :orientation "h"
-        :halign "fill"
-        :space-evenly true
-        :hexpand true
-        (box
-          :orientation "h"
-          :halign "center"
-          :space-evenly false
-          :spacing 8
-          (button
-            :onclick "${EWW_CMD} update settings_menu_item=0"
-            :tooltip "Wallpaper settings"
-            :class "wallpaper ${settings_menu_item == 0 ? "selected" : ""}"
-            (box
-              :orientation "h"
-              :space-evenly false
-              (label :text "" :class "icon")
-              (revealer
-                :transition "slideright"
-                :reveal {settings_menu_item == 0 ? true : false}
-                (label :text "Wallpaper")
-              )
+        :halign "center"
+        :space-evenly false
+        :spacing 8
+        (button
+          :onclick "${EWW_CMD} update settings_menu_item=0"
+          :tooltip "Wallpaper settings"
+          :class "wallpaper ${settings_menu_item == 0 ? "selected" : ""}"
+          (box
+            :orientation "h"
+            :space-evenly false
+            (label :text "" :class "icon")
+            (revealer
+              :transition "slideright"
+              :reveal {settings_menu_item == 0 ? true : false}
+              (label :text "Wallpaper")
             )
-          )
-          (button
-            :onclick "${EWW_CMD} update settings_menu_item=1"
-            :tooltip "Colourscheme settings"
-            :class "colours ${settings_menu_item == 1 ? "selected" : ""}"
-            (box
-              :orientation "h"
-              :space-evenly false
-              (label :text "" :class "icon")
-              (revealer
-                :transition "slideright"
-                :reveal {settings_menu_item == 1 ? true : false}
-                (label :text "Colourscheme")
-              )
-            )
-          )
-          (button
-            :onclick "yzshell close_all_widgets &"
-            :tooltip "Close settings"
-            :class "close ${settings_menu_item == 1 ? "selected" : ""}"
-            (label :text "" :class "icon")
           )
         )
+        (button
+          :onclick "${EWW_CMD} update settings_menu_item=1"
+          :tooltip "Colourscheme settings"
+          :class "colours ${settings_menu_item == 1 ? "selected" : ""}"
+          (box
+            :orientation "h"
+            :space-evenly false
+            (label :text "" :class "icon")
+            (revealer
+              :transition "slideright"
+              :reveal {settings_menu_item == 1 ? true : false}
+              (label :text "Colourscheme")
+            )
+          )
+        )
+        (button
+          :onclick "yzshell close_all_widgets &"
+          :tooltip "Close settings"
+          :class "close ${settings_menu_item == 1 ? "selected" : ""}"
+          (label :text "" :class "icon")
+        )
       )
-      (stack
-        :selected settings_menu_item
-        :class "settings-content"
-        :same-size false
-        :transition "slideleft"
-        (wallpaper)
-        (colourschemes)
-      )
+    )
+    (stack
+      :selected settings_menu_item
+      :class "settings-content"
+      :same-size false
+      :transition "slideleft"
+      (wallpaper)
+      (colourschemes)
     )
   )
 )

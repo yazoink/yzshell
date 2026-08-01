@@ -49,35 +49,31 @@
   :stacking "fg"
   :exclusive false
   :focusable false
-  (revealer
-    :transition "slideup"
-    :reveal control_center_visible
+  (box
+    :space-evenly false
+    (label :text update_results :visible false)
     (box
+      :orientation "vertical"
       :space-evenly false
-      (label :text update_results :visible false)
+      :spacing 4
+      (control_center_menu)
       (box
+        :class "control-center-box"
         :orientation "vertical"
+        :halign "fill"
         :space-evenly false
-        :spacing 4
-        (control_center_menu)
+        :spacing 8
+        (user)
         (box
-          :class "control-center-box"
-          :orientation "vertical"
+          :class "control-center-body"
+          :orientation "horizontal"
+          :space-evenly "false"
           :halign "fill"
-          :space-evenly false
+          :valign "start"
           :spacing 8
-          (user)
-          (box
-            :class "control-center-body"
-            :orientation "horizontal"
-            :space-evenly "false"
-            :halign "fill"
-            :valign "start"
-            :spacing 8
-            ;(apps)
-            (search)
-            (launchers)
-          )
+          ;(apps)
+          (search)
+          (launchers)
         )
       )
     )

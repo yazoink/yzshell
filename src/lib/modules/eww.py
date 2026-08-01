@@ -29,25 +29,6 @@ class EwwDaemon:
             stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
         )
-
-    def close_all(self):
-        from time import sleep
-        for m in self.modules:
-            for c in self.modules[m].pre_close:
-                c()
-            subprocess.run(
-                f"eww update {m}_visible=false",
-                shell=True,
-                stdout=subprocess.DEVNULL, 
-                stderr=subprocess.STDOUT
-            )
-        sleep(0.5)
-        subprocess.run( # fix weird freezing bug????
-            "pkill eww && eww daemon",
-            shell=True,
-            stdout=subprocess.DEVNULL, 
-            stderr=subprocess.STDOUT
-        )
     
     def reload(self):
         self.kill()
@@ -96,7 +77,7 @@ class EwwWindow:
     def open(self):
         try:
             subprocess.run(
-                f"eww open closer && eww open '{self.name}'", 
+                f"eww open closer; eww open '{self.name}'", 
                 shell=True, 
                 stdout=subprocess.DEVNULL, 
                 stderr=subprocess.STDOUT
@@ -120,7 +101,7 @@ class EwwWindow:
             c()
         try:
             subprocess.run(
-                f"eww update {self.name}_visible=false; sleep 0.5; eww close '{self.name}'", 
+                f"eww update {self.name}_visible=false; eww close '{self.name}'", 
                 shell=True, 
                 stdout=subprocess.DEVNULL, 
                 stderr=subprocess.STDOUT

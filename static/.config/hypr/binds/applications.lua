@@ -1,7 +1,7 @@
-hl.bind("SUPER + Return", hl.dsp.exec_cmd("foot"))
-hl.bind("SUPER + W", hl.dsp.exec_cmd("zen"))
-hl.bind("SUPER + E", hl.dsp.exec_cmd("thunar"))
-hl.bind("SUPER + R", hl.dsp.exec_cmd("wofi --show run"))
+hl.bind("SUPER + Return", hl.dsp.exec_cmd(terminal))
+hl.bind("SUPER + W", hl.dsp.exec_cmd(web_browser))
+hl.bind("SUPER + E", hl.dsp.exec_cmd(file_manager))
+hl.bind("SUPER + R", hl.dsp.exec_cmd(run_launcher))
 
 -- yzshell
 hl.bind("SUPER + SHIFT + R", hl.dsp.exec_cmd("yzshell"))

@@ -149,16 +149,30 @@ function y() {
 }
 
 function add() {
-	sudo xbps-install $1
+	pkgs=""
+	aur_pkgs=""
+	for pkg in "$@"; do
+		if ! pacman -Qi "$pkg" >/dev/null; then
+			if pacman -Ss "$pkg" >/dev/null; then
+				pkgs+="${pkg} "
+			elif yay -Ss "$pkg" | grep -q "aur/${pkg} "; then
+				aur_pkgs+="${pkg} "
+			else
+				echo "Error: package '${pkg}' not found"
+			fi
+		fi
+	done
+	[ "$pkgs" != "" ] && sudo pacman -S --needed $pkgs
+	[ "$pkgs" != "" ] && yay -S $pkgs
 	yzshell update_search_cache &>/dev/null disown
 }
 
 alias ff="fastfetch"
 alias ls="eza --hyperlink=always"
-alias add="sudo xbps-install"
-alias del="sudo xbps-remove -R"
-alias upd="sudo xbps-install -Su"
-alias qry="xbps-query -Rs"
+alias del="sudo pacman -Rns"
+alias upd="sudo pacman -Syu; yay -Syu"
+alias qry="pacman -Ss"
+alias aurqry="yay -Ss"
 alias gcl="git clone"
 alias gaa="git add ."
 alias ga="git add"

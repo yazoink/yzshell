@@ -1,5 +1,4 @@
-(defpoll username :run-while control_panel_visible :initial "" :interval "24h" `whoami`)
-(defpoll hostname :run-while control_panel_visible :initial "" :interval "24h" `hostname`)
+(defpoll username :run-while control_panel_visible :interval "24h" `whoami`)
 (defpoll os_version :run-while control_panel_visible :initial "idk" :interval "24h" "control_center/scripts/get_os_version.sh")
 (defvar profile_image_path "")
 
@@ -31,7 +30,7 @@
         :orientation "horizontal"
         (label :text "${username}" :class "username" :halign "start")
         (label :text "@" :class "at")
-        (label :text "${hostname}" :class "hostname")
+        (label :text "${get_env("HOST")}" :class "hostname")
       )
       (label :text "${os_version}" :class "os-version" :halign "start")
     )
