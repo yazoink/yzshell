@@ -72,6 +72,7 @@ function install_deps() {
     deps=(
         "base-devel"
         "git"
+        "freetype2"
         "foot"
         "vim"
         "yazi"
