@@ -37,10 +37,11 @@ class PCManFM(DefaultApp):
 class Thunar(DefaultApp):
     def __init__(self):
         self.deps = PackageList([
-            "Thunar",
+            "thunar",
             "thunar-archive-plugin",
             "thunar-media-tags-plugin",
             "thunar-volman",
+            "thunar-shares-plugin",
             "file-roller",
             "tumbler",
             "ffmpegthumbnailer",
@@ -125,32 +126,9 @@ class Zen(DefaultApp):
         super().__init__(
             desktop_file="zen.desktop",
             launch_cmd="zen",
-            install=self.install_zen,
+            install=self.deps.install,
             uninstall=self.deps.uninstall
         )
-
-    def uninstall_zen(self):
-        from os import remove, path
-        self.deps.uninstall()
-        if path.exists(desktop_apps_dir) == True:
-            remove(desktop_file_path)
-    
-    def install_zen(self):
-        from os import path, makedirs
-        if path.exists(f"{environ["HOME"]}/.void-packages/srcpkgs/zen-browser") == False:
-            subprocess.run(
-                f"git clone https://github.com/salastro/zen-browser.git {environ["HOME"]}/.void-packages/srcpkgs/zen-browser",
-                shell=True
-            )
-        self.deps.install()
-        desktop_apps_dir = path.dirname(self.desktop_file_path)
-        if path.exists(desktop_apps_dir) == False:
-            makedirs(desktop_apps_dir)
-        desktop_file_content=""
-        with open(f"{environ["STATIC_CONFIG_DIR"]}/.local/share/applications/zen.desktop", "r") as f:
-            desktop_file_content = f.read()
-        with open(self.desktop_file_path, "w") as f:
-            f.write(desktop_file_content)
 
 class Firefox(DefaultApp):
     def __init__(self):

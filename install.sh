@@ -1,27 +1,6 @@
 #!/usr/bin/env bash
 
-export XBPS_DISTDIR="$HOME/.void-packages"
-
 DATA_DIR="${HOME}/.local/share/yzshell"
-
-function activate_service() {
-    if ! ls /etc/sv | grep -q "$1"; then
-        echo "Error: service '${1}' not found"
-        exit 1
-    fi
-    if ! ls /var/service | grep -q "$1"; then
-        sudo ln -s /etc/sv/"$1" /var/service
-        echo "Activated service '${1}'"
-    fi
-}
-
-function deactivate_service() {
-    if ls /var/service | grep -q "$1"; then
-        sudo sv down wpa_supplicant
-        sudo rm /var/service/"$1"
-        echo "Deactivated service '${1}'"
-    fi
-}
 
 function configure_fonts() {
     [ ! -d "${HOME}/.fonts" ] && mkdir -p "${HOME}/.fonts"
@@ -29,7 +8,6 @@ function configure_fonts() {
     echo "Copied fonts"
     fc-cache -fv &> /dev/null
 }
-
 
 function configure_gtk() {
     [ ! -d "${HOME}/.themes" ] && mkdir -p "${HOME}/.themes"
@@ -60,85 +38,38 @@ function install_executable() {
     echo "Installed 'yzshell' to '/usr/bin'"
 }
 
-function configure_fstrim() {
-    [ ! -d "/etc/cron.weekly" ] && sudo mkdir -p "/etc/cron.weekly"
-    [ ! -f "/etc/cron.weekly/fstrim" ] && echo "#!/bin/sh
-    fstrim /" | sudo tee /etc/cron.weekly/fstrim >/dev/null
-    sudo chmod u+x /etc/cron.weekly/fstrim
-}
-
-function install_networkmanager() {
-    if ! ls /var/service | grep -q "NetworkManager"; then
-        deactivate_service "wpa_supplicant"
-        deactivate_service "dhcpcd"
-        activate_service "NetworkManager"
-        user="$(whoami)"
-        sudo usermod -aG network "$user"
-        newgrp network
-    fi
-}
-
-function configure_pipewire() {
-    if [ ! -d "/etc/pipewire/pipewire.conf.d" ]; then
-        sudo mkdir -p /etc/pipewire/pipewire.conf.d
-    fi
-    sudo ln -sf /usr/share/examples/wireplumber/10-wireplumber.conf /etc/pipewire/pipewire.conf.d/
-    sudo ln -sf /usr/share/examples/pipewire/20-pipewire-pulse.conf /etc/pipewire/pipewire.conf.d/
-}
-
-function install_black_hole_repo() {
-    sudo cp /usr/share/xbps.d/00-repository-main.conf /etc/xbps.d/
-    sudo sed -i "1i repository=https://mirror.black-hole.dev/$(xbps-uhelper arch)" /etc/xbps.d/00-repository-main.conf
-    sudo xbps-install -S
-}
-
-function install_package() {
-    p="$1"
-    if ! xbps-query -l | grep -q "ii ${p}-[0-9]"; then
-        echo "Installing dependency '${p}'..."
-        sudo xbps-install -y "$p"
-        echo "Dependency '${p}' installed"
-    fi
-}
-
-function install_vpsm() {
-    if [ ! -d "${HOME}/.void-packages" ]; then
-        git clone https://github.com/void-linux/void-packages.git ~/.void-packages
-        echo "XBPS_ALLOW_RESTRICTED=yes" >> ~/.void-packages/etc/conf
-        git clone https://github.com/sinetoami/vpsm.git ~/.local/share/vpsm
-        (
-            cd ~/.local/share/vpsm || exit
-            sudo make install
-        )
-    fi
+function install_yay() {
+    sudo pacman -S --needed base-devel git
+    mkdir ~/src
+    git clone https://aur.archlinux.org/yay.git ~/src/yay
+    (
+        cd ~/src/yay || exit 1
+        makepkg -si
+        
+    )
 }
 
 function install_optional_deps() {
     deps=(
-        "noto-fonts-ttf"
-        "noto-fonts-emoji"
-        "htop"
-        "tree"
-        "keepassxc"
-        "vscode"
-        "fastfetch"
-        "yt-dlp"
-        "gimp"
-        "libreoffice"
-        "galculator"
-        "PrismLauncher"
-        "nicotine+"
-        "vesktop"
-        "pluma"
+        "code"
     )
     for d in "${deps[@]}"; do
-        install_package "$d"
+        sudo pacman -S "$d"
+    done
+
+    aur_deps=(
+        "vesktop-bin"
+    )
+
+    for d in "${aur_deps[@]}"; do
+        yay -S "$d"
     done
 }
 
 function install_deps() {
     deps=(
-        "xorg-server-xwayland"
+        "base-devel"
+        "git"
         "foot"
         "vim"
         "yazi"
@@ -147,44 +78,33 @@ function install_deps() {
         "qt5ct"
         "qt6ct"
         "kvantum"
-        "eww"
-        "git"
-        "make"
-        "gcc"
-        "cmake"
-        "meson"
-        "ripgrep"
-        "xtools"
-	    "direnv"
-        "dbus"
+        "direnv"
+        "xorg-xwayland"
+        "polkit"
+        "mate-polkit"
         "jq"
         "curl"
         "wget"
         "xz"
         "p7zip"
-        "zip"
-        "unzip"
         "lm_sensors"
         "mako"
         "libnotify"
-        "Waybar"
-        "font-awesome6"
+        "waybar"
+        "otf-font-awesome"
         "hyprpicker"
         "wl-clipboard"
         "grim"
         "slurp"
         "swaybg"
         "python"
-        "python3-gobject"
-        "python3-Pillow"
-        "python3-BeautifulSoup4"
-        "python3-lxml"
-        "python3-requests"
-        "xorg-server-xwayland"
-        "elogind"
+        "python-gobject"
+        "python-pillow"
+        "python-beautifulsoup4"
+        "python-lxml"
+        "python-requests"
         "gsettings-desktop-schemas"
         "dconf"
-        "dconf-editor"
         "psmisc"
         "bc"
         "audacious"
@@ -193,73 +113,48 @@ function install_deps() {
         "xdg-desktop-portal-wlr"
         "xdg-utils"
         "papirus-icon-theme"
-        "papirus-folders"
-        "SwayOSD"
+        "swayosd"
         "swayidle"
         "swaylock"
         "network-manager-applet"
         "wayland-pipewire-idle-inhibit"
-        "NetworkManager"
-        "pavucontrol-qt"
-        "cups"
-        "cups-filters"
-        "gutenprint"
-        "system-config-printer"
-        "nss-mdns"
-        "avahi"
-        "poweralertd"
-        "polkit"
-        "mate-polkit"
-        "bluez"
-        "libspa-bluetooth"
-        "blueman"
-        "pipewire"
-        "wireplumber"
-        "alsa-utils"
-        "pulseaudio-utils"
-        "alsa-pipewire"
-        "libjack-pipewire"
-        "mesa-dri"
+        "pavucontrol"
         "zsh"
         "zsh-completions"
         "eza"
-        "cryptsetup"
-        "gvfs"
-        "gvfs-mtp"
-        "gvfs-cdda"
-        "gvfs-smb"
-        "udisks2"
-        "mtpfs"
-        "ntfs-3g"
-        "ffmpeg"
         "gnome-keyring"
-        "mesa-dri"
     )
 
     for d in "${deps[@]}"; do
-        install_package "$d"
+        sudo pacman -S --needed "$d"
     done
 
-    vpsm_deps=()
+    curl -sS https://github.com/elkowar.gpg | gpg --import -i -
+    curl -sS https://github.com/web-flow.gpg | gpg --import -i -
 
-    for d in "${vpsm_deps[@]}"; do
-        if ! xbps-query -l | grep -q "ii ${d}-[0-9]"; then
-            echo "Installing dependency '${d}'..."
-            vpsm install "$d"
-            echo "Dependency '${d}' installed"
-        fi
+    aur_deps=(
+        "eww-git"
+        "papirus-folders"
+        "poweralertd"
+    )
+
+    for d in "${aur_deps[@]}"; do
+        yay -S "$d"
     done
 }
 
 function install_intel_legacy_drivers() {
     deps=(
-        "linux-firmware-intel"
-        "libva-intel-driver"
-        "libvdpau-va-gl"
+        "mesa-amber"
+        #"lib32-mesa-amber"
         "xf86-video-intel"
+        "libva-intel-driver"
+        "linux-firmware-intel"
+        "intel-media-sdk"
+        "libvdpau-va-gl"
     )
     for d in "${deps[@]}"; do
-        install_package "$d"
+        sudo pacman -S "$d"
     done
     echo "LIBVA_DRIVER_NAME=i965
 VDPAU_DRIVER=va_gl" | sudo tee /etc/environment >/dev/null
@@ -267,13 +162,16 @@ VDPAU_DRIVER=va_gl" | sudo tee /etc/environment >/dev/null
 
 function install_intel_drivers() {
     deps=(
-        "linux-firmware-intel"
+        "mesa"
+        #"lib32-mesa"
         "intel-media-driver"
+        "linux-firmware-intel"
+        "vpl-gpu-rt"
         "libvdpau-va-gl"
-        "vulkan-loader"
+        "vulkan-intel"
     )
     for d in "${deps[@]}"; do
-        install_package "$d"
+        sudo pacman -S "$d"
     done
     echo "LIBVA_DRIVER_NAME=iHD
 VDPAU_DRIVER=va_gl" | sudo tee /etc/environment >/dev/null
@@ -281,15 +179,13 @@ VDPAU_DRIVER=va_gl" | sudo tee /etc/environment >/dev/null
 
 function install_amd_drivers() {
     deps=(
-        "linux-firmware-amd"
-        "vulkan-loader"
-        "mesa-vulkan-radeon"
+        "mesa"
         "xf86-video-amdgpu"
-        "mesa-vaapi"
+        "vulkan-radeon"
         "libvdpau-va-gl"
     )
     for d in "${deps[@]}"; do
-        install_package "$d"
+        sudo pacman -S "$d"
     done
     echo "LIBVA_DRIVER_NAME=radeonsi
 VDPAU_DRIVER=va_gl" | sudo tee /etc/environment >/dev/null
@@ -303,7 +199,7 @@ function install_labwc() {
         "wtype"
     )
     for d in "${deps[@]}"; do
-        install_package "$d"
+        sudo pacman -S "$d"
     done
     echo "{ \"window_manager\": \"labwc\" }" > "${HOME}/.config/yzshell/config.json"
 }
@@ -311,10 +207,7 @@ function install_labwc() {
 function install_hyprland() {
     deps=(
         "hyprland"
-        "wayland-protocols"
         "xdg-desktop-portal-hyprland"
-        "hyprland-devel"
-        "hyprland-guiutils"
         "pkgconf"
         "cpio"
         "cmake"
@@ -323,13 +216,8 @@ function install_hyprland() {
         "gcc"
     )
     for d in "${deps[@]}"; do
-        install_package "$d"
+        sudo pacman -S --needed "$d"
     done
-    sudo xbps-remove -R pkg-config
-    hyprpm update
-    hyprpm add https://github.com/hyprwm/hyprland-plugins
-    hyprpm update
-    hyprpm enable hyprbars
     echo "{ \"window_manager\": \"hyprland\" }" > "${HOME}/.config/yzshell/config.json"
 }
 
@@ -363,11 +251,6 @@ function install_graphics_drivers() {
         "2") install_intel_legacy_drivers & ;;
         "3") install_amd_drivers & ;;
     esac
-}
-
-function install_unfree_repo() {
-    sudo xbps-install void-repo-nonfree
-    sudo xbps-install -S
 }
 
 function help() {
@@ -412,36 +295,28 @@ cp -rf "./src" "${DATA_DIR}/src" &
 
 # full setup
 if [ $refresh -eq 1 ]; then
-    install_unfree_repo
-    install_black_hole_repo
-    install_vpsm
+    sudo pacman -Syu
+    install_yay
     install_deps
     [ $optional_deps -eq 0 ] && install_optional_deps
     install_graphics_drivers
     install_window_manager
+    sudo systemctl enable fstrim.timer
+    configure_zsh
+    configure_fonts
+    configure_gtk
+    configure_icons
+    install_executable
     yzshell default_apps install_all
-    configure_zsh &>/dev/null
-    configure_fonts &>/dev/null
-    configure_gtk &>/dev/null
-    configure_icons &>/dev/null
-    configure_pipewire &>/dev/null
-    configure_fstrim &>/dev/null
-    install_executable &>/dev/null
-    activate_service "dbus" &>/dev/null
-    activate_service "avahi-daemon" &>/dev/null
-    activate_service "cupsd" &>/dev/null
-    activate_service "elogind" &>/dev/null
-    activate_service "bluetoothd" &>/dev/null
 else
     [ $optional_deps -eq 0 ] && install_optional_deps
 fi
 
-wait < <(jobs -p)
-
 yzshell reconfigure &>/dev/null
-install_networkmanager &>/dev/null
-
-wait < <(jobs -p)
 
 echo ">> Switch to Zsh with 'chsh -s \"\$(which zsh)\"'"
+echo ">> After launching Hyprland, enable Hyprbars plugin:
+$ hyprpm update
+$ hyprpm add https://github.com/hyprwm/hyprland-plugins
+$ hyprpm enable hyprbars"
 echo "Installation complete!"

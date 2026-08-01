@@ -21,7 +21,7 @@
   :windowtype "dialog"
   :stacking "fg"
   :exclusive false
-  :focusable true
+  :focusable "ondemand"
   (box
     :orientation "h"
     :space-evenly false
