@@ -120,7 +120,7 @@ class Vlc(DefaultApp):
 
 class Zen(DefaultApp):
     def __init__(self):
-        self.deps = PackageList(vpsm_pkgs=["zen-browser"])
+        self.deps = PackageList(aur_pkgs=["zen-browser-bin"])
         self.desktop_file_path = f"{environ["HOME"]}/.local/share/applications/zen.desktop"
         super().__init__(
             desktop_file="zen.desktop",
