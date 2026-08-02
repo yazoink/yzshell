@@ -13,6 +13,7 @@ Software:
 - **Run Launcher** - Wofi
 - **Wallpaper** - Swaybg
 - **OSD** - SwayOSD
+- **Lockscreen** - Hyprlock
 
 Features:
 - Extensive CLI interface
