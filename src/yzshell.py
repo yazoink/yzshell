@@ -333,6 +333,21 @@ class Shell:
                 copytree(src, dest)
             print(f"Copied '{src}' to {dest}")
 
+        def configure_hyprlock():
+            src = f"{environ["TEMPLATES_DIR"]}/hyprlock_background.conf.mustache"
+            dest = f"{environ["CONFIG_DIR"]}/hypr/hyprlock/background.conf"
+            cfg = ""
+            img = "screenshot"
+            with open(src, "r") as f:
+                cfg = f.read()
+            if self.config.current["wallpaper_mode"] != "tile":
+                d = self.config.current["wallpaper_dir"]
+                i = self.config.current["wallpaper_image"]
+                img = f"{d}/{i}"
+            cfg = cfg.replace("{{image}}", img)
+            with open(dest, "w") as f:
+                f.write(cfg)
+            print("Hyprlock configured")
         
         def configure_zsh():
             rc = ""
@@ -350,6 +365,7 @@ class Shell:
             rc = rc.replace('BROWSER="firefox"', f'BROWSER="{browser}"')
             with open(f"{environ["HOME"]}/.zshrc", "w") as f:
                 f.write(rc)
+            print("Zsh configured")
                 
         def configure_zen():
             import json
@@ -472,6 +488,7 @@ class Shell:
         configure_vencord()
         configure_zsh()
         configure_qtct()
+        configure_hyprlock()
         
         subprocess.run(
             f"papirus-folders -C {self.config.current["papirus_folders_colour"]} --theme Papirus",
