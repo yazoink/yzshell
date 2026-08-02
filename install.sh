@@ -79,6 +79,45 @@ function install_yay() {
     fi
 }
 
+function install_hyprviewbinds() {
+    deps=(
+        "python"
+        "python-gobject"
+        "git"
+    )
+    for d in "${deps[@]}"; do
+        install_package "$d"
+    done
+    [ ! -d ~/src ] && mkdir -p ~/src
+    git clone https://github.com/yazoink/HyprViewBinds ~/src/HyprViewBinds
+    sudo install -Dm755 ~/src/HyprViewBinds/hyprviewbinds.py /usr/bin/hyprviewbinds
+    sudo cp ~/src/HyprViewBinds/hyprviewbinds.desktop /usr/share/applications/hyprviewbinds.desktop
+}
+
+function install_soundboard() {
+    deps=(
+        "python"
+        "python-gobject"
+        "alsa-utils"
+        "git"
+    )
+    for d in "${deps[@]}"; do
+        install_package "$d"
+    done
+    [ ! -d ~/src ] && mkdir -p ~/src
+    git clone https://github.com/yazoink/soundboard.git ~/src/soundboard
+    sudo mkdir -p /usr/share/soundboard/
+    sudo cp -r ~/src/soundboard/sounds /usr/share/soundboard/sounds
+    [ ! -d ~/.config/soundboard ] && mkdir -p ~/.config/soundboard
+    cp ~/src/soundboard/config.json ~/.config/soundboard/config.json
+    sudo install -Dm755 ~/src/soundboard/soundboard.py /usr/bin/soundboard
+    echo "[Desktop Entry]
+Name=Soundboard
+Comment=play sounds and stuff
+Exec=soundboard
+Type=Application" | sudo tee /usr/share/applications/soundboard.desktop >/dev/null
+}
+
 function install_optional_deps() {
     deps=(
         "code"
@@ -100,6 +139,8 @@ function install_optional_deps() {
     for d in "${aur_deps[@]}"; do
         install_aur_package "$d"
     done
+
+    install_soundboard
 }
 
 function install_deps() {
@@ -177,7 +218,6 @@ function install_deps() {
         "ffmpegthumbnailer"
         "webp-pixbuf-loader"
         "freetype2"
-        "totem"
         "poppler-glib"
         "libgsf"
     )
@@ -194,6 +234,7 @@ function install_deps() {
         "ttf-aporetic"
         "breezex-cursor-theme"
         "wayland-pipewire-idle-inhibit"
+        "alsa-utils"
     )
 
     for d in "${aur_deps[@]}"; do
@@ -266,7 +307,10 @@ function install_window_manager() {
         [ "$wm" == "" ] && break
     done
     case "$wm" in
-        "1") yzshell window_manager set hyprland --dont-uninstall ;;
+        "1") 
+            yzshell window_manager set hyprland --dont-uninstall 
+            # install_hyprviewbinds # doesn't work with the new lua config lol
+            ;;
         "2") yzshell window_manager set labwc --dont-uninstall ;;
     esac
 }
@@ -357,7 +401,6 @@ if [ $refresh -eq 1 ]; then
     yzshell default_apps install_all
 else
     if [ $reinstall_deps -eq 0 ]; then
-        install_yay
         install_deps
         install_window_manager
         yzshell default_apps install_all

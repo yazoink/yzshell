@@ -178,7 +178,7 @@ class Shell:
         if wm not in wms:
             print(f"Error: window manager '{wm}' not in config")
             exit(1)
-        if prompt_y_n("Set '{wm}' as your window manager?") == False:
+        if prompt_y_n(f"Set '{wm}' as your window manager?") == False:
             exit(0)
         if dont_uninstall == False and wm != self.windowmanager.name:
             while True:
