@@ -61,6 +61,13 @@ And reboot.
 The script will prompt the selection of the window manager, and also the 
 installation of graphics drivers (on particular hardware).
 
+### Updating
+
+```
+$ cd yzshell
+$ ./install.sh -u
+```
+
 ## Configuration
 
 yzshell looks for a config file at `~/.config/yzshell/config.json`. A basic 
