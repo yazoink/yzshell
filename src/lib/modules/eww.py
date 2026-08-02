@@ -195,7 +195,7 @@ class Eww(EwwDaemon):
     def open_search_input(self):
         cmd = f"eww open --no-daemonize search_input --screen {self.modules["control_center"].screen}"
         from time import sleep
-        sleep(0.5)
+        sleep(0.8)
         subprocess.run(
             cmd, 
             shell=True, 
