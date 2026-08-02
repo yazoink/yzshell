@@ -231,7 +231,7 @@ $ yzshell toggle <widget>
 $ yzshell close_all_widgets
 ```
 
-The available widgets are: `calendar`, `control_center `, `power`, 
+The available widgets are: `calendar`, `control_center`, `power`, 
 `screenshot`, and `settings`.
 
 ### Misc.
