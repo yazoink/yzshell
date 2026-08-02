@@ -108,7 +108,7 @@ class EwwWindow:
         self.get_screen()
         for p in self.pre_open:
             p()
-        cmd = f"hyprctl dispatch 'hl.dsp.submap(\"{self.name}\")'; eww open closer --screen {self.screen}; eww open '{self.name}' --screen {self.screen}"
+        cmd = f"hyprctl dispatch 'hl.dsp.submap(\"{self.name}\")'; eww open --no-daemonize closer --screen {self.screen}; eww open --no-daemonize '{self.name}' --screen {self.screen}"
         try:
             subprocess.run(
                 cmd, 
@@ -177,11 +177,12 @@ class Eww(EwwDaemon):
                         self.get_profile_image
                     ],
                     pre_open=[
-                        self.control_center_pre_open, 
+                        Thread(target=self.get_dnd_icon).start,
+                        Thread(target=self.get_search_results).start
                     ],
                     post_open=[
-                        #Thread(target=self.open_search_input).start,
-                        self.open_search_input,
+                        Thread(target=self.open_search_input).start,
+                        #self.open_search_input,
                         Thread(target=self.update_weather).start,
                     ],
                     pre_close=[
@@ -190,19 +191,9 @@ class Eww(EwwDaemon):
                 )
             },
         )
-
-    def control_center_pre_open(self):
-        threads = [
-            Thread(target=self.get_dnd_icon),
-            Thread(target=self.get_search_results)
-        ]
-        for t in threads:
-            t.start()
-        for t in threads:
-            t.join()
     
     def open_search_input(self):
-        cmd = f"eww open search_input --screen {self.modules["control_center"].screen}"
+        cmd = f"eww open --no-daemonize search_input --screen {self.modules["control_center"].screen}"
         from time import sleep
         sleep(0.5)
         subprocess.run(
