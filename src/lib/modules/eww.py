@@ -448,7 +448,8 @@ class Eww(EwwDaemon):
             for a in self._all_apps:
                 n = a["name"].lower()
                 d = a["desc"].lower()
-                if query in n or query in d:
+                b = a["bin"].lower()
+                if query in n or query in d  or query in b:
                     if n.startswith(query):
                         results.insert(0, a)
                     else:
