@@ -2,7 +2,6 @@ hl.on("hyprland.start", function ()
   hl.exec_cmd("dbus-update-activation-environment")
   --hl.exec_cmd("sleep 1 && hyprpm reload")
   --hl.exec_cmd("hyprpm reload")
-  hl.exec_cmd("~/.config/hypr/hyprland/scripts/plugins.sh &")
   hl.exec_cmd("yzshell &")
   hl.exec_cmd("nm-applet &")
   hl.exec_cmd("poweralertd &")
@@ -13,4 +12,9 @@ hl.on("hyprland.start", function ()
   hl.exec_cmd("systemctl --user start hyprpolkitagent &")
   hl.exec_cmd("~/.config/hypr/hyprland/scripts/idle.sh &")
   --hl.exec_cmd("~/.config/hypr/scripts/portal.sh &")
+  if io.open("/tmp/hyprland_fresh_install","r") ~= nil then
+    hl.exec_cmd("foot -e ~/.config/hypr/hyprland/scripts/plugins.sh &")
+  else
+    hl.exec_cmd("hyprpm reload")
+  end
 end)

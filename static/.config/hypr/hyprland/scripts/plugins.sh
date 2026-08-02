@@ -1,31 +1,26 @@
 #!/usr/bin/env bash
 
-UPDATE_LOG_FILE="/tmp/hyprpm_1.log"
-ADD_LOG_FILE="/tmp/hyprpm_2.log"
-
-declare -A plugins
-plugins["hyprbars"]="https://github.com/hyprwm/hyprland-plugins"
-
-if [ -f "/tmp/hyprland_fresh_install" ]; then
+function fresh_install() {
+    declare -A plugins
+    plugins["hyprbars"]="https://github.com/hyprwm/hyprland-plugins"
+    plugins["hyprexpo"]="https://github.com/sandwichfarm/hyprexpo"
     notify-send "Hyprpm" "Updating plugins..."
-    o="$(hyprpm update)"
+    hyprpm update
     r=$?
-    echo "$o" > "$UPDATE_LOG_FILE"
     if [ $r -ne 0 ]; then
         notify-send --urgency=critical "Hyprpm" \
-            "Update failed! See '${UPDATE_LOG_FILE}' for details"
+            "Update failed!"
         exit 1
     fi
-    notify-send "Hyprpm" "Update complete - see '${UPDATE_LOG_FILE}' for details"
+    notify-send "Hyprpm" "Update complete"
     for p in "${!plugins[@]}"; do
         if ! hyprpm list | grep -q "$p"; then
             notify-send "Hyprpm" "Adding repo '${plugins[p]}'..."
-            o="$(hyprpm add "${plugins[p]}")"
+            hyprpm add "${plugins[p]}"
             r=$?
-            echo "$r" > "$ADD_LOG_FILE"
             if [ $r -ne 0 ]; then
                 notify-send  --urgency=critical "Hyprpm" \
-                    "Failed to add repo '${plugins[p]}'! See '${ADD_LOG_FILE}' for details"
+                    "Failed to add repo '${plugins[p]}'!"
                 exit 1
             fi
         fi
@@ -36,6 +31,10 @@ if [ -f "/tmp/hyprland_fresh_install" ]; then
         fi
         notify-send "Hyprpm" "Enabled plugin '${p}'"
     done
+}
+
+if [ -f "/tmp/hyprland_fresh_install" ]; then
+    fresh_install
 fi
 
 hyprpm reload
