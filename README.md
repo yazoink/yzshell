@@ -250,7 +250,7 @@ Flags:
 - `--mode` or `-m`: specifies the mode, accepts `full` or `select` as an 
   argument.
 - `--output` or `-o`: specifies the path to save the screenshot.
-- `--sleep-time` or `s`: time in seconds to wait before taking screenshot.
+- `--sleep-time` or `-s`: time in seconds to wait before taking screenshot.
 
 
 ## TODO
