@@ -148,12 +148,29 @@ function y() {
 	command rm -f -- "$tmp"
 }
 
+function add() {
+	sudo pacman -S --needed "$1"
+	yzshell update_search_cache
+}
+
+function auradd() {
+	yay -S --needed "$1"
+	yzshell update_search_cache
+}
+
+function del() {
+	sudo pacman -Rns "$1"
+	yzshell update_search_cache
+}
+
+function aurdel() {
+	yay -Rns "$1"
+	yzshell update_search_cache
+}
+
 alias ff="fastfetch"
 alias ls="eza --hyperlink=always"
-alias del="sudo pacman -Rns"
 alias upd="sudo pacman -Syu; yay -Syu"
-alias add="sudo pacman -S --needed"
-alias auradd="yay -S --needed"
 alias qry="pacman -Ss"
 alias aurqry="yay -Ss"
 alias gcl="git clone"
