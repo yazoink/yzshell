@@ -63,12 +63,13 @@ class EwwDaemon:
             exit(1)
 
 class EwwWindow:
-    def __init__(self, name, pre_launch = [], pre_open = [], post_open = [], pre_close=[]):
+    def __init__(self, config, name, pre_launch = [], pre_open = [], post_open = [], pre_close=[]):
         self.name = name
         self.pre_launch = pre_launch
         self.pre_open = pre_open
         self.post_open = post_open
         self.pre_close = pre_close
+        self._config = config
 
     def launch(self):
         for p in self.pre_launch:
@@ -92,9 +93,19 @@ class EwwWindow:
             self.open()
 
     def open(self):
+        screen = 0
+        if self._config.current["window_manager"] == "hyprland":
+            r = subprocess.run(
+                "hyprctl activeworkspace -j",
+                shell=True,
+                text=True,
+                capture_output=True
+            ).stdout
+            screen = json.loads(r)["monitorID"]
+        screen = str(screen)
         try:
             subprocess.run(
-                f"eww open closer; eww open '{self.name}'", 
+                f"eww open closer --screen {screen}; eww open '{self.name}' --screen {screen}", 
                 shell=True, 
                 stdout=subprocess.DEVNULL, 
                 stderr=subprocess.STDOUT
@@ -135,14 +146,16 @@ class Eww(EwwDaemon):
         self._all_apps = []
         super().__init__(
             modules={
-                "calendar": EwwWindow("calendar"),
-                "power": EwwWindow("power"),
+                "calendar": EwwWindow(name="calendar", config=config),
+                "power": EwwWindow(name="power", config=config),
                 "screenshot": EwwWindow(
                     name="screenshot",
+                    config=config,
                     post_open=[Thread(target=self.update_screenshot_output).start]
                 ),
                 "settings": EwwWindow(
                     name="settings",
+                    config=config,
                     pre_launch=[Thread(target=self.update_wallpaper_thumbs).start],
                     pre_open=[
                         #Thread(target=self.update_settings_menu_item).start,
@@ -154,6 +167,7 @@ class Eww(EwwDaemon):
                 ),
                 "control_center": EwwWindow(
                     name="control_center",
+                    config=config,
                     pre_launch=[
                         self.update_search_cache,
                     ],
