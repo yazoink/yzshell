@@ -29,29 +29,31 @@ function exit_if_failed() {
 function install_aur_package() {
     package_installed "$1"
     if [ $? -ne 0 ]; then
-        yay -S "$1"
+        yay -S --needed "$1"
         exit_if_failed $? "failed to install package '${1}'"
     fi
 }
 
 function configure_zsh() {
     # oh-my-zsh
-    [ ! -d "${HOME}/.oh-my-zsh" ] \
-        && sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    exit_if_failed $? "failed to download oh-my-zsh"
-    # autosuggestions
-    [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions" ] \
-        && git clone https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions"
-    exit_if_failed $? "failed to download zsh-autosuggestions"
-    # syntax highlighting
-    [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting" ] \
-        && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
-    exit_if_failed $? "failed to download zsh-syntax-highlighting"
+    if [ ! -d "${HOME}/.oh-my-zsh" ]; then
+        sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+        exit_if_failed $? "failed to download oh-my-zsh"
+        # autosuggestions
+        [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions" ] \
+            && git clone https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions"
+        exit_if_failed $? "failed to download zsh-autosuggestions"
+        # syntax highlighting
+        [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting" ] \
+            && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
+        exit_if_failed $? "failed to download zsh-syntax-highlighting"
+    fi
 }
 
 function install_executable() {
     sudo install -Dm755 "./bin/yzshell" "/usr/bin/yzshell"
-    exit_if_failed $? "failed to install yzshell binary"
+    echo "DEBUG: ${?}"
+    #exit_if_failed $? "failed to install yzshell binary"
     echo "Installed 'yzshell' to '/usr/bin'"
 }
 
@@ -143,7 +145,7 @@ function install_deps() {
         "papirus-icon-theme"
         "swayosd"
         "swayidle"
-        "swaylock"
+        "hyprlock"
         "network-manager-applet"
         "pavucontrol"
         "zsh"
@@ -151,6 +153,12 @@ function install_deps() {
         "eza"
         "gnome-keyring"
         "adw-gtk-theme"
+        "man-db"
+        "gvfs"
+        "gvfs-smb"
+        "gvfs-mtp"
+        "gvfs-gphoto2"
+        "udisks2"
     )
 
     for d in "${deps[@]}"; do

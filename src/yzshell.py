@@ -234,7 +234,7 @@ class Shell:
     def lock_screen(self):
         import subprocess
         subprocess.Popen(
-            f"swaylock -f -c 000000", 
+            f"hyprlock", 
             shell=True, stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
         )
