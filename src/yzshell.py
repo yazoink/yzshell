@@ -556,16 +556,23 @@ class Shell:
         for t in threads:
             t.join()
 
-        self.bar.configure()
-        self.default_apps.configure()
+        threads = []
+        threads.append(Thread(target=self.bar.configure))
+        threads.append(Thread(target=self.windowmanager.configure))
+        threads.append(Thread(target=self.configure_hyprlock))
+        threads.append(Thread(target=configure_vencord))
+        threads.append(Thread(target=configure_zsh))
+        threads.append(Thread(target=configure_qtct))
+        threads.append(Thread(target=self.default_apps.configure))
         if self.config.current["web_browser"] == "zen-browser":
-            configure_zen()
-        self.windowmanager.configure()
-        configure_vencord()
-        configure_zsh()
-        configure_qtct()
-        self.configure_hyprlock()
-        
+            threads.append(Thread(target=configure_zen))
+
+        for t in threads:
+            t.start()
+
+        for t in threads:
+            t.join()
+
         self.reconfigure_colourscheme()
         subprocess.run(
             "gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3'",
