@@ -113,7 +113,7 @@ function install_soundboard() {
     [ ! -d ~/src ] && mkdir -p ~/src
     git clone https://github.com/yazoink/soundboard.git ~/src/soundboard
     sudo mkdir -p /usr/share/soundboard/
-    sudo cp -r ~/src/soundboard/sounds /usr/share/soundboard/sounds
+    sudo cp -rf ~/src/soundboard/sounds /usr/share/soundboard/sounds
     [ ! -d ~/.config/soundboard ] && mkdir -p ~/.config/soundboard
     cp ~/src/soundboard/config.json ~/.config/soundboard/config.json
     sudo install -Dm755 ~/src/soundboard/soundboard.py /usr/bin/soundboard
@@ -417,7 +417,5 @@ fi
 
 yzshell reconfigure
 
-echo "
->> Switch to Zsh with 'chsh -s \"\$(which zsh)\"'"
-echo "
-Installation complete!"
+echo ">> Switch to Zsh with 'chsh -s \"\$(which zsh)\"'"
+echo "Installation complete!"
