@@ -258,6 +258,5 @@ Flags:
 - Nvim config/theme
 - VSCode config
 - Tmux config/theme
-- Configure a better lockscreen
-- Openbox support(?)
 - Add more colourschemes
+- Add option to change default music player
