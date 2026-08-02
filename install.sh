@@ -172,14 +172,19 @@ function install_deps() {
         "wlr-randr"
         "nwg-displays"
         "wofi"
+        "file-roller"
+        "tumbler"
+        "ffmpegthumbnailer"
+        "webp-pixbuf-loader"
+        "freetype2"
+        "totem"
+        "poppler-glib"
+        "libgsf"
     )
 
     for d in "${deps[@]}"; do
         install_package "$d"
     done
-
-    curl -sS https://github.com/elkowar.gpg | gpg --import -i -
-    curl -sS https://github.com/web-flow.gpg | gpg --import -i -
 
     aur_deps=(
         "eww-git"
@@ -194,6 +199,11 @@ function install_deps() {
     for d in "${aur_deps[@]}"; do
         install_aur_package "$d"
     done
+}
+
+function import_gpg_keys() {
+    curl -sS https://github.com/elkowar.gpg | gpg --import -i -
+    curl -sS https://github.com/web-flow.gpg | gpg --import -i -
 }
 
 function install_intel_legacy_drivers() {
@@ -247,9 +257,9 @@ VDPAU_DRIVER=va_gl" | sudo tee /etc/environment >/dev/null
 function install_window_manager() {
     wm=""
     echo "
-    0. None
-    1. Hyprland
-    2. Labwc"
+0. None
+1. Hyprland
+2. Labwc"
     while true; do
         read -p ">> Select window manager (0-2): " wm
         [[ "$wm" =~ [0-2] ]] && break
@@ -263,10 +273,10 @@ function install_window_manager() {
 function install_graphics_drivers() {
     gpu=""
     echo "
-    0. None
-    1. Intel
-    2. Intel (legacy)
-    3. AMD"
+0. None
+1. Intel
+2. Intel (legacy)
+3. AMD"
     while true; do
         read -p ">> Select graphics card (0-3): " gpu
         [[ "$gpu" =~ [0-3] ]] && break
@@ -304,12 +314,14 @@ fi
 refresh=1
 update=1
 optional_deps=1
+reinstall_deps=1
 for a in "$@"; do
     case "$a" in
         "-h" | "--help") help ;;
         "--refresh" | "-r") refresh=0 ;;
         "--update" | "-u") update=0 ;;
         "--install-optional-deps" | "-o") optional_deps=0 ;;
+        "--reinstall-deps" | "-d") reinstall_deps=0 ;;
         *) echo "Error: argument '${a}' not recognised"; exit 1 ;;
     esac
 done
@@ -328,19 +340,26 @@ copy_data_dir "colourschemes" &
 copy_data_dir "src" &
 
 # full setup
+install_executable
+
 if [ $refresh -eq 1 ]; then
     sudo pacman -Syu
     install_yay
+    import_gpg_keys
     install_deps
     [ $optional_deps -eq 0 ] && install_optional_deps
     install_graphics_drivers
     sudo systemctl enable fstrim.timer
     configure_zsh
-    install_executable
     install_window_manager
     yzshell default_apps install_all
 else
-    install_executable
+    if [ $reinstall_deps -eq 0 ]; then
+        install_yay
+        install_deps
+        install_window_manager
+        yzshell default_apps install_all
+    fi
     [ $optional_deps -eq 0 ] && sudo pacman -Syu && install_optional_deps
 fi
 

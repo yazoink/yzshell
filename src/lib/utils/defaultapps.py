@@ -9,7 +9,6 @@ class DefaultApp():
         self._launch_cmd = launch_cmd
         self.install = install
         self.uninstall = uninstall
-        self.is_default = False
 
     def launch(self):
         subprocess.Popen(
@@ -22,18 +21,7 @@ class DefaultApp():
 class PCManFM(DefaultApp):
     def __init__(self):
         self.deps = PackageList(
-            pkgs=[
-                "pcmanfm",
-                "file-roller",
-                "tumbler",
-                "ffmpegthumbnailer",
-                "webp-pixbuf-loader",
-                "freetype2",
-                "totem",
-                "poppler-glib",
-                "libgsf"
-            ],
-            aur_pkgs=[]
+            pkgs=["pcmanfm"]
         )
         super().__init__(
             desktop_file="pcmanfm.desktop",
@@ -51,16 +39,7 @@ class Thunar(DefaultApp):
                 "thunar-media-tags-plugin",
                 "thunar-volman",
                 "thunar-shares-plugin",
-                "file-roller",
-                "tumbler",
-                "ffmpegthumbnailer",
-                "webp-pixbuf-loader",
-                "freetype2",
-                "totem",
-                "poppler-glib",
-                "libgsf"
-            ],
-            aur_pkgs=[]
+            ]
         )
         super().__init__(
             desktop_file="thunar.desktop",
@@ -289,25 +268,22 @@ class DefaultApps():
             }
         }
 
-        for category in self.apps:
-            default = self._config.current[category]
-            self.apps[category][default].is_default = True
-            #print(f"Set '{default}' as default for '{category}'")
-
     def install_all(self):
         for category in self.apps:
             current = self._config.current[category]
             self.apps[category][current].install()
 
     def change(self, category, app):
+        from lib.utils.misc import prompt_y_n
         if app not in self.apps[category]:
             print(f"Error: app '{app}' not found in category '{category}'")
             exit(1)
+        if prompt_y_n(f"Set '{app}' as default app for category '{category}'?") == False:
+            exit(0)
         current = self._config.current[category]
         if current != app:
-            self.apps[category][current].is_default = False
-            self.apps[category][current].uninstall()
-        self.apps[category][app].is_default = True
+            if prompt_y_n(f"Uninstall '{current}'?") == True:
+                self.apps[category][current].uninstall()
         self.apps[category][app].install()
         self._config.change(category, app)
         self.configure()

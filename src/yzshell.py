@@ -1,6 +1,7 @@
 from sys import exit, argv
 from threading import Thread
 from os import environ, path, listdir, makedirs
+from lib.utils.misc import write_file
 
 class Shell:
     def __init__(self):
@@ -138,13 +139,7 @@ class Shell:
         if r.returncode == 0:
             colour = r.stdout.strip()
             subprocess.Popen(
-                f"wl-copy '{colour}'",
-                shell=True,
-                stdout=subprocess.DEVNULL, 
-                stderr=subprocess.STDOUT
-            )
-            subprocess.Popen(
-                f"notify-send '{colour}' 'Copied to clipboard'",
+                f"wl-copy '{colour}'; notify-send '{colour}' 'Copied to clipboard'",
                 shell=True,
                 stdout=subprocess.DEVNULL, 
                 stderr=subprocess.STDOUT
@@ -178,18 +173,13 @@ class Shell:
     def set_window_manager(self, wm, dont_uninstall=False):
         self._set_config()
         self._set_windowmanager()
+        from lib.utils.misc import prompt_y_n
         wms=["hyprland", "labwc"]
         if wm not in wms:
             print(f"Error: window manager '{wm}' not in config")
             exit(1)
-        yes = ["", "y", "yes"]
-        no = ["n", "no"]
-        while True:
-            i = input(f">> Set '{wm}' as your window manager? (Y/n): ").lower().strip()
-            if i in yes:
-                break
-            elif i in no:
-                exit(0)
+        if prompt_y_n("Set '{wm}' as your window manager?") == False:
+            exit(0)
         if dont_uninstall == False and wm != self.windowmanager.name:
             while True:
                 i = input(f">> Uninstall '{self.windowmanager.name}'? (Y/n): ").lower().strip()
@@ -677,13 +667,6 @@ gsettings set org.gnome.desktop.interface icon-theme {icon_theme}''',
 def not_enough_args(cmd):
     print(f"Error: not enough args to '{cmd}'")
     exit(1)
-
-def write_file(src, dest):
-    content = ""
-    with open(src, "r") as f:
-        content = f.read()
-    with open(dest, "w") as f:
-        f.write(content)
 
 if __name__ == "__main__":
     argc = len(argv)
