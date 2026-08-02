@@ -46,7 +46,7 @@ Features:
 ## Installation
 
 Prerequisites:
-- Base Arch installation
+- Base Arch installation with git installed
 - Internet connection
 
 ```
