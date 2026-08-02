@@ -636,13 +636,11 @@ gtk-application-prefer-dark-theme={prefer_dark_theme}'''
                 with open(f"{environ["CONFIG_DIR"]}/hypr/hyprland/env.lua", "w") as f:
                     f.write(hyprland_env)
 
-            subprocess.Popen(
-                f'''
-gsettings set org.gnome.desktop.interface color-scheme prefer-{polarity}
+            subprocess.run(
+                f'''gsettings set org.gnome.desktop.interface color-scheme prefer-{polarity}
 gsettings set org.gnome.desktop.interface cursor-theme {cursor_theme}
 papirus-folders -C {self.config.current["papirus_folders_colour"]} --theme {icon_theme}
-gsettings set org.gnome.desktop.interface icon-theme {icon_theme}
-                ''',
+gsettings set org.gnome.desktop.interface icon-theme {icon_theme}''',
                 shell=True, 
                 stdout=subprocess.DEVNULL, 
                 stderr=subprocess.STDOUT
