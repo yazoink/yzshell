@@ -513,9 +513,7 @@ class Shell:
         threads = []
         for cfg in configs:
             threads.append(Thread(target=write_config, args=(cfg,)))
-            write_config(cfg)
-        threads.append(Thread(target=self.default_apps.configure))
-        threads.append(Thread(target=self.bar.configure))
+            #write_config(cfg)
         
         for t in threads:
             t.start()
@@ -523,6 +521,8 @@ class Shell:
         for t in threads:
             t.join()
 
+        self.bar.configure()
+        self.default_apps.configure()
         if self.config.current["web_browser"] == "zen-browser":
             configure_zen()
         self.windowmanager.configure()
