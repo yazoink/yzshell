@@ -594,7 +594,7 @@ class Shell:
             scheme = self.config.current["colourscheme"]
         self._set_colourscheme(scheme)
         
-        def configure_gtk_polarity(): # clean this up later -__-
+        def configure_gtk_polarity():
             import subprocess
             gtk_settings = ""
             labwc_env = ""
@@ -636,12 +636,12 @@ gtk-application-prefer-dark-theme={prefer_dark_theme}'''
                 with open(f"{environ["CONFIG_DIR"]}/hypr/hyprland/env.lua", "w") as f:
                     f.write(hyprland_env)
 
-            subprocess.run(
+            subprocess.Popen(
                 f'''
-                gsettings set org.gnome.desktop.interface color-scheme prefer-{polarity}
-                gsettings set org.gnome.desktop.interface cursor-theme {cursor_theme}
-                papirus-folders -C {self.config.current["papirus_folders_colour"]} --theme {icon_theme}
-                gsettings set org.gnome.desktop.interface icon-theme {icon_theme}
+gsettings set org.gnome.desktop.interface color-scheme prefer-{polarity}
+gsettings set org.gnome.desktop.interface cursor-theme {cursor_theme}
+papirus-folders -C {self.config.current["papirus_folders_colour"]} --theme {icon_theme}
+gsettings set org.gnome.desktop.interface icon-theme {icon_theme}
                 ''',
                 shell=True, 
                 stdout=subprocess.DEVNULL, 
@@ -677,21 +677,12 @@ gtk-application-prefer-dark-theme={prefer_dark_theme}'''
             t.start()
         for t in threads:
             t.join()
-            
-        configure_gtk_polarity()
 
         self.config.change("colourscheme", scheme)
-
-def arg_not_recognised(arg):
-    print(f"Error: argument '{arg}' not recognised")
-    exit(1)
+        configure_gtk_polarity()
 
 def not_enough_args(cmd):
     print(f"Error: not enough args to '{cmd}'")
-    exit(1)
-
-def too_many_args(cmd):
-    print(f"Error: too many args to '{cmd}'")
     exit(1)
 
 def write_file(src, dest):
@@ -712,42 +703,30 @@ if __name__ == "__main__":
             case "open":
                 if argc < 3:
                     not_enough_args(cmd)
-                elif argc > 3:
-                    too_many_args(cmd)
                 else:
                     shell.open(argv[2])
             case "close":
                 if argc < 3:
                     not_enough_args(cmd)
-                elif argc > 3:
-                    too_many_args(cmd)
                 else:
                     shell.close(argv[2])
             case "toggle":
                 if argc < 3:
                     not_enough_args(cmd)
-                elif argc > 3:
-                    too_many_args(cmd)
                 else:
                     shell.toggle(argv[2])
             case "reconfigure":
                 reload = False
                 if argc > 2:
-                    if argc > 3:
-                        too_many_args(cmd)
                     match argv[2]:
                         case "-r" | "--reload":
                             reload = True
-                        case _:
-                            arg_not_recognised(argv[2])
                 shell.reconfigure()
                 if reload == True:
                     shell.launch()
             case "colourscheme":
                 if argc < 3:
                     not_enough_args(cmd)
-                elif argc > 3:
-                    too_many_args(cmd)
                 else:
                     if argv[2] == "list":
                         shell.list_colourschemes()
@@ -763,17 +742,11 @@ if __name__ == "__main__":
                         case "get":
                             if argc < 4:
                                 not_enough_args(action)
-                            if argc > 4:
-                                too_many_args(action)
                             shell.get_config_opt(argv[3])
                         case "set":
                             if argc < 5:
                                 not_enough_args(action)
-                            if argc > 5:
-                                too_many_args(action)
                             shell.set_config_opt(argv[3], argv[4])
-                        case _:
-                            arg_not_recognised(action)
             case "default_apps":
                 if argc < 3:
                     not_enough_args(cmd)
@@ -786,14 +759,10 @@ if __name__ == "__main__":
                             not_enough_args(cmd)
                         match argv[3]:
                             case "categories":
-                                if argc > 4:
-                                    too_many_args(argv[3])
                                 shell.get_default_app_categories()
                             case "apps":
                                 if argc < 5:
                                     not_enough_args(argv[3])
-                                if argc > 5:
-                                    too_many_args(argv[3])
                                 shell.get_available_default_apps(argv[4])
                             case _:
                                 arg_not_recognised(argv[3])
@@ -801,15 +770,11 @@ if __name__ == "__main__":
                         if argc < 5:
                             not_enough_args(cmd)
                         shell.change_default_app(argv[3], argv[4])
-                    case _:
-                        arg_not_recognised(action)
             case "toggle_dnd":
                 shell.toggle_dnd()
             case "search_selected":
                 if argc < 3:
                     not_enough_args(cmd)
-                elif argc > 3:
-                    too_many_args(cmd)
                 else:
                     shell.search_next_selected(argv[2])
             case "window_manager":
@@ -822,85 +787,56 @@ if __name__ == "__main__":
                         if argc < 4:
                             not_enough_args(cmd)
                         elif argc > 5:
-                            too_many_args(cmd)
                             match argv[4]:
                                 case "-du" | "--dont-uninstall":
                                     dont_uninstall = True
-                                case _:
-                                    arg_not_recognised(argv[4])
                         shell.set_window_manager(argv[3], dont_uninstall)
                         shell.reconfigure()
                     case "exit":
-                        if argc > 3:
-                            too_many_args(cmd)
                         shell.exit_window_manager()
-                    case _:
-                        arg_not_recognised(cmd)
             case "get_search_results":
                 query = ""
                 if argc > 2:
-                    if argc > 3:
-                        too_many_args(cmd)
                     query = argv[2]
                 shell.get_search_results(query)
             case "update_search_cache":
-                if argc > 2:
-                    too_many_args(cmd)
                 shell.update_search_cache()
             case "update_weather":
-                if argc > 2:
-                    too_many_args(cmd)
                 shell.update_weather()
             case "set_wallpaper":
                 if argc < 3:
                     not_enough_args(cmd)
-                elif argc > 3:
-                    too_many_args(cmd)
                 else:
                     shell.set_wallpaper_image(argv[2])
             case "set_wallpaper_mode":
                 if argc < 3:
                     not_enough_args(cmd)
-                elif argc > 3:
-                    too_many_args(cmd)
                 else:
                     shell.set_wallpaper_mode(argv[2])
             case "update_wallpaper_thumbs":
                 if argc < 3:
                     shell.update_wallpaper_thumbs()
-                elif argc > 3:
-                    too_many_args(cmd)
                 else:
                     shell.update_wallpaper_thumbs(argv[2])
             case "update_colourschemes":
                 if argc < 3:
                     shell.update_colourschemes()
-                elif argc > 3:
-                    too_many_args(cmd)
                 else:
                     shell.update_wallpaper_thumbs(argv[2])
             case "update_available_wallpapers":
                 if argc < 3:
                     shell.update_available_wallpapers()
-                elif argc > 3:
-                    too_many_args(cmd)
                 else:
                     shell.update_available_wallpapers(argv[2])
             case "lock":
-                if argc > 5:
-                    too_many_args(cmd)
                 grace="30"
                 if argc > 2:
                     if argv[2] == "--grace" or argv[2] == "-g":
                         if argc < 4:
                             not_enough_args(argv[2])
                         grace = argv[3]
-                    else:
-                        arg_not_recognised(argv[2])
                 shell.lock_screen(grace)
             case "close_all_widgets":
-                if argc > 2:
-                    too_many_args(cmd)
                 shell.close_all_widgets()
             case "screenshot":
                 import argparse
@@ -920,5 +856,3 @@ if __name__ == "__main__":
                 parser.add_argument("-s", "--sleep-time", default=0, type=float)
                 args = parser.parse_args(argv[2:])
                 shell.pick_colour(sleep_time=args.sleep_time)
-            case _:
-                arg_not_recognised(cmd)
