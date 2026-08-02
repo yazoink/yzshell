@@ -21,10 +21,7 @@
     "format": "",
     "tooltip": true,
     "tooltip-format": "Open control panel (Mod+Ctrl+M)",
-    "exec-on-event": true,
-    "interval": 60,
-    "on-click": "yzshell toggle control_center",
-    "signal": 9
+    "on-click": "yzshell toggle control_center"
   },
   "ext/workspaces": {
     "on-click": "activate",

@@ -4,6 +4,8 @@ hl.config({
     }
 })
 
+-- stolen from end-4
+
 hl.curve("expressiveFastSpatial", {
     type = "bezier",
     points = {{0.42, 1.67}, {0.21, 0.90}}
