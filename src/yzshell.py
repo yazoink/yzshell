@@ -193,6 +193,7 @@ class Shell:
             self.widgets.update_available_wallpapers(s[0])
             self.widgets.update_wallpaper_thumbs()
         self.wallpaper.reload()
+        self.configure_hyprlock()
 
     def set_wallpaper_mode(self, mode):
         self._set_config()
@@ -211,6 +212,7 @@ class Shell:
         self.widgets.update_var("wallpaper_mode", mode)
         self.config.change("wallpaper_mode", mode)
         self.wallpaper.reload()
+        self.configure_hyprlock()
 
     def get_search_results(self, query=""):
         self._set_widgets()
@@ -272,10 +274,10 @@ class Shell:
         else:
             self.widgets.update_available_wallpapers(dir)
 
-    def lock_screen(self):
+    def lock_screen(self, grace="30"):
         import subprocess
         subprocess.Popen(
-            f"hyprlock --grace 30", 
+            f"hyprlock --grace {grace}", 
             shell=True, stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
         )
@@ -351,6 +353,22 @@ class Shell:
         self._set_widgets()
         self.widgets.modules[widget].toggle()
 
+    def configure_hyprlock(self):
+        src = f"{environ["TEMPLATES_DIR"]}/hyprlock_background.conf.mustache"
+        dest = f"{environ["CONFIG_DIR"]}/hypr/hyprlock/background.conf"
+        cfg = ""
+        img = "screenshot"
+        with open(src, "r") as f:
+            cfg = f.read()
+        if self.config.current["wallpaper_mode"] != "tile":
+            d = self.config.current["wallpaper_dir"]
+            i = self.config.current["wallpaper_image"]
+            img = f"{d}/{i}"
+        cfg = cfg.replace("{{image}}", img)
+        with open(dest, "w") as f:
+            f.write(cfg)
+        print(">> Hyprlock configured")
+
     def reconfigure(self):
         from shutil import copytree, rmtree
         import subprocess
@@ -372,22 +390,6 @@ class Shell:
                     pass
                 copytree(src, dest)
             print(f">> Copied '{src}' to {dest}")
-
-        def configure_hyprlock():
-            src = f"{environ["TEMPLATES_DIR"]}/hyprlock_background.conf.mustache"
-            dest = f"{environ["CONFIG_DIR"]}/hypr/hyprlock/background.conf"
-            cfg = ""
-            img = "screenshot"
-            with open(src, "r") as f:
-                cfg = f.read()
-            if self.config.current["wallpaper_mode"] != "tile":
-                d = self.config.current["wallpaper_dir"]
-                i = self.config.current["wallpaper_image"]
-                img = f"{d}/{i}"
-            cfg = cfg.replace("{{image}}", img)
-            with open(dest, "w") as f:
-                f.write(cfg)
-            print(">> Hyprlock configured")
         
         def configure_zsh():
             rc = ""
@@ -529,7 +531,7 @@ class Shell:
         configure_vencord()
         configure_zsh()
         configure_qtct()
-        configure_hyprlock()
+        self.configure_hyprlock()
         
         self.reconfigure_colourscheme()
         subprocess.run(
@@ -874,9 +876,17 @@ if __name__ == "__main__":
                 else:
                     shell.update_available_wallpapers(argv[2])
             case "lock":
-                if argc > 2:
+                if argc > 5:
                     too_many_args(cmd)
-                shell.lock_screen()
+                grace="30"
+                if argc > 2:
+                    if argv[2] == "--grace" or argv[2] == "-g":
+                        if argc < 4:
+                            not_enough_args(argv[2])
+                        grace = argv[3]
+                    else:
+                        arg_not_recognised(argv[2])
+                shell.lock_screen(grace)
             case "close_all_widgets":
                 if argc > 2:
                     too_many_args(cmd)

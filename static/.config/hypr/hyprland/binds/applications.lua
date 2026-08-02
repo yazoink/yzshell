@@ -5,7 +5,7 @@ hl.bind("SUPER + R", hl.dsp.exec_cmd(run_launcher))
 
 -- yzshell
 hl.bind("SUPER + SHIFT + R", hl.dsp.exec_cmd("yzshell"))
-hl.bind("SUPER + SHIFT + L", hl.dsp.exec_cmd("yzshell lock"))
+hl.bind("SUPER + SHIFT + L", hl.dsp.exec_cmd("yzshell lock -g 0"))
 hl.bind("SUPER + P", hl.dsp.exec_cmd("yzshell toggle control_center"))
 hl.bind("SUPER + C", hl.dsp.exec_cmd("yzshell toggle calendar"))
 hl.bind("SUPER + SHIFT + Q", hl.dsp.exec_cmd("yzshell toggle power"))

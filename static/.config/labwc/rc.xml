@@ -12,7 +12,7 @@
   </focus>
   <keyboard>
     <keybind key="W-C-l">
-      <action name="Execute" command="yzshell lock" />
+      <action name="Execute" command="yzshell lock -g 0" />
     </keybind>
     <keybind key="W-p">
       <action name="Execute" command="yzshell toggle control_center" />

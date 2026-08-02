@@ -248,9 +248,15 @@ The available widgets are: `calendar`, `control_center`, `power`,
 
 ### Misc.
 
-Lock screen: `yzshell lock`.      
 Open colour picker: `yzshell pick_colour`.      
-Toggle do-not-disturb: `yzshell toggle_dnd`.      
+Toggle do-not-disturb: `yzshell toggle_dnd`.  
+
+#### Lockscreen
+
+Launch: `yzshell lock`.        
+
+Flags:
+- `--grace` or `-g`: seconds before authentication is required.
 
 #### Screenshot Utility
 

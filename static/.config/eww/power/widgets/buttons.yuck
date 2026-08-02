@@ -7,7 +7,7 @@
     "class": "lock",
     "icon": "",
     "desc": "Lock screen",
-    "cmd": "yzshell close_all_widgets & yzshell lock &"
+    "cmd": "yzshell close_all_widgets; yzshell lock -g 0 &"
   },
   {
     "class": "exit",
@@ -43,7 +43,7 @@
       :space-evenly false
       :valign "center"
       :halign "center"
-      (button :onclick "${cmd}" :class "yes green" "")
+      (button :onclick "${cmd}" :timeout "800ms" :class "yes green" "")
       (button :onclick "yzshell close_all_widgets &" :class "no red" "")
     )
   )
