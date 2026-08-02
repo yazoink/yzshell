@@ -34,6 +34,7 @@ function fresh_install() {
 }
 
 if [ -f "/tmp/hyprland_fresh_install" ]; then
+    # needs to be run in interactive terminal window
     fresh_install && rm -rf /tmp/hyprland_fresh_install
 fi
 
