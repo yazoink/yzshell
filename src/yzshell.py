@@ -596,93 +596,57 @@ class Shell:
         
         def configure_gtk_polarity(): # clean this up later -__-
             import subprocess
-            cfg = ""
+            gtk_settings = ""
+            labwc_env = ""
+            hyprland_env = ""
+            cursor_theme = "BreezeX"
+            icon_theme = "Papirus"
+            prefer_dark_theme = ""
+            polarity = self.colourscheme.scheme["polarity"]
+            if polarity == "dark":
+                cursor_theme += "-Dark"
+                icon_theme += "-Dark"
+                prefer_dark_theme = "true"
+            elif polarity == "light":
+                cursor_theme += "-Light"
+                icon_theme += "-Light"
+                prefer_dark_theme = "false"
+
             with open(f"{environ["STATIC_CONFIG_DIR"]}/gtk_settings.ini", "r") as f:
-                cfg = f.read()
-            if self.colourscheme.scheme["polarity"] == "dark":
-                cfg += "\ngtk-application-prefer-dark-theme=true"
-                cfg += "\ngtk-cursor-theme-name=BreezeX-Dark"
-                cfg += "\ngtk-icon-theme-name=Papirus-Dark"
-            else:
-                cfg += "\ngtk-application-prefer-dark-theme=false"
-                cfg += "\ngtk-cursor-theme-name=BreezeX-Light"
-                cfg += "\ngtk-icon-theme-name=Papirus-Light"
+                gtk_settings = f.read()
+            gtk_settings += f'''
+gtk-cursor-theme-name={cursor_theme}
+gtk-icon-theme-name={icon_theme}
+gtk-application-prefer-dark-theme={prefer_dark_theme}'''
             with open(f"{environ["CONFIG_DIR"]}/gtk-3.0/settings.ini", "w") as f:
-                f.write(cfg)
+                f.write(gtk_settings)
             with open(f"{environ["CONFIG_DIR"]}/gtk-4.0/settings.ini", "w") as f:
-                f.write(cfg)
+                f.write(gtk_settings)
 
             if self.config.current["window_manager"] == "labwc":
-                cfg = "" 
                 with open(f"{environ["STATIC_CONFIG_DIR"]}/.config/labwc/environment", "r") as f:
-                    cfg = f.read()
-                if self.colourscheme.scheme["polarity"] == "dark":
-                    cfg += "\nXCURSOR_THEME=BreezeX-Dark"
-                else:
-                    cfg += "\nXCURSOR_THEME=BreezeX-Light"
+                    labwc_env = f.read()
+                labwc_env += f"\nCURSOR_THEME={cursor_theme}"
                 with open(f"{environ["CONFIG_DIR"]}/labwc/environment", "w") as f:
-                    f.write(cfg)
+                    f.write(labwc_env)
             elif self.config.current["window_manager"] == "hyprland":
-                cfg = "" 
                 with open(f"{environ["STATIC_CONFIG_DIR"]}/.config/hypr/hyprland/env.lua", "r") as f:
-                    cfg = f.read()
-                if self.colourscheme.scheme["polarity"] == "dark":
-                    cfg += "\nhl.env(\"XCURSOR_THEME\", \"BreezeX-Dark\")"
-                else:
-                    cfg += "\nhl.env(\"XCURSOR_THEME\", \"BreezeX-Light\")"
+                    hyprland_env = f.read()
+                hyprland_env += f"\nhl.env(\"XCURSOR_THEME\", \"{cursor_theme}\")"
                 with open(f"{environ["CONFIG_DIR"]}/hypr/hyprland/env.lua", "w") as f:
-                    f.write(cfg)
-                
-            if self.colourscheme.scheme["polarity"] == "dark":
-                subprocess.run(
-                    "gsettings set org.gnome.desktop.interface color-scheme prefer-dark",
-                    shell=True, 
-                    stdout=subprocess.DEVNULL, 
-                    stderr=subprocess.STDOUT
-                )
-                subprocess.run(
-                    "gsettings set org.gnome.desktop.interface cursor-theme 'BreezeX-Dark'",
-                    shell=True,
-                    stdout=subprocess.DEVNULL, 
-                    stderr=subprocess.STDOUT
-                )
-                subprocess.run(
-                    f"papirus-folders -C {self.config.current["papirus_folders_colour"]} --theme Papirus-Dark",
-                    shell=True, 
-                    stdout=subprocess.DEVNULL, 
-                    stderr=subprocess.STDOUT
-                )
-                subprocess.run(
-                    "gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'",
-                    shell=True,
-                    stdout=subprocess.DEVNULL, 
-                    stderr=subprocess.STDOUT
-                )
-            else:
-                subprocess.run(
-                    "gsettings set org.gnome.desktop.interface cursor-theme 'BreezeX-Light'",
-                    shell=True,
-                    stdout=subprocess.DEVNULL, 
-                    stderr=subprocess.STDOUT
-                )
-                subprocess.run(
-                    "gsettings set org.gnome.desktop.interface color-scheme prefer-light",
-                    shell=True,
-                    stdout=subprocess.DEVNULL, 
-                    stderr=subprocess.STDOUT
-                )
-                subprocess.run(
-                    f"papirus-folders -C {self.config.current["papirus_folders_colour"]} --theme Papirus-Light",
-                    shell=True, 
-                    stdout=subprocess.DEVNULL, 
-                    stderr=subprocess.STDOUT
-                )
-                subprocess.run(
-                    "gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Light'",
-                    shell=True,
-                    stdout=subprocess.DEVNULL, 
-                    stderr=subprocess.STDOUT
-                )
+                    f.write(hyprland_env)
+
+            subprocess.run(
+                f'''
+                gsettings set org.gnome.desktop.interface color-scheme prefer-{polarity}
+                gsettings set org.gnome.desktop.interface cursor-theme {cursor_theme}
+                papirus-folders -C {self.config.current["papirus_folders_colour"]} --theme {icon_theme}
+                gsettings set org.gnome.desktop.interface icon-theme {icon_theme}
+                ''',
+                shell=True, 
+                stdout=subprocess.DEVNULL, 
+                stderr=subprocess.STDOUT
+            )
 
         templates = [
             MustacheTemplate("eww.scss.mustache", f"{environ["CONFIG_DIR"]}/eww/scss/_colours.scss"),
