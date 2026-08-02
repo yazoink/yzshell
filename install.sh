@@ -94,6 +94,12 @@ function install_hyprviewbinds() {
     sudo cp ~/src/HyprViewBinds/hyprviewbinds.desktop /usr/share/applications/hyprviewbinds.desktop
 }
 
+function install_dict() {
+    curl -s https://raw.githubusercontent.com/yazoink/dict/refs/heads/main/dict > /tmp/dict
+    sudo install -Dm755 /tmp/dict /usr/bin/dict
+    rm /tmp/dict
+}
+
 function install_soundboard() {
     deps=(
         "python"
@@ -141,6 +147,7 @@ function install_optional_deps() {
     done
 
     install_soundboard
+    install_dict
 }
 
 function install_deps() {
@@ -405,7 +412,7 @@ else
         install_window_manager
         yzshell default_apps install_all
     fi
-    [ $optional_deps -eq 0 ] && sudo pacman -Syu && install_optional_deps
+    [ $optional_deps -eq 0 ] && install_optional_deps
 fi
 
 yzshell reconfigure
