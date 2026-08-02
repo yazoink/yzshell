@@ -343,7 +343,6 @@ class Shell:
         self.widgets.modules[widget].open()
 
     def close(self, widget):
-        self._set_config()
         self._set_widgets()
         self.widgets.modules[widget].close()
 
