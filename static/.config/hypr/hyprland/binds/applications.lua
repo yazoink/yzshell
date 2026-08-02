@@ -27,6 +27,10 @@ end)
 
 hl.define_submap("power", function()
     hl.bind("escape", hl.dsp.exec_cmd("yzshell close_all_widgets"))
+    hl.bind("l", hl.dsp.exec_cmd("yzshell close_all_widgets; yzshell lock -g 0"))
+    hl.bind("s", hl.dsp.exec_cmd("systemctl shutdown"))
+    hl.bind("r", hl.dsp.exec_cmd("systemctl reboot"))
+    hl.bind("e", hl.dsp.exec_cmd("yzshell window_manager exit"))
 end)
 
 hl.define_submap("screenshot", function()
