@@ -10,7 +10,8 @@ class Waybar:
         try:
             r = subprocess.Popen(
                 f"waybar", 
-                shell=True, stdout=subprocess.DEVNULL, 
+                shell=True, 
+                stdout=subprocess.DEVNULL, 
                 stderr=subprocess.STDOUT
             )
         except:
@@ -24,7 +25,8 @@ class Waybar:
     def kill(self):
         subprocess.run(
             f"killall waybar", 
-            shell=True, stdout=subprocess.DEVNULL, 
+            shell=True, 
+            stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
         )
 

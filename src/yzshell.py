@@ -574,7 +574,9 @@ class Shell:
             MustacheTemplate("zathurarc.mustache", f"{environ["CONFIG_DIR"]}/zathura/zathurarc"),
             MustacheTemplate("discord.css.mustache", f"{environ["CONFIG_DIR"]}/vesktop/themes/yzshell.theme.css"),
             MustacheTemplate("vscode.json.mustache", f"{environ["CONFIG_DIR"]}/Code - OSS/User/settings.json"),
-            MustacheTemplate("hyprland_colours.lua.mustache", f"{environ["CONFIG_DIR"]}/hypr/colours.lua"),
+            MustacheTemplate("hyprland_colours.lua.mustache", f"{environ["CONFIG_DIR"]}/hypr/hyprland/colours.lua"),
+            MustacheTemplate("hyprlock.conf.mustache", f"{environ["CONFIG_DIR"]}/hypr/hyprlock/colours.conf"),
+            MustacheTemplate("hyprtoolkit.conf.mustache", f"{environ["CONFIG_DIR"]}/hypr/hyprlock/hyprtoolkit.conf"),
         ]
         threads = []
         for t in templates:

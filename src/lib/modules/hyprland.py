@@ -8,7 +8,7 @@ class Hyprland:
     
     def configure(self):
         src = f"{environ["TEMPLATES_DIR"]}/hyprland_vars.lua.mustache"
-        dest = f"{environ["CONFIG_DIR"]}/hypr/vars.lua"
+        dest = f"{environ["CONFIG_DIR"]}/hypr/hyprland/vars.lua"
         cfg = ""
         with open(src, "r") as f:
             cfg = f.read()

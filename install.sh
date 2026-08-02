@@ -9,12 +9,6 @@ function configure_fonts() {
     fc-cache -fv &> /dev/null
 }
 
-function configure_gtk() {
-    [ ! -d "${HOME}/.themes" ] && mkdir -p "${HOME}/.themes"
-    cp -rf "./static/.themes/"* "${HOME}/.themes"
-    echo "Copied GTK themes"
-}
-
 function configure_icons() {
     [ ! -d "${HOME}/.icons" ] && mkdir -p "${HOME}/.icons"
     cp -rf "./static/.icons/"* "${HOME}/.icons"
@@ -126,6 +120,7 @@ function install_deps() {
         "zsh-completions"
         "eza"
         "gnome-keyring"
+        "adw-gtk-theme"
     )
 
     for d in "${deps[@]}"; do
@@ -314,7 +309,6 @@ if [ $refresh -eq 1 ]; then
     sudo systemctl enable fstrim.timer
     configure_zsh
     configure_fonts
-    configure_gtk
     configure_icons
     install_executable
     yzshell default_apps install_all
