@@ -757,8 +757,6 @@ if __name__ == "__main__":
                                 if argc < 5:
                                     not_enough_args(argv[3])
                                 shell.get_available_default_apps(argv[4])
-                            case _:
-                                arg_not_recognised(argv[3])
                     case "set":
                         if argc < 5:
                             not_enough_args(cmd)
