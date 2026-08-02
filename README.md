@@ -107,7 +107,10 @@ Things may break if you don't.
 
 #### window_manager
 
-Declares the window manager yzshell uses. Do not edit this option manually.
+Declares the window manager yzshell uses -- either `hyprland` or `labwc`. Do 
+not edit this option manually. The recommended option is Hyprland, as 
+maintaining the Labwc config is not really a priority (it's really just there
+as a backup).
 
 #### colourscheme
 
