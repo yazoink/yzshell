@@ -46,7 +46,7 @@ function install_aur_package() {
 function configure_zsh() {
     # oh-my-zsh
     if [ ! -d "${HOME}/.oh-my-zsh" ]; then
-        sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+        sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
         exit_if_failed $? "failed to download oh-my-zsh"
         # autosuggestions
         [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions" ] \
@@ -264,8 +264,8 @@ function import_gpg_keys() {
 }
 
 function install_intel_legacy_drivers() {
+    sudo pacman -S mesa-amber
     deps=(
-        "mesa-amber"
         #"lib32-mesa-amber"
         "xf86-video-intel"
         "libva-intel-driver"
