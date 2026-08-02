@@ -14,3 +14,25 @@ hl.bind("SUPER + C", hl.dsp.exec_cmd("yzshell pick_colour"))
 hl.bind("SUPER + S", hl.dsp.exec_cmd("yzshell screenshot -m select"))
 hl.bind("SUPER + CTRL + S", hl.dsp.exec_cmd("yzshell screenshot -m full"))
 hl.bind("SUPER + ALT + S", hl.dsp.exec_cmd("yzshell toggle screenshot"))
+
+hl.define_submap("control_center", function()
+    hl.bind("escape", hl.dsp.exec_cmd("yzshell close_all_widgets"))
+    hl.bind("up", hl.dsp.exec_cmd("yzshell search_selected prev"))
+    hl.bind("down", hl.dsp.exec_cmd("yzshell search_selected next"))
+end)
+
+hl.define_submap("calendar", function()
+    hl.bind("escape", hl.dsp.exec_cmd("yzshell close_all_widgets"))
+end)
+
+hl.define_submap("power", function()
+    hl.bind("escape", hl.dsp.exec_cmd("yzshell close_all_widgets"))
+end)
+
+hl.define_submap("screenshot", function()
+    hl.bind("escape", hl.dsp.exec_cmd("yzshell close_all_widgets"))
+end)
+
+hl.define_submap("settings", function()
+    hl.bind("escape", hl.dsp.exec_cmd("yzshell close_all_widgets"))
+end)

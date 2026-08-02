@@ -92,6 +92,39 @@ class Shell:
         self._set_widgets()
         self.widgets.close_all()
 
+    def search_next_selected(self, direction="next"):
+        self._set_config()
+        self._set_widgets()
+        import json
+        import subprocess
+        r = subprocess.run(
+            "eww get search_selected",
+            shell=True,
+            text=True,
+            capture_output=True
+        ).stdout.strip()
+        selected = int(r)
+        if direction == "next":
+            r = subprocess.run(
+                "eww get search_results",
+                shell=True,
+                text=True,
+                capture_output=True
+            ).stdout.strip()
+            results = json.loads(r)
+            l = len(results)
+            if selected < l:
+                selected += 1
+        elif direction == "prev":
+            if selected > -1:
+                selected -= 1
+        subprocess.run(
+            f"eww update search_selected={selected}", 
+            shell=True,
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
+
     def pick_colour(self, sleep_time=0):
         import subprocess
         from time import sleep
@@ -801,6 +834,13 @@ if __name__ == "__main__":
                         arg_not_recognised(action)
             case "toggle_dnd":
                 shell.toggle_dnd()
+            case "search_selected":
+                if argc < 3:
+                    not_enough_args(cmd)
+                elif argc > 3:
+                    too_many_args(cmd)
+                else:
+                    shell.search_next_selected(argv[2])
             case "window_manager":
                 if argc < 3:
                     not_enough_args(cmd)

@@ -45,7 +45,7 @@ class EwwDaemon:
             # for p in self.modules[m].pre_close:
             #     p()
             subprocess.run(
-                f"eww update {m}_visible=false", 
+                f"eww update {m}_visible=false; hyprctl dispatch 'hl.dsp.submap(\"reset\")'", 
                 shell=True, 
                 stdout=subprocess.DEVNULL, 
                 stderr=subprocess.STDOUT
@@ -108,7 +108,7 @@ class EwwWindow:
         self.get_screen()
         for p in self.pre_open:
             p()
-        cmd = f"eww open closer --screen {self.screen}; eww open '{self.name}' --screen {self.screen}"
+        cmd = f"hyprctl dispatch 'hl.dsp.submap(\"{self.name}\")'; eww open closer --screen {self.screen}; eww open '{self.name}' --screen {self.screen}"
         try:
             subprocess.run(
                 cmd, 
