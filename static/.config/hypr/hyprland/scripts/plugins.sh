@@ -34,7 +34,7 @@ function fresh_install() {
 }
 
 if [ -f "/tmp/hyprland_fresh_install" ]; then
-    fresh_install
+    fresh_install && rm -rf /tmp/hyprland_fresh_install
 fi
 
 hyprpm reload
