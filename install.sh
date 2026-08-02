@@ -171,6 +171,7 @@ function install_deps() {
         "pavucontrol"
         "wlr-randr"
         "nwg-displays"
+        "wofi"
     )
 
     for d in "${deps[@]}"; do
