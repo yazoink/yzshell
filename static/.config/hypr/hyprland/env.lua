@@ -2,7 +2,6 @@ hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
 hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 
-hl.env("XCURSOR_THEME", "BreezeX-Dark")
 hl.env("XCURSOR_SIZE", 32)
 hl.env("GTK_THEME", "adw-gtk3")
 

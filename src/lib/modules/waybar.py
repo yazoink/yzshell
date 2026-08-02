@@ -108,5 +108,6 @@ class Waybar:
             soup.object.append(BeautifulSoup(s, "xml"))
         with open(dest, "w") as f:
             f.write(soup.decode())
+        print(">> Waybar configured")
         
         #self.reload()

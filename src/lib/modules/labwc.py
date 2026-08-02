@@ -85,4 +85,4 @@ class Labwc(WindowManager):
             cfg = cfg.replace("{{window_manager}}", "labwc")
             with open(dest, "w") as f:
                 f.write(cfg)
-            print("Labwc configured")
+            print(">> Labwc configured")

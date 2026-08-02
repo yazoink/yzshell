@@ -27,6 +27,7 @@ class WindowManager():
 
     def uninstall(self):
         self.deps.uninstall()
+        print(f">> Uninstalled window manager '{self.name}'")
 
     def install(self):
         from os import environ
@@ -40,3 +41,4 @@ class WindowManager():
         cfg = cfg.replace("{{window_manager}}", self.launch_cmd)
         with open(dest, "w") as f:
             f.write(cfg)
+        print(f">> Installed window manager '{self.name}'")

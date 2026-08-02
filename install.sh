@@ -336,5 +336,7 @@ fi
 
 yzshell reconfigure
 
-echo ">> Switch to Zsh with 'chsh -s \"\$(which zsh)\"'"
-echo "Installation complete!"
+echo "
+>> Switch to Zsh with 'chsh -s \"\$(which zsh)\"'"
+echo "
+Installation complete!"

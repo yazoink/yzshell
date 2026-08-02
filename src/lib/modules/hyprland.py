@@ -51,4 +51,4 @@ class Hyprland(WindowManager):
         )
         with open(dest, "w") as f:
             f.write(cfg)
-        print("Hyprland configured")
+        print(">> Hyprland configured")

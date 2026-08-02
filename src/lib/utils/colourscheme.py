@@ -51,4 +51,4 @@ class MustacheTemplate:
             cfg = cfg.replace(f"{{{{{s}}}}}", str(scheme.scheme[s]))
         with open(self.out, "w") as f:
             f.write(cfg)
-        print(f"Applied colourscheme '{scheme.scheme_name}' to '{self.out}'")
+        print(f">> Applied colourscheme '{scheme.scheme_name}' to '{self.out}'")
