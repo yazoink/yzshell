@@ -16,6 +16,16 @@ class PackageList:
             return True
         return False
 
+    def _aur_pkg_installed(self, p):
+        r = subprocess.run(
+            f'yay -Qi {p}',
+            shell=True,
+            capture_output=True,
+        ).returncode
+        if r == 0:
+            return True
+        return False
+
     def _install_pkg(self, p):
         print(f"Installing package {p}...")
         subprocess.run(f"sudo pacman -S --needed {p}", shell=True)
@@ -23,7 +33,7 @@ class PackageList:
 
     def _install_aur_pkg(self, p):
         print(f"Installing package {p}...")
-        subprocess.run(f"yay -S {p}", shell=True)
+        subprocess.run(f"yay -S --needed --norebuild --noredownload {p}", shell=True)
         print(f"Installed package {p}...")
 
     def _uninstall_pkg(self, p):
@@ -36,7 +46,7 @@ class PackageList:
             if self._pkg_installed(p) == False:
                 self._install_pkg(p)
         for p in self.aur_pkgs:
-            if self._pkg_installed(p) == True:
+            if self._aur_pkg_installed(p) == True:
                 self._install_aur_pkg(p)
 
     def uninstall(self):
@@ -44,5 +54,5 @@ class PackageList:
             if self._pkg_installed(p) == True:
                 self._uninstall_pkg(p)
         for p in self.aur_pkgs:
-            if self._pkg_installed(p) == True:
+            if self._aur_pkg_installed(p) == True:
                 self._uninstall_pkg(p)

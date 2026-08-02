@@ -34,8 +34,10 @@ class Shell:
         if self.wallpaper == None:
             self.wallpaper = Wallpaper(self.config)
 
-    def _set_windowmanager(self):
-        match self.config.current["window_manager"]:
+    def _set_windowmanager(self, wm=""):
+        if wm == "":
+            wm = self.config.current["window_manager"]
+        match wm:
             case "labwc":
                 from lib.modules.labwc import Labwc
                 if self.windowmanager == None:
@@ -129,6 +131,35 @@ class Shell:
         self.default_apps.change(category, app)
         self.windowmanager.configure()
         self.windowmanager.reload()
+
+    def set_window_manager(self, wm, dont_uninstall=False):
+        self._set_config()
+        self._set_windowmanager()
+        wms=["hyprland", "labwc"]
+        if wm not in wms:
+            print(f"Error: window manager '{wm}' not in config")
+            exit(1)
+        yes = ["", "y", "yes"]
+        no = ["n", "no"]
+        while True:
+            i = input(f">> Set '{wm}' as your window manager? (Y/n): ").lower().strip()
+            if i in yes:
+                break
+            elif i in no:
+                exit(0)
+        if dont_uninstall == False and wm != self.windowmanager.name:
+            while True:
+                i = input(f">> Uninstall '{self.windowmanager.name}'? (Y/n): ").lower().strip()
+                if i in yes:
+                    self.windowmanager.uninstall()
+                    break
+                elif i in no:
+                    break
+        self._set_windowmanager(wm)
+        self.windowmanager.install()
+        if wm == "hyprland":
+            with open("/tmp/hyprland_fresh_install", "w") as f:
+                f.write("true")
 
     def update_colourschemes(self):
         self._set_config()
@@ -727,6 +758,26 @@ if __name__ == "__main__":
                         arg_not_recognised(action)
             case "toggle_dnd":
                 shell.toggle_dnd()
+            case "window_manager":
+                if argc < 3:
+                    not_enough_args(cmd)
+                arg = argv[2]
+                match arg:
+                    case "set":
+                        dont_uninstall = False
+                        if argc < 4:
+                            not_enough_args(cmd)
+                        elif argc > 5:
+                            too_many_args(cmd)
+                            match argv[4]:
+                                case "-du" | "--dont-uninstall":
+                                    dont_uninstall = True
+                                case _:
+                                    arg_not_recognised(argv[4])
+                        shell.set_window_manager(argv[3], dont_uninstall)
+                        shell.reconfigure()
+                    case _:
+                        arg_not_recognised(cmd)
             case "get_search_results":
                 query = ""
                 if argc > 2:

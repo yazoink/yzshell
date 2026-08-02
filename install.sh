@@ -10,7 +10,7 @@ function package_installed() {
 function install_package() {
     package_installed "$1"
     if [ $? -ne 0 ]; then
-        sudo pacman -S --needed "$1"
+        sudo pacman -S -y --needed "$1"
         exit_if_failed $? "failed to install package '${1}'"
     else
         echo ">> Package '${1}' already installed, skipping..."
@@ -29,7 +29,7 @@ function exit_if_failed() {
 function install_aur_package() {
     package_installed "$1"
     if [ $? -ne 0 ]; then
-        yay -S --needed "$1"
+        yay -S --needed --norebuild --noredownload "$1"
         exit_if_failed $? "failed to install package '${1}'"
     fi
 }
@@ -58,7 +58,7 @@ function install_executable() {
 function install_yay() {
     package_installed "yay"
     if [ $? -ne 0 ]; then
-        sudo pacman -S --needed base-devel git
+        sudo pacman -S -y --needed base-devel git
         mkdir ~/src
         git clone https://aur.archlinux.org/yay.git ~/src/yay
         exit_if_failed $? "failed to download yay"

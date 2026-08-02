@@ -1,12 +1,28 @@
-from os import environ, path
-import subprocess
+from lib.utils.windowmanager import WindowManager
 
-
-class Hyprland:
+class Hyprland(WindowManager):
     def __init__(self, config):
-        self._config = config
-    
+        from lib.utils.packagelist import PackageList
+        super().__init__(
+            name = "hyprland",
+            config = config,
+            launch_cmd="start-hyprland",
+            reload_cmd = "hyprctl reload",
+            deps=PackageList([
+                "hyprland",
+                "hyprpolkitagent",
+                "xdg-desktop-portal-hyprland",
+                "pkgconf",
+                "cpio",
+                "cmake",
+                "git",
+                "meson",
+                "gcc"
+            ])
+        )
+
     def configure(self):
+        from os import environ
         src = f"{environ["TEMPLATES_DIR"]}/hyprland_vars.lua.mustache"
         dest = f"{environ["CONFIG_DIR"]}/hypr/hyprland/vars.lua"
         cfg = ""
@@ -34,19 +50,4 @@ class Hyprland:
         )
         with open(dest, "w") as f:
             f.write(cfg)
-
-        src = f"{environ["TEMPLATES_DIR"]}/zprofile.mustache"
-        dest = f"{environ["HOME"]}/.zprofile"
-        with open(src, "r") as f:
-            cfg = f.read()
-        cfg = cfg.replace("{{window_manager}}", "start-hyprland")
-        with open(dest, "w") as f:
-            f.write(cfg)
-
-    def reload(self):
-        subprocess.run(
-            f"hyprctl reload; hyprpm reload", 
-            shell=True, 
-            stdout=subprocess.DEVNULL, 
-            stderr=subprocess.STDOUT
-        )
+        print("Hyprland configured")
