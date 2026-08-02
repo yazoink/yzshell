@@ -133,6 +133,12 @@ function install_optional_deps() {
         "fastfetch"
         "galculator"
         "wf-recorder"
+        "nicotine+"
+        "prismlauncher"
+        "tree"
+        "keepassxc"
+        "libreoffice-still"
+        "pluma"
     )
     for d in "${deps[@]}"; do
         install_package "$d"
@@ -213,6 +219,7 @@ function install_deps() {
         "gvfs-smb"
         "gvfs-mtp"
         "gvfs-gphoto2"
+        "cryptsetup"
         "udisks2"
         "udiskie"
         "ntfsprogs"
