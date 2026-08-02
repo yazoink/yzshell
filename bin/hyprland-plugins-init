@@ -4,7 +4,7 @@ function fresh_install() {
     declare -A plugins
     plugins["hyprbars"]="https://github.com/hyprwm/hyprland-plugins"
     plugins["hyprexpo"]="https://github.com/sandwichfarm/hyprexpo"
-    notify-send "Hyprpm" "Updating plugins..."
+    notify-send "Hyprpm" "Installing plugins, please be patient..."
     hyprpm update
     r=$?
     if [ $r -ne 0 ]; then
@@ -15,12 +15,14 @@ function fresh_install() {
     notify-send "Hyprpm" "Update complete"
     for p in "${!plugins[@]}"; do
         if ! hyprpm list | grep -q "$p"; then
-            notify-send "Hyprpm" "Adding repo '${plugins[p]}'..."
-            hyprpm add "${plugins[p]}"
+            notify-send "Hyprpm" "Adding repo '${plugins[$p]}'..."
+            echo "${plugins[$p]}"
+            echo $p
+            echo y | hyprpm add "${plugins[$p]}"
             r=$?
             if [ $r -ne 0 ]; then
                 notify-send  --urgency=critical "Hyprpm" \
-                    "Failed to add repo '${plugins[p]}'!"
+                    "Failed to add repo '${plugins[$p]}'!"
                 exit 1
             fi
         fi
@@ -31,10 +33,11 @@ function fresh_install() {
         fi
         notify-send "Hyprpm" "Enabled plugin '${p}'"
     done
+    notify-send "Hyprpm" "All plugins installed"
+    return 0
 }
 
 if [ -f "/tmp/hyprland_fresh_install" ]; then
-    # needs to be run in interactive terminal window
     fresh_install && rm -rf /tmp/hyprland_fresh_install
 fi
 

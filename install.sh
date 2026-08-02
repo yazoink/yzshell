@@ -62,6 +62,8 @@ function configure_zsh() {
 function install_executable() {
     sudo install -Dm755 "./bin/yzshell" "/usr/bin/yzshell"
     echo "Installed 'yzshell' to '/usr/bin'"
+    sudo install -Dm755 "./bin/hyprland-plugins-init" "/usr/bin/hyprland-plugins-init"
+    echo "Installed 'hyprland-plugins-init' to '/usr/bin'"
 }
 
 function install_yay() {
@@ -339,6 +341,7 @@ if [ $refresh -eq 1 ]; then
     install_window_manager
     yzshell default_apps install_all
 else
+    install_executable
     [ $optional_deps -eq 0 ] && sudo pacman -Syu && install_optional_deps
 fi
 
