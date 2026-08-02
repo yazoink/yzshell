@@ -97,11 +97,13 @@ Things may break if you don't.
 
 ### Options
 
-#### window manager
+#### window_manager
+
+Declares the window manager yzshell uses. Do not edit this option manually.
 
 #### colourscheme
 
-Declares the desktop colourscheme.
+Declares the desktop colourscheme. Not recommended to edit manually.
 
 #### bar_show_battery
 
@@ -134,6 +136,38 @@ Wallpaper mode -- `stretch`, `fit`, `fill`, `center`, or `tile`.
 #### zen_profile_dir
 
 Absolute path to Zen Browser profile directory.
+
+#### file_manager / web_browser / media_player / image_viewer / document_reader
+
+Declares default apps. Do not edit manually
+
+#### terminal / run_launcher
+
+Declares the commands to run the terminal / run launcher. The only apps
+that are actually configured/installed are `foot` and `wofi`. Overrides are not
+a big deal with these, however.
+
+#### labwc_desktops
+
+Number of workspaces / virtual desktops Labwc configures. Any number over 9
+will probably not work properly.
+
+#### touchpad_scroll_factor
+
+Sets the scrolling sensitivity for the touchpad.
+
+#### oh_my_zsh_theme
+
+[One of these](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes).
+
+#### enable_h264ify
+
+Enable the h264ify browser extension 
+(only works for Zen right now because I'm lazy). Accepts `true` or `false`.
+
+### papirus_folders_colour
+
+Colour for the icon theme's folders. Run `papirus-folders -l` for options.
 
 ## CLI Interface
 
