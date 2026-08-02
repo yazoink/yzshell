@@ -62,8 +62,6 @@ function configure_zsh() {
 function install_executable() {
     sudo install -Dm755 "./bin/yzshell" "/usr/bin/yzshell"
     echo "Installed 'yzshell' to '/usr/bin'"
-    sudo install -Dm755 "./bin/hyprland-plugins-init" "/usr/bin/hyprland-plugins-init"
-    echo "Installed 'hyprland-plugins-init' to '/usr/bin'"
 }
 
 function install_yay() {
