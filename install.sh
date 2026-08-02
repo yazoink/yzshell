@@ -139,6 +139,8 @@ function install_optional_deps() {
         "keepassxc"
         "libreoffice-still"
         "pluma"
+        "kruler"
+        "qbittorrent"
     )
     for d in "${deps[@]}"; do
         install_package "$d"
