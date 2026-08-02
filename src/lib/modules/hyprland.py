@@ -11,7 +11,7 @@ class Hyprland(WindowManager):
             exit_cmd = "hyprctl dispatch 'hl.dsp.exit()'",
             deps=PackageList([
                 "hyprland",
-                "hyprpolkitagent",
+                "mate-polkit",
                 "xdg-desktop-portal-hyprland",
                 "pkgconf",
                 "cpio",
