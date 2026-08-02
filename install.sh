@@ -2,45 +2,72 @@
 
 DATA_DIR="${HOME}/.local/share/yzshell"
 
-function configure_fonts() {
-    [ ! -d "${HOME}/.fonts" ] && mkdir -p "${HOME}/.fonts"
-    cp -rf "./static/.fonts/"* "${HOME}/.fonts"
-    echo "Copied fonts"
-    fc-cache -fv &> /dev/null
+function package_installed() {
+    pacman -Qi "$1" > /dev/null 2>&1
+    return $?
 }
 
-function configure_icons() {
-    [ ! -d "${HOME}/.icons" ] && mkdir -p "${HOME}/.icons"
-    cp -rf "./static/.icons/"* "${HOME}/.icons"
-    echo "Copied icon themes"
+function install_package() {
+    package_installed "$1"
+    if [ $? -ne 0 ]; then
+        sudo pacman -S --needed "$1"
+        exit_if_failed $? "failed to install package '${1}'"
+    else
+        echo ">> Package '${1}' already installed, skipping..."
+    fi
+}
+
+function exit_if_failed() {
+    ret=$1
+    error_msg="$2"
+    if [ $ret -ne 0 ]; then
+        echo "Error: ${error_msg}"
+        exit 1
+    fi
+}
+
+function install_aur_package() {
+    package_installed "$1"
+    if [ $? -ne 0 ]; then
+        yay -S "$1"
+        exit_if_failed $? "failed to install package '${1}'"
+    fi
 }
 
 function configure_zsh() {
     # oh-my-zsh
     [ ! -d "${HOME}/.oh-my-zsh" ] \
         && sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    exit_if_failed $? "failed to download oh-my-zsh"
     # autosuggestions
     [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions" ] \
         && git clone https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions"
+    exit_if_failed $? "failed to download zsh-autosuggestions"
     # syntax highlighting
     [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting" ] \
         && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
+    exit_if_failed $? "failed to download zsh-syntax-highlighting"
 }
 
 function install_executable() {
     sudo install -Dm755 "./bin/yzshell" "/usr/bin/yzshell"
+    exit_if_failed $? "failed to install yzshell binary"
     echo "Installed 'yzshell' to '/usr/bin'"
 }
 
 function install_yay() {
-    sudo pacman -S --needed base-devel git
-    mkdir ~/src
-    git clone https://aur.archlinux.org/yay.git ~/src/yay
-    (
-        cd ~/src/yay || exit 1
-        makepkg -si
-        
-    )
+    package_installed "yay"
+    if [ $? -ne 0 ]; then
+        sudo pacman -S --needed base-devel git
+        mkdir ~/src
+        git clone https://aur.archlinux.org/yay.git ~/src/yay
+        exit_if_failed $? "failed to download yay"
+        (
+            cd ~/src/yay || exit 1
+            makepkg -si
+            exit_if_failed $? "failed to install yay"
+        )
+    fi
 }
 
 function install_optional_deps() {
@@ -48,9 +75,12 @@ function install_optional_deps() {
         "code"
         "fastfetch"
         "gimp"
+        "htop"
+        "fastfetch"
+        "galculator"
     )
     for d in "${deps[@]}"; do
-        sudo pacman -S "$d"
+        install_package "$d"
     done
 
     aur_deps=(
@@ -58,7 +88,7 @@ function install_optional_deps() {
     )
 
     for d in "${aur_deps[@]}"; do
-        yay -S "$d"
+        install_aur_package "$d"
     done
 }
 
@@ -89,6 +119,7 @@ function install_deps() {
         "libnotify"
         "waybar"
         "otf-font-awesome"
+        "tex-gyre-fonts"
         "hyprpicker"
         "wl-clipboard"
         "grim"
@@ -114,7 +145,6 @@ function install_deps() {
         "swayidle"
         "swaylock"
         "network-manager-applet"
-        "wayland-pipewire-idle-inhibit"
         "pavucontrol"
         "zsh"
         "zsh-completions"
@@ -124,7 +154,7 @@ function install_deps() {
     )
 
     for d in "${deps[@]}"; do
-        sudo pacman -S --needed "$d"
+        install_package "$d"
     done
 
     curl -sS https://github.com/elkowar.gpg | gpg --import -i -
@@ -136,10 +166,12 @@ function install_deps() {
         "poweralertd"
         "ttf-gabarito-git"
         "ttf-aporetic"
+        "breezex-cursor-theme"
+        "wayland-pipewire-idle-inhibit"
     )
 
     for d in "${aur_deps[@]}"; do
-        yay -S "$d"
+        install_aur_package "$d"
     done
 }
 
@@ -154,7 +186,7 @@ function install_intel_legacy_drivers() {
         "libvdpau-va-gl"
     )
     for d in "${deps[@]}"; do
-        sudo pacman -S "$d"
+        install_package "$d"
     done
     echo "LIBVA_DRIVER_NAME=i965
 VDPAU_DRIVER=va_gl" | sudo tee /etc/environment >/dev/null
@@ -171,7 +203,7 @@ function install_intel_drivers() {
         "vulkan-intel"
     )
     for d in "${deps[@]}"; do
-        sudo pacman -S "$d"
+        install_package "$d"
     done
     echo "LIBVA_DRIVER_NAME=iHD
 VDPAU_DRIVER=va_gl" | sudo tee /etc/environment >/dev/null
@@ -185,7 +217,7 @@ function install_amd_drivers() {
         "libvdpau-va-gl"
     )
     for d in "${deps[@]}"; do
-        sudo pacman -S "$d"
+        install_package "$d"
     done
     echo "LIBVA_DRIVER_NAME=radeonsi
 VDPAU_DRIVER=va_gl" | sudo tee /etc/environment >/dev/null
@@ -198,13 +230,13 @@ function install_labwc() {
         "wtype"
     )
     for d in "${deps[@]}"; do
-        sudo pacman -S "$d"
+        install_package "$d"
     done
     aur_deps=(
         "labwc-menu-generator-git"
     )
     for d in "${aur_deps[@]}"; do
-        yay -S "$d"
+        install_aur_package "$d"
     done
     echo "{ \"window_manager\": \"labwc\" }" > "${HOME}/.config/yzshell/config.json"
 }
@@ -221,7 +253,7 @@ function install_hyprland() {
         "gcc"
     )
     for d in "${deps[@]}"; do
-        sudo pacman -S --needed "$d"
+        install_package "$d"
     done
     echo "{ \"window_manager\": \"hyprland\" }" > "${HOME}/.config/yzshell/config.json"
 }
@@ -267,6 +299,14 @@ function help() {
     exit 0
 }
 
+function copy_data_dir() {
+    name="$1"
+    cp -rf "./${name}" "${DATA_DIR}/${name}"
+    exit_if_failed $? "failed copy './${name}' to '${DATA_DIR}/${name}'" 
+} 
+
+#set -e
+
 # ensure script run as user
 if [ "$EUID" -eq 0 ]; then
     echo "Please do not run as root"
@@ -291,12 +331,13 @@ done
 # copy data
 [ -d "$DATA_DIR" ] && rm -rf "$DATA_DIR"
 mkdir -p "$DATA_DIR"
+exit_if_failed $? "failed to make directory '${DATA_DIR}'"
 
-cp -rf "./templates" "${DATA_DIR}/templates" &
-cp -rf "./colourschemes" "${DATA_DIR}/colourschemes" &
-cp -rf "./assets" "${DATA_DIR}/assets" &
-cp -rf "./static" "${DATA_DIR}/static" &
-cp -rf "./src" "${DATA_DIR}/src" &
+copy_data_dir "templates" &
+copy_data_dir "assets" &
+copy_data_dir "static" &
+copy_data_dir "colourschemes" &
+copy_data_dir "src" &
 
 # full setup
 if [ $refresh -eq 1 ]; then
@@ -308,15 +349,13 @@ if [ $refresh -eq 1 ]; then
     install_window_manager
     sudo systemctl enable fstrim.timer
     configure_zsh
-    configure_fonts
-    configure_icons
     install_executable
     yzshell default_apps install_all
 else
-    [ $optional_deps -eq 0 ] && install_optional_deps
+    [ $optional_deps -eq 0 ] && sudo pacman -Syu && install_optional_deps
 fi
 
-yzshell reconfigure &>/dev/null
+yzshell reconfigure
 
 echo ">> Switch to Zsh with 'chsh -s \"\$(which zsh)\"'"
 echo ">> After launching Hyprland, enable Hyprbars plugin:
