@@ -27,27 +27,30 @@ class PackageList:
         return False
 
     def _install_pkg(self, p):
-        print(f"Installing package {p}...")
+        print(f"Installing package '{p}'...")
         subprocess.run(f"sudo pacman -S --needed {p}", shell=True)
-        print(f"Installed package {p}...")
 
     def _install_aur_pkg(self, p):
-        print(f"Installing package {p}...")
+        print(f"Installing package '{p}'...")
         subprocess.run(f"yay -S --needed --norebuild --noredownload {p}", shell=True)
-        print(f"Installed package {p}...")
 
     def _uninstall_pkg(self, p):
-        print(f"Uninstalling package {p}...")
+        print(f"Uninstalling package '{p}'...")
         subprocess.run(f"sudo pacman -Rns {p}", shell=True)
-        print(f"Uninstalled package {p}...")
 
     def install(self):
+        def already_installed(p):
+            print(f">> Package '{p}' already installed, skipping...")
         for p in self.pkgs:
             if self._pkg_installed(p) == False:
                 self._install_pkg(p)
+            else:
+                already_installed(p)
         for p in self.aur_pkgs:
-            if self._aur_pkg_installed(p) == True:
+            if self._aur_pkg_installed(p) == False:
                 self._install_aur_pkg(p)
+            else:
+                already_installed(p)
 
     def uninstall(self):
         for p in self.pkgs:

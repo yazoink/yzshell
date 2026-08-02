@@ -228,44 +228,6 @@ function install_amd_drivers() {
 VDPAU_DRIVER=va_gl" | sudo tee /etc/environment >/dev/null
 }
 
-function install_labwc() {
-    deps=(
-        "labwc"
-        "wlopm"
-        "wtype"
-        "mate-polkit"
-    )
-    for d in "${deps[@]}"; do
-        install_package "$d"
-    done
-    aur_deps=(
-        "labwc-menu-generator-git"
-    )
-    for d in "${aur_deps[@]}"; do
-        install_aur_package "$d"
-    done
-    echo "{ \"window_manager\": \"labwc\" }" > "${HOME}/.config/yzshell/config.json"
-}
-
-function install_hyprland() {
-    deps=(
-        "hyprland"
-        "hyprpolkitagent"
-        "xdg-desktop-portal-hyprland"
-        "pkgconf"
-        "cpio"
-        "cmake"
-        "git"
-        "meson"
-        "gcc"
-    )
-    for d in "${deps[@]}"; do
-        install_package "$d"
-    done
-    echo "{ \"window_manager\": \"hyprland\" }" > "${HOME}/.config/yzshell/config.json"
-    touch "/tmp/hyprland_fresh_install"
-}
-
 function install_window_manager() {
     wm=""
     echo "0. None
@@ -276,8 +238,8 @@ function install_window_manager() {
         [[ "$wm" =~ [0-2] ]] && break
     done
     case "$wm" in
-        "1") install_hyprland & ;;
-        "2") install_labwc & ;;
+        "1") yzshell window_manager set hyprland --dont-uninstall ;;
+        "2") yzshell window_manager set labwc --dont-uninstall ;;
     esac
 }
 
@@ -354,10 +316,10 @@ if [ $refresh -eq 1 ]; then
     install_deps
     [ $optional_deps -eq 0 ] && install_optional_deps
     install_graphics_drivers
-    install_window_manager
     sudo systemctl enable fstrim.timer
     configure_zsh
     install_executable
+    install_window_manager
     yzshell default_apps install_all
 else
     [ $optional_deps -eq 0 ] && sudo pacman -Syu && install_optional_deps
@@ -366,8 +328,4 @@ fi
 yzshell reconfigure
 
 echo ">> Switch to Zsh with 'chsh -s \"\$(which zsh)\"'"
-echo ">> After launching Hyprland, enable Hyprbars plugin:
-$ hyprpm update
-$ hyprpm add https://github.com/hyprwm/hyprland-plugins
-$ hyprpm enable hyprbars"
 echo "Installation complete!"
