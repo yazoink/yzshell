@@ -97,7 +97,7 @@
   "wireplumber#icon": {
     "format": "{icon}",
     "format-muted": "",
-    "on-click-right": "pwvucontrol",
+    "on-click-right": "pavucontrol",
     "on-click-middle": "amixer -D pipewire set Master toggle",
     "on-click": "amixer -D pipewire set Master toggle",
     "tooltip-format": "Volume\\n- Click to mute\\n- Right click to open settings\\n- Scroll to adjust",

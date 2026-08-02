@@ -21,12 +21,22 @@ class DefaultApp():
 
 class PCManFM(DefaultApp):
     def __init__(self):
-        self.deps = PackageList([
-            "pcmanfm",
-            "file-roller",
-            "tumbler",
-            "ffmpegthumbnailer"
-        ])
+        self.deps = PackageList(
+            pkgs=[
+                "pcmanfm",
+                "file-roller",
+                "tumbler",
+                "ffmpegthumbnailer",
+                "webp-pixbuf-loader",
+                "freetype2",
+                "totem",
+                "poppler-glib",
+                "libgsf"
+            ],
+            aur_pkgs=[
+                "raw-thumbnailer",
+            ]
+        )
         super().__init__(
             desktop_file="pcmanfm.desktop",
             launch_cmd="pcmanfm",
@@ -36,16 +46,26 @@ class PCManFM(DefaultApp):
 
 class Thunar(DefaultApp):
     def __init__(self):
-        self.deps = PackageList([
-            "thunar",
-            "thunar-archive-plugin",
-            "thunar-media-tags-plugin",
-            "thunar-volman",
-            "thunar-shares-plugin",
-            "file-roller",
-            "tumbler",
-            "ffmpegthumbnailer",
-        ])
+        self.deps = PackageList(
+            pkgs=[
+                "thunar",
+                "thunar-archive-plugin",
+                "thunar-media-tags-plugin",
+                "thunar-volman",
+                "thunar-shares-plugin",
+                "file-roller",
+                "tumbler",
+                "ffmpegthumbnailer",
+                "webp-pixbuf-loader",
+                "freetype2",
+                "totem",
+                "poppler-glib",
+                "libgsf"
+            ],
+            aur_pkgs=[
+                "raw-thumbnailer",
+            ]
+        )
         super().__init__(
             desktop_file="thunar.desktop",
             launch_cmd="thunar",

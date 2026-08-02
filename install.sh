@@ -87,6 +87,7 @@ function install_optional_deps() {
         "htop"
         "fastfetch"
         "galculator"
+        "wf-recorder"
     )
     for d in "${deps[@]}"; do
         install_package "$d"
@@ -165,6 +166,9 @@ function install_deps() {
         "gvfs-mtp"
         "gvfs-gphoto2"
         "udisks2"
+        "ntfsprogs"
+        "pavucontrol"
+        "wlr-randr"
     )
 
     for d in "${deps[@]}"; do
