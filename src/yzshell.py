@@ -575,13 +575,8 @@ class Shell:
 
         self.reconfigure_colourscheme()
         subprocess.run(
-            "gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3'",
-            shell=True, 
-            stdout=subprocess.DEVNULL, 
-            stderr=subprocess.STDOUT
-        )
-        subprocess.run(
-            "gsettings set org.gnome.desktop.interface font-name 'sans 11'",
+            '''gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3
+gsettings set org.gnome.desktop.interface font-name "sans 11"''',
             shell=True, 
             stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
