@@ -36,7 +36,7 @@ class EwwDaemon:
 
     def close_all(self):
         subprocess.run(
-            "eww close-all", 
+            "eww close-all; hyprctl dispatch 'hl.dsp.submap(\"reset\")'", 
             shell=True, 
             stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
@@ -45,7 +45,7 @@ class EwwDaemon:
             # for p in self.modules[m].pre_close:
             #     p()
             subprocess.run(
-                f"eww update {m}_visible=false; hyprctl dispatch 'hl.dsp.submap(\"reset\")'", 
+                f"eww update {m}_visible=false", 
                 shell=True, 
                 stdout=subprocess.DEVNULL, 
                 stderr=subprocess.STDOUT
