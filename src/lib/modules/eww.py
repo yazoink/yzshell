@@ -120,7 +120,7 @@ class EwwWindow:
             print(f"Error: could not open widget '{self.name}'")
             exit(1)
         subprocess.run(
-            f"eww update {self.name}_visible=true", 
+            f"eww update {self.name}_visible=true",
             shell=True, 
             stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
@@ -195,7 +195,7 @@ class Eww(EwwDaemon):
     def open_search_input(self):
         cmd = f"eww open search_input --screen {self.modules["control_center"].screen}"
         from time import sleep
-        sleep(0.3)
+        sleep(0.5)
         subprocess.run(
             cmd, 
             shell=True, 
