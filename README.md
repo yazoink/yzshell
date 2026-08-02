@@ -222,7 +222,8 @@ configurations and dependencies will be handled automatically.
 
 To change the window manager yzshell uses, run 
 `yzshell window_manager set <window manager>`. The available options are 
-`hyprland` (recommended), and `labwc`.
+`hyprland` (recommended), and `labwc`. All configurations and dependencies are
+handled automatically.
 
 yzshell also provides a command to cleanly exit the window manager with
 `yzshell window_manager exit`.
