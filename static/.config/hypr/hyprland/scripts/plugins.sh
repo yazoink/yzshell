@@ -3,7 +3,7 @@
 function fresh_install() {
     declare -A plugins
     plugins["hyprbars"]="https://github.com/hyprwm/hyprland-plugins"
-    plugins["hyprexpo"]="https://github.com/sandwichfarm/hyprexpo"
+    #plugins["hyprexpo"]="https://github.com/sandwichfarm/hyprexpo"
     notify-send "Hyprpm" "Installing plugins, please be patient..."
     hyprpm update
     r=$?
