@@ -42,7 +42,7 @@ Features:
 
 <img width="1359" height="767" src="/assets/images/screenshots/logout.png" />
 <img width="1359" height="767" src="/assets/images/screenshots/colourschemes.png" />
-
+<img width="1359" height="767" src="/assets/images/screenshots/lockscreen.png" />
 
 ## Installation
 
