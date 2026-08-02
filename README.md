@@ -26,12 +26,21 @@ Features:
 
 ## Showcase
 
-<img width="1359" height="767" alt="20260724_19:05:54_screenshot" src="https://github.com/user-attachments/assets/0234cf5c-3980-4254-aa7c-c7fe08830152" />
-<img width="1366" height="766" alt="20260724_19:03:54_screenshot" src="https://github.com/user-attachments/assets/94eb5a97-ddf2-4c46-9014-5cea320a0ccd" />
-<img width="1366" height="768" alt="20260724_19:06:10_screenshot" src="https://github.com/user-attachments/assets/92b7ab56-204f-4d5d-9b6c-244284afa6c0" />
-<img width="1366" height="767" alt="20260724_19:06:44_screenshot" src="https://github.com/user-attachments/assets/d51d9271-28bd-401a-b0ab-6521737ae672" />
-<img width="1366" height="767" alt="20260724_19:06:27_screenshot" src="https://github.com/user-attachments/assets/3f119230-d7b5-4304-9bf2-6cad7148a823" />
-<img width="1366" height="767" alt="20260724_19:09:33_screenshot" src="https://github.com/user-attachments/assets/78084ab4-236f-4dce-8768-e961bb03339b" />
+### Hyprland
+
+<img width="1359" height="767" src="assets/screenshots/hyprland-1.png" />
+<img width="1359" height="767" src="assets/screenshots/hyprland-2.png" />
+<img width="1359" height="767" src="assets/screenshots/hyprland-3.png" />
+
+### Labwc
+
+<img width="1359" height="767" src="assets/screenshots/labwc-1.png" />
+<img width="1359" height="767" src="assets/screenshots/labwc-2.png" />
+
+### Misc
+
+<img width="1359" height="767" src="assets/screenshots/logout.png" />
+<img width="1359" height="767" src="assets/screenshots/colourschemes.png" />
 
 
 ## Installation
@@ -40,13 +49,16 @@ Prerequisites:
 - Base Arch installation
 - Internet connection
 
-```bash
-git clone https://github.com/yazoink/yzshell
-cd yzshell
-./install.sh
+```
+$ git clone https://github.com/yazoink/yzshell
+$ cd yzshell
+$ ./install.sh
 ```
 
-And reboot.
+And reboot.      
+
+The script will prompt the selection of the window manager, and also the 
+installation of graphics drivers (on particular hardware).
 
 ## Configuration
 
@@ -55,32 +67,41 @@ config would look as such:
 
 ```json
 {
-  "colourscheme": "mellow",
-  "bar_show_battery": true,
-  "bar_show_backlight": true,
-  "profile_image": "/home/user/.local/share/yzshell/assets/images/profile_image.jpg",
-  "screenshot_dir": "/home/user/pic/screenshots",
-  "wallpaper_dir": "/home/user/pic",
-  "wallpaper_image": "a_painting_of_flowers_and_leaves.jpeg",
-  "wallpaper_mode": "fill",
-  "zen_profile_dir": "/home/user/.config/zen/gd1z8qc7.Default (release)",
-  "file_manager": "pcmanfm",
-  "web_browser": "zen",
-  "document_reader": "zathura",
-  "terminal": "foot",
-  "media_player": "mpv",
-  "image_viewer": "imv-dir",
-  "run_launcher": "wofi --show drun",
-  "labwc_desktops": 9
+    "window_manager": "hyprland",
+    "colourscheme": "moonfly",
+    "bar_show_battery": true,
+    "bar_show_backlight": true,
+    "profile_image": "/home/gene/.local/share/yzshell/assets/images/profile_image.jpg",
+    "screenshot_dir": "/home/gene/pic/screenshots",
+    "wallpaper_dir": "/home/gene/pic/wallpapers",
+    "wallpaper_image": "andrei-lazarev-QtM-8j_1o3Q.jpg",
+    "wallpaper_mode": "fill",
+    "zen_profile_dir": "/home/gene/.config/zen/htooy43a.Default (release)",
+    "file_manager": "pcmanfm",
+    "web_browser": "zen-browser",
+    "document_reader": "zathura",
+    "terminal": "foot",
+    "media_player": "mpv",
+    "image_viewer": "imv",
+    "run_launcher": "wofi --show run",
+    "labwc_desktops": 9,
+    "touchpad_scroll_factor": 0.15,
+    "oh_my_zsh_theme": "robbyrussell",
+    "enable_h264ify": false,
+    "papirus_folders_colour": "palebrown"
 }
 ```
 
+Note: it's always a good idea to run `yzshell reconfigure` after updating.
+Things may break if you don't.
+
 ### Options
+
+#### window manager
 
 #### colourscheme
 
-Value must be the name of a file in `./colourschemes`
-(`~/.local/share/yzshell/colourschemes` once installed), omitting the `.json`.
+Declares the desktop colourscheme.
 
 #### bar_show_battery
 
@@ -113,6 +134,90 @@ Wallpaper mode -- `stretch`, `fit`, `fill`, `center`, or `tile`.
 #### zen_profile_dir
 
 Absolute path to Zen Browser profile directory.
+
+## CLI Interface
+
+yzshell provides a cli interface for launching and interacting with different
+desktop components.      
+
+The `yzshell` command, on its own, will restart/launch the shell. Hyprland and
+Labwc are configured to launch it automatically.
+
+### Configuration
+
+yshell's config file can be edited manually, or with 
+`yzshell config set <option> <value>`. Note that `yzshell reconfigure` still
+needs to be run manually after updating.      
+
+To get the value of a config option, you can also run 
+`yzshell config get <option>`.
+
+### Reconfiguration
+
+When the config is updated, `yzshell reconfigure` must be run to apply the 
+changes, or else bugs may occur. This command re-generates all of the
+application config files according to the options in yzshell's config file.
+
+### Colourscheme
+
+To change the colourscheme, run `yzshell colourscheme <colourscheme>`. To list
+available schemes, run `yzshell colourscheme list`.
+
+### Default Apps
+
+yzshell installs and configures default apps for a number of categories 
+(i.e. web browser, file manager...). To list the available categories, run
+`yzshell default_apps get categories`. To list the apps available in a 
+category, run `yzshell default_apps get apps <category>`.
+
+To change a default app, run `yzshell default_apps set <category> <app>`. The
+configurations and dependencies will be handled automatically.
+
+### Window Manager
+
+To change the window manager yzshell uses, run 
+`yzshell window_manager set <window manager>`. The available options are 
+`hyprland` (recommended), and `labwc`.
+
+yzshell also provides a command to cleanly exit the window manager with
+`yzshell window_manager exit`.
+
+### Wallpaper
+
+The wallpaper can be set with `yzshell set_wallpaper <path>`.
+The wallpaper mode can be set with `yzshell set_wallpaper_mode <mode>`.
+
+### Opening/Closing Widgets
+
+Widgets can be opened/closed/toggled as such:
+```
+$ yzshell open <widget>
+$ yzshell close <widget>
+$ yzshell toggle <widget>
+$ yzshell close_all_widgets
+```
+
+The available widgets are: `calendar`, `control_center `, `power`, 
+`screenshot`, and `settings`.
+
+### Misc.
+
+Lock screen: `yzshell lock`.      
+Open colour picker: `yzshell pick_colour`.      
+Toggle do-not-disturb: `yzshell toggle_dnd`.      
+
+#### Screenshot Utility
+
+Basic usage: `yzshell screenshot` -- takes a fullscreen screenshot and outputs
+to the directory specified under `screenshot_dir` in the config file.
+
+Flags:
+
+- `--mode` or `-m`: specifies the mode, accepts `full` or `select` as an 
+  argument.
+- `--output` or `-o`: specifies the path to save the screenshot.
+- `--sleep-time` or `s`: time in seconds to wait before taking screenshot.
+
 
 ## TODO
 - Nvim config/theme

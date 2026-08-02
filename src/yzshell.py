@@ -67,6 +67,12 @@ class Shell:
         if self.colourscheme == None:
             self.colourscheme = Colourscheme(scheme)
 
+    def list_colourschemes(self):
+        from os import listdir
+        d = listdir(environ["COLOURS_DIR"])
+        for c in d:
+            print(c.replace(".json", ""))
+
     def get_default_app_categories(self):
         self._set_config()
         self._set_default_apps()
@@ -269,7 +275,7 @@ class Shell:
     def lock_screen(self):
         import subprocess
         subprocess.Popen(
-            f"hyprlock", 
+            f"hyprlock --grace 30", 
             shell=True, stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
         )
@@ -709,8 +715,11 @@ if __name__ == "__main__":
                 elif argc > 3:
                     too_many_args(cmd)
                 else:
-                    shell.reconfigure_colourscheme(argv[2])
-                    shell.launch()
+                    if argv[2] == "list":
+                        shell.list_colourschemes()
+                    else:
+                        shell.reconfigure_colourscheme(argv[2])
+                        shell.launch()
             case "config":
                 if argc < 3:
                     not_enough_args(cmd)
