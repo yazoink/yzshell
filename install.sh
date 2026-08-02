@@ -236,6 +236,7 @@ function install_deps() {
         "freetype2"
         "poppler-glib"
         "libgsf"
+        "alsa-utils"
     )
 
     for d in "${deps[@]}"; do
@@ -250,7 +251,6 @@ function install_deps() {
         "ttf-aporetic"
         "breezex-cursor-theme"
         "wayland-pipewire-idle-inhibit"
-        "alsa-utils"
     )
 
     for d in "${aur_deps[@]}"; do
