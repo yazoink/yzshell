@@ -141,6 +141,7 @@ function install_optional_deps() {
         "pluma"
         "kruler"
         "qbittorrent"
+        "yt-dlp"
     )
     for d in "${deps[@]}"; do
         install_package "$d"
