@@ -22,6 +22,7 @@
   :stacking "fg"
   :exclusive false
   :focusable "ondemand"
+  :namespace "search_input"
   (box
     :orientation "h"
     :space-evenly false

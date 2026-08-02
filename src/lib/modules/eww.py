@@ -70,6 +70,7 @@ class EwwWindow:
         self.post_open = post_open
         self.pre_close = pre_close
         self._config = config
+        self.screen = "0"
 
     def launch(self):
         for p in self.pre_launch:
@@ -92,8 +93,7 @@ class EwwWindow:
         else:
             self.open()
 
-    def open(self):
-        screen = 0
+    def get_screen(self):
         if self._config.current["window_manager"] == "hyprland":
             r = subprocess.run(
                 "hyprctl activeworkspace -j",
@@ -101,11 +101,17 @@ class EwwWindow:
                 text=True,
                 capture_output=True
             ).stdout
-            screen = json.loads(r)["monitorID"]
-        screen = str(screen)
+            self.screen = json.loads(r)["monitorID"]
+            self.screen = str(self.screen)
+
+    def open(self):
+        self.get_screen()
+        for p in self.pre_open:
+            p()
+        cmd = f"eww open closer --screen {self.screen}; eww open '{self.name}' --screen {self.screen}"
         try:
             subprocess.run(
-                f"eww open closer --screen {screen}; eww open '{self.name}' --screen {screen}", 
+                cmd, 
                 shell=True, 
                 stdout=subprocess.DEVNULL, 
                 stderr=subprocess.STDOUT
@@ -113,8 +119,6 @@ class EwwWindow:
         except:
             print(f"Error: could not open widget '{self.name}'")
             exit(1)
-        for p in self.pre_open:
-            p()
         subprocess.run(
             f"eww update {self.name}_visible=true", 
             shell=True, 
@@ -178,8 +182,8 @@ class Eww(EwwDaemon):
                         #Thread(target=self.update_menu_item).start
                     ],
                     post_open=[
+                        Thread(target=self.open_search_input).start,
                         Thread(target=self.update_weather).start,
-                        Thread(target=self.open_search_input).start
                     ],
                     pre_close=[
                         Thread(target=self.close_search_input).start
@@ -189,10 +193,11 @@ class Eww(EwwDaemon):
         )
     
     def open_search_input(self):
+        cmd = f"eww open search_input --screen {self.modules["control_center"].screen}"
         from time import sleep
         sleep(0.3)
         subprocess.run(
-            "eww open search_input", 
+            cmd, 
             shell=True, 
             stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT

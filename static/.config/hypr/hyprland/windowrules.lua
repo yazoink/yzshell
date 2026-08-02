@@ -9,3 +9,6 @@ hl.window_rule({ match = { title = "^(Save As)(.*)$" }, float = true })
 hl.window_rule({ match = { title = "^(Picture-in-Picture)$" }, float = true })
 hl.window_rule({ match = { title = "^(Picture-in-Picture)$" }, pin = true })
 hl.window_rule({ match = { title = "^(Authentication Required)$" }, float = true })
+hl.window_rule({ match = { title = "^(Authentication Required)$" }, float = true })
+
+hl.layer_rule({match = { namespace = "search_input" }, no_anim = true})
