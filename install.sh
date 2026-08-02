@@ -166,9 +166,11 @@ function install_deps() {
         "gvfs-mtp"
         "gvfs-gphoto2"
         "udisks2"
+        "udiskie"
         "ntfsprogs"
         "pavucontrol"
         "wlr-randr"
+        "nwg-displays"
     )
 
     for d in "${deps[@]}"; do
@@ -243,11 +245,12 @@ VDPAU_DRIVER=va_gl" | sudo tee /etc/environment >/dev/null
 
 function install_window_manager() {
     wm=""
-    echo "0. None
-1. Hyprland
-2. Labwc"
+    echo "
+    0. None
+    1. Hyprland
+    2. Labwc"
     while true; do
-        read -p "Select window manager (0-2): " wm
+        read -p ">> Select window manager (0-2): " wm
         [[ "$wm" =~ [0-2] ]] && break
     done
     case "$wm" in
@@ -258,12 +261,13 @@ function install_window_manager() {
 
 function install_graphics_drivers() {
     gpu=""
-    echo "0. None
-1. Intel
-2. Intel (legacy)
-3. AMD"
+    echo "
+    0. None
+    1. Intel
+    2. Intel (legacy)
+    3. AMD"
     while true; do
-        read -p "Select graphics card (0-3): " gpu
+        read -p ">> Select graphics card (0-3): " gpu
         [[ "$gpu" =~ [0-3] ]] && break
     done
     case "$gpu" in

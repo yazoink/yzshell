@@ -33,9 +33,7 @@ class PCManFM(DefaultApp):
                 "poppler-glib",
                 "libgsf"
             ],
-            aur_pkgs=[
-                "raw-thumbnailer",
-            ]
+            aur_pkgs=[]
         )
         super().__init__(
             desktop_file="pcmanfm.desktop",
@@ -62,9 +60,7 @@ class Thunar(DefaultApp):
                 "poppler-glib",
                 "libgsf"
             ],
-            aur_pkgs=[
-                "raw-thumbnailer",
-            ]
+            aur_pkgs=[]
         )
         super().__init__(
             desktop_file="thunar.desktop",
