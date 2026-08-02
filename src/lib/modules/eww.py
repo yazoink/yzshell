@@ -177,7 +177,7 @@ class Eww(EwwDaemon):
                         self.get_profile_image
                     ],
                     pre_open=[
-                        self.get_dnd_icon, 
+                        Thread(target=self.get_dnd_icon).start, 
                         Thread(target=self.get_search_results).start,
                         #Thread(target=self.update_menu_item).start
                     ],
