@@ -28,7 +28,7 @@ class PackageList:
 
     def _install_pkg(self, p):
         print(f"Installing package '{p}'...")
-        subprocess.run(f"sudo pacman -S --needed {p}", shell=True)
+        subprocess.run(f"sudo pacman -S --needed --noconfirm {p}", shell=True)
 
     def _install_aur_pkg(self, p):
         print(f"Installing package '{p}'...")

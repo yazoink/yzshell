@@ -16,7 +16,7 @@ function install_package() {
     package_installed "$1"
     if [ $? -ne 0 ]; then
         echo ">> Installing package ${1}..."
-        sudo pacman -S -y --needed "$1"
+        sudo pacman -S -y --needed  --noconfirm "$1"
         exit_if_failed $? "failed to install package '${1}'"
     else
         echo ">> Package '${1}' already installed, skipping..."
@@ -202,8 +202,8 @@ function install_deps() {
 }
 
 function import_gpg_keys() {
-    curl -sS https://github.com/elkowar.gpg | gpg --import -i -
-    curl -sS https://github.com/web-flow.gpg | gpg --import -i -
+    curl -sS https://github.com/elkowar.gpg | gpg --batch --import -
+    curl -sS https://github.com/web-flow.gpg | gpg --batch --import -
 }
 
 function install_intel_legacy_drivers() {
@@ -256,13 +256,14 @@ VDPAU_DRIVER=va_gl" | sudo tee /etc/environment >/dev/null
 
 function install_window_manager() {
     wm=""
-    echo "
-0. None
-1. Hyprland
-2. Labwc"
+    echo "#### WINDOW MANAGER ####
+- 0: None
+- 1: Hyprland
+- 2: Labwc"
     while true; do
         read -p ">> Select window manager (0-2): " wm
         [[ "$wm" =~ [0-2] ]] && break
+        [ "$wm" == "" ] && break
     done
     case "$wm" in
         "1") yzshell window_manager set hyprland --dont-uninstall ;;
@@ -272,14 +273,15 @@ function install_window_manager() {
 
 function install_graphics_drivers() {
     gpu=""
-    echo "
-0. None
-1. Intel
-2. Intel (legacy)
-3. AMD"
+    echo "#### GRAPHICS ####
+- 0: None
+- 1: Intel
+- 2: Intel (legacy)
+- 3: AMD"
     while true; do
         read -p ">> Select graphics card (0-3): " gpu
         [[ "$gpu" =~ [0-3] ]] && break
+        [ "$gpu" == "" ] && break
     done
     case "$gpu" in
         "1") install_intel_drivers ;;

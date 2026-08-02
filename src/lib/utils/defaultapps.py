@@ -26,8 +26,8 @@ class PCManFM(DefaultApp):
         super().__init__(
             desktop_file="pcmanfm.desktop",
             launch_cmd="pcmanfm",
-            install=lambda: self.deps.install(),
-            uninstall=lambda: self.deps.uninstall()
+            install=self.deps.install,
+            uninstall=self.deps.uninstall
         )
 
 class Thunar(DefaultApp):
@@ -44,8 +44,8 @@ class Thunar(DefaultApp):
         super().__init__(
             desktop_file="thunar.desktop",
             launch_cmd="thunar",
-            install=lambda: self.deps.install(),
-            uninstall=lambda: self.deps.uninstall()
+            install=self.deps.install,
+            uninstall=self.deps.uninstall
         )
 
 class Zathura(DefaultApp):
@@ -60,8 +60,8 @@ class Zathura(DefaultApp):
         super().__init__(
             desktop_file="org.pwmt.zathura.desktop",
             launch_cmd="zathura",
-            install=lambda: self.deps.install(),
-            uninstall=lambda: self.deps.uninstall()
+            install=self.deps.install,
+            uninstall=self.deps.uninstall
         )
 
 class Atril(DefaultApp):
@@ -70,8 +70,8 @@ class Atril(DefaultApp):
         super().__init__(
             desktop_file="atril.desktop",
             launch_cmd="atril",
-            install=lambda: self.deps.install(),
-            uninstall=lambda: self.deps.uninstall()
+            install=self.deps.install,
+            uninstall=self.deps.uninstall
         )
 
 class Ristretto(DefaultApp):
@@ -80,8 +80,8 @@ class Ristretto(DefaultApp):
         super().__init__(
             desktop_file="org.xfce.ristretto.desktop",
             launch_cmd="ristretto",
-            install=lambda: self.deps.install(),
-            uninstall=lambda: self.deps.uninstall()
+            install=self.deps.install,
+            uninstall=self.deps.uninstall
         )
 
 class Imv(DefaultApp):
@@ -90,8 +90,8 @@ class Imv(DefaultApp):
         super().__init__(
             desktop_file="imv-dir.desktop",
             launch_cmd="imv-dir",
-            install=lambda: self.deps.install(),
-            uninstall=lambda: self.deps.uninstall()
+            install=self.deps.install,
+            uninstall=self.deps.uninstall
         )
 
 class Mpv(DefaultApp):
@@ -100,8 +100,8 @@ class Mpv(DefaultApp):
         super().__init__(
             desktop_file="mpv.desktop",
             launch_cmd="mpv",
-            install=lambda: self.deps.install(),
-            uninstall=lambda: self.deps.uninstall()
+            install=self.deps.install,
+            uninstall=self.deps.uninstall
         )
 
 class Vlc(DefaultApp):
@@ -110,8 +110,8 @@ class Vlc(DefaultApp):
         super().__init__(
             desktop_file="vlc.desktop",
             launch_cmd="vlc",
-            install=lambda: self.deps.install(),
-            uninstall=lambda: self.deps.uninstall()
+            install=self.deps.install,
+            uninstall=self.deps.uninstall
         )
 
 class Zen(DefaultApp):
