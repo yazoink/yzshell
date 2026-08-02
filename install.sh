@@ -52,8 +52,6 @@ function configure_zsh() {
 
 function install_executable() {
     sudo install -Dm755 "./bin/yzshell" "/usr/bin/yzshell"
-    echo "DEBUG: ${?}"
-    #exit_if_failed $? "failed to install yzshell binary"
     echo "Installed 'yzshell' to '/usr/bin'"
 }
 
@@ -110,7 +108,6 @@ function install_deps() {
         "direnv"
         "xorg-xwayland"
         "polkit"
-        "mate-polkit"
         "jq"
         "curl"
         "wget"
@@ -236,6 +233,7 @@ function install_labwc() {
         "labwc"
         "wlopm"
         "wtype"
+        "mate-polkit"
     )
     for d in "${deps[@]}"; do
         install_package "$d"
@@ -252,6 +250,7 @@ function install_labwc() {
 function install_hyprland() {
     deps=(
         "hyprland"
+        "hyprpolkitagent"
         "xdg-desktop-portal-hyprland"
         "pkgconf"
         "cpio"
@@ -264,6 +263,7 @@ function install_hyprland() {
         install_package "$d"
     done
     echo "{ \"window_manager\": \"hyprland\" }" > "${HOME}/.config/yzshell/config.json"
+    touch "/tmp/hyprland_fresh_install"
 }
 
 function install_window_manager() {
