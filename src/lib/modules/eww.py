@@ -177,12 +177,11 @@ class Eww(EwwDaemon):
                         self.get_profile_image
                     ],
                     pre_open=[
-                        Thread(target=self.get_dnd_icon).start, 
-                        Thread(target=self.get_search_results).start,
-                        #Thread(target=self.update_menu_item).start
+                        self.control_center_pre_open, 
                     ],
                     post_open=[
-                        Thread(target=self.open_search_input).start,
+                        #Thread(target=self.open_search_input).start,
+                        self.open_search_input,
                         Thread(target=self.update_weather).start,
                     ],
                     pre_close=[
@@ -191,6 +190,16 @@ class Eww(EwwDaemon):
                 )
             },
         )
+
+    def control_center_pre_open(self):
+        threads = [
+            Thread(target=self.get_dnd_icon),
+            Thread(target=self.get_search_results)
+        ]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
     
     def open_search_input(self):
         cmd = f"eww open search_input --screen {self.modules["control_center"].screen}"
