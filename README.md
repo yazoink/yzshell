@@ -28,19 +28,19 @@ Features:
 
 ### Hyprland
 
-<img width="1359" height="767" src="/assets/screenshots/hyprland-1.png" />
-<img width="1359" height="767" src="/assets/screenshots/hyprland-2.png" />
-<img width="1359" height="767" src="/assets/screenshots/hyprland-3.png" />
+<img width="1359" height="767" src="/assets/images/screenshots/hyprland-1.png" />
+<img width="1359" height="767" src="/assets/images/screenshots/hyprland-2.png" />
+<img width="1359" height="767" src="/assets/images/screenshots/hyprland-3.png" />
 
 ### Labwc
 
-<img width="1359" height="767" src="/assets/screenshots/labwc-1.png" />
-<img width="1359" height="767" src="/assets/screenshots/labwc-2.png" />
+<img width="1359" height="767" src="/assets/images/screenshots/labwc-1.png" />
+<img width="1359" height="767" src="/assets/images/screenshots/labwc-2.png" />
 
 ### Misc
 
-<img width="1359" height="767" src="/assets/screenshots/logout.png" />
-<img width="1359" height="767" src="/assets/screenshots/colourschemes.png" />
+<img width="1359" height="767" src="/assets/images/screenshots/logout.png" />
+<img width="1359" height="767" src="/assets/images/screenshots/colourschemes.png" />
 
 
 ## Installation
