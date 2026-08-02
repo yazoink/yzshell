@@ -13,19 +13,19 @@
     "class": "exit",
     "icon": "",
     "desc": "Exit desktop",
-    "cmd": "labwc --exit &"
+    "cmd": "yshell window_manager exit &"
   },
   {
     "class": "reboot",
     "icon": "",
     "desc": "Reboot",
-    "cmd": "loginctl reboot &"
+    "cmd": "systemctl reboot &"
   },
   {
     "class": "shutdown",
     "icon": "",
     "desc": "Power off",
-    "cmd": "loginctl poweroff &"
+    "cmd": "systemctl shutdown &"
   }
 ]`)
 (defvar selected "lock")

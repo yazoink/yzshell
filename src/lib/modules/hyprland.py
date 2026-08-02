@@ -8,6 +8,7 @@ class Hyprland(WindowManager):
             config = config,
             launch_cmd="start-hyprland",
             reload_cmd = "hyprctl reload",
+            exit_cmd = "hyprctl dispatch 'hl.dsp.exit()'",
             deps=PackageList([
                 "hyprland",
                 "hyprpolkitagent",

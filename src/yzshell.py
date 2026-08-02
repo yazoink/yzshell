@@ -132,6 +132,10 @@ class Shell:
         self.windowmanager.configure()
         self.windowmanager.reload()
 
+    def exit_window_manager(self):
+        self._set_windowmanager()
+        self.windowmanager.exit()
+
     def set_window_manager(self, wm, dont_uninstall=False):
         self._set_config()
         self._set_windowmanager()
@@ -776,6 +780,10 @@ if __name__ == "__main__":
                                     arg_not_recognised(argv[4])
                         shell.set_window_manager(argv[3], dont_uninstall)
                         shell.reconfigure()
+                    case "exit":
+                        if argc > 3:
+                            too_many_args(cmd)
+                        shell.exit_window_manager()
                     case _:
                         arg_not_recognised(cmd)
             case "get_search_results":

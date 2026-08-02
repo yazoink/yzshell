@@ -7,9 +7,15 @@ function package_installed() {
     return $?
 }
 
+function aur_package_installed() {
+    yay -Qi "$1" > /dev/null 2>&1
+    return $?
+}
+
 function install_package() {
     package_installed "$1"
     if [ $? -ne 0 ]; then
+        echo ">> Installing package ${1}..."
         sudo pacman -S -y --needed "$1"
         exit_if_failed $? "failed to install package '${1}'"
     else
@@ -27,10 +33,13 @@ function exit_if_failed() {
 }
 
 function install_aur_package() {
-    package_installed "$1"
+    aur_package_installed "$1"
     if [ $? -ne 0 ]; then
+        echo ">> Installing package ${1}..."
         yay -S --needed --norebuild --noredownload "$1"
         exit_if_failed $? "failed to install package '${1}'"
+    else
+        echo ">> Package '${1}' already installed, skipping..."
     fi
 }
 
@@ -279,7 +288,7 @@ function copy_data_dir() {
 
 # ensure script run as user
 if [ "$EUID" -eq 0 ]; then
-    echo "Please do not run as root"
+    echo "Error: please do not run as root"
     exit 1
 fi
 

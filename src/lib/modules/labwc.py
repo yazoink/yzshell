@@ -8,6 +8,7 @@ class Labwc(WindowManager):
             config = config,
             launch_cmd="labwc",
             reload_cmd = "labwc -r",
+            exit_cmd = "labwc --exit",
             deps=PackageList(
                 pkgs=[
                     "labwc",

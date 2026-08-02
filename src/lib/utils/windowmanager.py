@@ -1,8 +1,9 @@
 class WindowManager():
-    def __init__(self, name, launch_cmd, reload_cmd, deps, config):
+    def __init__(self, name, launch_cmd, reload_cmd, exit_cmd, deps, config):
         self.name = name
         self.launch_cmd = launch_cmd
         self.reload_cmd = reload_cmd
+        self.exit_cmd = exit_cmd
         self.deps = deps
         self._config = config
 
@@ -10,6 +11,15 @@ class WindowManager():
         import subprocess
         subprocess.Popen(
             self.reload_cmd, 
+            shell=True,
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
+
+    def exit(self):
+        import subprocess
+        subprocess.Popen(
+            self.exit_cmd, 
             shell=True,
             stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
