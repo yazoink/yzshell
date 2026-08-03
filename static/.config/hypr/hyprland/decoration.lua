@@ -2,8 +2,8 @@ hl.config({
     decoration = {
         rounding = 16,
         rounding_power = 4.0,
-        dim_modal = true,
-        dim_inactive = true,
+        dim_modal = false,
+        dim_inactive = false,
         dim_strength = 0.05,
         dim_special = 0.2,
         blur = {
