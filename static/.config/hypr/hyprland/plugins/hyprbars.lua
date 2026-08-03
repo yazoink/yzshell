@@ -33,7 +33,7 @@ if hl.plugin.hyprbars ~= nil then
     hl.plugin.hyprbars.add_button({
         bg_color = red,
         fg_color = red,
-        size = 14,
+        size = 16,
         icon = "",
         action = "hyprctl dispatch 'hl.dsp.window.close()'",
     })
@@ -41,7 +41,7 @@ if hl.plugin.hyprbars ~= nil then
     hl.plugin.hyprbars.add_button({
         bg_color = yellow,
         fg_color = yellow,
-        size = 14,
+        size = 16,
         icon = "",
         action = "hyprctl dispatch 'hl.dsp.window.move({workspace=\"special:special\", follow=false})'",
     })
@@ -49,7 +49,7 @@ if hl.plugin.hyprbars ~= nil then
     hl.plugin.hyprbars.add_button({
         bg_color = green,
         fg_color = green,
-        size = 14,
+        size = 16,
         icon = "",
         action = "hyprctl dispatch 'hl.dsp.window.fullscreen({action=\"toggle\"})'",
     })

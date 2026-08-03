@@ -79,6 +79,7 @@ class Waybar:
             cfg["ext/workspaces"]["format"] = "Workspace {name}"
             cfg["ext/workspaces"]["on-scroll-up"] = "hyprctl dispatch 'hl.dsp.focus({ workspace = \"-1\" })'"
             cfg["ext/workspaces"]["on-scroll-down"] = "hyprctl dispatch 'hl.dsp.focus({ workspace = \"+1\" })'"
+            #cfg["mode"] = "overlay"
         
         battery_name = "AC"
         bats = sorted(listdir("/sys/class/power_supply"))
