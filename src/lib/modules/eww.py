@@ -186,15 +186,24 @@ class Eww(EwwDaemon):
                         Thread(target=self.get_search_results).start,
                     ],
                     post_open=[
+                        self.open_top_menu,
                         Thread(target=self.open_search_input).start,
                         #self.open_search_input,
                         Thread(target=self.update_weather).start,
                     ],
                     pre_close=[
-                        Thread(target=self.close_search_input).start
+                        Thread(target=self.close_control_center).start
                     ]
                 )
             },
+        )
+
+    def open_top_menu(self):
+        subprocess.run(
+            f"eww open --no-daemonize top_menu --screen {self.modules["control_center"].screen}", 
+            shell=True, 
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
         )
     
     def open_search_input(self):
@@ -208,15 +217,15 @@ class Eww(EwwDaemon):
             stderr=subprocess.STDOUT
         )
 
-    def close_search_input(self):
+    def close_control_center(self):
         subprocess.run(
-            "eww close search_input", 
+            "eww close search_input; eww close top_menu", 
             shell=True, 
             stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
         )
 
-    def update_wallpaper_thumbs(self, dir=""):
+    def update_wallpaper_thumbs(self, overwrite=False, dir=""):
         from PIL import Image
         def make_thumb(f):
             with Image.open(path.join(dir, f)) as i:
@@ -233,6 +242,8 @@ class Eww(EwwDaemon):
         for f in files:
             l = f.lower()
             if l.endswith(('.jpg', '.png', '.jpeg')):
+                if overwrite == False and path.isfile(f"{environ["WALLPAPER_CACHE_DIR"]}/{f}"):
+                    continue
                 Thread(target=make_thumb, args=(f,)).start()
 
     def update_screenshot_output(self):
@@ -493,7 +504,7 @@ class Eww(EwwDaemon):
                 d = a["desc"].lower()
                 b = a["bin"].lower()
                 if query in n or query in d  or query in b:
-                    if n.startswith(query):
+                    if n.startswith(query) or b.startswith(query):
                         results.insert(0, a)
                     else:
                         results.append(a)
