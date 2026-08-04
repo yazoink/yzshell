@@ -261,13 +261,7 @@ class Shell:
         ).stdout
         if "do-not-disturb" in mode:
             subprocess.run(
-                "makoctl mode -r do-not-disturb",
-                shell=True, 
-                stdout=subprocess.DEVNULL, 
-                stderr=subprocess.STDOUT
-            )
-            subprocess.Popen(
-                "notify-send 'Notifications' 'Do not disturb disabled'",
+                "makoctl mode -r do-not-disturb && notify-send 'Notifications' 'Do not disturb disabled'",
                 shell=True, 
                 stdout=subprocess.DEVNULL, 
                 stderr=subprocess.STDOUT
