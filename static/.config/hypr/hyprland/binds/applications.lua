@@ -14,6 +14,7 @@ hl.bind("SUPER + C", hl.dsp.exec_cmd("yzshell pick_colour"))
 hl.bind("SUPER + S", hl.dsp.exec_cmd("yzshell screenshot -m select"))
 hl.bind("SUPER + CTRL + S", hl.dsp.exec_cmd("yzshell screenshot -m full"))
 hl.bind("SUPER + ALT + S", hl.dsp.exec_cmd("yzshell toggle screenshot"))
+hl.bind("SUPER + SHIFT + B", hl.dsp.exec_cmd("killall waybar; waybar &"))
 
 hl.define_submap("control_center", function()
     hl.bind("escape", hl.dsp.exec_cmd("yzshell close_all_widgets"))

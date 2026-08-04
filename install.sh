@@ -331,6 +331,7 @@ function install_window_manager() {
     case "$wm" in
         "1") 
             yzshell window_manager set hyprland --dont-uninstall 
+            sudo install -Dm755 ./bin/hyprland-plugins-init /usr/bin/hyprland-plugins-init
             # install_hyprviewbinds # doesn't work with the new lua config lol
             ;;
         "2") yzshell window_manager set labwc --dont-uninstall ;;
@@ -433,5 +434,6 @@ fi
 
 yzshell reconfigure
 
-echo ">> Switch to Zsh with 'chsh -s \"\$(which zsh)\"'"
 echo "Installation complete!"
+
+[ $refresh -eq 1 ] && chsh -s "$(which zsh)"
