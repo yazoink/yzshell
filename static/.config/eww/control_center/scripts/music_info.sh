@@ -19,7 +19,7 @@ get_status() {
 get_song() {
     song=`mpc -f %title% current`
     if [[ -z "$song" ]]; then
-        echo "song"
+        echo "Nothing playing..."
     else
         echo "$song"
     fi
@@ -29,7 +29,7 @@ get_song() {
 get_artist() {
     artist=`mpc -f %artist% current`
     if [[ -z "$artist" ]]; then
-        echo "artist"
+        echo "Click to open player"
     else
         echo "$artist"
     fi
