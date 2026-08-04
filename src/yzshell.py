@@ -281,7 +281,7 @@ class Shell:
         if dir == None:
             self.widgets.update_wallpaper_thumbs()
         else:
-            self.widgets.update_wallpaper_thumbs(dir)
+            self.widgets.update_wallpaper_thumbs(dir=dir)
 
     def update_available_wallpapers(self, dir=None):
         self._set_config()
@@ -411,12 +411,12 @@ class Shell:
         self._set_notifs()
         self._set_wallpaper()
         self._set_widgets()
-        Thread(target=self.widgets.reload).start()
-        Thread(target=self.wallpaper.reload).start()
-        Thread(target=self.osd.reload).start()
-        Thread(target=self.bar.reload).start()
-        Thread(target=self.windowmanager.reload).start()
-        Thread(target=self.notifs.reload).start()
+        self.bar.reload()
+        self.wallpaper.reload()
+        self.osd.reload()
+        self.windowmanager.reload()
+        self.notifs.reload()
+        self.widgets.reload()
 
     def open(self, widget):
         self._set_config()
@@ -852,7 +852,7 @@ if __name__ == "__main__":
                 if argc < 3:
                     shell.update_colourschemes()
                 else:
-                    shell.update_wallpaper_thumbs(argv[2])
+                    shell.update_wallpaper_thumbs(dir=argv[2])
             case "update_available_wallpapers":
                 if argc < 3:
                     shell.update_available_wallpapers()

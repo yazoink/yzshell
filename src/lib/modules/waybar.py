@@ -8,7 +8,7 @@ class Waybar:
 
     def launch(self):
         try:
-            r = subprocess.Popen(
+            subprocess.Popen(
                 f"waybar", 
                 shell=True, 
                 stdout=subprocess.DEVNULL, 
@@ -19,14 +19,8 @@ class Waybar:
             exit(1)
 
     def reload(self):
-        #self.kill()
-        #self.launch()
-        subprocess.run(
-            f"killall waybar; waybar &", 
-            shell=True, 
-            stdout=subprocess.DEVNULL, 
-            stderr=subprocess.STDOUT
-        )
+        self.kill()
+        self.launch()
 
     def kill(self):
         subprocess.run(

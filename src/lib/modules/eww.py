@@ -163,7 +163,6 @@ class Eww(EwwDaemon):
                     name="settings",
                     config=config,
                     post_launch=[
-                        Thread(target=self.update_wallpaper_thumbs).start,
                         self.wallpaper_settings_init
                     ],
                     pre_open=[
@@ -237,13 +236,15 @@ class Eww(EwwDaemon):
             dir = self._config.current["wallpaper_dir"]
         files = listdir(dir)
 
+        if path.exists(environ["WALLPAPER_CACHE_DIR"]) == True and overwrite == True:
+            from shutil import rmtree
+            rmtree(environ["WALLPAPER_CACHE_DIR"])
         if path.exists(environ["WALLPAPER_CACHE_DIR"]) == False:
             makedirs(environ["WALLPAPER_CACHE_DIR"])
+
         for f in files:
             l = f.lower()
             if l.endswith(('.jpg', '.png', '.jpeg')):
-                if overwrite == False and path.isfile(f"{environ["WALLPAPER_CACHE_DIR"]}/{f}"):
-                    continue
                 Thread(target=make_thumb, args=(f,)).start()
 
     def update_screenshot_output(self):
@@ -275,6 +276,7 @@ class Eww(EwwDaemon):
         #print(json.dumps(colourschemes))
 
     def update_available_wallpapers(self, dir=None):
+        self.update_wallpaper_thumbs()
         from math import floor
         if dir == None:
             dir = self._config.current["wallpaper_dir"]
