@@ -36,7 +36,7 @@
         :class "menu-content"
         :same-size false
         :transition "slideleft"
-        :same-size true
+        :same-size false
         (music)
         (monitor)
         (weather)
