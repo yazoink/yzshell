@@ -40,11 +40,6 @@
         :tooltip "Take a selective screenshot"
         (label :text "" :class "icon screenshot-select")
       )
-      (button
-        :onclick "yzshell close_all_widgets &"
-        :tooltip "Cancel"
-        (label :text "" :class "icon screenshot-cancel")
-      )
     )
   )
 )
