@@ -87,7 +87,7 @@
         (button 
           :class "recorder-button${recording ? " recording" : ""}"
           :onclick "${recording ? "pkill wf-recorder; ${EWW_CMD} update recording=false" : "yzshell record_screen --audio ${record_audio} --directory ${recording_output} --format ${recording_format} --select true & disown"}"
-          "Select and record"
+          "Record region"
         )
         (button 
           :class "recorder-button${recording ? " recording" : ""}"
