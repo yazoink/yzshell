@@ -8,7 +8,7 @@ class Waybar:
 
     def launch(self):
         subprocess.run(
-            f"waybar &", 
+            "waybar &", 
             shell=True, 
             stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT

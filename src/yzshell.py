@@ -402,21 +402,6 @@ class Shell:
                 stderr=subprocess.STDOUT
             )
 
-    def kill(self):
-        self._set_config()
-        self._set_wallpaper()
-        self._set_osd()
-        self._set_bar()
-        self._set_windowmanager()
-        self._set_notifs()
-        self._set_wallpaper()
-        self._set_widgets()
-        self.wallpaper.kill()
-        self.bar.kill()
-        self.osd.kill()
-        self.notifs.kill()
-        self.widgets.kill()
-
     def launch(self):
         self._set_config()
         self._set_wallpaper()
@@ -426,12 +411,12 @@ class Shell:
         self._set_notifs()
         self._set_wallpaper()
         self._set_widgets()
-        self.wallpaper.launch()
-        self.bar.launch()
-        self.osd.launch()
+        self.wallpaper.reload()
+        self.bar.reload()
+        self.osd.reload()
         self.windowmanager.reload()
         self.notifs.reload()
-        self.widgets.launch()
+        self.widgets.reload()
 
     def open(self, widget):
         self._set_config()
@@ -728,7 +713,6 @@ if __name__ == "__main__":
     argc = len(argv)
     shell = Shell()
     if argc == 1: # launch yzshell
-        shell.kill()
         shell.launch()
     else:
         cmd = argv[1]
@@ -756,7 +740,6 @@ if __name__ == "__main__":
                             reload = True
                 shell.reconfigure()
                 if reload == True:
-                    shell.kill()
                     shell.launch()
             case "colourscheme":
                 if argc < 3:
