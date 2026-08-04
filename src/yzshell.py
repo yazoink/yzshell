@@ -294,7 +294,7 @@ class Shell:
     def lock_screen(self, grace="30"):
         import subprocess
         subprocess.Popen(
-            f"pidof hyprlock || hyprlock --grace {grace}", 
+            f"hyprlock --grace {grace}", 
             shell=True, stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
         )
