@@ -237,6 +237,7 @@ function install_deps() {
         "wofi"
         "file-roller"
         "tumbler"
+        "android-tools"
         "ffmpegthumbnailer"
         "webp-pixbuf-loader"
         "freetype2"
