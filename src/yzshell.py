@@ -324,11 +324,10 @@ class Shell:
             cmd,
             shell=True
         )
+        print(f"notify-send 'Recording saved' '{output}'")
         subprocess.run(
             f"notify-send 'Recording saved' '{output}'",
-            shell=True, 
-            stdout=subprocess.DEVNULL, 
-            stderr=subprocess.STDOUT
+            shell=True
         )
 
     def screenshot(self, output, mode, sleep_time):

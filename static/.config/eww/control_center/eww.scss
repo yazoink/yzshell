@@ -192,6 +192,19 @@
     }
   }
 
+  .recording {
+    background-color: $red;
+    label {
+      color: $background;
+    }
+    &:hover {
+      background-color: $red;
+      label {
+        color: $background;
+      }
+    }
+  }
+
   menu {
     background-color: $surface2;
     //border: 1px solid $surface3;

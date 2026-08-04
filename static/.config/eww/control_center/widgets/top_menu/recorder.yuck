@@ -47,6 +47,7 @@
         :hexpand true
         :spacing 8
         (button 
+          :class "recorder-button${recording ? " recording" : ""}"
           :onclick {recording ? "pkill wf-recorder; ${EWW_CMD} update recording=false" : "${EWW_CMD} update recording=true & yzshell record_screen --audio ${record_audio} --directory ${recording_output} --format ${recording_format} --display ${recording_display} &"}
           {recording ? "Stop recording" : "Record screen"}
         )
