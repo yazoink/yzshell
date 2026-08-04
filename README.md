@@ -81,6 +81,7 @@ config would look as such:
     "bar_show_backlight": true,
     "profile_image": "/home/gene/.local/share/yzshell/assets/images/profile_image.jpg",
     "screenshot_dir": "/home/gene/pic/screenshots",
+    "recording_dir": "/home/gene/pic/screenshots",
     "wallpaper_dir": "/home/gene/pic/wallpapers",
     "wallpaper_image": "andrei-lazarev-QtM-8j_1o3Q.jpg",
     "wallpaper_mode": "fill",
@@ -131,6 +132,10 @@ Absolute path to the profile image used by the control panel widget.
 #### screenshot_dir
 
 Absolute path of directory to save screenshots.
+
+#### recording_dir
+
+Absolute path of directory to save screen recordings.
 
 #### wallpaper_dir
 
