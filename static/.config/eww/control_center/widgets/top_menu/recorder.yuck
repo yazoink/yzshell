@@ -4,6 +4,10 @@
 (defvar record_audio false)
 (defvar displays "[]")
 (defvar recording false)
+(defvar record_display_hovered false)
+(defpoll timer :run-while recording :interval "1s" :initial "0" "./control_center/scripts/timer.sh")
+(defvar mins "0")
+(defvar secs "00")
 
 (defwidget recorder []
   (box
@@ -20,17 +24,52 @@
       :vexpand true
       :spacing 8
       (box
+        :orientation "v"
+        :space-evenly false
+        :class "recording"
+        :visible recording
+        :halign "center"
+        :hexpand true
+        (label :text "Recording..." :class "recording-label")
+        (box
+          :orientation "h"
+          :space-evenly false
+          :spacing 4
+          :halign "center"
+          :hexpand "true"
+          (label :class "timer" :text mins)
+          (box
+            :orientation "vertical"
+            :space-evenly "true"
+            :valign "center"
+            :spacing 4
+            :class "separator"
+            (label :text "" :class "red")
+            (label :text "" :class "green")
+            (label :text "" :class "blue")
+          )
+          (label :class "timer" :text secs)
+        )
+        (button
+          :onclick "pkill wf-recorder; ${EWW_CMD} update recording=false"
+          :halign "center"
+          :hexpand "true"
+          "Stop"
+        )
+      )
+      (box
         :orientation "h"
         :space-evenly false
         :halign "center"
         :hexpand true
         :spacing 8
+        :visible {recording ? false : true} 
         (label :text "Save to:")
         (input :value recording_output)
         (label :text "Format:")
         (overlay
           (box
-            :class "combo-box-display"
+            :class "combo-box-format"
             (label :text "${recording_format}  ")
           )
           (combo-box-text
@@ -46,28 +85,41 @@
         :halign "center"
         :hexpand true
         :spacing 8
+        :visible {recording ? false : true}
         (button 
           :class "recorder-button${recording ? " recording" : ""}"
-          :onclick {recording ? "pkill wf-recorder; ${EWW_CMD} update recording=false" : "${EWW_CMD} update recording=true & yzshell record_screen --audio ${record_audio} --directory ${recording_output} --format ${recording_format} --display ${recording_display} &"}
-          {recording ? "Stop recording" : "Record screen"}
+          :onclick "${recording ? "pkill wf-recorder; ${EWW_CMD} update recording=false" : "yzshell record_screen --audio ${record_audio} --directory ${recording_output} --format ${recording_format} --select true &"}"
+          {recording ? "Stop recording" : "Select and record"}
         )
-        (overlay
-          (box
-            :class "combo-box-display"
-            (label :text "${recording_display}  ")
+        (overlay (eventbox :class "event-box-display${record_display_hovered ? " hovered" : ""}" :onhover "${EWW_CMD} update record_display_hovered=true" :onhoverlost "${EWW_CMD} update record_display_hovered=false"
+        (box
+          :class "record-screen"
+          :orientation "h"
+          :space-evenly false
+          (button 
+            :class "recorder-button${recording ? " recording" : ""}"
+            :onclick "${recording ? "pkill wf-recorder; ${EWW_CMD} update recording=false" : "yzshell record_screen --audio ${record_audio} --directory ${recording_output} --format ${recording_format} --display ${recording_display} &"}"
+            {recording ? "Stop recording" : "Record"}
           )
-          (combo-box-text
-            :class "combo-box"
-            :items displays
-            :onchange "${EWW_CMD} update recording_display='{}'"
+          (overlay
+            (box
+              :class "combo-box-text${record_display_hovered ? " hovered" : ""}"
+              (label :text "${recording_display}  ")
+            )
+            (combo-box-text
+              :class "combo-box-display"
+              :items displays
+              :onchange "${EWW_CMD} update recording_display='{}'"
+            )
           )
-        )
+        )))
         (checkbox 
+          :visible {recording ? false : true}
           :checked record_audio
           :onchecked "${EWW_CMD} update record_audio=true"
           :onunchecked "${EWW_CMD} update record_audio=false"
         )
-        (label :text "Audio")
+        (label :visible {recording ? false : true} :text "Audio")
       )
     )
   )

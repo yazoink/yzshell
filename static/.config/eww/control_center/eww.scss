@@ -154,6 +154,10 @@
   border-radius: $inner-radius;
   background: $surface;
   padding: $padding;
+  .timer {
+    font-weight: bold;
+    font-size: 40pt;
+  }
   button, entry {
     background-color: $surface2;
     padding: $padding;
@@ -183,7 +187,7 @@
     background-image: none;
   }
 
-  .combo-box-display {
+  .combo-box-format {
     background-color: $surface2;
     border-radius: $inner-radius;
     padding: $padding;
@@ -192,17 +196,51 @@
     }
   }
 
-  .recording {
-    background-color: $red;
-    label {
-      color: $background;
+  .record-screen {
+    background-color: $surface2;
+    border-radius: $inner-radius;
+    button:hover, .event-box-display:hover, .hovered {
+      background-color: $surface3;
     }
-    &:hover {
-      background-color: $red;
+    .combo-box-text {
+      padding: $padding;
+    }
+    button, label {
+      border-radius: 0;
+      background-color: transparent;
+    }
+    combobox:hover, combobox button:hover {
+        background-color: transparent;
+    }
+    .combo-box-text {
+      border-radius: $inner-radius;
       label {
-        color: $background;
+      padding-left: calc($padding / 4);
+      }
+      padding-left: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    .recorder-button, {
+      border-radius: $inner-radius;
+      padding-right: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      label {
+      padding-right: calc($padding / 4);
       }
     }
+  }
+
+  .separator label {
+    font-size: 5pt;
+    font-weight: bold;
+    font-family: "Font Awesome 7 Free";
+  }
+
+  .recording-label {
+    font-weight: bold;
+    font-size: 13pt;
   }
 
   menu {

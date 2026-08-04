@@ -299,7 +299,7 @@ class Shell:
             stderr=subprocess.STDOUT
         )
 
-    def recorder(self, audio, display, fmt, directory):
+    def recorder(self, audio, display, fmt, directory, select):
         import subprocess
         self._set_config()
         if directory == "":
@@ -313,10 +313,22 @@ class Shell:
             text=True
         ).stdout.strip()
         output = f"{directory}/recording-{date}.{fmt}"
-        cmd = "wf-recorder"
+        cmd = "eww update timer='0'; eww update recording=true; wf-recorder"
         if audio == "true":
             cmd += " -a"
-        if display != "":
+        if select == "true":
+            r = subprocess.run(
+                "slurp",
+                capture_output=True,
+                shell=True,
+                text=True
+            )
+            geometry = r.stdout.strip()
+            print(geometry)
+            if "selection cancelled" in geometry or geometry == "":
+                exit(1)
+            cmd += f" -g \"{geometry}\""
+        elif display != "":
             cmd += f" -o {display}"
         cmd += f" -f {output}"
         print(cmd)
@@ -324,9 +336,8 @@ class Shell:
             cmd,
             shell=True
         )
-        print(f"notify-send 'Recording saved' '{output}'")
         subprocess.run(
-            f"notify-send 'Recording saved' '{output}'",
+            f"eww update recording=false; notify-send 'Recording saved' '{output}'",
             shell=True
         )
 
@@ -855,12 +866,14 @@ if __name__ == "__main__":
                 parser.add_argument("-a", "--audio", default="false")
                 parser.add_argument("-d", "--directory", default="")
                 parser.add_argument("-f", "--format", default="mp4")
-                parser.add_argument("-s", "--display", default="")
+                parser.add_argument("-o", "--display", default="")
+                parser.add_argument("-s", "--select", default="false")
                 args = parser.parse_args(argv[2:])
                 shell.recorder(
                     audio=args.audio,
                     directory=args.directory,
                     fmt=args.format,
+                    select=args.select,
                     display=args.display
                 )
             case "pick_colour":

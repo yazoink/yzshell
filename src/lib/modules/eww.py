@@ -63,9 +63,9 @@ class EwwDaemon:
             exit(1)
 
 class EwwWindow:
-    def __init__(self, config, name, pre_launch = [], pre_open = [], post_open = [], pre_close=[]):
+    def __init__(self, config, name, post_launch = [], pre_open = [], post_open = [], pre_close=[]):
         self.name = name
-        self.pre_launch = pre_launch
+        self.post_launch = post_launch
         self.pre_open = pre_open
         self.post_open = post_open
         self.pre_close = pre_close
@@ -73,7 +73,7 @@ class EwwWindow:
         self.screen = "0"
 
     def launch(self):
-        for p in self.pre_launch:
+        for p in self.post_launch:
             p()
 
     def toggle(self):
@@ -160,7 +160,7 @@ class Eww(EwwDaemon):
                 "settings": EwwWindow(
                     name="settings",
                     config=config,
-                    pre_launch=[Thread(target=self.update_wallpaper_thumbs).start],
+                    post_launch=[Thread(target=self.update_wallpaper_thumbs).start],
                     pre_open=[
                         #Thread(target=self.update_settings_menu_item).start,
                         Thread(target=self.wallpaper_settings_init).start
@@ -172,10 +172,10 @@ class Eww(EwwDaemon):
                 "control_center": EwwWindow(
                     name="control_center",
                     config=config,
-                    pre_launch=[
+                    post_launch=[
                         self.get_profile_image,
-                        Thread(target=self.update_search_cache).start,
-                        Thread(target=self.recorder_init).start,
+                        self.recorder_init,
+                        self.update_search_cache,
                     ],
                     pre_open=[
                         Thread(target=self.get_profile_image).start,
