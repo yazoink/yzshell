@@ -276,6 +276,12 @@ class Eww(EwwDaemon):
         #print(json.dumps(colourschemes))
 
     def update_available_wallpapers(self, dir=None):
+        subprocess.run(
+            "eww update wallpapers='[]'",
+            shell=True,
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
         self.update_wallpaper_thumbs()
         from math import floor
         if dir == None:

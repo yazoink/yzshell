@@ -16,6 +16,7 @@
           :valign "start"
           :vexpand true
           :spacing 8
+          (label :class "no-results" :text "No results found..." :visible {search_results == "[]" ? true : false})
           (for app in search_results
             (button
               :class "entry${search_selected == app["index"] ? " selected" : ""}"

@@ -52,7 +52,7 @@
       (label :text "Directory:")
       (input 
         :value wallpaper_dir 
-        :onaccept "(${EWW_CMD} update wallpapers='[]' && yzshell update_wallpaper_thumbs '{}' && yzshell update_available_wallpapers '{}') &" 
+        :onaccept "(${EWW_CMD} update wallpapers='[]' && yzshell update_available_wallpapers '{}') &" 
         :halign "fill"
         :hexpand true
       )
@@ -66,6 +66,7 @@
         :orientation "v"
         :spacing 8
         :space-evenly false
+        (label :class "loading" :text "Loading..." :visible {wallpapers == "[]" ? true : false})
         (for row in wallpapers
           (box
             :orientation "h"

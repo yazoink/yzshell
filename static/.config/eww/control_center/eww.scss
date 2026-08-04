@@ -354,10 +354,11 @@
     border-radius: $inner-radius;
     padding: $padding;
     .no-results {
-      font-size: 16pt;
+      //font-size: 16pt;
       padding: $padding;
-      font-weight: bold;
-      opacity: 0.4;
+      //font-weight: bold;
+      color: $surface4;
+      font-style: italic;
     }
     .entry {
       min-height: 70px;

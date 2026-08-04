@@ -87,6 +87,11 @@
     min-width: 530px;
     background-color: $surface;
     border-radius: $inner-radius;
+    .loading {
+      //font-size: 13pt;
+      font-style: italic;
+      color: $surface4;
+    }
     .wp-button-box {
       padding: $padding;
       button {
