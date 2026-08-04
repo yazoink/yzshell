@@ -22,6 +22,8 @@
       :value output
       :onchange "${EWW_CMD} update output='{}'"
       :tooltip "Save to"
+      ;:valign "center"
+      ;:vexpand true
     )
     (box
       :orientation "h"

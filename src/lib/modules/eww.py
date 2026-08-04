@@ -19,6 +19,8 @@ class EwwDaemon:
         except:
             print("Error: could not open widgets")
             exit(1)
+        from time import sleep
+        sleep(0.4)
         for m in self.modules:
             self.modules[m].launch()
 
