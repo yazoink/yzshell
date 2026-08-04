@@ -7,8 +7,8 @@ class Waybar:
         self._config = config
 
     def launch(self):
-        subprocess.Popen(
-            f"waybar", 
+        subprocess.run(
+            f"waybar &", 
             shell=True, 
             stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
