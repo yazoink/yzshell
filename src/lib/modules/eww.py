@@ -45,7 +45,7 @@ class EwwDaemon:
             # for p in self.modules[m].pre_close:
             #     p()
             subprocess.run(
-                f"eww update {m}_visible=false", 
+                f"eww close {m}; eww update {m}_visible=false", 
                 shell=True, 
                 stdout=subprocess.DEVNULL, 
                 stderr=subprocess.STDOUT
@@ -160,10 +160,12 @@ class Eww(EwwDaemon):
                 "settings": EwwWindow(
                     name="settings",
                     config=config,
-                    post_launch=[Thread(target=self.update_wallpaper_thumbs).start],
+                    post_launch=[
+                        Thread(target=self.update_wallpaper_thumbs).start,
+                        self.wallpaper_settings_init
+                    ],
                     pre_open=[
                         #Thread(target=self.update_settings_menu_item).start,
-                        Thread(target=self.wallpaper_settings_init).start
                     ],
                     post_open=[
                         Thread(target=self.get_colourschemes).start
@@ -175,11 +177,10 @@ class Eww(EwwDaemon):
                     post_launch=[
                         self.get_profile_image,
                         self.recorder_init,
+                        self.get_dnd_icon,
                         self.update_search_cache,
                     ],
                     pre_open=[
-                        Thread(target=self.get_profile_image).start,
-                        Thread(target=self.get_dnd_icon).start,
                         Thread(target=self.get_search_results).start,
                     ],
                     post_open=[
@@ -308,7 +309,7 @@ class Eww(EwwDaemon):
             text=True,
             capture_output=True
         ).stdout
-        print(mode)
+        #print(mode)
         if "do-not-disturb" in mode:
             self.update_var("dnd_icon", "")
         else:
@@ -421,6 +422,14 @@ class Eww(EwwDaemon):
         )
 
     def recorder_init(self):
+        subprocess.run(
+            f"eww update recording_output={self._config.current["recording_dir"]}",
+            shell=True,
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
+
+    def recorder_init_old(self):
         from re import sub
         r = subprocess.run(
             "wf-recorder -L",

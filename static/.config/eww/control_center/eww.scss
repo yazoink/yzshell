@@ -181,6 +181,16 @@
     }
   }
 
+  .separator label {
+    font-size: 5pt;
+    font-weight: bold;
+    font-family: "Font Awesome 7 Free";
+  }
+
+  .recording-label {
+    font-weight: bold;
+    font-size: 13pt;
+  }
   .combo-box, .combo-box button, .combo-box label {
     color: transparent;
     background-color: transparent;
@@ -194,53 +204,6 @@
     &:hover {
       background-color: $surface3;
     }
-  }
-
-  .record-screen {
-    background-color: $surface2;
-    border-radius: $inner-radius;
-    button:hover, .event-box-display:hover, .hovered {
-      background-color: $surface3;
-    }
-    .combo-box-text {
-      padding: $padding;
-    }
-    button, label {
-      border-radius: 0;
-      background-color: transparent;
-    }
-    combobox:hover, combobox button:hover {
-        background-color: transparent;
-    }
-    .combo-box-text {
-      border-radius: $inner-radius;
-      label {
-      padding-left: calc($padding / 4);
-      }
-      padding-left: 0;
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-    .recorder-button, {
-      border-radius: $inner-radius;
-      padding-right: 0;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      label {
-      padding-right: calc($padding / 4);
-      }
-    }
-  }
-
-  .separator label {
-    font-size: 5pt;
-    font-weight: bold;
-    font-family: "Font Awesome 7 Free";
-  }
-
-  .recording-label {
-    font-weight: bold;
-    font-size: 13pt;
   }
 
   menu {

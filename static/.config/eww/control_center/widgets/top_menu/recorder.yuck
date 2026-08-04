@@ -1,12 +1,10 @@
 (defvar recording_output "~/vid/recording")
-(defvar recording_display "")
+;(defvar recording_display "")
 (defvar recording_format "mp4")
 (defvar record_audio false)
-(defvar displays "[]")
+;(defvar displays "[]")
 (defvar recording false)
-(defvar record_display_hovered false)
-(defpoll timer :run-while recording :interval "1s" :initial "0" "./control_center/scripts/timer.sh")
-(defvar mins "0")
+(defvar mins "00")
 (defvar secs "00")
 
 (defwidget recorder []
@@ -30,7 +28,7 @@
         :visible recording
         :halign "center"
         :hexpand true
-        (label :text "Recording..." :class "recording-label")
+        (label :halign "center" :hexpand true :text "Recording..." :class "recording-label")
         (box
           :orientation "h"
           :space-evenly false
@@ -88,31 +86,14 @@
         :visible {recording ? false : true}
         (button 
           :class "recorder-button${recording ? " recording" : ""}"
-          :onclick "${recording ? "pkill wf-recorder; ${EWW_CMD} update recording=false" : "yzshell record_screen --audio ${record_audio} --directory ${recording_output} --format ${recording_format} --select true &"}"
-          {recording ? "Stop recording" : "Select and record"}
+          :onclick "${recording ? "pkill wf-recorder; ${EWW_CMD} update recording=false" : "yzshell record_screen --audio ${record_audio} --directory ${recording_output} --format ${recording_format} --select true & disown"}"
+          "Select and record"
         )
-        (overlay (eventbox :class "event-box-display${record_display_hovered ? " hovered" : ""}" :onhover "${EWW_CMD} update record_display_hovered=true" :onhoverlost "${EWW_CMD} update record_display_hovered=false"
-        (box
-          :class "record-screen"
-          :orientation "h"
-          :space-evenly false
-          (button 
-            :class "recorder-button${recording ? " recording" : ""}"
-            :onclick "${recording ? "pkill wf-recorder; ${EWW_CMD} update recording=false" : "yzshell record_screen --audio ${record_audio} --directory ${recording_output} --format ${recording_format} --display ${recording_display} &"}"
-            {recording ? "Stop recording" : "Record"}
-          )
-          (overlay
-            (box
-              :class "combo-box-text${record_display_hovered ? " hovered" : ""}"
-              (label :text "${recording_display}  ")
-            )
-            (combo-box-text
-              :class "combo-box-display"
-              :items displays
-              :onchange "${EWW_CMD} update recording_display='{}'"
-            )
-          )
-        )))
+        (button 
+          :class "recorder-button${recording ? " recording" : ""}"
+          :onclick "${recording ? "pkill wf-recorder; ${EWW_CMD} update recording=false" : "yzshell record_screen --audio ${record_audio} --directory ${recording_output} --format ${recording_format} & disown"}"
+          "Record screen"
+        )
         (checkbox 
           :visible {recording ? false : true}
           :checked record_audio

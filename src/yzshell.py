@@ -300,6 +300,8 @@ class Shell:
         )
 
     def recorder(self, audio, display, fmt, directory, select):
+        from time import sleep
+        from math import floor
         import subprocess
         self._set_config()
         if directory == "":
@@ -313,7 +315,7 @@ class Shell:
             text=True
         ).stdout.strip()
         output = f"{directory}/recording-{date}.{fmt}"
-        cmd = "eww update timer='0'; eww update recording=true; wf-recorder"
+        cmd = "eww update mins='00'; eww update secs='00'; eww update recording=true; wf-recorder"
         if audio == "true":
             cmd += " -a"
         if select == "true":
@@ -331,11 +333,29 @@ class Shell:
         elif display != "":
             cmd += f" -o {display}"
         cmd += f" -f {output}"
-        print(cmd)
-        subprocess.run(
+        p = subprocess.Popen(
             cmd,
-            shell=True
+            shell=True,
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
         )
+        i = 1
+        while p.poll() is None:
+            sleep(1)
+            mins = floor(i / 60)
+            secs = i - (mins * 60)
+            mins = str(mins)
+            secs = str(secs)
+            if len(mins) == 1:
+                mins = f"0{mins}"
+            if len(secs) == 1:
+                secs = f"0{secs}"
+            subprocess.run(
+                f"eww update mins='{mins}'; eww update secs='{secs}'",
+                shell=True
+            )
+            i += 1
+            
         subprocess.run(
             f"eww update recording=false; notify-send 'Recording saved' '{output}'",
             shell=True
