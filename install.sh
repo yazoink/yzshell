@@ -142,6 +142,10 @@ function install_optional_deps() {
         "kruler"
         "qbittorrent"
         "yt-dlp"
+        "mpd"
+        "ncmpcpp"
+        "mpc"
+        "ario"
     )
     for d in "${deps[@]}"; do
         install_package "$d"
@@ -149,6 +153,7 @@ function install_optional_deps() {
 
     aur_deps=(
         "vesktop-bin"
+        "mpdris2-rs"
     )
 
     for d in "${aur_deps[@]}"; do
@@ -412,7 +417,8 @@ if [ $refresh -eq 1 ]; then
     install_deps
     [ $optional_deps -eq 0 ] && install_optional_deps
     install_graphics_drivers
-    sudo systemctl enable fstrim.timer
+    systemctl --user enable --now mpd
+    systemctl --user enable --now mpdris2-rs.service
     configure_zsh
     install_window_manager
     yzshell default_apps install_all
