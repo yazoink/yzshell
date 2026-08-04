@@ -603,21 +603,15 @@ class Shell:
             t.join()
 
         threads = []
-        threads.append(Thread(target=self.bar.configure))
-        threads.append(Thread(target=self.windowmanager.configure))
-        threads.append(Thread(target=self.configure_hyprlock))
-        threads.append(Thread(target=configure_vencord))
-        threads.append(Thread(target=configure_zsh))
-        threads.append(Thread(target=configure_qtct))
-        threads.append(Thread(target=self.default_apps.configure))
+        self.bar.configure()
+        self.windowmanager.configure()
+        self.configure_hyprlock()
+        configure_vencord()
+        configure_zsh()
+        configure_qtct()
+        self.default_apps.configure()
         if self.config.current["web_browser"] == "zen-browser":
-            threads.append(Thread(target=configure_zen))
-
-        for t in threads:
-            t.start()
-
-        for t in threads:
-            t.join()
+            configure_zen()
 
         self.reconfigure_colourscheme()
         subprocess.run(

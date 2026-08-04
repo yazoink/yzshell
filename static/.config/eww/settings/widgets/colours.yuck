@@ -12,7 +12,7 @@
       :spacing 8
       (for scheme in colourschemes
         (button
-          :onclick "yzshell close settings & yzshell colourscheme '${scheme["id"]}' &"
+          :onclick "yzshell close_all_widgets & yzshell colourscheme '${scheme["id"]}' &"
           :class "scheme-button"
           :tooltip "Apply colourscheme"
           :style "background-color: #${scheme["background"]};"
