@@ -852,7 +852,7 @@ if __name__ == "__main__":
             case "record_screen":
                 import argparse
                 parser = argparse.ArgumentParser(add_help=False)
-                parser.add_argument("-a", "--audio", default="true")
+                parser.add_argument("-a", "--audio", default="false")
                 parser.add_argument("-d", "--directory", default="")
                 parser.add_argument("-f", "--format", default="mp4")
                 parser.add_argument("-s", "--display", default="")

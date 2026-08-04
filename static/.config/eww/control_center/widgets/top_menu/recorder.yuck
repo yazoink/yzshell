@@ -1,7 +1,7 @@
 (defvar recording_output "~/vid/recording")
 (defvar recording_display "")
 (defvar recording_format "mp4")
-(defvar record_audio true)
+(defvar record_audio false)
 (defvar displays "[]")
 (defvar recording false)
 
