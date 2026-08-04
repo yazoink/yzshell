@@ -1,7 +1,12 @@
-(defpoll song :run-while {menu_item == 0 && control_center_visible} :interval "3s"  "playerctl metadata title || echo 'Nothing playing...'")
-(defpoll song_artist :run-while {menu_item == 0 && control_center_visible} :interval "3s"  "playerctl metadata artist || echo 'Click to open player'")
-(defpoll song_status :run-while {menu_item == 0 && control_center_visible} :interval "3s"  "control_center/scripts/get_player_status.sh")
-(defpoll cover_art :run-while {menu_item == 0 && control_center_visible} :interval "3s"  "control_center/scripts/get_album_cover.sh")
+;(defpoll song :run-while {menu_item == 0 && control_center_visible} :interval "3s"  "playerctl metadata title || echo 'Nothing playing...'")
+;(defpoll song_artist :run-while {menu_item == 0 && control_center_visible} :interval "3s"  "playerctl metadata artist || echo 'Click to open player'")
+;(defpoll song_status :run-while {menu_item == 0 && control_center_visible} :interval "3s"  "control_center/scripts/get_player_status.sh")
+;(defpoll cover_art :run-while {menu_item == 0 && control_center_visible} :interval "3s"  "control_center/scripts/get_album_cover.sh")
+
+(defpoll song :run-while music_visible :interval "3s"  "./control_center/scripts/music_info.sh --song")
+(defpoll song_artist :run-while music_visible :interval "3s"  "./control_center/scripts/music_info.sh --artist")
+(defpoll song_status :run-while music_visible :interval "3s"  "./control_center/scripts/music_info.sh --status")
+(defpoll cover_art :run-while music_visible :interval "2s"  "./control_center/scripts/music_info.sh --cover")
 
 (defwidget music []
   (box
@@ -25,7 +30,7 @@
       :space-evenly false
       :tooltip "Open music player"
       (button
-        :onclick "yzshell close control_center & exec ario &"
+        :onclick "yzshell close_all_widgets & exec ario &"
         (box
           :class "music-info"
           :orientation "v"

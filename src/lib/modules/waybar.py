@@ -19,8 +19,14 @@ class Waybar:
             exit(1)
 
     def reload(self):
-        self.kill()
-        self.launch()
+        #self.kill()
+        #self.launch()
+        subprocess.Popen(
+            f"killall waybar; waybar", 
+            shell=True, 
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
 
     def kill(self):
         subprocess.run(
