@@ -270,6 +270,18 @@ Flags:
 - `--output` or `-o`: specifies the path to save the screenshot.
 - `--sleep-time` or `-s`: time in seconds to wait before taking screenshot.
 
+#### Screen recording utility
+
+Basic usage: `yzshell record_screen` -- records screen and outputs
+to the directory specified under `recording_dir` in the config file.     
+
+Flags:
+
+- `--audio` or `-a`: whether to record audio -- `true` or `false` 
+  (defaults to `false`).
+- `--directory` or `-d`: directory to output file.
+- `--format` or `-f`: file format (defaults to `mp4`).
+- `--display` or `-d`: display to record (see `wf-recorder -L`).
 
 ## TODO
 - Nvim config/theme
