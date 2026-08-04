@@ -70,7 +70,7 @@ get_cover() {
     if [ "$STATUS" -eq 0 ];then
         echo "$COVER"
     else
-        echo "images/music.png"
+        echo ""
     fi
 }
 

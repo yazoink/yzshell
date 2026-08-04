@@ -78,3 +78,19 @@ tooltip {
 .red, .red label {
   color: $red;
 }
+
+menu {
+  color: $foreground;
+  background-color: $background;
+  padding: $padding;
+  border-radius: $outer-radius;
+  border: 1px solid $surface1;
+}
+
+menuitem {
+  padding: calc($padding / 2);
+  border-radius: $inner-radius;
+  &:hover {
+    background-color: $surface1;
+  }
+}

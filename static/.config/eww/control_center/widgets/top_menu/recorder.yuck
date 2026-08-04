@@ -1,0 +1,73 @@
+(defvar recording_output "~/vid/recording")
+(defvar recording_display "")
+(defvar recording_format "mp4")
+(defvar record_audio true)
+(defvar displays "[]")
+(defvar recording false)
+
+(defwidget recorder []
+  (box
+    :class "recorder-box"
+    :orientation "v"
+    :space-evenly false
+    :halign "fill"
+    :spacing 8
+    (box
+      :orientation "v"
+      :space-evenly false
+      :halign "fill"
+      :valign "center"
+      :vexpand true
+      :spacing 8
+      (box
+        :orientation "h"
+        :space-evenly false
+        :halign "center"
+        :hexpand true
+        :spacing 8
+        (label :text "Save to:")
+        (input :value recording_output)
+        (label :text "Format:")
+        (overlay
+          (box
+            :class "combo-box-display"
+            (label :text "${recording_format}  ")
+          )
+          (combo-box-text
+            :class "combo-box"
+            :items "[mp4,mkv]"
+            :onchange "${EWW_CMD} update recording_format='{}'"
+          )
+        )
+      )
+      (box
+        :orientation "h"
+        :space-evenly false
+        :halign "center"
+        :hexpand true
+        :spacing 8
+        (button 
+          :onclick {recording ? "pkill wf-recorder; ${EWW_CMD} update recording=false" : "${EWW_CMD} update recording=true & yzshell record_screen --audio ${record_audio} --directory ${recording_output} --format ${recording_format} --display ${recording_display} &"}
+          {recording ? "Stop recording" : "Record screen"}
+        )
+        (overlay
+          (box
+            :class "combo-box-display"
+            (label :text "${recording_display}  ")
+          )
+          (combo-box-text
+            :class "combo-box"
+            :items displays
+            :onchange "${EWW_CMD} update recording_display='{}'"
+          )
+        )
+        (checkbox 
+          :checked record_audio
+          :onchecked "${EWW_CMD} update record_audio=true"
+          :onunchecked "${EWW_CMD} update record_audio=false"
+        )
+        (label :text "Audio")
+      )
+    )
+  )
+)

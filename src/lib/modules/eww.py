@@ -173,12 +173,14 @@ class Eww(EwwDaemon):
                     name="control_center",
                     config=config,
                     pre_launch=[
-                        self.update_search_cache,
-                        self.get_profile_image
+                        self.get_profile_image,
+                        Thread(target=self.update_search_cache).start,
+                        Thread(target=self.recorder_init).start,
                     ],
                     pre_open=[
+                        Thread(target=self.get_profile_image).start,
                         Thread(target=self.get_dnd_icon).start,
-                        Thread(target=self.get_search_results).start
+                        Thread(target=self.get_search_results).start,
                     ],
                     post_open=[
                         Thread(target=self.open_search_input).start,
@@ -414,6 +416,36 @@ class Eww(EwwDaemon):
         subprocess.run(
             "eww update menu_item=0", 
             shell=True, 
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
+
+    def recorder_init(self):
+        from re import sub
+        r = subprocess.run(
+            "wf-recorder -L",
+            shell=True,
+            text=True,
+            capture_output=True
+        ).stdout.strip()
+
+        r = sub("[0-9][.] Name: ", "", r)
+        r = sub("Description:.*", "", r)
+        r = sub(" ", "", r)
+
+        r = r.split("\n")
+
+        vec = "["
+        last = len(r) - 1
+        for display in r:
+            vec += display
+            if display != r[last]:
+                vec += ","
+        vec += "]"
+
+        subprocess.run(
+            f"eww update displays='{vec}'; eww update recording_display='{r[0]}'; eww update recording_output={self._config.current["recording_dir"]}",
+            shell=True,
             stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
         )

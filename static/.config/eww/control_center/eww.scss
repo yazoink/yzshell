@@ -101,7 +101,7 @@
 .menu-box {
   border-radius: $inner-radius;
   .music .icon {
-    color: $purple;
+    color: $blue;
   }
   .monitor .icon {
     color: $green;
@@ -109,13 +109,16 @@
   .weather .icon {
     color: $yellow;
   }
+  .recorder .icon {
+    color: $red;
+  }
   .selected {
     .icon {
       border-top-left-radius: $inner-radius;
       border-bottom-left-radius: $inner-radius;
     }
     &.music .icon {
-      background-color: $purple;
+      background-color: $blue;
       color: $bg;
     }
     &.monitor .icon {
@@ -124,6 +127,10 @@
     }
     &.weather .icon {
       background-color: $yellow;
+      color: $bg;
+    }
+    &.recorder .icon {
+      background-color: $red;
       color: $bg;
     }
   }
@@ -139,6 +146,72 @@
     &:hover {
       background-image: linear-gradient($surface2);
     }
+  }
+}
+
+.recorder-box {
+  margin-bottom: $padding;
+  border-radius: $inner-radius;
+  background: $surface;
+  padding: $padding;
+  button, entry {
+    background-color: $surface2;
+    padding: $padding;
+    border-radius: $inner-radius;
+  }
+  button:hover {
+    background-color: $surface3;
+  }
+  checkbutton {
+    border-radius: $inner-radius;
+    border: 2px solid $surface3;
+    background-color: $surface2;
+    margin: 8px 0;
+  }
+
+  checkbutton:checked {
+    border: 2px solid $blue;
+    background-color: $blue;
+    check {
+      color: $background;
+    }
+  }
+
+  .combo-box, .combo-box button, .combo-box label {
+    color: transparent;
+    background-color: transparent;
+    background-image: none;
+  }
+
+  .combo-box-display {
+    background-color: $surface2;
+    border-radius: $inner-radius;
+    padding: $padding;
+    &:hover {
+      background-color: $surface3;
+    }
+  }
+
+  menu {
+    background-color: $surface2;
+    //border: 1px solid $surface3;
+    margin-top: -2px;
+    border: none;
+    border-radius: $inner-radius;
+  }
+
+  menuitem {
+    &:hover {
+      background-color: $surface3;
+    }
+  }
+
+  combobox * {
+    color: transparent;
+  }
+
+  menu * {
+    color: $foreground;
   }
 }
 

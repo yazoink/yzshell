@@ -294,8 +294,40 @@ class Shell:
     def lock_screen(self, grace="30"):
         import subprocess
         subprocess.Popen(
-            f"hyprlock --grace {grace}", 
+            f"pidof hyprlock || hyprlock --grace {grace}", 
             shell=True, stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
+
+    def recorder(self, audio, display, fmt, directory):
+        import subprocess
+        self._set_config()
+        if directory == "":
+            directory = self.config.current["recording_dir"]
+        if path.exists(directory) == False:
+            makedirs(directory)
+        date = subprocess.run(
+            "date +%Y%m%d_%H:%M:%S",
+            shell=True,
+            capture_output=True,
+            text=True
+        ).stdout.strip()
+        output = f"{directory}/recording-{date}.{fmt}"
+        cmd = "wf-recorder"
+        if audio == "true":
+            cmd += " -a"
+        if display != "":
+            cmd += f" -o {display}"
+        cmd += f" -f {output}"
+        print(cmd)
+        subprocess.run(
+            cmd,
+            shell=True
+        )
+        subprocess.run(
+            f"notify-send 'Recording saved' '{output}'",
+            shell=True, 
+            stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT
         )
 
@@ -817,6 +849,20 @@ if __name__ == "__main__":
                     output=args.output,
                     mode=args.mode,
                     sleep_time=args.sleep_time
+                )
+            case "record_screen":
+                import argparse
+                parser = argparse.ArgumentParser(add_help=False)
+                parser.add_argument("-a", "--audio", default="true")
+                parser.add_argument("-d", "--directory", default="")
+                parser.add_argument("-f", "--format", default="mp4")
+                parser.add_argument("-s", "--display", default="")
+                args = parser.parse_args(argv[2:])
+                shell.recorder(
+                    audio=args.audio,
+                    directory=args.directory,
+                    fmt=args.format,
+                    display=args.display
                 )
             case "pick_colour":
                 import argparse

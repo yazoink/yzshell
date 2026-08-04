@@ -50,7 +50,7 @@
   :windowtype "dialog"
   :stacking "fg"
   :exclusive false
-  :focusable false
+  :focusable "ondemand"
   (box
     :space-evenly false
     (label :text update_results :visible false)

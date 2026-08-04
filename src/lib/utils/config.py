@@ -12,6 +12,7 @@ class Config:
             "profile_image": f"{environ["DATA_DIR"]}/assets/images/profile_image.jpg",
             "screenshot_dir": f"{environ["HOME"]}/pic/screenshots",
             "wallpaper_dir": f"{environ["DATA_DIR"]}/assets/images/wallpapers",
+            "recording_dir": f"{environ["HOME"]}/vid/recordings",
             "wallpaper_image": "dolphins-tile.png",
             "wallpaper_mode": "tile",
             "zen_profile_dir": f"{environ["HOME"]}/.config/zen/htooy43a.Default (release)",
