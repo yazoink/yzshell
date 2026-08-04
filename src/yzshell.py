@@ -402,6 +402,21 @@ class Shell:
                 stderr=subprocess.STDOUT
             )
 
+    def kill(self):
+        self._set_config()
+        self._set_wallpaper()
+        self._set_osd()
+        self._set_bar()
+        self._set_windowmanager()
+        self._set_notifs()
+        self._set_wallpaper()
+        self._set_widgets()
+        self.wallpaper.kill()
+        self.bar.kill()
+        self.osd.kill()
+        self.notifs.kill()
+        self.widgets.kill()
+
     def launch(self):
         self._set_config()
         self._set_wallpaper()
@@ -411,12 +426,12 @@ class Shell:
         self._set_notifs()
         self._set_wallpaper()
         self._set_widgets()
-        self.bar.reload()
-        self.wallpaper.reload()
-        self.osd.reload()
+        self.wallpaper.launch()
+        self.bar.launch()
+        self.osd.launch()
         self.windowmanager.reload()
         self.notifs.reload()
-        self.widgets.reload()
+        self.widgets.launch()
 
     def open(self, widget):
         self._set_config()
@@ -591,18 +606,9 @@ class Shell:
         write_file(f"{environ["STATIC_CONFIG_DIR"]}/.zshrc", f"{environ["HOME"]}/.zshrc")
 
         configs = listdir(f"{environ["STATIC_CONFIG_DIR"]}/.config")
-        threads = []
         for cfg in configs:
-            threads.append(Thread(target=write_config, args=(cfg,)))
-            #write_config(cfg)
-        
-        for t in threads:
-            t.start()
+            write_config(cfg)
 
-        for t in threads:
-            t.join()
-
-        threads = []
         self.bar.configure()
         self.windowmanager.configure()
         self.configure_hyprlock()
@@ -614,7 +620,7 @@ class Shell:
             configure_zen()
 
         self.reconfigure_colourscheme()
-        subprocess.run(
+        subprocess.Popen(
             '''gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3
 gsettings set org.gnome.desktop.interface font-name "sans 11"''',
             shell=True, 
@@ -624,13 +630,13 @@ gsettings set org.gnome.desktop.interface font-name "sans 11"''',
 
     def reconfigure_colourscheme(self, scheme=None):
         from lib.utils.colourscheme import MustacheTemplate
+        import subprocess
         self._set_config()
         if scheme == None:
             scheme = self.config.current["colourscheme"]
         self._set_colourscheme(scheme)
         
         def configure_gtk_polarity():
-            import subprocess
             gtk_settings = ""
             labwc_env = ""
             hyprland_env = ""
@@ -658,6 +664,16 @@ gtk-application-prefer-dark-theme={prefer_dark_theme}'''
             with open(f"{environ["CONFIG_DIR"]}/gtk-4.0/settings.ini", "w") as f:
                 f.write(gtk_settings)
 
+            subprocess.Popen(
+                f'''gsettings set org.gnome.desktop.interface color-scheme prefer-{polarity}
+gsettings set org.gnome.desktop.interface cursor-theme {cursor_theme}
+papirus-folders -C {self.config.current["papirus_folders_colour"]} --theme {icon_theme}
+gsettings set org.gnome.desktop.interface icon-theme {icon_theme}''',
+                shell=True, 
+                stdout=subprocess.DEVNULL, 
+                stderr=subprocess.STDOUT
+            )
+
             if self.config.current["window_manager"] == "labwc":
                 with open(f"{environ["STATIC_CONFIG_DIR"]}/.config/labwc/environment", "r") as f:
                     labwc_env = f.read()
@@ -670,16 +686,6 @@ gtk-application-prefer-dark-theme={prefer_dark_theme}'''
                 hyprland_env += f"\nhl.env(\"XCURSOR_THEME\", \"{cursor_theme}\")"
                 with open(f"{environ["CONFIG_DIR"]}/hypr/hyprland/env.lua", "w") as f:
                     f.write(hyprland_env)
-
-            subprocess.run(
-                f'''gsettings set org.gnome.desktop.interface color-scheme prefer-{polarity}
-gsettings set org.gnome.desktop.interface cursor-theme {cursor_theme}
-papirus-folders -C {self.config.current["papirus_folders_colour"]} --theme {icon_theme}
-gsettings set org.gnome.desktop.interface icon-theme {icon_theme}''',
-                shell=True, 
-                stdout=subprocess.DEVNULL, 
-                stderr=subprocess.STDOUT
-            )
 
         templates = [
             MustacheTemplate("eww.scss.mustache", f"{environ["CONFIG_DIR"]}/eww/scss/_colours.scss"),
@@ -722,6 +728,7 @@ if __name__ == "__main__":
     argc = len(argv)
     shell = Shell()
     if argc == 1: # launch yzshell
+        shell.kill()
         shell.launch()
     else:
         cmd = argv[1]
@@ -749,6 +756,7 @@ if __name__ == "__main__":
                             reload = True
                 shell.reconfigure()
                 if reload == True:
+                    shell.kill()
                     shell.launch()
             case "colourscheme":
                 if argc < 3:

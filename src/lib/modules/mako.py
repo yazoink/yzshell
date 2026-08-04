@@ -15,7 +15,7 @@ class Mako:
 
     def launch(self):
         subprocess.Popen(
-            f"mako", 
+            f"pidof mako || mako", 
             shell=True, 
             stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT

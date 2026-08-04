@@ -7,16 +7,12 @@ class Waybar:
         self._config = config
 
     def launch(self):
-        try:
-            subprocess.Popen(
-                f"waybar", 
-                shell=True, 
-                stdout=subprocess.DEVNULL, 
-                stderr=subprocess.STDOUT
-            )
-        except:
-            print("Error: could not open bar")
-            exit(1)
+        subprocess.Popen(
+            f"waybar", 
+            shell=True, 
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT
+        )
 
     def reload(self):
         self.kill()
@@ -24,7 +20,7 @@ class Waybar:
 
     def kill(self):
         subprocess.run(
-            f"killall waybar", 
+            "killall waybar", 
             shell=True, 
             stdout=subprocess.DEVNULL, 
             stderr=subprocess.STDOUT

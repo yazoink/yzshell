@@ -14,8 +14,8 @@ class Wallpaper:
         d = self._config.current["wallpaper_dir"]
         m = self._config.current["wallpaper_mode"]
         try:
-            subprocess.Popen(
-                f"swaybg -i '{d}/{i}' -m '{m}'", 
+            subprocess.run(
+                f"swaybg -i '{d}/{i}' -m '{m}' &", 
                 shell=True, 
                 stdout=subprocess.DEVNULL, 
                 stderr=subprocess.STDOUT
