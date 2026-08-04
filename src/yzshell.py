@@ -304,6 +304,19 @@ class Shell:
         from math import floor
         import subprocess
         self._set_config()
+        def update_timer(i):
+            mins = floor(i / 60)
+            secs = i - (mins * 60)
+            mins = str(mins)
+            secs = str(secs)
+            if len(mins) == 1:
+                mins = f"0{mins}"
+            if len(secs) == 1:
+                secs = f"0{secs}"
+            subprocess.run(
+                f"eww update mins='{mins}'; eww update secs='{secs}'",
+                shell=True
+            )
         if directory == "":
             directory = self.config.current["recording_dir"]
         if path.exists(directory) == False:
@@ -342,18 +355,7 @@ class Shell:
         i = 1
         while p.poll() is None:
             sleep(1)
-            mins = floor(i / 60)
-            secs = i - (mins * 60)
-            mins = str(mins)
-            secs = str(secs)
-            if len(mins) == 1:
-                mins = f"0{mins}"
-            if len(secs) == 1:
-                secs = f"0{secs}"
-            subprocess.run(
-                f"eww update mins='{mins}'; eww update secs='{secs}'",
-                shell=True
-            )
+            Thread(target=update_timer, args=(i,)).start()
             i += 1
             
         subprocess.run(
