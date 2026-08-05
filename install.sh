@@ -62,6 +62,8 @@ function configure_zsh() {
 function install_executable() {
     sudo install -Dm755 "./bin/yzshell" "/usr/bin/yzshell"
     echo "Installed 'yzshell' to '/usr/bin'"
+    sudo install -Dm755 ./bin/hyprland-plugins-init /usr/bin/hyprland-plugins-init
+    echo "Installed 'hyprland-plugins-init' to '/usr/bin'"
 }
 
 function install_yay() {
@@ -332,7 +334,6 @@ function install_window_manager() {
     case "$wm" in
         "1") 
             yzshell window_manager set hyprland --dont-uninstall 
-            sudo install -Dm755 ./bin/hyprland-plugins-init /usr/bin/hyprland-plugins-init
             # install_hyprviewbinds # doesn't work with the new lua config lol
             ;;
         "2") yzshell window_manager set labwc --dont-uninstall ;;
