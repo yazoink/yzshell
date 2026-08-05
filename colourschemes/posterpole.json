@@ -1,0 +1,15 @@
+{
+    "scheme": "Posterpole",
+    "author": "https://github.com/ilof2/posterpole.nvim",
+    "polarity": "dark",
+    "background": "18161C",
+    "foreground": "A89789",
+    "red": "A86F6F",
+    "orange": "B7806D",
+    "yellow": "C5916B",
+    "green": "6B8D7A",
+    "cyan": "6C7F92",
+    "blue": "73708A",
+    "purple": "7A6182",
+    "brown": "996565"
+}
