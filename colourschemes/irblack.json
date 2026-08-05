@@ -1,0 +1,15 @@
+{
+    "scheme": "IR Black",
+    "author": "Timothée Poisot (http://timotheepoisot.fr)",
+    "polarity": "dark",
+    "background": "000000",
+    "foreground": "B5B3AA",
+    "red": "FF6C60",
+    "orange": "E9C062",
+    "yellow": "FFFFB6",
+    "green": "A8FF60",
+    "cyan": "C6C5FE",
+    "blue": "96CBFE",
+    "purple": "FF73FD",
+    "brown": "B18A3D"
+}
