@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# TODO: configure zen, optionally install nvim and deps, do something about
-# hyprbars, graphics drivers?
+# TODO: optionally install nvim and deps, graphics drivers?
 
 TARGET_DIR=~/.local/share/yzshell
 SRC_DIR=/tmp/yzshell
