@@ -201,11 +201,13 @@ def deploy_configs(cfg):
     # moving/cleaning
     s = path.join(STOW_DIR, ".config/gtk")
     d = path.join(STOW_DIR, ".config/gtk-3.0")
-    if path.exists(d) == False:
-        copytree(s, d)
+    if path.exists(d) == True:
+        rmtree(d)
+    copytree(s, d)
     d = path.join(STOW_DIR, ".config/gtk-4.0")
-    if path.exists(d) == False:
-        copytree(s, path.join(STOW_DIR, ".config/gtk-4.0"))
+    if path.exists(d) == True:
+        rmtree(d)
+    copytree(s, path.join(STOW_DIR, ".config/gtk-4.0"))
     rmtree(s)
 
     d = path.join(STOW_DIR, ".config/qt5ct")
@@ -286,9 +288,10 @@ if __name__ == "__main__":
                         for s in schemes:
                             print(s.replace(".json", ""))
                         exit(0)
-                    set_option(cfg, "colourscheme", argv[2])
+                    cfg = set_option(cfg, "colourscheme", argv[2])
+                    write_config(cfg)
                     deploy_configs(cfg)
-                    subprocess.run(["yzreload"])
+                    subprocess.run(["yzshell", "reload"])
             case "wallpaper":
                 if argc > 3:
                     match argv[2]:
