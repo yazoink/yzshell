@@ -1,0 +1,892 @@
+from sys import exit, argv
+from threading import Thread
+from os import environ, path, listdir, makedirs
+from lib.utils.misc import write_file
+
+class Shell:
+    def __init__(self):
+        self.config = None
+        self.osd = None
+        self.bar = None
+        self.widgets = None
+        self.wallpaper = None
+        self.windowmanager = None
+        self.notifs = None
+        self.colourscheme = None
+        self.default_apps = None
+
+    def _set_osd(self):
+        from lib.modules.swayosd import SwayOSD
+        if self.osd == None:
+            self.osd = SwayOSD()
+
+    def _set_bar(self):
+        from lib.modules.waybar import Waybar
+        if self.bar == None:
+            self.bar = Waybar(self.config)
+
+    def _set_widgets(self):
+        from lib.modules.eww import Eww
+        if self.widgets == None:
+            self.widgets = Eww(self.config)
+
+    def _set_wallpaper(self):
+        from lib.modules.wallpaper import Wallpaper
+        if self.wallpaper == None:
+            self.wallpaper = Wallpaper(self.config)
+
+    def _set_windowmanager(self, wm=""):
+        if wm == "":
+            wm = self.config.current["window_manager"]
+        match wm:
+            case "labwc":
+                from lib.modules.labwc import Labwc
+                if self.windowmanager == None:
+                    self.windowmanager = Labwc(self.config)
+            case "hyprland":
+                from lib.modules.hyprland import Hyprland
+                if self.windowmanager == None:
+                    self.windowmanager = Hyprland(self.config)
+
+    def _set_notifs(self):
+        from lib.modules.mako import Mako
+        if self.notifs == None:
+            self.notifs = Mako()
+
+    def _set_config(self):
+        from lib.utils.config import Config
+        if self.config == None:
+            self.config = Config()
+
+    def _set_default_apps(self):
+        from lib.utils.defaultapps import DefaultApps
+        if self.default_apps == None:
+            self.default_apps = DefaultApps(self.config)
+
+    def _set_colourscheme(self, scheme):
+        from lib.utils.colourscheme import Colourscheme
+        if self.colourscheme == None:
+            self.colourscheme = Colourscheme(scheme)
+
+    def list_colourschemes(self):
+        from os import listdir
+        d = listdir(environ["COLOURS_DIR"])
+        for c in d:
+            print(c.replace(".json", ""))
+
+    def get_default_app_categories(self):
+        self._set_config()
+        self._set_default_apps()
+        for category in self.default_apps.apps:
+            print(category)
+
+    def get_available_default_apps(self, category):
+        self._set_config()
+        self._set_default_apps()
+        if category not in self.default_apps.apps:
+            print("Error: category '{category}' does not exist")
+        for a in self.default_apps.apps[category]:
+            print(a)
+
+    def close_all_widgets(self):
+        self._set_config()
+        self._set_widgets()
+        self.widgets.close_all()
+
+    def search_next_selected(self, direction="next"):
+        self._set_config()
+        self._set_widgets()
+        import json
+        import subprocess
+        r = subprocess.run(
+            "eww get search_selected",
+            shell=True,
+            text=True,
+            capture_output=True
+        ).stdout.strip()
+        selected = int(r)
+        if direction == "next":
+            r = subprocess.run(
+                "eww get search_results",
+                shell=True,
+                text=True,
+                capture_output=True
+            ).stdout.strip()
+            results = json.loads(r)
+            l = len(results)
+            if selected < l:
+                selected += 1
+        elif direction == "prev":
+            if selected > -1:
+                selected -= 1
+        subprocess.run(
+            f"eww update search_selected={selected}",
+            shell=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.STDOUT
+        )
+
+    def pick_colour(self, sleep_time=0):
+        import subprocess
+        from time import sleep
+        sleep(sleep_time)
+        r = subprocess.run(
+            "hyprpicker",
+            shell=True,
+            text=True,
+            capture_output=True
+        )
+        if r.returncode == 0:
+            colour = r.stdout.strip()
+            subprocess.Popen(
+                f"wl-copy '{colour}'; notify-send '{colour}' 'Copied to clipboard'",
+                shell=True,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.STDOUT
+            )
+
+    def get_config_opt(self, opt):
+        self._set_config()
+        self.config.get(opt)
+
+    def set_config_opt(self, opt, val):
+        self._set_config()
+        self.config.change(opt, val)
+
+    def install_all_default_apps(self):
+        self._set_config()
+        self._set_default_apps()
+        self.default_apps.install_all()
+
+    def change_default_app(self, category, app):
+        self._set_config()
+        self._set_default_apps()
+        self._set_windowmanager()
+        self.default_apps.change(category, app)
+        self.windowmanager.configure()
+        self.windowmanager.reload()
+
+    def exit_window_manager(self):
+        self._set_windowmanager()
+        self.windowmanager.exit()
+
+    def set_window_manager(self, wm, dont_uninstall=False):
+        self._set_config()
+        self._set_windowmanager()
+        from lib.utils.misc import prompt_y_n
+        wms=["hyprland", "labwc"]
+        if wm not in wms:
+            print(f"Error: window manager '{wm}' not in config")
+            exit(1)
+        if prompt_y_n(f"Set '{wm}' as your window manager?") == False:
+            exit(0)
+        if dont_uninstall == False and wm != self.windowmanager.name:
+            while True:
+                i = input(f">> Uninstall '{self.windowmanager.name}'? (Y/n): ").lower().strip()
+                if i in yes:
+                    self.windowmanager.uninstall()
+                    break
+                elif i in no:
+                    break
+        self._set_windowmanager(wm)
+        self.windowmanager.install()
+        if wm == "hyprland":
+            with open("/tmp/hyprland_fresh_install", "w") as f:
+                f.write("true")
+
+    def update_colourschemes(self):
+        self._set_config()
+        self._set_widgets()
+        self.widgets.get_colourschemes()
+
+    def set_wallpaper_image(self, image):
+        if path.isfile(image) == False:
+            print(f"Error: file '{image}' not found")
+            exit(1)
+        self._set_config()
+        self._set_widgets()
+        self._set_wallpaper()
+        i = path.abspath(image)
+        s = path.split(i)
+        self.widgets.update_var("current_wallpaper", i)
+        self.config.change("wallpaper_image", s[1])
+        if s[0] != self.config.current["wallpaper_dir"]:
+            self.config.change("wallpaper_dir", s[0])
+            self.widgets.update_var("wallpaper_dir", s[0])
+            self.widgets.update_available_wallpapers(s[0])
+            self.widgets.update_wallpaper_thumbs()
+        self.wallpaper.reload()
+        self.configure_hyprlock()
+
+    def set_wallpaper_mode(self, mode):
+        self._set_config()
+        self._set_widgets()
+        self._set_wallpaper()
+        modes = [
+            "stretch",
+            "fit",
+            "fill",
+            "center",
+            "tile"
+        ]
+        if mode not in modes:
+            print(f"Error: mode '{mode}' invalid")
+            exit(1)
+        self.widgets.update_var("wallpaper_mode", mode)
+        self.config.change("wallpaper_mode", mode)
+        self.wallpaper.reload()
+        self.configure_hyprlock()
+
+    def get_search_results(self, query=""):
+        self._set_widgets()
+        self.widgets.get_search_results(query)
+
+    def update_weather(self):
+        self._set_widgets()
+        self.widgets.update_weather()
+
+    def update_search_cache(self):
+        self._set_config()
+        self._set_widgets()
+        self.widgets.update_search_cache()
+
+    def toggle_dnd(self):
+        import subprocess
+        self._set_widgets()
+        mode = subprocess.run(
+            "makoctl mode",
+            shell=True,
+            text=True,
+            capture_output=True
+        ).stdout
+        if "do-not-disturb" in mode:
+            subprocess.run(
+                "makoctl mode -r do-not-disturb && notify-send 'Notifications' 'Do not disturb disabled'",
+                shell=True,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.STDOUT
+            )
+        else:
+            subprocess.run(
+                "makoctl mode -a do-not-disturb",
+                shell=True,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.STDOUT
+            )
+        self.widgets.get_dnd_icon()
+
+    def update_wallpaper_thumbs(self, dir=None):
+        self._set_config()
+        self._set_widgets()
+        if dir == None:
+            self.widgets.update_wallpaper_thumbs()
+        else:
+            self.widgets.update_wallpaper_thumbs(dir=dir)
+
+    def update_available_wallpapers(self, dir=None):
+        self._set_config()
+        self._set_widgets()
+        if dir == None:
+            self.widgets.update_available_wallpapers()
+        else:
+            self.widgets.update_available_wallpapers(dir)
+
+    def lock_screen(self, grace="30"):
+        import subprocess
+        subprocess.Popen(
+            f"hyprlock --grace {grace}",
+            shell=True, stdout=subprocess.DEVNULL,
+            stderr=subprocess.STDOUT
+        )
+
+    def recorder(self, audio, display, fmt, directory, select):
+        from time import sleep
+        from math import floor
+        import subprocess
+        self._set_config()
+        def update_timer(i):
+            mins = floor(i / 60)
+            secs = i - (mins * 60)
+            mins = str(mins)
+            secs = str(secs)
+            if len(mins) == 1:
+                mins = f"0{mins}"
+            if len(secs) == 1:
+                secs = f"0{secs}"
+            subprocess.run(
+                f"eww update mins='{mins}'; eww update secs='{secs}'",
+                shell=True
+            )
+        if directory == "":
+            directory = self.config.current["recording_dir"]
+        if path.exists(directory) == False:
+            makedirs(directory)
+        date = subprocess.run(
+            "date +%Y%m%d_%H:%M:%S",
+            shell=True,
+            capture_output=True,
+            text=True
+        ).stdout.strip()
+        output = f"{directory}/recording-{date}.{fmt}"
+        cmd = "eww update mins='00'; eww update secs='00'; eww update recording=true; wf-recorder"
+        if audio == "true":
+            cmd += " -a"
+        if select == "true":
+            r = subprocess.run(
+                "slurp",
+                capture_output=True,
+                shell=True,
+                text=True
+            )
+            geometry = r.stdout.strip()
+            print(geometry)
+            if "selection cancelled" in geometry or geometry == "":
+                exit(1)
+            cmd += f" -g \"{geometry}\""
+        elif display != "":
+            cmd += f" -o {display}"
+        cmd += f" -f {output}"
+        p = subprocess.Popen(
+            cmd,
+            shell=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.STDOUT
+        )
+        i = 1
+        while p.poll() is None:
+            sleep(1)
+            Thread(target=update_timer, args=(i,)).start()
+            i += 1
+
+        subprocess.run(
+            f"eww update recording=false; notify-send 'Recording saved' '{output}'",
+            shell=True
+        )
+
+    def screenshot(self, output, mode, sleep_time):
+        from time import sleep
+        import subprocess
+        self._set_config()
+        sleep(sleep_time)
+        if output == None:
+            date = subprocess.run(
+                "date +%Y%m%d_%H:%M:%S",
+                shell=True,
+                capture_output=True,
+                text=True
+            ).stdout.strip()
+            dir = self.config.current["screenshot_dir"]
+            output = f"{dir}/{date}.png"
+        else:
+            s = path.split(output)
+            dir = s[0]
+        if path.exists(dir) == False:
+            makedirs(dir)
+        if mode == "full":
+            r = subprocess.run(
+                f"grim {output}",
+                shell=True,
+                capture_output=True
+            )
+        elif mode == "select":
+            r = subprocess.run(
+                f"grim -g \"$(slurp)\" {output}",
+                shell=True,
+                capture_output=True
+            )
+        else:
+            arg_not_recognised(mode)
+        if r.returncode == 0:
+            subprocess.run(
+                f"notify-send -i {output} 'Screenshot saved' '{output}'",
+                shell=True,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.STDOUT
+            )
+
+    def launch(self):
+        self._set_config()
+        self._set_wallpaper()
+        self._set_osd()
+        self._set_bar()
+        self._set_windowmanager()
+        self._set_notifs()
+        self._set_wallpaper()
+        self._set_widgets()
+        self.wallpaper.reload()
+        self.bar.reload()
+        self.osd.reload()
+        self.windowmanager.reload()
+        self.notifs.reload()
+        self.widgets.reload()
+
+    def open(self, widget):
+        self._set_config()
+        self._set_widgets()
+        self.widgets.modules[widget].open()
+
+    def close(self, widget):
+        self._set_widgets()
+        self.widgets.modules[widget].close()
+
+    def toggle(self, widget):
+        self._set_config()
+        self._set_widgets()
+        self.widgets.modules[widget].toggle()
+
+    def configure_hyprlock(self):
+        src = f"{environ["TEMPLATES_DIR"]}/hyprlock_background.conf.mustache"
+        dest = f"{environ["CONFIG_DIR"]}/hypr/hyprlock/background.conf"
+        cfg = ""
+        img = "screenshot"
+        with open(src, "r") as f:
+            cfg = f.read()
+        if self.config.current["wallpaper_mode"] != "tile":
+            d = self.config.current["wallpaper_dir"]
+            i = self.config.current["wallpaper_image"]
+            img = f"{d}/{i}"
+        cfg = cfg.replace("{{image}}", img)
+        with open(dest, "w") as f:
+            f.write(cfg)
+        print(">> Hyprlock configured")
+
+    def reconfigure(self):
+        from shutil import copytree, rmtree
+        import subprocess
+        self._set_config()
+        self._set_default_apps()
+        self._set_bar()
+        self._set_windowmanager()
+
+        def write_config(cfg):
+            src = f"{environ["STATIC_CONFIG_DIR"]}/.config/{cfg}"
+            dest = f"{environ["CONFIG_DIR"]}/{cfg}"
+            s = path.split(dest)
+            if path.isfile(src):
+                write_file(src, dest)
+            else:
+                try:
+                    rmtree(dest)
+                except:
+                    pass
+                copytree(src, dest)
+            print(f">> Copied '{src}' to {dest}")
+
+        def configure_zsh():
+            rc = ""
+            with open(f"{environ["HOME"]}/.zshrc", "r") as f:
+                rc = f.read()
+            theme = self.config.current["oh_my_zsh_theme"]
+            theme_file = f"{theme}.zsh-theme"
+            available_themes = listdir(f"{environ["HOME"]}/.oh-my-zsh/themes")
+            if theme_file not in available_themes:
+                print(f"Error: Zsh theme '{theme}' not found... falling back to default")
+                theme = self.config.defaults["oh_my_zsh_theme"]
+                self.config.change("oh_my_zsh_theme", theme)
+            rc = rc.replace('ZSH_THEME="robbyrussell"', f'ZSH_THEME="{theme}"')
+            browser = self.config.current["web_browser"]
+            rc = rc.replace('BROWSER="firefox"', f'BROWSER="{browser}"')
+            with open(f"{environ["HOME"]}/.zshrc", "w") as f:
+                f.write(rc)
+            print(">> Zsh configured")
+
+        def configure_zen():
+            import json
+            from os import makedirs
+            from sys import stdin
+            cfg = ""
+            with open(f"{environ["STATIC_CONFIG_DIR"]}/user.js", "r") as f:
+                cfg = f.read()
+            try:
+                with open(f"{self.config.current["zen_profile_dir"]}/user.js", "w") as f:
+                    f.write(cfg)
+            except:
+                print("Could not configure Zen user.js")
+                pass
+            cfg = ""
+            with open(f"{environ["STATIC_CONFIG_DIR"]}/zen-policies.json", "r") as f:
+                cfg = f.read()
+                cfg = json.loads(cfg)
+            addons = [
+                "uBlock0@raymondhill.net",
+                "sponsorBlocker@ajay.app",
+                "{7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}", # stylus
+                "{aecec67f-0d10-4fa7-b7c7-609a2db280cf}", # violentmonkey
+                "{b86e4813-687a-43e6-ab65-0bde4ab75758}", # localcdn
+                "{74145f27-f039-47ce-a470-a662b129930a}", # clearurls
+                "floccus@handmadeideas.org",
+                "{5cce4ab5-3d47-41b9-af5e-8203eea05245}", # control panel for twitter
+                "control-panel-for-youtube@jbscript.dev",
+                "keepassxc-browser@keepassxc.org",
+                "idcac-pub@guus.ninja" # i still don't care about cookies
+            ]
+            if self.config.current["enable_h264ify"] == True:
+                addons.append("{9a41dee2-b924-4161-a971-7fb35c053a4a}")
+            for a in addons:
+                cfg["policies"]["ExtensionSettings"][a] = {
+                    "installation_mode": "force_installed",
+                    "install_url": f"https://addons.mozilla.org/firefox/downloads/latest/{a}/latest.xpi"
+                }
+            if path.exists(f"{environ["CONFIG_DIR"]}/zen") == False:
+                makedirs(f"{environ["CONFIG_DIR"]}/zen")
+            with open(f"{environ["CONFIG_DIR"]}/zen/policies.json", "w") as f:
+                f.write(json.dumps(cfg))
+            sudo_cmd = "pkexec"
+            if stdin.isatty() == True:
+                sudo_cmd = "sudo"
+            if path.exists("/opt/zen-browser-bin/distribution") == False:
+                subprocess.run(
+                    f"{sudo_cmd} mkdir -p /opt/zen-browser-bin/distribution",
+                    shell=True,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.STDOUT
+                )
+            if path.isfile("/opt/zen-browser-bin/distribution/policies.json") == True:
+                subprocess.run(
+                    f"{sudo_cmd} rm /opt/zen-browser-bin/distribution/policies.json",
+                    shell=True,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.STDOUT
+                )
+            if path.lexists("/opt/zen-browser-bin/distribution/policies.json") == False:
+                subprocess.run(
+                    f"{sudo_cmd} ln -sf {environ["CONFIG_DIR"]}/zen/policies.json /opt/zen-browser-bin/distribution/policies.json",
+                    shell=True,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.STDOUT
+                )
+            print(">> Zen browser configured")
+
+        def configure_qtct():
+            cfg = ""
+            try:
+                makedirs(f"{environ["CONFIG_DIR"]}/qt5ct")
+            except:
+                pass
+            try:
+                makedirs(f"{environ["CONFIG_DIR"]}/qt6ct")
+            except:
+                pass
+            with open(f"{environ["STATIC_CONFIG_DIR"]}/qtct.conf", "r") as f:
+                cfg = f.read()
+            with open(f"{environ["CONFIG_DIR"]}/qt5ct/qt5ct.conf", "w") as f:
+                f.write(cfg)
+            with open(f"{environ["CONFIG_DIR"]}/qt6ct/qt6ct.conf", "w") as f:
+                f.write(cfg)
+            print(">> Qtct configured")
+
+        def configure_vencord():
+            cfg = ""
+            try:
+                makedirs(f"{environ["CONFIG_DIR"]}/vesktop/settings")
+            except:
+                pass
+            with open(f"{environ["STATIC_CONFIG_DIR"]}/vencord_settings.json", "r") as f:
+                cfg = f.read()
+            with open(f"{environ["CONFIG_DIR"]}/vesktop/settings/settings.json", "w") as f:
+                f.write(cfg)
+            print(">> Vencord configured")
+
+        if path.exists(environ["CONFIG_DIR"]) == False:
+            makedirs(environ["CONFIG_DIR"])
+
+        write_file(f"{environ["STATIC_CONFIG_DIR"]}/.zshrc", f"{environ["HOME"]}/.zshrc")
+
+        configs = listdir(f"{environ["STATIC_CONFIG_DIR"]}/.config")
+        for cfg in configs:
+            write_config(cfg)
+
+        self.bar.configure()
+        self.windowmanager.configure()
+        self.configure_hyprlock()
+        configure_vencord()
+        configure_zsh()
+        configure_qtct()
+        self.default_apps.configure()
+        if self.config.current["web_browser"] == "zen-browser":
+            configure_zen()
+
+        self.reconfigure_colourscheme()
+        subprocess.Popen(
+            '''gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3
+gsettings set org.gnome.desktop.interface font-name "sans 11"''',
+            shell=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.STDOUT
+        )
+
+    def reconfigure_colourscheme(self, scheme=None):
+        from lib.utils.colourscheme import MustacheTemplate
+        import subprocess
+        self._set_config()
+        if scheme == None:
+            scheme = self.config.current["colourscheme"]
+        self._set_colourscheme(scheme)
+
+        def configure_gtk_polarity():
+            gtk_settings = ""
+            labwc_env = ""
+            hyprland_env = ""
+            cursor_theme = "BreezeX"
+            icon_theme = "Papirus"
+            prefer_dark_theme = ""
+            polarity = self.colourscheme.scheme["polarity"]
+            if polarity == "dark":
+                cursor_theme += "-Dark"
+                icon_theme += "-Dark"
+                prefer_dark_theme = "true"
+            elif polarity == "light":
+                cursor_theme += "-Light"
+                icon_theme += "-Light"
+                prefer_dark_theme = "false"
+
+            with open(f"{environ["STATIC_CONFIG_DIR"]}/gtk_settings.ini", "r") as f:
+                gtk_settings = f.read()
+            gtk_settings += f'''
+gtk-cursor-theme-name={cursor_theme}
+gtk-icon-theme-name={icon_theme}
+gtk-application-prefer-dark-theme={prefer_dark_theme}'''
+            with open(f"{environ["CONFIG_DIR"]}/gtk-3.0/settings.ini", "w") as f:
+                f.write(gtk_settings)
+            with open(f"{environ["CONFIG_DIR"]}/gtk-4.0/settings.ini", "w") as f:
+                f.write(gtk_settings)
+
+            subprocess.Popen(
+                f'''gsettings set org.gnome.desktop.interface color-scheme prefer-{polarity}
+gsettings set org.gnome.desktop.interface cursor-theme {cursor_theme}
+papirus-folders -C {self.config.current["papirus_folders_colour"]} --theme {icon_theme}
+gsettings set org.gnome.desktop.interface icon-theme {icon_theme}''',
+                shell=True,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.STDOUT
+            )
+
+            if self.config.current["window_manager"] == "labwc":
+                with open(f"{environ["STATIC_CONFIG_DIR"]}/.config/labwc/environment", "r") as f:
+                    labwc_env = f.read()
+                labwc_env += f"\nCURSOR_THEME={cursor_theme}"
+                with open(f"{environ["CONFIG_DIR"]}/labwc/environment", "w") as f:
+                    f.write(labwc_env)
+            elif self.config.current["window_manager"] == "hyprland":
+                with open(f"{environ["STATIC_CONFIG_DIR"]}/.config/hypr/hyprland/env.lua", "r") as f:
+                    hyprland_env = f.read()
+                hyprland_env += f"\nhl.env(\"XCURSOR_THEME\", \"{cursor_theme}\")"
+                with open(f"{environ["CONFIG_DIR"]}/hypr/hyprland/env.lua", "w") as f:
+                    f.write(hyprland_env)
+
+        templates = [
+            MustacheTemplate("eww.scss.mustache", f"{environ["CONFIG_DIR"]}/eww/scss/_colours.scss"),
+            MustacheTemplate("foot.ini.mustache", f"{environ["CONFIG_DIR"]}/foot/foot.ini"),
+            MustacheTemplate("gtk.css.mustache", f"{environ["CONFIG_DIR"]}/gtk-3.0/gtk.css"),
+            MustacheTemplate("gtk.css.mustache", f"{environ["CONFIG_DIR"]}/gtk-4.0/gtk.css"),
+            MustacheTemplate("kvantum.kvconfig.mustache", f"{environ["CONFIG_DIR"]}/Kvantum/KvRecolour/KvRecolour.kvconfig"),
+            MustacheTemplate("kvantum.svg.mustache", f"{environ["CONFIG_DIR"]}/Kvantum/KvRecolour/KvRecolour.svg"),
+            MustacheTemplate("labwc_themerc.mustache", f"{environ["CONFIG_DIR"]}/labwc/themerc-override"),
+            MustacheTemplate("mako.mustache", f"{environ["CONFIG_DIR"]}/mako/config"),
+            MustacheTemplate("waybar.css.mustache", f"{environ["CONFIG_DIR"]}/waybar/colours.css"),
+            MustacheTemplate("wofi.css.mustache", f"{environ["CONFIG_DIR"]}/wofi/style.css"),
+            MustacheTemplate("yazi.toml.mustache", f"{environ["CONFIG_DIR"]}/yazi/theme.toml"),
+            MustacheTemplate("swayosd.css.mustache", f"{environ["CONFIG_DIR"]}/swayosd/style.css"),
+            MustacheTemplate("zen_userchrome.css.mustache", f"{self.config.current["zen_profile_dir"]}/chrome/userChrome.css"),
+            MustacheTemplate("zen_usercontent.css.mustache", f"{self.config.current["zen_profile_dir"]}/chrome/userContent.css"),
+            MustacheTemplate("zathurarc.mustache", f"{environ["CONFIG_DIR"]}/zathura/zathurarc"),
+            MustacheTemplate("discord.css.mustache", f"{environ["CONFIG_DIR"]}/vesktop/themes/yzshell.theme.css"),
+            MustacheTemplate("vscode.json.mustache", f"{environ["CONFIG_DIR"]}/Code - OSS/User/settings.json"),
+            MustacheTemplate("hyprland_colours.lua.mustache", f"{environ["CONFIG_DIR"]}/hypr/hyprland/colours.lua"),
+            MustacheTemplate("hyprlock.conf.mustache", f"{environ["CONFIG_DIR"]}/hypr/hyprlock/colours.conf"),
+            MustacheTemplate("hyprtoolkit.conf.mustache", f"{environ["CONFIG_DIR"]}/hypr/hyprlock/hyprtoolkit.conf"),
+            MustacheTemplate("nvim.lua.mustache", f"{environ["CONFIG_DIR"]}/nvim/plugins/colourscheme.lua"),
+        ]
+        threads = []
+        for t in templates:
+            threads.append(Thread(target=t.apply, args=(self.colourscheme,)))
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+
+        self.config.change("colourscheme", scheme)
+        configure_gtk_polarity()
+
+def not_enough_args(cmd):
+    print(f"Error: not enough args to '{cmd}'")
+    exit(1)
+
+if __name__ == "__main__":
+    argc = len(argv)
+    shell = Shell()
+    if argc == 1: # launch yzshell
+        shell.launch()
+    else:
+        cmd = argv[1]
+        match cmd:
+            case "open":
+                if argc < 3:
+                    not_enough_args(cmd)
+                else:
+                    shell.open(argv[2])
+            case "close":
+                if argc < 3:
+                    not_enough_args(cmd)
+                else:
+                    shell.close(argv[2])
+            case "toggle":
+                if argc < 3:
+                    not_enough_args(cmd)
+                else:
+                    shell.toggle(argv[2])
+            case "reconfigure":
+                reload = False
+                if argc > 2:
+                    match argv[2]:
+                        case "-r" | "--reload":
+                            reload = True
+                shell.reconfigure()
+                if reload == True:
+                    shell.launch()
+            case "colourscheme":
+                if argc < 3:
+                    not_enough_args(cmd)
+                else:
+                    if argv[2] == "list":
+                        shell.list_colourschemes()
+                    else:
+                        shell.reconfigure_colourscheme(argv[2])
+                        shell.launch()
+            case "config":
+                if argc < 3:
+                    not_enough_args(cmd)
+                else:
+                    action = argv[2]
+                    match action:
+                        case "get":
+                            if argc < 4:
+                                not_enough_args(action)
+                            shell.get_config_opt(argv[3])
+                        case "set":
+                            if argc < 5:
+                                not_enough_args(action)
+                            shell.set_config_opt(argv[3], argv[4])
+            case "default_apps":
+                if argc < 3:
+                    not_enough_args(cmd)
+                action = argv[2]
+                match action:
+                    case "install_all":
+                        shell.install_all_default_apps()
+                    case "get":
+                        if argc < 4:
+                            not_enough_args(cmd)
+                        match argv[3]:
+                            case "categories":
+                                shell.get_default_app_categories()
+                            case "apps":
+                                if argc < 5:
+                                    not_enough_args(argv[3])
+                                shell.get_available_default_apps(argv[4])
+                    case "set":
+                        if argc < 5:
+                            not_enough_args(cmd)
+                        shell.change_default_app(argv[3], argv[4])
+            case "toggle_dnd":
+                shell.toggle_dnd()
+            case "search_selected":
+                if argc < 3:
+                    not_enough_args(cmd)
+                else:
+                    shell.search_next_selected(argv[2])
+            case "window_manager":
+                if argc < 3:
+                    not_enough_args(cmd)
+                arg = argv[2]
+                match arg:
+                    case "set":
+                        dont_uninstall = False
+                        if argc < 4:
+                            not_enough_args(cmd)
+                        elif argc > 5:
+                            match argv[4]:
+                                case "-du" | "--dont-uninstall":
+                                    dont_uninstall = True
+                        shell.set_window_manager(argv[3], dont_uninstall)
+                        shell.reconfigure()
+                    case "exit":
+                        shell.exit_window_manager()
+            case "get_search_results":
+                query = ""
+                if argc > 2:
+                    query = argv[2]
+                shell.get_search_results(query)
+            case "update_search_cache":
+                shell.update_search_cache()
+            case "update_weather":
+                shell.update_weather()
+            case "set_wallpaper":
+                if argc < 3:
+                    not_enough_args(cmd)
+                else:
+                    shell.set_wallpaper_image(argv[2])
+            case "set_wallpaper_mode":
+                if argc < 3:
+                    not_enough_args(cmd)
+                else:
+                    shell.set_wallpaper_mode(argv[2])
+            case "update_wallpaper_thumbs":
+                if argc < 3:
+                    shell.update_wallpaper_thumbs()
+                else:
+                    shell.update_wallpaper_thumbs(argv[2])
+            case "update_colourschemes":
+                if argc < 3:
+                    shell.update_colourschemes()
+                else:
+                    shell.update_wallpaper_thumbs(dir=argv[2])
+            case "update_available_wallpapers":
+                if argc < 3:
+                    shell.update_available_wallpapers()
+                else:
+                    shell.update_available_wallpapers(argv[2])
+            case "lock":
+                grace="30"
+                if argc > 2:
+                    if argv[2] == "--grace" or argv[2] == "-g":
+                        if argc < 4:
+                            not_enough_args(argv[2])
+                        grace = argv[3]
+                shell.lock_screen(grace)
+            case "close_all_widgets":
+                shell.close_all_widgets()
+            case "screenshot":
+                import argparse
+                parser = argparse.ArgumentParser(add_help=False)
+                parser.add_argument("-m", "--mode", default="full")
+                parser.add_argument("-o", "--output", default=None)
+                parser.add_argument("-s", "--sleep-time", default=0, type=float)
+                args = parser.parse_args(argv[2:])
+                shell.screenshot(
+                    output=args.output,
+                    mode=args.mode,
+                    sleep_time=args.sleep_time
+                )
+            case "record_screen":
+                import argparse
+                parser = argparse.ArgumentParser(add_help=False)
+                parser.add_argument("-a", "--audio", default="false")
+                parser.add_argument("-d", "--directory", default="")
+                parser.add_argument("-f", "--format", default="mp4")
+                parser.add_argument("-o", "--display", default="")
+                parser.add_argument("-s", "--select", default="false")
+                args = parser.parse_args(argv[2:])
+                shell.recorder(
+                    audio=args.audio,
+                    directory=args.directory,
+                    fmt=args.format,
+                    select=args.select,
+                    display=args.display
+                )
+            case "pick_colour":
+                import argparse
+                parser = argparse.ArgumentParser(add_help=False)
+                parser.add_argument("-s", "--sleep-time", default=0, type=float)
+                args = parser.parse_args(argv[2:])
+                shell.pick_colour(sleep_time=args.sleep_time)

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+export CONFIG_DIR="${HOME}/.config"
+export YZSHELL_CONFIG_DIR="${CONFIG_DIR}/yzshell"
+export YZSHELL_CONFIG_FILE="${YZSHELL_CONFIG_DIR}/config.json"
+export DATA_DIR="${HOME}/.local/share/yzshell"
+export STATIC_CONFIG_DIR="${DATA_DIR}/static"
+export COLOURS_DIR="${DATA_DIR}/colourschemes"
+export TEMPLATES_DIR="${DATA_DIR}/templates"
+export WALLPAPER_CACHE_DIR="/tmp/wallpaper_thumbs"
+export WEATHER_CACHE_FILE="/tmp/weather.json"
+
+python "$HOME"/.local/share/yzshell/src/yzshell.py "$@"

@@ -1,0 +1,87 @@
+(defvar menu_item 0)
+
+(include "control_center/widgets/top_menu/monitor.yuck")
+(include "control_center/widgets/top_menu/weather.yuck")
+(include "control_center/widgets/top_menu/music.yuck")
+(include "control_center/widgets/top_menu/recorder.yuck")
+
+(defwidget menu_button [name class tooltip icon index]
+  (button
+    :class "${class} ${menu_item == index ? "selected" : ""}"
+    :onclick "${EWW_CMD} update menu_item=${index}"
+    :tooltip tooltip
+    (box
+      :orientation "h"
+      :space-evenly false
+      (label :text icon :class "icon")
+      (revealer
+        :transition "slideright"
+        :reveal {menu_item == index ? true : false}
+        (label :text name)
+      )
+    )
+  )
+)
+
+(defwidget control_center_menu []
+  (revealer
+    :transition "slideup"
+    :reveal menu_visible
+    (box
+      :orientation "v"
+      :space-evenly false
+      :class "menu-container"
+      (stack
+        :selected menu_item
+        :class "menu-content"
+        :same-size false
+        :transition "slideleft"
+        :same-size false
+        (music)
+        (monitor)
+        (weather)
+        (recorder)
+      )
+      (box
+        :class "menu-box"
+        :halign "fill"
+        :space-evenly true
+        :hexpand true
+        (box
+          :orientation "h"
+          :halign "center"
+          :space-evenly false
+          :spacing 8
+          (menu_button
+            :name "Music"
+            :tooltip "Music controls"
+            :class "music"
+            :icon ""
+            :index 0
+          )
+          (menu_button
+            :name "Resources"
+            :tooltip "Resource monitor"
+            :class "monitor"
+            :icon ""
+            :index 1
+          )
+          (menu_button
+            :name "Weather"
+            :tooltip "Weather"
+            :class "weather"
+            :icon ""
+            :index 2
+          )
+          (menu_button
+            :name "Recorder"
+            :tooltip "Screen recorder"
+            :class "recorder"
+            :icon ""
+            :index 3
+          )
+        )
+      )
+    )
+  )
+)

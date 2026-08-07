@@ -1,0 +1,127 @@
+.settings-box {
+  padding: $padding;
+  border-radius: $outer-radius;
+  background: $bg;
+  border: 1px solid $border;
+  button {
+    background-color: $surface;
+    border-radius: $inner-radius;
+    label, image {
+      padding: $padding;
+    }
+    &:hover {
+      background-image: linear-gradient($surface2, $surface2);
+    }
+  }
+  entry {
+    background-color: $surface;
+    border-radius: $inner-radius;
+    padding: $padding;
+  }
+  .settings-menu {
+    border-radius: $inner-radius;
+    font-weight: bold;
+    .wallpaper .icon {
+      color: $purple;
+    }
+    .colours .icon {
+      color: $green;
+    }
+    .close label {
+      color: $red;
+    }
+    .selected {
+      .icon {
+        border-top-left-radius: $inner-radius;
+        border-bottom-left-radius: $inner-radius;
+      }
+      &.wallpaper .icon {
+        background-color: $purple;
+        color: $bg;
+      }
+      &.colours .icon {
+        background-color: $green;
+        color: $bg;
+      }
+    }
+  }
+  .colours-scroller {
+    min-height: 300px;
+    background-color: $surface;
+    border-radius: $inner-radius;
+    .colours-box {
+      border-radius: $inner-radius;
+      font-weight: bold;
+      padding: $padding;
+      .scheme-button {
+        .scheme-name {
+          font-size: 18pt;
+        }
+        .scheme-author {
+          opacity: 0.4;
+          font-style: italic;
+          font-weight: normal;
+          margin-bottom: $padding;
+        }
+        padding: $padding;
+        &:hover {
+          background-image: none;
+        }
+      }
+      label {
+        padding: 0;
+      }
+      .scheme-colours label {
+        min-width: 40px;
+        min-height: 40px;
+        color: transparent;
+        border-radius: $inner-radius;
+      }
+    }
+  }
+  .fill-button label {
+    // font-weight: bold;
+  }
+  .wp-scroller {
+    min-height: 300px;
+    min-width: 530px;
+    background-color: $surface;
+    border-radius: $inner-radius;
+    .loading {
+      //font-size: 13pt;
+      font-style: italic;
+      color: $surface4;
+    }
+    .wp-button-box {
+      padding: $padding;
+      button {
+        label {
+          padding-top: 0;
+        }
+        image {
+          padding-bottom: 0;
+        }
+      }
+    }
+  }
+  .wp-box {
+    button {
+      &:hover {
+        background-image: linear-gradient($surface2);
+      }
+      &.selected {
+        &:hover {
+          background-image: none;
+        }
+        background-color: $blue;
+        color: $bg;
+        border-radius: $inner-radius;
+        label {
+          color: $bg;
+        }
+      }
+      image {
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+alias vim="nvim"
+alias ff="fastfetch"
+alias ls="eza --hyperlink=always"
+alias upd="sudo pacman -Syu; yay -Syu"
+alias qry="pacman -Ss"
+alias aurqry="yay -Ss"
+alias gcl="git clone"
+alias gaa="git add ."
+alias ga="git add"
+alias gc="git commit -m"
+alias gcm="git commit -m 'something'"
+alias gps="git push"
+alias gpl="git pull"
+alias chx="chmod +x"
+alias cpdir="wl-copy \"$(pwd)\""
+alias copypath="wl-copy \"$(pwd)\""
+alias myip="curl http://ipecho.net/plain; echo"
+alias mu="ncmpcpp"
+alias diskspace='echo "Disk usage by directory:" && du -sh * | sort -hr | head -10'
+alias h='history'
+alias hg='history | grep'
+alias clean="pacman -Qtdq | pacman -Rns -; yay -Yc"
+alias mu='ncmpcpp'

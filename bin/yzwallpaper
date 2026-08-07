@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+function launch_wallpaper() {
+    img="$(yzconf get wallpaper_dir)/$(yzconf get wallpaper_image)"
+    mode="$(yzconf get wallpaper_mode)"
+    exec swaybg --image "$img" --mode "$mode" & disown
+}
+
+function help() {
+    echo "Usage: yzwallpaper [COMMAND]
+    yzwallpaper is essentially a wrapper for swaybg, serving to launch, 
+    close and restart the wallpaper. It does not, however, serve to configure 
+    it. To configure the wallpaper, see 'yzconf -h' for options.
+    Commands:
+        launch (default): launch wallpaper
+        kill: kill wallpaper
+        reload: reload wallpaper
+    "
+}
+
+function main() {
+    case "$1" in
+        "" | "launch") launch_wallpaper ;;
+        "kill") killall swaybg ;;
+        "reload") killall swaybg; launch_wallpaper ;;
+        *) help ;;
+    esac
+}
+
+main "$1"

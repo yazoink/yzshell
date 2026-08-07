@@ -1,0 +1,87 @@
+(defwidget search_input []
+  (box
+    :orientation "h"
+    :space-evenly false
+    :halign "start"
+    :valign "end"
+    :vexpand true
+    :class "search-input search-bar"
+    ;:visible control_center_visible
+    :spacing 8
+    :height 50
+    :width 334
+    :style "margin: 9px;"
+    (label :text "" :class "icon search" :halign "start")
+    (input ; search bar
+      :value user_input 
+      :active true
+      :onchange "control_center/scripts/apps.py '{}' &"
+      :onaccept "control_center/scripts/search_confirm.sh &"
+      :halign "fill"
+    )
+  )
+)
+
+(defwidget search []
+  (box ; main window
+    :class "outer-box"
+    :orientation "v"
+    :space-evenly false
+    :spacing 8
+    :width 300
+    :valign "fill"
+    (box ; results
+      :class "inner-box"
+      :halign "fill"
+      :orientation "v"
+      :valign "end"
+      (scroll
+        :class "search-results"
+        (box 
+          :orientation "v"
+          :valign "start"
+          :vexpand true
+          :spacing 8
+          (label :class "no-results" :text "No results found..." :visible {search_results == "[]" ? true : false})
+          (for app in search_results
+            (button
+              :class "entry${search_selected == app["index"] ? " selected" : ""}"
+              :onclick "eww update search_selected=${app["index"]} && control_center/scripts/search_confirm.sh &"
+              ;:onclick "${search_selected == app["index"] ? "control_center/scripts/search_confirm.sh &" : "eww update search_selected=${app["index"]} &"}"
+              :tooltip {app["cmd"]}
+              (box
+                :orientation "h"
+                :space-evenly false
+                :spacing 8
+                (image :icon {app["icon"]} :icon-size "dialog" :class "icon")
+                (box
+                  :orientation "v"
+                  :space-evenly false
+                  :valign "center"
+                  (label 
+                    :class "name" 
+                    :halign "start"
+                    :text {app["name"]} 
+                    ;:truncate true 
+                    :show-truncated false 
+                    :limit-width 28
+                  )
+                  (label 
+                    :class "desc" 
+                    :halign "start"
+                    :text {app["desc"]}
+                    ;:truncate true 
+                    :show-truncated false 
+                    :limit-width 28
+                  )
+                )
+                (label :text "" :halign "end" :hexpand true :class "arrow")
+              )
+            )
+          )
+        )
+      )
+    )
+    (box :height 47)
+  )
+)

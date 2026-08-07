@@ -1,0 +1,81 @@
+.power-buttons-box{
+  padding: $padding;
+  border-radius: $outer-radius;
+  background: $bg;
+  border: 1px solid $border;
+  button {
+    background-color: $surface2;
+    border-radius: $inner-radius;
+    &.lock, &.exit, &.reboot, &.shutdown {
+      background-color: transparent;
+    }
+    &:hover {
+      background-image: linear-gradient($surface3);
+    }
+  }
+  .power-button {
+    background-color: $surface;
+    border-radius: $inner-radius;
+    font-weight: bold;
+    .icon {
+      min-width: 75px;
+      min-height: 75px;
+      font-size: 40pt;
+    }
+    .yes, .no {
+      margin: $padding;
+      margin-top: 0;
+      font-family: "Font Awesome 7 Free";
+      label {
+        min-width: 40px;
+        min-height: 40px;
+        font-size: 16pt;
+      }
+    }
+    .yes {
+      margin-right: 0;
+    }
+    .no {
+      margin-left: 0;
+    }
+    .lock .icon {
+      color: $blue;
+    }
+    .exit .icon {
+      color: $green;
+    }
+    .reboot .icon {
+      color: $yellow;
+    }
+    .shutdown .icon {
+      color: $red;
+    }
+    .selected {
+      .icon {
+        border-top-left-radius: $inner-radius;
+        border-bottom-left-radius: $inner-radius;
+      }
+      &.lock .icon {
+        background-color: $blue;
+        color: $bg;
+      }
+      &.exit .icon {
+        background-color: $green;
+        color: $bg;
+      }
+      &.reboot .icon {
+        background-color: $yellow;
+        color: $bg;
+      }
+      &.shutdown .icon {
+        background-color: $red;
+        color: $bg;
+      }
+    }
+  }
+  .action {
+    font-size: 13pt;
+    padding: $padding;
+    padding-bottom: 0;
+  }
+}

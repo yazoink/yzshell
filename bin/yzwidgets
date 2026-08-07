@@ -1,0 +1,497 @@
+#!/usr/bin/env python
+
+from sys import argv, exit, stderr
+import subprocess
+from os import path, makedirs, listdir, environ
+from shutil import rmtree
+import json
+
+def screenshot_set_output():
+    directory = get_conf_opt("screenshot_dir")
+    date = subprocess.run(
+        "date +%d-%m-%Y_%H:%M:%S", 
+        shell=True, 
+        capture_output=True, 
+        text=True
+    ).stdout.strip()
+    out_path = path.join(directory, f"{date}_screenshot.png")
+    subprocess.run(f"eww update screenshot_output={out_path}", shell=True)
+
+
+def settings_update_wallpaper_thumbs(overwrite=False, directory=None):
+    from threading import Thread
+    from PIL import Image
+
+    cache_dir = "/tmp/wallpaper_cache"
+
+    def make_thumb(f):
+        with Image.open(path.join(directory, f)) as i:
+            MAX_SIZE = (150, 150)
+            i.thumbnail(MAX_SIZE)
+            i.save(path.join(cache_dir, f))
+
+    if path.exists(cache_dir) == True:
+        if overwrite == True:
+            rmtree(cache_dir)
+            makedirs(cache_dir)
+    else:
+        makedirs(cache_dir)
+
+    if directory == None:
+        directory = get_conf_opt("wallpaper_dir")
+
+    files = listdir(directory)
+    for f in files:
+        l = f.lower()
+        if l.endswith(('.jpg', '.png', '.jpeg')):
+            if path.exists(path.join(cache_dir, f)) == False:
+                print("??")
+                Thread(target=make_thumb, args=(f,)).start()
+
+
+def settings_update_available_wallpapers(directory=None):
+    from math import floor
+
+    columns = 3
+    available_wallpapers = []
+    cols = 0
+    rows = 0
+
+    subprocess.run(
+        "eww update wallpapers='[]'",
+        shell=True
+    )
+    if directory == None:
+        directory = get_conf_opt("wallpaper_dir")
+    settings_update_wallpaper_thumbs(directory=directory)
+    subprocess.run(
+        f"eww update wallpaper_dir='{directory}'",
+        shell=True
+    )
+    files = listdir(directory)
+    image_files = []
+    for f in files:
+        if f.endswith(('.jpg', '.png', '.jpeg')):
+            image_files.append(f)
+    if len(image_files) < 3:
+        rows = 1
+    else:
+        rows = floor(len(files) / 3)
+
+    i = 0
+    for row in range(0, rows):
+        cols = 3
+        available_wallpapers.append([])
+        for _ in range(0, cols):
+            if i < len(image_files):
+                available_wallpapers[row].append(image_files[i])
+                i += 1
+    subprocess.run(
+        f"eww update wallpapers='{json.dumps(available_wallpapers)}'",
+        shell=True
+    )
+
+
+def settings_set_colourschemes():
+    colourschemes = []
+    directory = path.join(environ["HOME"], ".local/share/yzshell/colourschemes")
+    files_list = listdir(directory)
+    for n in files_list:
+        j = ""
+        with open(f"{directory}/{n}", "r") as f:
+            j = f.read()
+        j = json.loads(j)
+        j["id"] = n.replace(".json", "")
+        colourschemes.append(j)
+    subprocess.run(
+        f"eww update colourschemes=\"{json.dumps(colourschemes).replace("\"", "\\\"")}\"",
+        shell=True
+    )
+
+
+def control_center_search_selected(direction="next"):
+    r = subprocess.run(
+        "eww get search_selected",
+        shell=True,
+        text=True,
+        capture_output=True
+    ).stdout.strip()
+    selected = int(r)
+    if direction == "next":
+        r = subprocess.run(
+            "eww get search_results",
+            shell=True,
+            text=True,
+            capture_output=True
+        ).stdout.strip()
+        results = json.loads(r)
+        l = len(results)
+        if selected < l:
+            selected += 1
+    elif direction == "prev":
+        if selected > -1:
+            selected -= 1
+    subprocess.run(
+        f"eww update search_selected={selected}",
+        shell=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.STDOUT
+    )
+
+
+def control_center_set_dnd_icon():
+    mode = subprocess.run(
+        "makoctl mode",
+        shell=True, 
+        text=True,
+        capture_output=True
+    ).stdout
+    if "do-not-disturb" in mode:
+        subprocess.run("eww update dnd_icon=''", shell=True)
+    else:
+        subprocess.run("eww update dnd_icon=''", shell=True)
+
+
+def get_conf_opt(opt):
+    return subprocess.run(
+        f"yzconf get {opt}",
+        shell=True,
+        text=True,
+        capture_output=True
+    ).stdout.strip()
+
+
+def init_widgets():
+    wallpaper_dir = get_conf_opt("wallpaper_dir")
+    wallpaper_image = get_conf_opt("wallpaper_image")
+    wallpaper_path = path.join(wallpaper_dir, wallpaper_image)
+    wallpaper_mode = get_conf_opt("wallpaper_mode")
+    profile_image = get_conf_opt("profile_image")
+    recording_dir = get_conf_opt("recording_dir")
+    subprocess.run(
+        f'''
+        eww daemon
+        eww update recording_output='{recording_dir}'
+        eww update current_wallpaper='{wallpaper_path}'
+        eww update wallpaper_mode='{wallpaper_mode}'
+        ''',
+        shell=True,
+    )
+    control_center_set_dnd_icon()
+    settings_set_colourschemes()
+    settings_update_available_wallpapers(wallpaper_dir)
+
+
+def get_screen():
+    r = subprocess.run(
+        "hyprctl activeworkspace -j",
+        shell=True,
+        text=True,
+        capture_output=True
+    ).stdout
+    return str(json.loads(r)["monitorID"])
+
+
+def open_control_center(screen):
+    subprocess.run(
+        f'''
+        eww open closer --no-daemonize --screen {screen}
+        eww open control_center --no-daemonize --screen {screen} \\
+            && hyprctl dispatch 'hl.dsp.submap(\"control_center\")'
+        eww update control_center_visible=true
+        ''',
+        shell=True,
+        stdout=subprocess.DEVNULL, 
+        stderr=subprocess.STDOUT
+    )
+
+
+def close_control_center():
+    subprocess.run(
+        '''
+        eww close control_center
+        eww update control_center_visible=false
+        ''',
+        shell=True,
+        stdout=subprocess.DEVNULL, 
+        stderr=subprocess.STDOUT
+    )
+
+
+def open_settings(screen):
+    subprocess.run(
+        f'''
+        eww open closer --no-daemonize --screen {screen}
+        eww open settings --no-daemonize --screen {screen} \\
+            && hyprctl dispatch 'hl.dsp.submap(\"settings\")'
+        eww update settings_visible=true
+        ''',
+        shell=True,
+        stdout=subprocess.DEVNULL, 
+        stderr=subprocess.STDOUT
+    )
+
+
+def close_settings():
+    subprocess.run(
+        '''
+        eww close settings
+        eww update settings_visible=false
+        ''',
+        shell=True,
+        stdout=subprocess.DEVNULL, 
+        stderr=subprocess.STDOUT
+    )
+
+
+def open_screenshot(screen):
+    subprocess.run(
+        f'''
+        eww open closer --no-daemonize --screen {screen}
+        eww open screenshot --no-daemonize --screen {screen} \\
+            && hyprctl dispatch 'hl.dsp.submap(\"screenshot\")'
+        ''',
+        shell=True,
+        stdout=subprocess.DEVNULL, 
+        stderr=subprocess.STDOUT
+    )
+    screenshot_set_output()
+
+
+def close_screenshot():
+    subprocess.run(
+        '''
+        eww close screenshot
+        ''',
+        shell=True,
+        stdout=subprocess.DEVNULL, 
+        stderr=subprocess.STDOUT
+    )
+
+
+def open_power(screen):
+    subprocess.run(
+        f'''
+        eww open closer --no-daemonize --screen {screen}
+        eww open power --no-daemonize --screen {screen} \\
+            && hyprctl dispatch 'hl.dsp.submap(\"power\")'
+        ''',
+        shell=True,
+        stdout=subprocess.DEVNULL, 
+        stderr=subprocess.STDOUT
+    )
+
+
+def close_power():
+    subprocess.run(
+        '''
+        eww close power
+        eww update power_visible=false
+        ''',
+        shell=True,
+        stdout=subprocess.DEVNULL, 
+        stderr=subprocess.STDOUT
+    )
+
+
+def open_calendar(screen):
+    subprocess.run(
+        f'''
+        eww open closer --no-daemonize --screen {screen}
+        eww open calendar --no-daemonize --screen {screen} \\
+            && hyprctl dispatch 'hl.dsp.submap(\"calendar\")'
+        eww update calendar_visible=true
+        ''',
+        shell=True,
+        stdout=subprocess.DEVNULL, 
+        stderr=subprocess.STDOUT
+    )
+
+
+def close_calendar():
+    subprocess.run(
+        '''
+        eww close calendar
+        eww update calendar_visible=false
+        ''',
+        shell=True,
+        stdout=subprocess.DEVNULL, 
+        stderr=subprocess.STDOUT
+    )
+
+def close_all_widgets():
+    subprocess.run(
+        '''
+        eww close-all
+        hyprctl dispatch 'hl.dsp.submap(\"reset\")'
+        eww update control_center_visible=false
+        eww update calendar_visible=false
+        eww update settings_visible=false
+        ''',
+        shell=True,
+        stdout=subprocess.DEVNULL, 
+        stderr=subprocess.STDOUT
+    )
+
+
+def is_open(window):
+    r = subprocess.run(
+        f"eww active-windows | grep {window}",
+        shell=True,
+        capture_output=True
+    ).returncode
+    if r == 0:
+        return True
+    else:
+        return False
+
+
+def help(exitcode=0):
+    print('''Usage: yzwidgets <OPTION> ...
+    Options:
+        init: start daemon and initialise widgets
+        ctl <COMMAND>: IPC commands
+            Commands:
+                settings_update_wallpaper_thumbs [FLAGS]:
+                    update wallpaper thumbnails for settings widget
+                    Flags:
+                        -d | --directory <PATH>: specify directory to thumbnail
+                        -o | --overwrite: overwrite existing thumbnails
+                settings_update_available_wallpapers [FLAGS]: 
+                    update the wallpapers that the settings widget displays --
+                    will, by default, display wallpapers from directory 
+                    specified under 'wallpaper_dir' in yzshell config
+                    Flags:
+                        -d | --directory <PATH>: specify directory to display
+                settings_set_colourschemes: 
+                    set/update the colourschemes that the settings widget 
+                    displays
+                control_center_update_weather: 
+                    update the weather information displayed by the 
+                    control_center widget
+                control_center_search_selected [DIRECTION]:
+                    cycle app selecion in control_center launcher (will select 
+                    next by default)
+                    Directions:
+                        next
+                        prev
+        open <WIDGET>: opens widget 
+        close <WIDGET>: closes widget
+        toggle <WIDGET>: toggles widget
+        state <WIDGET>: get open/close state of widget
+    Widgets:
+        control_center
+        settings
+        power
+        calendar
+        screenshot
+    ''')
+    exit(exitcode)
+
+
+if __name__ == "__main__":
+    argc = len(argv)
+    if argc > 1:
+        match argv[1]:
+            case "init":
+                init_widgets()
+            case "ctl":
+                if argc > 2:
+                    match argv[2]:
+                        case "settings_update_wallpaper_thumbs":
+                            import argparse
+                            parser = argparse.ArgumentParser(add_help=False)
+                            parser.add_argument("-d", "--directory", default=None)
+                            parser.add_argument("-o", "--overwrite", action='store_true', default=False)
+                            args = parser.parse_args(argv[3:])
+                            settings_update_wallpaper_thumbs(
+                                directory=args.directory, 
+                                overwrite=args.overwrite
+                            )
+                        case "settings_update_available_wallpapers":
+                            import argparse
+                            parser = argparse.ArgumentParser(add_help=False)
+                            parser.add_argument("-d", "--directory", default=None)
+                            args = parser.parse_args(argv[3:])
+                            settings_update_available_wallpapers(directory=args.directory)
+                        case "settings_set_colourschemes":
+                            settings_set_colourschemes()
+                        case "control_center_update_weather":
+                            control_center_update_weather()
+                        case "control_center_search_selected":
+                            direction = "next"
+                            if argc > 3:
+                                if argv[3] == "prev":
+                                    direction = "prev"
+                            control_center_search_selected(direction)
+
+            case "open":
+                screen = get_screen()
+                if argc > 2:
+                    match argv[2]:
+                        case "screenshot":
+                            open_screenshot(screen)
+                        case "control_center":
+                            open_control_center(screen)
+                        case "settings":
+                            open_settings(screen)
+                        case "power":
+                            open_power(screen)
+                        case "calendar":
+                            open_calendar(screen)
+            case "close":
+                if argc > 2:
+                    match argv[2]:
+                        case "screenshot":
+                            close_screenshot()
+                        case "control_center":
+                            close_control_center()
+                        case "settings":
+                            close_settings()
+                        case "power":
+                            close_power()
+                        case "calendar":
+                            close_calendar()
+                        case "all":
+                            close_all_widgets()
+            case "toggle":
+                if argc > 2:
+                    match argv[2]:
+                        case "screenshot":
+                            if is_open("screenshot") == True:
+                                close_screenshot()
+                            else:
+                                screen = get_screen()
+                                open_screenshot(screen)
+                        case "control_center":
+                            if is_open("control_center") == True:
+                                close_control_center()
+                            else:
+                                screen = get_screen()
+                                open_control_center(screen)
+                        case "settings":
+                            if is_open("settings") == True:
+                                close_settings()
+                            else:
+                                screen = get_screen()
+                                open_settings(screen)
+                        case "power":
+                            if is_open("settings") == True:
+                                close_power()
+                            else:
+                                screen = get_screen()
+                                open_power(screen)
+                        case "calendar":
+                            if is_open("calendar") == True:
+                                close_calendar()
+                            else:
+                                screen = get_screen()
+                                open_calendar(screen)
+            case "state":
+                if argc > 1:
+                    if is_open(argv[2]):
+                        print("open")
+                    else:
+                        print("closed")
+            case _:
+                help()

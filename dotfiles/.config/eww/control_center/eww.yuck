@@ -1,0 +1,54 @@
+(defvar menu_visible true)
+(defvar control_center_visible false)
+
+(defvar user_input "")
+(defpoll search_updater :run-while control_center_visible :interval "72h" "control_center/scripts/apps.py")
+(defvar search_results "[]")
+(defvar search_selected -1)
+
+(include "control_center/widgets/top_menu/top_menu.yuck")
+(include "control_center/widgets/launchers.yuck")
+(include "control_center/widgets/user.yuck")
+(include "control_center/widgets/search.yuck")
+
+
+(defwindow control_center
+  :monitor 0
+  :geometry (geometry
+    :x 4
+    :y 4
+    :anchor "bottom left"
+  )
+  :windowtype "dialog"
+  :stacking "fg"
+  :exclusive false
+  :focusable "ondemand"
+  (overlay
+    (box
+      :orientation "vertical"
+      :space-evenly false
+      :spacing 4
+      (control_center_menu)
+      (box
+        :class "control-center-box"
+        :orientation "vertical"
+        :halign "fill"
+        :space-evenly false
+        :spacing 8
+        (user)
+        (box
+          :class "control-center-body"
+          :orientation "horizontal"
+          :space-evenly "false"
+          :halign "fill"
+          :valign "start"
+          :spacing 8
+          ;(apps)
+          (search)
+          (launchers)
+        )
+      )
+    )
+    (search_input)
+  )
+)

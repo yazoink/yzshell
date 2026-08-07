@@ -1,0 +1,14 @@
+(include "calendar/eww.yuck")
+(include "control_center/eww.yuck")
+(include "settings/eww.yuck")
+(include "power/eww.yuck")
+(include "screenshot/eww.yuck")
+;(include "notifs/eww.yuck")
+
+(defwindow closer
+  :monitor 0
+  :geometry (geometry :width "100%" :height "100%")
+  :stacking "fg"
+  :focusable false
+  (eventbox :onclick "yzwidgets close all &")
+)

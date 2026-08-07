@@ -1,0 +1,40 @@
+.screenshot-box {
+  padding: $padding;
+  border-radius: $outer-radius;
+  background: $bg;
+  border: 1px solid $border;
+  entry {
+    background-color: $surface;
+    border-radius: $inner-radius;
+    padding: $padding;
+    min-width: 300px;
+  }
+  button {
+    background-color: $surface;
+    border-radius: $inner-radius;
+    font-size: 13pt;
+    min-width: unset;
+    min-height: unset;
+    &:hover {
+      background-image: linear-gradient($surface2);
+    }
+    .screenshot-full {
+      color: $blue;
+      font-size: 13pt;
+      min-width: 20px;
+      min-height: 20px;
+    }
+    .screenshot-select {
+      color: $blue;
+      font-size: 13pt;
+      min-width: 20px;
+      min-height: 20px;
+    }
+    //label {
+      //font-family: "Font Awesome 7 Free";
+      //font-weight: bold;
+      //font-size: 18pt;
+      //padding: $padding;
+    //}
+  }
+}

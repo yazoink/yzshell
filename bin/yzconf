@@ -1,0 +1,359 @@
+#!/usr/bin/env python
+
+import json
+from sys import argv, exit, stderr
+from os import path, environ, listdir, makedirs, symlink, remove
+import chevron
+from shutil import copytree, rmtree, copyfile
+import subprocess
+
+
+CONFIG_DIR = path.join(environ["HOME"], ".config")
+STOW_DIR = path.join(environ["HOME"], ".dotfiles")
+YZSHELL_CONFIG_DIR = path.join(CONFIG_DIR, "yzshell")
+CONFIG_FILE = path.join(YZSHELL_CONFIG_DIR, "config.json")
+YZSHELL_DIR = path.join(environ["HOME"], ".local/share/yzshell")
+COLOURS_DIR = path.join(YZSHELL_DIR, "colourschemes")
+BUILT_TEMPLATE_DIR = path.join(environ["HOME"], ".cache/yzshell/built_templates")
+
+TEMPLATES = {
+    "eww.scss.mustache": ".config/eww/scss/_colours.scss",
+    "foot.ini.mustache": ".config/foot/foot.ini",
+    "gtk.css.mustache": ".config/gtk/gtk.css", # symlink to gtk-3.0 + gtk-4.0
+    "gtk.ini.mustache": ".config/gtk/settings.ini", # symlink to gtk-3.0 + gtk-4.0
+    "qtct.conf.mustache": ".config/qtct/qtct.conf", # symlink to qt5ct + qt6ct
+    "kvantum.kvconfig.mustache": ".config/Kvantum/KvRecolour/KvRecolour.kvconfig",
+    "kvantum.svg.mustache": ".config/Kvantum/KvRecolour/KvRecolour.svg",
+    "mako.mustache": ".config/mako/config",
+    "waybar.css.mustache": ".config/waybar/colours.css",
+    "wofi.css.mustache": ".config/wofi/style.css",
+    "yazi.toml.mustache": ".config/yazi/theme.toml",
+    "swayosd.css.mustache": ".config/swayosd/style.css",
+    "zen_userchrome.css.mustache": ".config/zen/profile/chrome/userChrome.css", # symlink to profile dir
+    "zen_usercontent.css.mustache": ".config/zen/profile/chrome/userContent.css", # symlink to profile dir
+    "zathurarc.mustache": ".config/zathura/zathurarc",
+    "discord.css.mustache": ".config/vesktop/themes/yzshell.theme.css",
+    "vscode.json.mustache": ".config/Code - OSS/User/settings.json",
+    "hyprland_colours.lua.mustache": ".config/hypr/hyprland/colours.lua",
+    "hyprland_vars.lua.mustache": ".config/hypr/hyprland/vars.lua",
+    "hyprlock.conf.mustache": ".config/hypr/hyprlock/colours.conf",
+    "hyprtoolkit.conf.mustache": ".config/hypr/hyprlock/hyprtoolkit.conf",
+    "nvim.lua.mustache": ".config/nvim/plugin/colourscheme.lua",
+    "zshrc.mustache": ".zshrc",
+}
+
+def get_default_config():
+    return {
+        "sans_font": "Gabarito",
+        "mono_font": "Aporetic Serif Mono",
+        "serif_font": "TeX Gyre Schola",
+        "colourscheme": "camellia",
+        "bar_show_battery": True,
+        "bar_show_backlight": True,
+        "profile_image": f"{YZSHELL_DIR}/assets/images/profile_image.jpg",
+        "screenshot_dir": f"{environ["HOME"]}/pic/screenshots",
+        "wallpaper_dir": f"{YZSHELL_DIR}/assets/images/wallpapers",
+        "recording_dir": f"{environ["HOME"]}/vid/recordings",
+        "wallpaper_image": "dolphins-tile.png",
+        "wallpaper_mode": "tile",
+        "zen_profile_dir": "aarx6kc0.Default (release)",
+        "file_manager": "pcmanfm",
+        "web_browser": "zen-browser",
+        "terminal": "foot",
+        "run_launcher": "wofi --show run",
+        "touchpad_scroll_factor": 0.15,
+        "oh_my_zsh_theme": "robbyrussell",
+        "papirus_folders_colour": "palebrown"
+    }
+
+def get_config():
+    current = get_default_config()
+    if path.isfile(CONFIG_FILE):
+        buf = None
+        with open(CONFIG_FILE, "r") as f:
+            buf = f.read()
+        try:
+            user_config = json.loads(buf)
+            for c in user_config:
+                current[c] = user_config[c]
+        except json.JSONDecodeError as e:
+            print("Warning: could not parse yzshell config, please check for errors. Falling back to default...", e)
+    return current
+
+
+def get_colourscheme(name):
+    def hex_to_rgb(hex_colour):
+        return tuple(int(hex_colour[i : i + 2], 16) for i in (0, 2, 4))
+
+    def rgb_to_hex(rgb):
+        return "{:02X}{:02X}{:02X}".format(int(rgb[0]), int(rgb[1]), int(rgb[2]))
+        
+    def overlay_colour(base, overlay, amount):
+        base = hex_to_rgb(base)
+        overlay = hex_to_rgb(overlay)
+        r = base[0] + (overlay[0] - base[0]) * amount
+        g = base[1] + (overlay[1] - base[1]) * amount
+        b = base[2] + (overlay[2] - base[2]) * amount
+        return rgb_to_hex((r, g, b))
+
+    #schemes = listdir(COLOURS_DIR)
+    scheme_file = path.join(COLOURS_DIR, f"{name}.json")
+    scheme = None
+    buf = None
+    if path.isfile(scheme_file) == False:
+        print(f"Error: colourscheme '{name}' not found", file=stderr)
+        exit(1)
+    with open(scheme_file, "r") as f:
+        buf = f.read()
+    try:
+        scheme = json.loads(buf)
+    except json.JSONDecodeError as e:
+        print(f"Error: could not load colourscheme at '{scheme_file}'", file=stderr)
+        exit(1)
+    scheme["surface1"] = overlay_colour(scheme["background"], scheme["foreground"], 0.1)
+    scheme["surface2"] = overlay_colour(scheme["background"], scheme["foreground"], 0.2)
+    scheme["surface3"] = overlay_colour(scheme["background"], scheme["foreground"], 0.3)
+    scheme["surface4"] = overlay_colour(scheme["background"], scheme["foreground"], 0.4)
+    return scheme
+
+def copy_built_templates(scheme_dir):
+    for t in TEMPLATES:
+        dest = path.join(STOW_DIR, TEMPLATES[t])
+        d = path.split(dest)[0] # directory
+
+        if path.isfile(dest):
+            remove(dest)
+        elif path.exists(d) == False:
+            makedirs(d)
+        
+        copyfile(path.join(scheme_dir, t), dest) # ~/.dotfiles/<config>
+
+def merge_data(cfg, sch):
+    data = cfg | sch
+    data["prefer_dark_theme"] = "false"
+    data["icon_theme"] = "Papirus"
+    data["cursor_theme"] = "BreezeX"
+    if sch["polarity"] == "dark":
+        data["prefer_dark_theme"] = "true"
+        data["icon_theme"] += "-Dark"
+        data["cursor_theme"] += "-Dark"
+    elif sch["polarity"] == "light":
+        data["icon_theme"] += "-Light"
+        data["cursor_theme"] += "-Light"
+    return data
+
+def make_templates(data, sch_dir):
+    if path.exists(sch_dir) == False:
+        makedirs(sch_dir)
+        templates_dir = path.join(YZSHELL_DIR, "templates")
+        buf = None
+        for t in TEMPLATES:
+            with open(path.join(templates_dir, t), "r") as f:
+                buf = chevron.render(f, data)
+            with open(path.join(sch_dir, t), "w") as f:
+                f.write(buf)
+
+
+def set_option(cfg, opt, val):
+    if opt not in cfg:
+        print(f"Error: invalid configuration option '{opt}'", file=stderr)
+        exit(1)
+    cfg[opt] = val
+    return cfg
+
+def write_config(cfg):
+    if path.exists(YZSHELL_CONFIG_DIR) == False:
+        makedirs(YZSHELL_CONFIG_DIR)
+    with open(CONFIG_FILE, "w") as f:
+        f.write(json.dumps(cfg, indent=4))
+
+def deploy_configs(cfg):
+    sch = get_colourscheme(cfg["colourscheme"])
+    sch_dir = path.join(BUILT_TEMPLATE_DIR, cfg["colourscheme"])
+    data = merge_data(cfg, sch)
+    make_templates(data, sch_dir)
+    if path.exists(STOW_DIR) == False:
+        copytree(path.join(YZSHELL_DIR, "dotfiles"), STOW_DIR)
+    copy_built_templates(sch_dir)
+
+    # additional config
+    c = None
+    s = path.join(STOW_DIR, ".config/waybar/config.jsonc")
+    with open(s, "r") as f:
+        buf = f.read()
+        c = json.loads(buf)
+    
+    if data["bar_show_battery"] == True:
+        c["group/quick-access"]["modules"].insert(1, "group/battery-expander")
+    if data["bar_show_backlight"] == True:
+        c["group/quick-access"]["modules"].insert(1, "group/backlight-expander")
+
+    battery_name = "AC"
+    bats = sorted(listdir("/sys/class/power_supply"))
+    for b in bats:
+        if b.startswith("BAT"):
+            battery_name = b
+            break
+    c["battery#icon"]["bat"] = battery_name
+    c["battery#percentage"]["bat"] = battery_name
+
+    with open(s, "w") as f:
+        f.write(json.dumps(c))
+
+    # moving/cleaning
+    s = path.join(STOW_DIR, ".config/gtk")
+    d = path.join(STOW_DIR, ".config/gtk-3.0")
+    if path.exists(d) == False:
+        copytree(s, d)
+    d = path.join(STOW_DIR, ".config/gtk-4.0")
+    if path.exists(d) == False:
+        copytree(s, path.join(STOW_DIR, ".config/gtk-4.0"))
+    rmtree(s)
+
+    d = path.join(STOW_DIR, ".config/qt5ct")
+    s = path.join(STOW_DIR, ".config/qtct/qtct.conf")
+    if path.exists(d) == False:
+        makedirs(d)
+    copyfile(s, path.join(d, "qt5ct.conf"))
+
+    d = path.join(STOW_DIR, ".config/qt6ct")
+    if path.exists(d) == False:
+        makedirs(d)
+    copyfile(s, path.join(d, "qt6ct.conf"))
+
+    if data["web_browser"] == "zen-browser":
+        b = path.join(STOW_DIR, ".config/zen")
+        d = path.join(b, data["zen_profile_dir"])
+        s = path.join(b, "profile")
+        if path.exists(d) == False:
+            copytree(s, d)
+        rmtree(s)
+    subprocess.Popen(
+        f'''
+        stow --target='{environ["HOME"]}' --dir='{STOW_DIR}' -R .
+        gsettings set org.gnome.desktop.interface color-scheme prefer{data["polarity"]}
+        gsettings set org.gnome.desktop.interface cursor-theme {data["cursor_theme"]}
+        papirus-folders -C {data["papirus_folders_colour"]} --theme {data["icon_theme"]}
+        gsettings set org.gnome.desktop.interface icon-theme {data["icon_theme"]}
+        ''',
+        shell=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.STDOUT
+    )
+
+def help(exitcode=0):
+    print('''usage: yzconf <OPTION> ...
+    Options:
+        colourscheme <ACTION|SCHEME>: set the colourscheme
+            Actions:
+                list: list all available schemes
+        wallpaper <OPTION> ...: set the wallpaper
+            Options:
+                mode <MODE>: sets the wallpaper mode
+                    Modes:
+                        stretch
+                        fit
+                        fill
+                        center
+                        tile
+                image <PATH>: sets the wallpaper image
+        deploy_configs [FLAGS]: generates and copies dotfiles
+            Flags:
+                --refresh | -r: removes and re-creates all configs
+        set <OPTION> <VALUE>: sets yzshell config option
+        get [defaults] [OPTION]: 
+            Sets yzshell config value -- 'yzshell get defaults' will get
+            options from the default config. The command will return the entire
+            configuration unless a specific option is provided.
+        make_scheme <SCHEME>: creates and caches configs for colourscheme
+        make_all_schemes: creates and caches configs for all colourschemes
+    ''')
+    exit(exitcode)
+
+if __name__ == "__main__":
+    argc = len(argv)
+    cfg = get_config()
+    if argc > 1:
+        match argv[1]:
+            case "colourscheme":
+                if argc > 2:
+                    if argv[2] == "list":
+                        schemes = listdir(COLOURS_DIR)
+                        for s in schemes:
+                            print(s.replace(".json", ""))
+                        exit(0)
+                    set_option(cfg, "colourscheme", argv[2])
+                    deploy_configs(cfg)
+                    subprocess.run(["yzreload"])
+            case "wallpaper":
+                if argc > 3:
+                    match argv[2]:
+                        case "image":
+                            p = path.abspath(argv[3])
+                            s = path.split(p)
+                            cfg = set_option(cfg, "wallpaper_dir", s[0])
+                            cfg = set_option(cfg, "wallpaper_image", s[1])
+                            write_config(cfg)
+                            subprocess.run(
+                                f'''
+                                eww update current_wallpaper='{p}'
+                                yzwallpaper reload
+                                ''',
+                                shell=True
+                            )
+                        case "mode":
+                            modes = ["stretch", "fit", "fill", "center", "tile"]
+                            if argv[3] in modes:
+                                cfg = set_option(cfg, "wallpaper_mode", argv[3])
+                                write_config(cfg)
+                                subprocess.run(
+                                f'''
+                                eww update wallpaper_mode='{argv[3]}'
+                                yzwallpaper kill
+                                yzwallpaper
+                                ''',
+                                shell=True
+                            )
+                            else:
+                                print(f"Error: invalid mode '{argv[3]}'", file=stderr)
+            case "deploy_configs":
+                if argc > 2:
+                    if argv[2] in ["--refresh", "-r"]:
+                        if path.exists(STOW_DIR):
+                            rmtree(STOW_DIR)
+                        if path.exists(BUILT_TEMPLATE_DIR):
+                            rmtree(BUILT_TEMPLATE_DIR)
+                deploy_configs(cfg)
+            case "set":
+                if argc > 3:
+                    cfg = set_option(cfg, argv[2], argv[3])
+                    write_config(cfg)
+            case "get":
+                if argc > 2:
+                    if argv[2] == "defaults":
+                        defaults = get_default_config()
+                        if argc < 4:
+                            print(json.dumps(defaults, indent=4))
+                        else:
+                            if argv[3] in defaults:
+                                print(defaults[argv[3]])
+                            else:
+                                print(f"Error: invalid config option '{argv[2]}'", file=stderr)
+                    else:
+                        if argv[2] in cfg:
+                            print(cfg[argv[2]])
+                        else:
+                            print(f"Error: invalid config option '{argv[2]}'", file=stderr)
+                else:
+                    print(json.dumps(cfg, indent=4))
+            case "make_scheme":
+                if argv > 2:
+                    sch = get_colourscheme(argv[2])
+                    make_templates(cfg, sch)
+            case "make_all_schemes":
+                schemes = listdir(COLOURS_DIR)
+                for s in schemes:
+                    sch = get_colourscheme(s.replace(".json", ""))
+                    make_templates(cfg, sch)
+            case _:
+                help()

@@ -1,0 +1,43 @@
+(defvar screenshot_output "")
+
+(defwindow screenshot
+  :monitor 0
+  :geometry (geometry
+    :x 4
+    :y 4
+    :anchor "bottom center"
+  )
+  :stacking "fg"
+  :exclusive false
+  :focusable "ondemand"
+  (box
+    :orientation "h"
+    :class "screenshot-box"
+    :space-evenly false
+    :vexpand false
+    :spacing 8
+    (input
+      :value screenshot_output
+      :onchange "${EWW_CMD} update screenshot_output='{}'"
+      :tooltip "Save to"
+    )
+    (box
+      :orientation "h"
+      :class "screenshot-buttons-box"
+      :space-evenly false
+      :vexpand false
+      :valign "end"
+      :spacing 8
+      (button
+        :onclick "yzwidgets close all & yzshot -m 'full' -o '${screenshot_output}' -s 0.5 &"
+        :tooltip "Take a fullscreen screenshot"
+        (label :text "" :class "icon screenshot-full")
+      )
+      (button
+        :onclick "yzwidgets close all & yzshot -m 'select' -o '${screenshot_output}' -s 0.5 &"
+        :tooltip "Take a selective screenshot"
+        (label :text "" :class "icon screenshot-select")
+      )
+    )
+  )
+)

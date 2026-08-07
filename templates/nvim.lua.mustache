@@ -1,0 +1,27 @@
+vim.pack.add({ 'https://github.com/nvim-mini/mini.nvim' })
+
+require('mini.base16').setup({
+    palette = {
+        base00 = '#{{background}}',
+        base01 = '#{{surface1}}',
+        base02 = '#{{surface2}}',
+        base03 = '#{{surface3}}',
+        base04 = '#{{surface4}}',
+        base05 = '#{{foreground}}',
+        base06 = '#{{foreground}}',
+        base07 = '#{{foreground}}',
+        base08 = '#{{red}}',
+        base09 = '#{{orange}}',
+        base0A = '#{{yellow}}',
+        base0B = '#{{green}}',
+        base0C = '#{{cyan}}',
+        base0D = '#{{blue}}',
+        base0E = '#{{purple}}',
+        base0F = '#{{brown}}',
+    },
+    plugins = {
+      default = false,
+      ['nvim-mini/mini.nvim'] = true,
+      ['folke/trouble.nvim'] = true,
+    },
+})

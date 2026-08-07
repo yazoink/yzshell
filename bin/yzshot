@@ -1,0 +1,62 @@
+#!/usr/bin/env python
+
+from argparse import ArgumentParser
+from subprocess import run
+from time import sleep
+from os import path, makedirs
+from sys import argv 
+
+
+def screenshot(output, mode, sleep_time):
+    sleep(sleep_time)
+    if output == None:
+        date = run(
+            "date +%Y%m%d_%H:%M:%S",
+            shell=True,
+            capture_output=True,
+            text=True
+        ).stdout.strip()
+        dir = run(
+            ["yzconf","get", "screenshot_dir"],
+            capture_output=True,
+            text=True
+        ).stdout.strip()
+        output = f"{dir}/{date}.png"
+    else:
+        s = path.split(output)
+        dir = s[0]
+    if path.exists(dir) == False:
+        makedirs(dir)
+    match mode:
+        case "select":
+            r= run(
+                f"grim -g \"$(slurp)\" {output}",
+                shell=True,
+                capture_output=True
+            )
+        case "full":
+            r = run(
+                ["grim", output],
+                capture_output=True
+            )
+    if r.returncode == 0:
+        run(
+            f"notify-send -i {output} 'Screenshot saved' '{output}'",
+            shell=True,
+        )
+
+
+if __name__ == "__main__":
+    parser = ArgumentParser()
+    parser.add_argument("-m", "--mode", default="full")
+    parser.add_argument("-o", "--output", default=None)
+    parser.add_argument("-s", "--sleep-time", default=0, type=float)
+    args = parser.parse_args(argv[1:])
+    o = None
+    if args.output != None:
+        o = path.abspath(args.output)
+    screenshot(
+        output=o,
+        mode=args.mode,
+        sleep_time=args.sleep_time
+    )

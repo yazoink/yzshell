@@ -1,0 +1,67 @@
+{
+  "policies": {
+    "AutofillAddressEnabled": false,
+    "AutofillCreditCardEnabled": false,
+    "DisableFirefoxStudies": true,
+    "OfferToSaveLogins": true,
+    "DisableTelemetry": true,
+    "DontCheckDefaultBrowser": true,
+    "NoDefaultBookmarks": true,
+    "EnableTrackingProtection": {
+      "Value": true,
+      "Locked": true,
+      "Cryptomining": true,
+      "Fingerprinting": true
+    },
+    "SanitizeOnShutdown": {
+      "FormData": true,
+      "Cache": true
+    },
+    "ExtensionSettings": {
+      "uBlock0@raymondhill.net": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/uBlock0@raymondhill.net/latest.xpi"
+      },
+      "sponsorBlocker@ajay.app": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/sponsorBlocker@ajay.app/latest.xpi"
+      },
+      "{7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/{7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}/latest.xpi"
+      },
+      "{aecec67f-0d10-4fa7-b7c7-609a2db280cf}": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/{aecec67f-0d10-4fa7-b7c7-609a2db280cf}/latest.xpi"
+      },
+      "{b86e4813-687a-43e6-ab65-0bde4ab75758}": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/{b86e4813-687a-43e6-ab65-0bde4ab75758}/latest.xpi"
+      },
+      "{74145f27-f039-47ce-a470-a662b129930a}": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/{74145f27-f039-47ce-a470-a662b129930a}/latest.xpi"
+      },
+      "floccus@handmadeideas.org": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/floccus@handmadeideas.org/latest.xpi"
+      },
+      "{5cce4ab5-3d47-41b9-af5e-8203eea05245}": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/{5cce4ab5-3d47-41b9-af5e-8203eea05245}/latest.xpi"
+      },
+      "control-panel-for-youtube@jbscript.dev": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/control-panel-for-youtube@jbscript.dev/latest.xpi"
+      },
+      "keepassxc-browser@keepassxc.org": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/keepassxc-browser@keepassxc.org/latest.xpi"
+      },
+      "idcac-pub@guus.ninja": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/idcac-pub@guus.ninja/latest.xpi"
+      }
+    }
+  }
+}

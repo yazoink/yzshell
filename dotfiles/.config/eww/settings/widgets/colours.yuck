@@ -1,0 +1,56 @@
+(defvar colourschemes "[]")
+
+(defwidget colourschemes []
+  (scroll
+    :hscroll false
+    :vscroll true
+    :class "colours-scroller"
+    (box
+      :class "colours-box"
+      :orientation "v"
+      :space-evenly false
+      :spacing 8
+      (for scheme in colourschemes
+        (button
+          :onclick "yzwidgets close all & yzconf colourscheme '${scheme["id"]}' &"
+          :class "scheme-button"
+          :tooltip "Apply colourscheme"
+          :style "background-color: #${scheme["background"]};"
+          (box
+            :orientation "v"
+            :class "scheme-box"
+            :space-evenly false
+            :spacing 8
+            (label
+              :text "${scheme["scheme"]}" 
+              :class "scheme-name"
+              :halign "start" 
+              :hexpand "true"
+              :style "color: #${scheme["foreground"]};"
+            )
+            (label
+              :text "${scheme["author"]}" 
+              :class "scheme-author"
+              :halign "start" 
+              :hexpand "true"
+              :style "color: #${scheme["foreground"]};"
+            )
+            (box
+              :spacing 8
+              :orientation "h"
+              :class "scheme-colours"
+              (label :text "" :style "background-color: #${scheme["red"]};")
+              (label :text "" :style "background-color: #${scheme["orange"]};")
+              (label :text "" :style "background-color: #${scheme["yellow"]};")
+              (label :text "" :style "background-color: #${scheme["green"]};")
+              (label :text "" :style "background-color: #${scheme["cyan"]};")
+              (label :text "" :style "background-color: #${scheme["blue"]};")
+              (label :text "" :style "background-color: #${scheme["purple"]};")
+              (label :text "" :style "background-color: #${scheme["brown"]};")
+            )
+          )
+        )
+      )
+    )
+  )
+)

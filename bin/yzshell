@@ -1,13 +1,91 @@
 #!/usr/bin/env bash
 
-export CONFIG_DIR="${HOME}/.config"
-export YZSHELL_CONFIG_DIR="${CONFIG_DIR}/yzshell"
-export YZSHELL_CONFIG_FILE="${YZSHELL_CONFIG_DIR}/config.json"
-export DATA_DIR="${HOME}/.local/share/yzshell"
-export STATIC_CONFIG_DIR="${DATA_DIR}/static"
-export COLOURS_DIR="${DATA_DIR}/colourschemes"
-export TEMPLATES_DIR="${DATA_DIR}/templates"
-export WALLPAPER_CACHE_DIR="/tmp/wallpaper_thumbs"
-export WEATHER_CACHE_FILE="/tmp/weather.json"
+BAR_LOG_FILE="/tmp/waybar.log"
+EWW_LOG_FILE="/tmp/eww.log"
+OSD_LOG_FILE="/tmp/swayosd.log"
 
-python "$HOME"/.local/share/yzshell/src/yzshell.py "$@"
+function kill_yzshell() {
+    killall waybar
+    killall swayosd-server
+    killall swaybg
+    killall eww
+}
+
+function launch_yzshell() {
+    exec yzwallpaper > /dev/null 2>&1 & disown
+    exec waybar > $BAR_LOG_FILE 2>&1 & disown
+    echo ">> Bar logs: ${BAR_LOG_FILE}"
+    exec yzwidgets init > $EWW_LOG_FILE 2>&1 & disown
+    echo ">> Widget logs: ${EWW_LOG_FILE}"
+    exec swayosd-server > $OSD_LOG_FILE 2>&1 & disown
+    echo ">> OSD logs: ${OSD_LOG_FILE}"
+    hyprctl reload &
+    makoctl reload &
+}
+
+function get_logs() {
+    case "$1" in
+        "bar") tail -f $BAR_LOG_FILE ;;
+        "widgets") tail -f $EWW_LOG_FILE ;;
+        "osd") tail -f $OSD_LOG_FILE ;;
+        *) 
+            echo "Error: invalid argument to 'yzshell logs': ${1}"
+            exit 1
+            ;;
+    esac
+}
+
+function toggle_dnd() {
+    mode="$(makoctl mode)"
+    if makoctl mode | grep -q do-not-disturb; then
+        eww update dnd_icon=''
+        makoctl mode -r do-not-disturb
+        notify-send "Notifications" "Do-not-disturb disabled"
+    else
+        eww update dnd_icon=''
+        makoctl mode -a do-not-disturb
+    fi
+}
+
+function yzshell_cmd() {
+    case "$1" in
+        "toggle_dnd") toggle_dnd ;;
+        *)
+            echo "Error: invalid argument to yzshell cmd: '${1}'"
+            exit 1
+        ;;
+    esac
+}
+
+function help() {
+    echo "Usage: yzshell [OPTION]
+    Options:
+        logs <COMPONENT>: view logs for yzshell component
+            Components:
+                bar
+                widgets
+                osd
+        cmd <COMMAND>: IPC commands
+            Commands:
+                toggle_dnd: toggle do-not-disturb
+        launch (default): launch shell
+        kill: kill shell
+        reload: reload shell
+    "
+}
+
+function main() {
+    case "$1" in
+        "" | "launch") launch_yzshell ;;
+        kill) kill_yzshell ;;
+        reload)
+            kill_yzshell
+            launch_yzshell
+            ;;
+        logs) get_logs "$2" ;;
+        cmd) yzshell_cmd "$2" ;;
+        *) help ;;
+    esac
+}
+
+main "$@"
