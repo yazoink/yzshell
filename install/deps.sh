@@ -56,8 +56,6 @@ DEPS=(
     "man-db"
     "pavucontrol"
     "wofi"
-    "pcmanfm"
-    "file-roller"
     "polkit"
     "hyprland"
     "xdg-desktop-portal-hyprland"
@@ -83,9 +81,11 @@ AUR_DEPS=(
 )
 
 function deps_import_gpg_keys() {
-    echo ">> Importing GPG keys for EWW"
-    curl -sS https://github.com/elkowar.gpg | gpg --batch --import -
-    curl -sS https://github.com/web-flow.gpg | gpg --batch --import -
+    if ! aur_pkg_installed "eww-git"; then
+        echo ">> Importing GPG keys for EWW"
+        curl -sS https://github.com/elkowar.gpg | gpg --batch --import -
+        curl -sS https://github.com/web-flow.gpg | gpg --batch --import -
+    fi
 }
 
 function install_oh_my_zsh() {
@@ -102,4 +102,16 @@ function install_oh_my_zsh() {
             && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
         exit_if_failed $? "failed to download zsh-syntax-highlighting"
     fi
+}
+
+function install_mpd() {
+    pkgs=(
+        "mpd"
+        "mpc"
+        "ncmpcpp"
+        "ario"
+    )
+    install_pkgs "${pkgs[@]}"
+    systemctl --user enable mpd
+    echo ">> MPD installed"
 }

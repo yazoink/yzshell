@@ -46,19 +46,20 @@ function exit_if_failed() {
 
 function enable_chaotic_aur() {
     if ! grep -q "chaotic-aur" /etc/pacman.conf; then
-        local -
-        set -e
-        echo ">> Enabling Chaotic AUR"
-        sudo pacman-key --init
-        sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
-        sudo pacman-key --lsign-key 3056513887B78AEB
-        sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
-        sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-        echo "
-[chaotic-aur]
-Include = /etc/pacman.d/chaotic-mirrorlist
-        " | sudo tee -a /etc/pacman.conf
-        sudo pacman -Syu
+        if answer_yes "Enable Chaotic AUR repo?"; then
+            local -
+            set -e
+            sudo pacman-key --init
+            sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+            sudo pacman-key --lsign-key 3056513887B78AEB
+            sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
+            sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+            echo "
+    [chaotic-aur]
+    Include = /etc/pacman.d/chaotic-mirrorlist
+            " | sudo tee -a /etc/pacman.conf
+            sudo pacman -Syu
+        fi
     fi
 }
 
@@ -197,10 +198,13 @@ function main() {
         install_dict
         install_soundboard
     fi
-    # COPY FILES
     copy_files
+    if [ $install_deps -eq 0 ]; then
+        source "${SRC_DIR}/install/filemanager.sh"
+        install_file_manager
+        install_mpd
+    fi
     yzconf deploy_configs -r
-    # SET GTK THEME/FONT
     gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3
     gsettings set org.gnome.desktop.interface font-name "sans 11"
     # REMOVE SOURCE IF GIT INSTALL
@@ -216,6 +220,7 @@ function main() {
 >> To configure Zen Browser: once there is at least one profile in
    ~/.config/zen, run 'zenconf --select-profile' to ensure its configuration."
     echo ">> Run 'chsh -s \"\$(which zsh)\"' to switch to Zsh."
+    echo ">> A reboot is recommended after the initial installation."
     echo "
 Done!"
 }

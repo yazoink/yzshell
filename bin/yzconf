@@ -38,6 +38,8 @@ TEMPLATES = {
     "hyprtoolkit.conf.mustache": ".config/hypr/hyprlock/hyprtoolkit.conf",
     "nvim.lua.mustache": ".config/nvim/plugin/colourscheme.lua",
     "zshrc.mustache": ".zshrc",
+    "mpd.conf.mustache": ".config/mpd/mpd.conf",
+    "ncmpcpp.mustache": ".config/ncmpcpp/config",
 }
 
 def get_default_config():
@@ -48,13 +50,14 @@ def get_default_config():
         "colourscheme": "camellia",
         "bar_show_battery": True,
         "bar_show_backlight": True,
-        "profile_image": f"{DATA_DIR}/assets/images/profile_image.jpg",
-        "screenshot_dir": f"{environ["HOME"]}/pic/screenshots",
-        "wallpaper_dir": f"{DATA_DIR}/assets/images/wallpapers",
-        "recording_dir": f"{environ["HOME"]}/vid/recordings",
+        "profile_image": path.join(DATA_DIR, "assets/images/profile_image.jpg"),
+        "screenshot_dir": path.expanduser("~/pic/screenshot"),
+        "wallpaper_dir": path.expanduser("~/pic/wallpapers"),
+        "recording_dir": path.expanduser("~/vid/recordings"),
+        "music_dir": path.expanduser("~/mu"),
         "wallpaper_image": "dolphins-tile.png",
         "wallpaper_mode": "tile",
-        "zen_profile_dir": "aarx6kc0.Default (release)",
+        "zen_profile_dir": path.expanduser("~/.config/zen/aarx6kc0.Default (release)"),
         "file_manager": "pcmanfm",
         "web_browser": "zen-browser",
         "terminal": "foot",
