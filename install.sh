@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # TODO: configure zen, optionally install nvim and deps, do something about 
-# hyprbars
+# hyprbars, graphics drivers?
 
 TARGET_DIR=~/.local/share/yzshell
 SRC_DIR=/tmp/yzshell
@@ -73,6 +73,10 @@ function main() {
     install_opt_deps=0
     dir_index=-1
     i=1
+    if [ "$EUID" -eq 0 ]; then
+        echo "Error: please do not run as root"
+        exit 1
+    fi
     for a in "$@"; do
         case "$a" in
             "-n" | "--no-deps") install_deps=0 ;;
