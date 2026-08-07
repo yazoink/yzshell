@@ -2,9 +2,8 @@
 
 import json
 from sys import argv, exit, stderr
-from os import path, listdir, makedirs, symlink, remove
+from os import path, listdir, makedirs
 import chevron
-from shutil import copytree, rmtree, copyfile
 import subprocess
 
 CONFIG_DIR = path.expanduser("~/.config")
@@ -126,6 +125,8 @@ def get_colourscheme(name):
     return scheme
 
 def copy_built_templates(scheme_dir):
+    from os import remove
+    from shutil import copyfile
     def copy_template(src_file, dest_file):
         dest = path.join(STOW_DIR, dest_file)
         d = path.split(dest)[0] # directory
@@ -182,6 +183,7 @@ def write_config(cfg):
         f.write(json.dumps(cfg, indent=4))
 
 def deploy_configs(cfg):
+    from shutil import copytree
     sch = get_colourscheme(cfg["colourscheme"])
     sch_dir = path.join(BUILT_TEMPLATE_DIR, cfg["colourscheme"])
     data = merge_data(cfg, sch)
@@ -319,6 +321,7 @@ if __name__ == "__main__":
             case "deploy_configs":
                 if argc > 2:
                     if argv[2] in ["--refresh", "-r"]:
+                        from shutil import rmtree
                         if path.exists(STOW_DIR):
                             rmtree(STOW_DIR)
                         if path.exists(BUILT_TEMPLATE_DIR):
