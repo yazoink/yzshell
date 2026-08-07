@@ -168,7 +168,7 @@ def init_widgets():
     wallpaper_image = get_conf_opt("wallpaper_image")
     wallpaper_path = path.join(wallpaper_dir, wallpaper_image)
     wallpaper_mode = get_conf_opt("wallpaper_mode")
-    profile_image = get_conf_opt("profile_image")
+    #profile_image = get_conf_opt("profile_image")
     recording_dir = get_conf_opt("recording_dir")
     subprocess.run(
         f'''
