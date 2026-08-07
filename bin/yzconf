@@ -198,7 +198,7 @@ def deploy_configs(cfg):
     with open(s, "w") as f:
         f.write(json.dumps(c))
 
-    # moving/cleaning
+    # moving/cleaning (fix later)
     s = path.join(STOW_DIR, ".config/gtk")
     d = path.join(STOW_DIR, ".config/gtk-3.0")
     if path.exists(d) == True:
