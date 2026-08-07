@@ -27,7 +27,8 @@ function other_file_manager() {
 
 function install_file_manager() {
     fm=""
-    echo "#### FILE MANAGER ####
+    echo "
+#### FILE MANAGER ####
 1. pcmanfm
 2. thunar
 3. I already have a file manager"

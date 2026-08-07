@@ -216,7 +216,7 @@ function main() {
         fi
     fi
     echo "
-#### HINTS ####
+#### NOTES ####
 >> To configure Zen Browser: once there is at least one profile in
    ~/.config/zen, run 'zenconf --select-profile' to ensure its configuration."
     echo ">> Run 'chsh -s \"\$(which zsh)\"' to switch to Zsh."
