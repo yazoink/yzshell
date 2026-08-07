@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
+import argparse
 import json
 import subprocess
-import chevron
-from os import path, listdir, makedirs, remove, unlink
-from shutil import rmtree, copyfile
-import argparse
+from os import listdir, makedirs, path, remove, unlink
+from shutil import copyfile, rmtree
 from sys import argv, exit
 
+import chevron
 
 DATA_DIR = path.expanduser("~/.local/share/yzshell")
 COLOURS_DIR = path.join(DATA_DIR, "colourschemes")
@@ -65,7 +65,7 @@ def select_profile(profiles):
     o = select_option("profile", profile_num)
     profile_dir = path.join(ZEN_DIR, profiles[o-1])
     subprocess.run(
-        f"yzconf set zen_profile_dir {profile_dir}",
+        f"yzconf set zen_profile_dir '{profile_dir}'",
         shell=True
     )
     return profile_dir

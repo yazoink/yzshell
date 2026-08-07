@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 
-yzshell close_all_widgets & disown
+yzwidgets close all &
+disown
 
 selected=$(eww get search_selected)
 if [ $selected -gt -1 ]; then
     # get launch command of selected app
-    c="$(eww get search_results \
-        | jq -r ".[${selected}].cmd")"
+    c="$(eww get search_results |
+        jq -r ".[${selected}].cmd")"
     (
         cd "$HOME" || exit
-        exec $c & disown
+        exec $c &
+        disown
     )
 fi
 
