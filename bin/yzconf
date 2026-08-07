@@ -12,8 +12,8 @@ CONFIG_DIR = path.join(environ["HOME"], ".config")
 STOW_DIR = path.join(environ["HOME"], ".dotfiles")
 YZSHELL_CONFIG_DIR = path.join(CONFIG_DIR, "yzshell")
 CONFIG_FILE = path.join(YZSHELL_CONFIG_DIR, "config.json")
-YZSHELL_DIR = path.join(environ["HOME"], ".local/share/yzshell")
-COLOURS_DIR = path.join(YZSHELL_DIR, "colourschemes")
+DATA_DIR = path.join(environ["HOME"], ".local/share/yzshell")
+COLOURS_DIR = path.join(DATA_DIR, "colourschemes")
 BUILT_TEMPLATE_DIR = path.join(environ["HOME"], ".cache/yzshell/built_templates")
 
 TEMPLATES = {
@@ -29,8 +29,6 @@ TEMPLATES = {
     "wofi.css.mustache": ".config/wofi/style.css",
     "yazi.toml.mustache": ".config/yazi/theme.toml",
     "swayosd.css.mustache": ".config/swayosd/style.css",
-    "zen_userchrome.css.mustache": ".config/zen/profile/chrome/userChrome.css", # symlink to profile dir
-    "zen_usercontent.css.mustache": ".config/zen/profile/chrome/userContent.css", # symlink to profile dir
     "zathurarc.mustache": ".config/zathura/zathurarc",
     "discord.css.mustache": ".config/vesktop/themes/yzshell.theme.css",
     "vscode.json.mustache": ".config/Code - OSS/User/settings.json",
@@ -50,9 +48,9 @@ def get_default_config():
         "colourscheme": "camellia",
         "bar_show_battery": True,
         "bar_show_backlight": True,
-        "profile_image": f"{YZSHELL_DIR}/assets/images/profile_image.jpg",
+        "profile_image": f"{DATA_DIR}/assets/images/profile_image.jpg",
         "screenshot_dir": f"{environ["HOME"]}/pic/screenshots",
-        "wallpaper_dir": f"{YZSHELL_DIR}/assets/images/wallpapers",
+        "wallpaper_dir": f"{DATA_DIR}/assets/images/wallpapers",
         "recording_dir": f"{environ["HOME"]}/vid/recordings",
         "wallpaper_image": "dolphins-tile.png",
         "wallpaper_mode": "tile",
@@ -145,7 +143,7 @@ def merge_data(cfg, sch):
 def make_templates(data, sch_dir):
     if path.exists(sch_dir) == False:
         makedirs(sch_dir)
-        templates_dir = path.join(YZSHELL_DIR, "templates")
+        templates_dir = path.join(DATA_DIR, "templates")
         buf = None
         for t in TEMPLATES:
             with open(path.join(templates_dir, t), "r") as f:
@@ -173,7 +171,7 @@ def deploy_configs(cfg):
     data = merge_data(cfg, sch)
     make_templates(data, sch_dir)
     if path.exists(STOW_DIR) == False:
-        copytree(path.join(YZSHELL_DIR, "dotfiles"), STOW_DIR)
+        copytree(path.join(DATA_DIR, "dotfiles"), STOW_DIR)
     copy_built_templates(sch_dir)
 
     # additional config
@@ -221,13 +219,6 @@ def deploy_configs(cfg):
         makedirs(d)
     copyfile(s, path.join(d, "qt6ct.conf"))
 
-    if data["web_browser"] == "zen-browser":
-        b = path.join(STOW_DIR, ".config/zen")
-        d = path.join(b, data["zen_profile_dir"])
-        s = path.join(b, "profile")
-        if path.exists(d) == False:
-            copytree(s, d)
-        rmtree(s)
     subprocess.Popen(
         f'''
         stow --target='{environ["HOME"]}' --dir='{STOW_DIR}' -R .
@@ -240,6 +231,18 @@ def deploy_configs(cfg):
         stdout=subprocess.DEVNULL,
         stderr=subprocess.STDOUT
     )
+    if cfg["web_browser"] == "zen-browser":
+        subprocess.Popen(
+            f'''
+            zenconf \
+                --unattended \
+                --no-policies \
+                --profile-dir '{cfg["zen_profile_dir"]}'
+            ''', 
+            shell=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.STDOUT
+        )
 
 def help(exitcode=0):
     print('''usage: yzconf <OPTION> ...
@@ -267,6 +270,7 @@ def help(exitcode=0):
             configuration unless a specific option is provided.
         make_scheme <SCHEME>: creates and caches configs for colourscheme
         make_all_schemes: creates and caches configs for all colourschemes
+        dump_mustache_data: dump data used to build configs
     ''')
     exit(exitcode)
 
@@ -355,5 +359,9 @@ if __name__ == "__main__":
                 for s in schemes:
                     sch = get_colourscheme(s.replace(".json", ""))
                     make_templates(cfg, sch)
+            case "dump_mustache_data":
+                sch = get_colourscheme(cfg["colourscheme"])
+                data = merge_data(cfg, sch)
+                print(json.dumps(data, indent=4))
             case _:
                 help()

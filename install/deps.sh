@@ -87,3 +87,19 @@ function deps_import_gpg_keys() {
     curl -sS https://github.com/elkowar.gpg | gpg --batch --import -
     curl -sS https://github.com/web-flow.gpg | gpg --batch --import -
 }
+
+function install_oh_my_zsh() {
+    # oh-my-zsh
+    if [ ! -d ~/.oh-my-zsh ]; then
+        sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
+        exit_if_failed $? "failed to download oh-my-zsh"
+        # autosuggestions
+        [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions" ] \
+            && git clone https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions"
+        exit_if_failed $? "failed to download zsh-autosuggestions"
+        # syntax highlighting
+        [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting" ] \
+            && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
+        exit_if_failed $? "failed to download zsh-syntax-highlighting"
+    fi
+}

@@ -14,12 +14,15 @@ EXECUTABLES=(
     "yzrecorder"
     "yzshot"
     "iconfetch"
+    "zenconf"
+    "yzshell-install-hyprland-plugins"
 )
 DIRECTORIES=(
     "assets"
     "colourschemes"
     "dotfiles"
     "templates"
+    "misc"
 )
 
 function answer_yes() {
@@ -82,18 +85,12 @@ function copy_files() {
     source "${SRC_DIR}/install/copyutils.sh"
     [ -d $TARGET_DIR ] && rm -rf $TARGET_DIR
     mkdir -p $TARGET_DIR
-    copy_data_dir "assets"
-    copy_data_dir "colourschemes"
-    copy_data_dir "dotfiles"
-    copy_data_dir "templates"
-    copy_executable "yzconf"
-    copy_executable "yzshell"
-    copy_executable "yzwallpaper"
-    copy_executable "yzwidgets"
-    copy_executable "yzpicker"
-    copy_executable "yzrecorder"
-    copy_executable "yzshot"
-    copy_executable "iconfetch"
+    for d in "${DIRECTORIES[@]}"; do
+        copy_data_dir "${d}"
+    done
+    for e in "${EXECUTABLES[@]}"; do
+        copy_executable "${e}"
+    done
 }
 
 function help() {
@@ -190,6 +187,7 @@ function main() {
         deps_import_gpg_keys
         install_pkgs "${DEPS[@]}"
         install_aur_pkgs "${AUR_DEPS[@]}"
+        install_oh_my_zsh
     fi
     # INSTALL OPTIONAL DEPS
     if [ $install_opt_deps -eq 0 ]; then
@@ -213,6 +211,13 @@ function main() {
             echo ">> Repo deleted"
         fi
     fi
+    echo "
+#### HINTS ####
+>> To configure Zen Browser: once there is at least one profile in
+   ~/.config/zen, run 'zenconf --select-profile' to ensure its configuration."
+    echo ">> Run 'chsh -s \"\$(which zsh)\"' to switch to Zsh."
+    echo "
+Done!"
 }
 
 main "$@"

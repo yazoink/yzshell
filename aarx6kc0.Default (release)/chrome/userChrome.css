@@ -1,0 +1,327 @@
+:root {
+    --zen-colors-primary: #272729 !important;
+    --zen-primary-color: #E19ECA !important;
+    --zen-colors-secondary: #272729 !important;
+    --zen-colors-tertiary: #272729 !important;
+    --zen-colors-border: #E19ECA !important;
+    --toolbarbutton-icon-fill: #E19ECA !important;
+    --lwt-text-color: #C9C7CD !important;
+    --toolbar-field-color: #C9C7CD !important;
+    --toolbar-textcolor: #C9C7CD !important;
+    --toolbox-textcolor: #C9C7CD !important;
+    --tab-selected-textcolor: #C9C7CD !important;
+    --toolbar-field-focus-color: #C9C7CD !important;
+    --toolbar-color: #C9C7CD !important;
+    --newtab-text-primary-color: #C9C7CD !important;
+    --arrowpanel-color: #C9C7CD !important;
+    --arrowpanel-background: #161617 !important;
+    --sidebar-text-color: #C9C7CD !important;
+    --lwt-sidebar-text-color: #C9C7CD !important;
+    --lwt-sidebar-background-color: #161617 !important;
+    --toolbar-bgcolor: #272729 !important;
+    --newtab-background-color: #161617 !important;
+    --zen-themed-toolbar-bg: #161617 !important;
+    --zen-main-browser-background: #161617 !important;
+    --toolbox-bgcolor-inactive: #272729 !important;
+    --zen-themed-toolbar-bg-transparent: #272729 !important;
+    --input-color: #C9C7CD !important;
+    --zen-native-inner-radius: 16px !important;
+    --zen-toolbar-height: 48px !important;
+    --toolbarbutton-hover-background: #272729 !important;
+    --panel-color: #C9C7CD !important;
+    --panel-border-color: #272729 !important;
+    --panel-border-radius: 16px !important;
+    --zen-toolbar-element-bg: #272729 !important;
+    --toolbarbutton-border-radius: 8px !important;
+    --button-border-radius: 8px !important;
+    }
+
+    .zen-toolbar-background {
+    box-shadow: none !important;;
+    &::before,
+    &::after {
+        border: none !important;
+        outline: none !important;
+    }
+
+    &,
+    &::before,
+    &::after {
+        border-radius: 8px !important;;
+    }
+    &,
+        &::before {
+        border: 1px solid #272729 !important;
+    }
+    }
+
+    .urlbar {
+    :root[zen-single-toolbar="true"] &[breakout-extend="true"], &[zen-floating-urlbar="true"] {
+        --urlbar-container-padding: 0 !important;;
+    }
+    }
+
+    #urlbar[breakout-extend="true"] {
+        & .urlbar-background {
+        border-radius: 8px !important;
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+        }
+    }
+
+    .tab-background {
+    min-height: 40px !important;
+    }
+
+    .tab-content {
+    padding: 0 8px !important;
+    }
+
+    .tabbrowser-tab[zen-essential="true"], #zen-welcome-initial-essentials-browser-sidebar-essentials .tabbrowser-tab {
+    &:hover .tab-background {
+        background: var(--zen-toolbar-element-bg) !important;
+    }
+    }
+
+    :is(menupopup, panel) {
+    &::part(content) {
+        border-radius: 8px !important;
+        border: 1px solid #272729 !important;
+        box-shadow: none !important;
+    }
+    }
+
+    .menupopup-arrowscrollbox {
+        border-radius: 8px !important;
+        border: 1px solid #272729 !important;
+        box-shadow: none !important;
+    }
+
+    menuitem {
+    border-radius: 4px !important;
+    }
+
+    menuitem {
+    &:hover {
+    background-color: #272729 !important;
+    }
+    }
+
+    menupopup {
+    --panel-padding: 8px !important;
+    }
+
+    menuseparator {
+    &::before {
+        border-top: 1px solid #272729 !important;
+        /*border-top: 2px dashed #272729 !important;*/
+        content: "";
+        display: block;
+        flex: 1;
+    }
+    }
+
+    zen-workspace {
+    --toolbox-textcolor: #C9C7CD !important;
+    }
+
+    #permissions-granted-icon {
+    color: #C9C7CD !important;
+    }
+
+    #historySwipeAnimationPreviousArrow,#historySwipeAnimationNextArrow {
+    --swipe-nav-icon-primary-color: #E19ECA !important;
+    --swipe-nav-icon-accent-color: #161617 !important;
+    }
+
+    #sidebar-box {
+    background-color: #161617 !important;
+    }
+
+    .sidebar-placesTree {
+    background-color: #161617 !important;
+    }
+
+    #zen-workspaces-button {
+    background-color: #161617 !important;
+    }
+
+    .urlbar-background {
+    background-color: #272729 !important;
+    }
+
+    .content-shortcuts {
+    background-color: #161617 !important;
+    border-color: #E19ECA !important;
+    }
+
+    .urlbarView-url, .urlbarView-title-separator::before {
+    color: #E19ECA !important;
+    }
+
+    .urlbarView-row {
+    color: #C9C7CD !important;
+    }
+
+    #urlbar-input::selection {
+    border-radius: 8px !important;
+    background-color: #E19ECA !important;
+    color: #161617 !important;
+    }
+
+    .urlbarView-row {
+    &[selected] {
+        & *, & .urlbarView-title-separator::before {
+        color: #C9C7CD !important;
+        }
+    }
+    }
+
+    #zenEditBookmarkPanelFaviconContainer {
+    background: #161617 !important;
+    }
+
+    #zen-media-controls-toolbar {
+    & #zen-media-progress-bar {
+        &::-moz-range-track {
+        background: #{surface2} !important;
+        }
+    }
+    }
+
+    toolbar .toolbarbutton-1 {
+    &:not([disabled]) {
+        &:is([open], [checked])
+        > :is(
+            .toolbarbutton-icon,
+            .toolbarbutton-text,
+            .toolbarbutton-badge-stack
+        ) {
+        fill: #161617;
+        }
+    }
+    }
+
+    .identity-color-blue {
+    --identity-tab-color: #E19ECA !important;
+    --identity-icon-color: #E19ECA !important;
+    }
+
+    .identity-color-turquoise {
+    --identity-tab-color: #ACA0CF !important;
+    --identity-icon-color: #ACA0CF !important;
+    }
+
+    .identity-color-green {
+    --identity-tab-color: #90B99F !important;
+    --identity-icon-color: #90B99F !important;
+    }
+
+    .identity-color-yellow {
+    --identity-tab-color: #E6B99D !important;
+    --identity-icon-color: #E6B99D !important;
+    }
+
+    .identity-color-orange {
+    --identity-tab-color: #F5A191 !important;
+    --identity-icon-color: #F5A191 !important;
+    }
+
+    .identity-color-red {
+    --identity-tab-color: #EA83A5 !important;
+    --identity-icon-color: #EA83A5 !important;
+    }
+
+    .identity-color-pink {
+    --identity-tab-color: #EA83A5 !important;
+    --identity-icon-color: #EA83A5 !important;
+    }
+
+    .identity-color-purple {
+    --identity-tab-color: #F5A091 !important;
+    --identity-icon-color: #F5A091 !important;
+    }
+
+    #zen-toolbar-background {
+    --zen-main-browser-background-toolbar: #161617 !important;
+    }
+
+    #commonDialog {
+    background-color: #161617 !important;
+    }
+
+    #zen-browser-background {
+    --zen-main-browser-background: #161617 !important;
+    }
+
+    menu,
+    menuitem,
+    menupopup {
+    color: #C9C7CD !important;
+    }
+
+    #tabbrowser-tabs {
+    & .tabbrowser-tab {
+    & .tab-background {
+        border-radius: 8px !important;
+        box-shadow: none !important;
+    }
+    }
+
+    .tab-background {
+    &:is([selected], [multiselected]) {
+        background-color: #272729 !important;
+        outline-color: transparent;
+    }
+    }
+
+    #urlbar[breakout-extend="true"] {
+    &, & .urlbar-background {
+        border-radius: 8px !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+    }
+}
+
+#urlbar[open][zen-floating-urlbar="true"] {
+    & .urlbar-background {
+        background: #161617 !important;
+        outline: none !important;
+        border: 1px solid #272729 !important;
+        border-radius: 16px !important;
+    }
+    }
+
+    .urlbar-input-container {
+    background-color: #272729 !important;
+    border-radius: 8px !important;
+    }
+
+    .urlbar[breakout][breakout-extend] {
+    & > .urlbar-input-container {
+        background-color: #272729 !important;
+        height: 46px !important;
+        margin: 8px !important;
+        width: calc(100% - 16px) !important;;
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+    }
+
+
+    .urlbarView-body-inner {
+    #urlbar[open] > .urlbarView > .urlbarView-body-outer > & {
+        border-top: 1px solid #272729 !important;
+    }
+    }
+
+#urlbar-container, .urlbar-input-container, #searchbar {
+    border-radius: 8px !important;
+    height: 38px !important;
+  }
+
+.urlbarView-row-inner {
+    border-radius: 8px !important;
+}

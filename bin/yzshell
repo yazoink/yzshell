@@ -11,6 +11,14 @@ function kill_yzshell() {
     killall eww
 }
 
+function ensure_hyprland_plugins() {
+    if ! hyprpm list | grep -q hyprbars; then
+        echo ">> Installing Hyprland plugins..."
+        terminal="$(yzconf get terminal)"
+        exec $terminal -e yzshell-install-hyprland-plugins & disown
+    fi
+}
+
 function launch_yzshell() {
     exec yzwallpaper > /dev/null 2>&1 & disown
     exec waybar > $BAR_LOG_FILE 2>&1 & disown
@@ -21,6 +29,7 @@ function launch_yzshell() {
     echo ">> OSD logs: ${OSD_LOG_FILE}"
     hyprctl reload &
     makoctl reload &
+    ensure_hyprland_plugins
 }
 
 function get_logs() {

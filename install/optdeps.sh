@@ -51,6 +51,7 @@ OPT_DEPS=(
 )
 
 OPT_AUR_DEPS=(
+    "zen-browser-bin"
     "vesktop-bin"
     "mpdris2-rs"
     # nvim formatters

@@ -1,7 +1,7 @@
 alias vim="nvim"
 alias ff="fastfetch"
 alias ls="eza --hyperlink=always"
-alias upd="sudo pacman -Syu; yay -Syu"
+alias upd="sudo pacman -Syu; yay -Syu; hyprpm update"
 alias qry="pacman -Ss"
 alias aurqry="yay -Ss"
 alias gcl="git clone"
