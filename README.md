@@ -2,6 +2,19 @@
 
 My very messy dotfiles.
 
+## Software
+
+- Window manager: Hyprland
+- Terminal: Foot
+- Shell: Zsh
+- Widgets: EWW
+- Run launcher: Wofi
+- Notifications: Mako/SwayOSD
+- Lockscreen: Hyprlock
+- Bar: Waybar
+- Browser: Zen
+- File manager: Thunar or PCManFM
+
 ## Screenshots
 
 <img width="1366" height="768" alt="20260807_22:46:23" src="https://github.com/user-attachments/assets/21aed7b9-3430-4573-9449-1fcf0bd9a67c" />
