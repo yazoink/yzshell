@@ -15,7 +15,10 @@ function ensure_hyprland_plugins() {
     if ! hyprpm list | grep -q hyprbars; then
         echo ">> Installing Hyprland plugins..."
         terminal="$(yzconf get terminal)"
-        exec $terminal -e yzshell-install-hyprland-plugins & disown
+        (
+            sleep 15
+            exec $terminal -e yzshell-install-hyprland-plugins
+        ) & disown
     fi
 }
 
