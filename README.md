@@ -8,6 +8,7 @@ My very messy dotfiles.
 - Terminal: Foot
 - Shell: Zsh
 - Widgets: EWW
+- Run launcher: Wofi
 - Notifications: Mako/SwayOSD
 - Lockscreen: Hyprlock
 - Bar: Waybar
