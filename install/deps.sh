@@ -60,6 +60,7 @@ DEPS=(
     "polkit"
     "hyprland"
     "xdg-desktop-portal-hyprland"
+    "hyprland-qt-support"
     "mate-polkit"
     "pkgconf"
     "cpio"
