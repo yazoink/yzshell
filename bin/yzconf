@@ -18,9 +18,18 @@ BUILT_TEMPLATE_DIR = path.expanduser("~/.cache/yzshell/built_templates")
 TEMPLATES = {
     "eww.scss.mustache": ".config/eww/scss/_colours.scss",
     "foot.ini.mustache": ".config/foot/foot.ini",
-    "gtk.css.mustache": ".config/gtk/gtk.css", # symlink to gtk-3.0 + gtk-4.0
-    "gtk.ini.mustache": ".config/gtk/settings.ini", # symlink to gtk-3.0 + gtk-4.0
-    "qtct.conf.mustache": ".config/qtct/qtct.conf", # symlink to qt5ct + qt6ct
+    "gtk.css.mustache": [
+        ".config/gtk-3.0/gtk.css",
+        ".config/gtk-4.0/gtk.css"
+    ],
+    "gtk.ini.mustache": [
+        ".config/gtk-3.0/settings.ini",
+        ".config/gtk-4.0/settings.ini"
+    ],
+    "qtct.conf.mustache": [
+        ".config/qt5ct/qt5ct.conf",
+        ".config/qt6ct/qt6ct.conf"
+    ],
     "kvantum.kvconfig.mustache": ".config/Kvantum/KvRecolour/KvRecolour.kvconfig",
     "kvantum.svg.mustache": ".config/Kvantum/KvRecolour/KvRecolour.svg",
     "mako.mustache": ".config/mako/config",
@@ -117,16 +126,21 @@ def get_colourscheme(name):
     return scheme
 
 def copy_built_templates(scheme_dir):
-    for t in TEMPLATES:
-        dest = path.join(STOW_DIR, TEMPLATES[t])
+    def copy_template(src_file, dest_file):
+        dest = path.join(STOW_DIR, dest_file)
         d = path.split(dest)[0] # directory
-
         if path.isfile(dest):
             remove(dest)
         elif path.exists(d) == False:
-            makedirs(d)
-        
-        copyfile(path.join(scheme_dir, t), dest) # ~/.dotfiles/<config>
+            makedirs(d)      
+        copyfile(path.join(scheme_dir, src_file), dest) # ~/.dotfiles/<config>
+    for t in TEMPLATES:
+        if type(TEMPLATES[t]) == list:
+            for i in TEMPLATES[t]:
+                copy_template(t, i)
+        else:
+            copy_template(t, TEMPLATES[t])
+
 
 def merge_data(cfg, sch):
     data = cfg | sch
@@ -199,29 +213,6 @@ def deploy_configs(cfg):
 
     with open(path.join(CONFIG_DIR, "waybar/config.jsonc"), "w") as f:
         f.write(json.dumps(c))
-
-    # moving/cleaning (fix later)
-    s = path.join(STOW_DIR, ".config/gtk")
-    d = path.join(STOW_DIR, ".config/gtk-3.0")
-    if path.exists(d) == True:
-        rmtree(d)
-    copytree(s, d)
-    d = path.join(STOW_DIR, ".config/gtk-4.0")
-    if path.exists(d) == True:
-        rmtree(d)
-    copytree(s, path.join(STOW_DIR, ".config/gtk-4.0"))
-    rmtree(s)
-
-    d = path.join(STOW_DIR, ".config/qt5ct")
-    s = path.join(STOW_DIR, ".config/qtct/qtct.conf")
-    if path.exists(d) == False:
-        makedirs(d)
-    copyfile(s, path.join(d, "qt5ct.conf"))
-
-    d = path.join(STOW_DIR, ".config/qt6ct")
-    if path.exists(d) == False:
-        makedirs(d)
-    copyfile(s, path.join(d, "qt6ct.conf"))
 
     subprocess.Popen(
         f'''
