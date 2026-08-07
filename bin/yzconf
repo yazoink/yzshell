@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 import json
-from sys import argv, exit, stderr
-from os import path, listdir, makedirs
 import subprocess
+from os import listdir, makedirs, path
+from sys import argv, exit, stderr
 
 CONFIG_DIR = path.expanduser("~/.config")
 STOW_DIR = path.expanduser("~/.dotfiles")
@@ -41,7 +41,7 @@ TEMPLATES = {
     "hyprland_colours.lua.mustache": ".config/hypr/hyprland/colours.lua",
     "hyprland_vars.lua.mustache": ".config/hypr/hyprland/vars.lua",
     "hyprlock.conf.mustache": ".config/hypr/hyprlock/colours.conf",
-    "hyprtoolkit.conf.mustache": ".config/hypr/hyprlock/hyprtoolkit.conf",
+    "hyprtoolkit.conf.mustache": ".config/hypr/hyprtoolkit.conf",
     "nvim.lua.mustache": ".config/nvim/plugin/colourscheme.lua",
     "zshrc.mustache": ".zshrc",
     "mpd.conf.mustache": ".config/mpd/mpd.conf",
