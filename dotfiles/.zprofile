@@ -1,3 +1,3 @@
 if [[ -z "$DISPLAY" ]] && [[ $(tty) = /dev/tty1 ]]; then
-    exec dbus-run-session {{window_manager}}
+    exec dbus-run-session start-hyprland
 fi
