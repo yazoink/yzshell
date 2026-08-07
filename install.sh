@@ -106,7 +106,7 @@ function help() {
             the script directory, but directory can be specified with -d.
         --dir | -d: 
             Specify the directory to install from. When installing from Github,
-            where the repo will be cloned to.
+            this is where the repo will be cloned to.
     "
     exit 0
 }
