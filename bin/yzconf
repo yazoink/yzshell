@@ -2,19 +2,18 @@
 
 import json
 from sys import argv, exit, stderr
-from os import path, environ, listdir, makedirs, symlink, remove
+from os import path, listdir, makedirs, symlink, remove
 import chevron
 from shutil import copytree, rmtree, copyfile
 import subprocess
 
-
-CONFIG_DIR = path.join(environ["HOME"], ".config")
-STOW_DIR = path.join(environ["HOME"], ".dotfiles")
+CONFIG_DIR = path.expanduser("~/.config")
+STOW_DIR = path.expanduser("~/.dotfiles")
 YZSHELL_CONFIG_DIR = path.join(CONFIG_DIR, "yzshell")
 CONFIG_FILE = path.join(YZSHELL_CONFIG_DIR, "config.json")
-DATA_DIR = path.join(environ["HOME"], ".local/share/yzshell")
+DATA_DIR = path.expanduser("~/.local/share/yzshell")
 COLOURS_DIR = path.join(DATA_DIR, "colourschemes")
-BUILT_TEMPLATE_DIR = path.join(environ["HOME"], ".cache/yzshell/built_templates")
+BUILT_TEMPLATE_DIR = path.expanduser("~/.cache/yzshell/built_templates")
 
 TEMPLATES = {
     "eww.scss.mustache": ".config/eww/scss/_colours.scss",
@@ -226,7 +225,7 @@ def deploy_configs(cfg):
 
     subprocess.Popen(
         f'''
-        stow --target='{environ["HOME"]}' --dir='{STOW_DIR}' -R .
+        stow --target='{path.expanduser("~")}' --dir='{STOW_DIR}' -R .
         gsettings set org.gnome.desktop.interface color-scheme prefer{data["polarity"]}
         gsettings set org.gnome.desktop.interface cursor-theme {data["cursor_theme"]}
         papirus-folders -C {data["papirus_folders_colour"]} --theme {data["icon_theme"]}
