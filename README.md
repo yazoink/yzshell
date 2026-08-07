@@ -4,12 +4,7 @@ My very messy dotfiles.
 
 ## Screenshots
 
-<img width="1359" height="767" src="/assets/images/screenshots/hyprland-1.png" />
-<img width="1359" height="767" src="/assets/images/screenshots/hyprland-2.png" />
-<img width="1359" height="767" src="/assets/images/screenshots/hyprland-3.png" />
-<img width="1359" height="767" src="/assets/images/screenshots/logout.png" />
-<img width="1359" height="767" src="/assets/images/screenshots/colourschemes.png" />
-<img width="1359" height="767" src="/assets/images/screenshots/lockscreen.png" />
+<img width="1366" height="768" alt="20260807_22:46:23" src="https://github.com/user-attachments/assets/21aed7b9-3430-4573-9449-1fcf0bd9a67c" />
 
 ## Installation
 
