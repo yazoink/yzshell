@@ -176,7 +176,7 @@ def deploy_configs(cfg):
 
     # additional config
     c = None
-    s = path.join(STOW_DIR, ".config/waybar/config.jsonc")
+    s = path.join(DATA_DIR, "misc/waybar/config.jsonc")
     with open(s, "r") as f:
         buf = f.read()
         c = json.loads(buf)
@@ -195,7 +195,7 @@ def deploy_configs(cfg):
     c["battery#icon"]["bat"] = battery_name
     c["battery#percentage"]["bat"] = battery_name
 
-    with open(s, "w") as f:
+    with open(path.join(CONFIG_DIR, "waybar/config.jsonc"), "w") as f:
         f.write(json.dumps(c))
 
     # moving/cleaning (fix later)
