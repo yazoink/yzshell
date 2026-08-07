@@ -1,0 +1,15 @@
+{
+    "scheme": "Carburetor Warm",
+    "author": "https://github.com/ozwaldorf/carburetor",
+    "polarity": "dark",
+    "background": "171414",
+    "foreground": "f7f3f2",
+    "red": "fa4d56",
+    "orange": "fe832b",
+    "yellow": "fddc69",
+    "green": "42be65",
+    "cyan": "3ddbd9",
+    "blue": "4589ff",
+    "purple": "d4bbff",
+    "brown": "ffb3b8"
+}

@@ -11,6 +11,7 @@ DEPS=(
     "qt5ct"
     "qt6ct"
     "kvantum"
+    "kvantum-qt5"
     "direnv"
     "xorg-xwayland"
     "polkit"
@@ -94,12 +95,12 @@ function install_oh_my_zsh() {
         sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
         exit_if_failed $? "failed to download oh-my-zsh"
         # autosuggestions
-        [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions" ] \
-            && git clone https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions"
+        [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions" ] &&
+        git clone https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions"
         exit_if_failed $? "failed to download zsh-autosuggestions"
         # syntax highlighting
-        [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting" ] \
-            && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
+        [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting" ] &&
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
         exit_if_failed $? "failed to download zsh-syntax-highlighting"
     fi
 }
