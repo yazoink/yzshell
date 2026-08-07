@@ -3,7 +3,6 @@
 import json
 from sys import argv, exit, stderr
 from os import path, listdir, makedirs
-import chevron
 import subprocess
 
 CONFIG_DIR = path.expanduser("~/.config")
@@ -158,6 +157,7 @@ def merge_data(cfg, sch):
     return data
 
 def make_templates(data, sch_dir):
+    import chevron
     if path.exists(sch_dir) == False:
         makedirs(sch_dir)
         templates_dir = path.join(DATA_DIR, "templates")
