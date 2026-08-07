@@ -173,21 +173,19 @@ function main() {
         clone=0
         if [ -d "$SRC_DIR" ]; then
             if answer_yes "Directory '${SRC_DIR}' already exists, overwrite?"; then
-                #rm -rf "${SRC_DIR}"
+                rm -rf "${SRC_DIR}"
                 pass
             else
                 clone=1
             fi
         fi
         if [ $clone -eq 0 ]; then
-            echo "CLONE"
-            #git clone "https://github.com/yazoink/yzshell.git" "$SRC_DIR"
-            #exit_if_failed $? "could not clone repo."
+            git clone "https://github.com/yazoink/yzshell.git" "$SRC_DIR"
+            exit_if_failed $? "could not clone repo."
         fi
     fi
     # INSTALL DEPS
     if [ $install_deps -eq 0 ]; then
-        echo "DEPS: ${install_deps}"
         source "${SRC_DIR}/install/deps.sh"
         deps_import_gpg_keys
         install_pkgs "${DEPS[@]}"
