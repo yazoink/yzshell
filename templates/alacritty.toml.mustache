@@ -1,0 +1,45 @@
+[window]
+padding = { x = 32, y = 32 }
+dynamic_padding = true
+#decorations = "None"
+
+[cursor]
+style = { shape = "Beam", blinking = "On" }
+
+[font]
+size = 12
+
+[colors]
+draw_bold_text_with_bright_colors = false
+
+# Default colors
+[colors.primary]
+background = '0x{{background}}'
+foreground = '0x{{foreground}}'
+
+# Colors the cursor will use if `custom_cursor_colors` is true
+[colors.cursor]
+text = '0x{{background}}'
+cursor = '0x{{foreground}}'
+
+# Normal colors
+[colors.normal]
+black = '0x{{background}}'
+red = '0x{{red}}'
+green = '0x{{green}}'
+yellow = '0x{{yellow}}'
+blue = '0x{{blue}}'
+magenta = '0x{{purple}}'
+cyan = '0x{{cyan}}'
+white = '0x{{foreground}}'
+
+# Bright colors
+[colors.bright]
+black = '0x{{surface1}}'
+red = '0x{{red}}'
+green = '0x{{green}}'
+yellow = '0x{{yellow}}'
+blue = '0x{{blue}}'
+magenta = '0x{{purple}}'
+cyan = '0x{{cyan}}'
+white = '0x{{foreground}}'

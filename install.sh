@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# TODO: optionally install nvim and deps, fix waybar workspaces menu, graphics 
+# TODO: optionally install nvim and deps, fix waybar workspaces menu, graphics
 # drivers?
 
 TARGET_DIR=~/.local/share/yzshell
@@ -29,7 +29,7 @@ function answer_yes() {
     while true; do
         read -p ">> $1 [Y/n]: " answer
         case "${answer^^}" in
-            "" | "Y" | "YES") return 0;;
+            "" | "Y" | "YES") return 0 ;;
             "N" | "NO") return 1 ;;
         esac
     done
@@ -99,10 +99,10 @@ function help() {
     Flags:
         --optional-deps | -o: Install optional dependencies.
         --no-deps | -n: Skip installing dependencies (does not impact -o).
-        --local | -l: 
+        --local | -l:
             Install from local directory instead of Github repo. Defaults to
             the script directory, but directory can be specified with -d.
-        --dir | -d: 
+        --dir | -d:
             Specify the directory to install from. When installing from Github,
             this is where the repo will be cloned to.
     "
@@ -130,7 +130,7 @@ function main() {
         ((i = i + 1))
     done
     # GET SRC DIR
-    if [ $install_local -eq 0 ]; then # local install
+    if [ $install_local -eq 0 ]; then  # local install
         if [ $dir_index -ne -1 ]; then # dir specified
             SRC_DIR="${!dir_index}"
         else # dir not specified
@@ -201,7 +201,9 @@ function main() {
     copy_files
     if [ $install_deps -eq 0 ]; then
         source "${SRC_DIR}/install/filemanager.sh"
+        source "${SRC_DIR}/install/terminal.sh"
         install_file_manager
+        install_terminal
         install_mpd
     fi
     yzconf deploy_configs -r

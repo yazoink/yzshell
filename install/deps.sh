@@ -2,7 +2,6 @@ DEPS=(
     "base-devel"
     "stow"
     "freetype2"
-    "foot"
     "vim"
     "nvim"
     "yazi"
