@@ -7,7 +7,7 @@ OSD_LOG_FILE="/tmp/swayosd.log"
 function kill_yzshell() {
     killall waybar
     killall swayosd-server
-    killall swaybg
+    [ "$1" != "--no-wallpaper" ] && killall swaybg
     killall eww
 }
 
@@ -18,17 +18,22 @@ function ensure_hyprland_plugins() {
         (
             sleep 15
             exec $terminal -e yzshell-install-hyprland-plugins
-        ) & disown
+        ) &
+        disown
     fi
 }
 
 function launch_yzshell() {
-    exec yzwallpaper > /dev/null 2>&1 & disown
-    exec waybar > $BAR_LOG_FILE 2>&1 & disown
+    [ "$1" != "--no-wallpaper" ] && exec yzwallpaper >/dev/null 2>&1 &
+    disown
+    exec waybar >$BAR_LOG_FILE 2>&1 &
+    disown
     echo ">> Bar logs: ${BAR_LOG_FILE}"
-    exec yzwidgets init > $EWW_LOG_FILE 2>&1 & disown
+    exec yzwidgets init >$EWW_LOG_FILE 2>&1 &
+    disown
     echo ">> Widget logs: ${EWW_LOG_FILE}"
-    exec swayosd-server > $OSD_LOG_FILE 2>&1 & disown
+    exec swayosd-server >$OSD_LOG_FILE 2>&1 &
+    disown
     echo ">> OSD logs: ${OSD_LOG_FILE}"
     hyprctl reload &
     makoctl reload &
@@ -40,7 +45,7 @@ function get_logs() {
         "bar") tail -f $BAR_LOG_FILE ;;
         "widgets") tail -f $EWW_LOG_FILE ;;
         "osd") tail -f $OSD_LOG_FILE ;;
-        *) 
+        *)
             echo "Error: invalid argument to 'yzshell logs': ${1}"
             exit 1
             ;;
@@ -65,7 +70,7 @@ function yzshell_cmd() {
         *)
             echo "Error: invalid argument to yzshell cmd: '${1}'"
             exit 1
-        ;;
+            ;;
     esac
 }
 
@@ -82,20 +87,22 @@ function help() {
                 toggle_dnd: toggle do-not-disturb
         launch (default): launch shell
         kill: kill shell
-        reload: reload shell
+        reload [FLAGS]: reload shell
+            Flags:
+                --no-wallpaper: don't reload wallpaper
     "
 }
 
 function main() {
     case "$1" in
         "" | "launch") launch_yzshell ;;
-        kill) kill_yzshell ;;
-        reload)
-            kill_yzshell
-            launch_yzshell
+        "kill") kill_yzshell ;;
+        "reload")
+            kill_yzshell "$2"
+            launch_yzshell "$2"
             ;;
-        logs) get_logs "$2" ;;
-        cmd) yzshell_cmd "$2" ;;
+        "logs") get_logs "$2" ;;
+        "cmd") yzshell_cmd "$2" ;;
         *) help ;;
     esac
 }
