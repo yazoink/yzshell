@@ -215,7 +215,12 @@ def deploy_configs(cfg):
     c["battery#icon"]["bat"] = battery_name
     c["battery#percentage"]["bat"] = battery_name
 
-    with open(path.join(CONFIG_DIR, "waybar/config.jsonc"), "w") as f:
+    d = path.join(CONFIG_DIR, "waybar")
+
+    if path.exists(d) == False:
+        makedirs(d)
+
+    with open(path.join(d, "config.jsonc"), "w") as f:
         f.write(json.dumps(c))
 
     subprocess.Popen(
