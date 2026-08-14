@@ -226,10 +226,11 @@ def deploy_configs(cfg):
     subprocess.Popen(
         f'''
         stow --target='{path.expanduser("~")}' --dir='{STOW_DIR}' -R .
-        gsettings set org.gnome.desktop.interface color-scheme prefer{data["polarity"]}
+        gsettings set org.gnome.desktop.interface color-scheme prefer-{data["polarity"]}
         gsettings set org.gnome.desktop.interface cursor-theme {data["cursor_theme"]}
         papirus-folders -C {data["papirus_folders_colour"]} --theme {data["icon_theme"]}
         gsettings set org.gnome.desktop.interface icon-theme {data["icon_theme"]}
+        hyprctl setcursor {data["cursor_theme"]} 32
         ''',
         shell=True,
         stdout=subprocess.DEVNULL,

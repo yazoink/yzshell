@@ -4,6 +4,8 @@ hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 
 hl.env("XCURSOR_SIZE", 32)
 hl.env("XCURSOR_THEME", cursor_theme)
+hl.env("HYPRCURSOR_THEME", cursor_theme)
+hl.env("HYPRCURSOR_SIZE", "32")
 hl.env("GTK_THEME", "adw-gtk3")
 
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")
