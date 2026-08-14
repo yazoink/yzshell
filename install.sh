@@ -202,8 +202,10 @@ function main() {
     if [ $install_deps -eq 0 ]; then
         source "${SRC_DIR}/install/filemanager.sh"
         source "${SRC_DIR}/install/terminal.sh"
+        source "${SRC_DIR}/install/gpu.sh"
         install_file_manager
         install_terminal
+        install_gpu_drivers
         install_mpd
     fi
     yzconf deploy_configs -r
