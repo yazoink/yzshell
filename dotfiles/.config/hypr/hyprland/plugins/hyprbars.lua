@@ -43,7 +43,8 @@ if hl.plugin.hyprbars ~= nil then
         fg_color = yellow,
         size = 16,
         icon = "",
-        action = "hyprctl dispatch 'hl.dsp.window.move({workspace=\"special:special\", follow=false})'",
+        --action = "hyprctl dispatch 'hl.dsp.window.move({workspace=\"special:special\", follow=false})'",
+        action = "hyprctl dispatch 'hl.dsp.window.float({action=\"toggle\"})'"
     })
 
     hl.plugin.hyprbars.add_button({

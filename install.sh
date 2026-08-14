@@ -69,7 +69,7 @@ function install_yay() {
         echo ">> Installing yay..."
         local -
         set -e
-        sudo pacman -S -y --needed base-devel
+        sudo pacman -S --needed --no-confirm base-devel
         mkdir ~/src
         git clone https://aur.archlinux.org/yay.git ~/src/yay
         exit_if_failed $? "failed to download yay"
