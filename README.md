@@ -22,8 +22,8 @@ My very messy dotfiles.
 ## Installation
 
 Prerequisites:
+
 - Base Arch install
-- Graphics drivers
 - NetworkManager
 - Pipewire
 - `git` or `curl`
