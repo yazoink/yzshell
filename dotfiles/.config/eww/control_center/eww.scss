@@ -234,6 +234,7 @@
   border-radius: $inner-radius;
   background: $surface;
   .album-cover {
+    background-color: $surface2;
     border-radius: $inner-radius;
     background-size: cover;
     background-position: center;

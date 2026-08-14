@@ -38,7 +38,7 @@
       :vexpand "false" 
       :hexpand "false" 
       :style {cover_art == "" 
-          ? "background-color: rgba(255, 255, 255, 0.085);" 
+          ? "" 
           : "background-image: url('${cover_art}');"
         }
       (label 
