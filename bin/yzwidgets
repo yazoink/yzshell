@@ -427,7 +427,10 @@ def help(exitcode=0):
         power
         calendar
         screenshot
-        workspaces
+        workspaces [FLAGS]
+            Flags:
+                -a | --anchor <ANCHOR>: anchor of widget (i.e. 'left bottom')
+                -o | --orientation <h|v|horizontal|vertical>
     ''')
     exit(exitcode)
 
