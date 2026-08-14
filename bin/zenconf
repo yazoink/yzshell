@@ -267,4 +267,4 @@ if __name__ == "__main__":
         if args.unattended == True:
             print(">> Cannot install policies in unattended mode.")
             exit(1)
-        configure_policies(args.unattended)
+        configure_policies()
