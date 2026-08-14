@@ -22,7 +22,10 @@ My very messy dotfiles.
 ## Installation
 
 Prerequisites:
-- Base Arch install with graphics drivers and internet connection
+- Base Arch install
+- Graphics drivers
+- NetworkManager
+- Pipewire
 - `git` or `curl`
 
 ### With curl
