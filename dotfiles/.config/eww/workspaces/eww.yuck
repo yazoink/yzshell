@@ -36,8 +36,10 @@
     :geometry (geometry 
         :x 4
         :y 4 
-        :anchor "center bottom"
+        :anchor "bottom center"
     )
     :stacking "fg"
+    :exclusive false
+    :focusable false
     (workspaces :orientation orientation)
 )
