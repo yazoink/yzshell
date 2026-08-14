@@ -1,0 +1,25 @@
+.workspaces {
+  padding: $padding;
+  border-radius: $outer-radius;
+  background: $bg;
+  border: 1px solid $border;
+  .workspace-button {
+    background-color: $surface1;
+    border-radius: $inner-radius;
+    min-width: 225px;
+    min-height: 125px;
+    &:hover {
+      background-color: $surface2;
+    }
+    &.selected {
+      background-color: $blue;
+      label {
+        color: $background;
+      }
+    }
+    label {
+      font-weight: bold;
+      font-size: 19pt;
+    }
+  }
+}

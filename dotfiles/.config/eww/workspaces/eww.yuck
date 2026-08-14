@@ -1,0 +1,43 @@
+(defvar workspaces_visible false)
+(defpoll workspaces 
+    :interval "15s" 
+    :initial "[]" 
+    :run-while workspaces_visible
+    "hyprctl workspaces -j"
+)
+(defpoll active_workspace 
+    :interval "3s" 
+    :initial "0"
+    :run-while workspaces_visible
+    "hyprctl activeworkspace -j | jq -r '.name'"
+)
+
+(defwidget workspaces [?orientation]
+    (box
+        :class "workspaces"
+        :orientation {orientation ?: "h"}
+        :spacing 8
+        (for w in workspaces
+            (button
+                :class "workspace-button ${active_workspace == "${w["name"]}" ? "selected" : ""}"
+                :visible {"${w["name"]}" == "special:special" ? false : true}
+                :onclick 
+                    `eww poll active_workspace
+                    hyprctl dispatch 'hl.dsp.focus({workspace = ${w["id"]}})' & 
+                    yzwidgets close all &`
+                "${w["name"]}"
+            )
+        )
+    )
+)
+
+(defwindow workspaces [?orientation]
+    :monitor 0 
+    :geometry (geometry 
+        :x 4
+        :y 4 
+        :anchor "center bottom"
+    )
+    :stacking "fg"
+    (workspaces :orientation orientation)
+)

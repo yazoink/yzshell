@@ -36,19 +36,9 @@
     "tooltip": true,
     "tooltip-format": "Switch workspaces",
     "format": "",
-    "menu": "on-click",
-    "menu-file": "~/.config/waybar/workspaces.xml",
-    "menu-actions": {
-      "w-1": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"1\" })",
-      "w-2": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"2\" })",
-      "w-3": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"3\" })",
-      "w-4": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"4\" })",
-      "w-5": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"5\" })",
-      "w-6": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"6\" })",
-      "w-7": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"7\" })",
-      "w-8": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"8\" })",
-      "w-9": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"9\" })"
-    }
+    "on-click": "yzwidgets toggle workspaces -o 'v' -a 'left bottom'",
+    "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"-1\" })'",
+    "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"+1\" })'"
   },
   "group/workspaces-group": {
     "orientation": "inherit",
