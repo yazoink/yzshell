@@ -1,8 +1,7 @@
 {
   "reload_style_on_change": false,
   "layer": "top",
-  "mode": "dock",
-  "exclusive": false,
+  "exclusive": true,
   "position": "bottom",
   "spacing": 4,
   "height": 50,
