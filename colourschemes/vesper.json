@@ -1,0 +1,15 @@
+{
+    "scheme": "Vesper",
+    "author": "https://github.com/gambhirsharma/vesper.nvim",
+    "polarity": "dark",
+    "background": "101010",
+    "foreground": "b7b7b7",
+    "red": "DE6E6E",
+    "orange": "DAB083",
+    "yellow": "FFC799",
+    "green": "5F8787",
+    "cyan": "60A592",
+    "blue": "8EAAAA",
+    "purple": "D69094",
+    "brown": "876C4F"
+}
