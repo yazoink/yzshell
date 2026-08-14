@@ -2,7 +2,7 @@ hl.bind("SUPER + Return", hl.dsp.exec_cmd(terminal))
 hl.bind("SUPER + W", hl.dsp.exec_cmd(web_browser))
 hl.bind("SUPER + E", hl.dsp.exec_cmd(file_manager))
 hl.bind("SUPER + R", hl.dsp.exec_cmd(run_launcher))
-hl.bind("SUPER + SHIFT + L", hl.dsp.exec_cmd("hyprlock"))
+hl.bind("SUPER + SHIFT + L", hl.dsp.exec_cmd("hyprlock"), { submap_universal = true })
 
 -- yzshell
 hl.bind("SUPER + SHIFT + R", hl.dsp.exec_cmd("yzshell reload"), { submap_universal = true })
