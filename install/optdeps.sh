@@ -62,6 +62,23 @@ OPT_AUR_DEPS=(
     #"fixjson"
 )
 
+function install_vscode_extensions() {
+    if which code; then
+        code --install-extension pkief.material-icon-theme
+        code --install-extension pkief.material-product-icons
+        code --install-extension meta.pyrefly
+        code --install-extension pinage404.bash-extension-pack
+        code --install-extension eww-yuck.yuck
+        code --install-extension devsense.phptools-vscode
+        code --install-extension redhat.vscode-yaml
+        code --install-extension redhat.vscode-xml
+        code --install-extension ecmel.vscode-html-css
+        code --install-extension yzhang.markdown-all-in-one
+        code --install-extension tamasfe.even-better-toml
+        code --install-extension sumneko.lua
+    fi
+}
+
 function install_dict() {
     echo ">> Installing dict..."
     curl -s https://raw.githubusercontent.com/yazoink/dict/refs/heads/main/dict > /tmp/dict
