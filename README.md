@@ -18,6 +18,13 @@ My very messy dotfiles.
 ## Screenshots
 
 <img width="1366" height="768" alt="20260807_22:46:23" src="https://github.com/user-attachments/assets/21aed7b9-3430-4573-9449-1fcf0bd9a67c" />
+<img width="2560" height="1440" alt="20260814_20:43:48" src="https://github.com/user-attachments/assets/9f1c638e-cf07-4b0f-82f5-c4cc635d3ea3" />
+<img width="2560" height="1440" alt="20260814_20:45:01" src="https://github.com/user-attachments/assets/4423cae8-1861-4549-8048-ee54192ba781" />
+<img width="2560" height="1440" alt="20260814_20:52:55" src="https://github.com/user-attachments/assets/79676107-7794-4491-946e-54a3a9c55166" />
+<img width="707" height="587" alt="20260814_20:45:36" src="https://github.com/user-attachments/assets/a892f7b3-8bf2-4084-b2f8-756b83bad376" />
+<img width="585" height="483" alt="20260814_20:45:47" src="https://github.com/user-attachments/assets/11a965e1-834c-4295-ae64-d7a525bafddf" />
+<img width="655" height="152" alt="20260814_20:49:26" src="https://github.com/user-attachments/assets/63c62f86-868c-44c4-8c93-720da4b5c47a" />
+<img width="546" height="85" alt="20260814_20:50:35" src="https://github.com/user-attachments/assets/e8b43321-1925-4424-b53c-be088c30c8c5" />
 
 ## Installation
 
