@@ -197,7 +197,7 @@ function main() {
         install_aur_pkgs "${OPT_AUR_DEPS[@]}"
         install_dict
         install_soundboard
-        install_vscode_extensions
+        install_vscode
     fi
     copy_files
     if [ $install_deps -eq 0 ]; then

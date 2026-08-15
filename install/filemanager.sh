@@ -26,6 +26,8 @@ function other_file_manager() {
 }
 
 function install_file_manager() {
+    which thunar > /dev/null && yzconf set "file_manager" "thunar" && return
+    which pcmanfm > /dev/null && yzconf set "file_manager" "pcmanfm" && return
     fm=""
     echo "
 #### FILE MANAGER ####

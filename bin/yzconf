@@ -72,7 +72,9 @@ def get_default_config():
         "run_launcher": "wofi --show run",
         "touchpad_scroll_factor": 0.15,
         "oh_my_zsh_theme": "robbyrussell",
-        "papirus_folders_colour": "palebrown"
+        "papirus_folders_colour": "palebrown",
+        "configure_vscodium": True,
+        "configure_nvim": True
     }
 
 def get_config():
@@ -184,6 +186,16 @@ def write_config(cfg):
     with open(CONFIG_FILE, "w") as f:
         f.write(json.dumps(cfg, indent=4))
 
+
+def delete_if_exists(p):
+    if path.isdir(p) == True:
+        rmtree(p)
+    elif path.isfile(p) == True:
+        remove(p)
+    elif path.islink(p) == True:
+        unlink(p)
+
+
 def deploy_configs(cfg):
     from shutil import copytree
     sch = get_colourscheme(cfg["colourscheme"])
@@ -222,6 +234,11 @@ def deploy_configs(cfg):
 
     with open(path.join(d, "config.jsonc"), "w") as f:
         f.write(json.dumps(c))
+
+    if cfg["configure_vscodium"] == False:
+        delete_if_exists(path.join(STOW_DIR, ".config/Code - OSS"))
+    if cfg["configure_nvim"] == False:
+        delete_if_exists(path.join(STOW_DIR, ".config/nvim"))
 
     subprocess.Popen(
         f'''

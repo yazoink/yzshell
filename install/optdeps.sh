@@ -1,5 +1,4 @@
 OPT_DEPS=(
-    "code"
     "fastfetch"
     "gimp"
     "htop"
@@ -62,50 +61,56 @@ OPT_AUR_DEPS=(
     #"fixjson"
 )
 
-function install_vscode_extensions() {
-    if which code; then
-        code --install-extension pkief.material-icon-theme
-        code --install-extension pkief.material-product-icons
-        code --install-extension meta.pyrefly
-        code --install-extension pinage404.bash-extension-pack
-        code --install-extension eww-yuck.yuck
-        code --install-extension devsense.phptools-vscode
-        code --install-extension redhat.vscode-yaml
-        code --install-extension redhat.vscode-xml
-        code --install-extension ecmel.vscode-html-css
-        code --install-extension yzhang.markdown-all-in-one
-        code --install-extension tamasfe.even-better-toml
-        code --install-extension sumneko.lua
-    fi
+function install_vscode() {
+    ! answer_yes "Install VsCodium?" && return 1
+    install_pkg "code"
+    code --install-extension pkief.material-icon-theme
+    code --install-extension pkief.material-product-icons
+    code --install-extension meta.pyrefly
+    code --install-extension pinage404.bash-extension-pack
+    code --install-extension eww-yuck.yuck
+    code --install-extension devsense.phptools-vscode
+    code --install-extension redhat.vscode-yaml
+    code --install-extension redhat.vscode-xml
+    code --install-extension ecmel.vscode-html-css
+    code --install-extension yzhang.markdown-all-in-one
+    code --install-extension tamasfe.even-better-toml
+    code --install-extension sumneko.lua
 }
 
 function install_dict() {
-    echo ">> Installing dict..."
-    curl -s https://raw.githubusercontent.com/yazoink/dict/refs/heads/main/dict > /tmp/dict
-    sudo install -Dm755 /tmp/dict /usr/bin/dict
-    rm /tmp/dict
+    if ! which dict > /dev/null; then
+        ! answer_yes "Install dict (https://github.com/yazoink/dict)?" && return 1
+        echo ">> Installing dict..."
+        curl -s https://raw.githubusercontent.com/yazoink/dict/refs/heads/main/dict > /tmp/dict
+        sudo install -Dm755 /tmp/dict /usr/bin/dict
+        rm /tmp/dict
+    fi
 }
 
 function install_soundboard() {
-    echo ">> Installing soundboard..."
-    deps=(
-        "python"
-        "python-gobject"
-        "alsa-utils"
-        "git"
-    )
-    install_pkgs "${deps[@]}"
+    if ! which soundboard > /dev/null; then
+        ! answer_yes "Install soundboard (https://github.com/yazoink/soundboard)?" && return 1
+        echo ">> Installing soundboard..."
+        deps=(
+            "python"
+            "python-gobject"
+            "alsa-utils"
+            "git"
+        )
+        install_pkgs "${deps[@]}"
 
-    [ ! -d ~/src ] && mkdir -p ~/src
-    git clone https://github.com/yazoink/soundboard.git ~/src/soundboard
-    sudo mkdir -p /usr/share/soundboard/
-    sudo cp -rf ~/src/soundboard/sounds /usr/share/soundboard/sounds
-    [ ! -d ~/.config/soundboard ] && mkdir -p ~/.config/soundboard
-    cp ~/src/soundboard/config.json ~/.config/soundboard/config.json
-    sudo install -Dm755 ~/src/soundboard/soundboard.py /usr/bin/soundboard
-    echo "[Desktop Entry]
+        [ ! -d ~/src ] && mkdir -p ~/src
+        git clone https://github.com/yazoink/soundboard.git ~/src/soundboard
+        sudo mkdir -p /usr/share/soundboard/
+        sudo cp -rf ~/src/soundboard/sounds /usr/share/soundboard/sounds
+        [ ! -d ~/.config/soundboard ] && mkdir -p ~/.config/soundboard
+        cp ~/src/soundboard/config.json ~/.config/soundboard/config.json
+        sudo install -Dm755 ~/src/soundboard/soundboard.py /usr/bin/soundboard
+        echo "[Desktop Entry]
 Name=Soundboard
 Comment=play sounds and stuff
 Exec=soundboard
-Type=Application" | sudo tee /usr/share/applications/soundboard.desktop >/dev/null
+Type=Application" | sudo tee /usr/share/applications/soundboard.desktop > /dev/null
+    fi
 }
