@@ -56,6 +56,7 @@ My very messy dotfiles.
 - Mod + \[Left|Right|Up|Down]: focus in direction
 - Mod + Shift + \[Left|Right|Up|Down]: move active window in direction
 - Mod + \[-|=]: increase/decrease split ratio
+- Mod + K: swap split
 
 ### Widgets
 
