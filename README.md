@@ -97,10 +97,11 @@ My very messy dotfiles.
 
 <img width="1366" height="768" alt="20260807_22:46:23" src="https://github.com/user-attachments/assets/21aed7b9-3430-4573-9449-1fcf0bd9a67c" />
 <img width="1366" height="768" alt="20260815_11:09:20" src="https://github.com/user-attachments/assets/fb96b68f-5c1d-49d2-ab51-5f64bb32096d" />
-<img width="2560" height="1440" alt="20260814_20:43:48" src="https://github.com/user-attachments/assets/9f1c638e-cf07-4b0f-82f5-c4cc635d3ea3" />
+<img width="1366" height="768" alt="20260815_18:58:47" src="https://github.com/user-attachments/assets/dbf5045b-3a65-4b1e-9bab-45ab979ec7d7" />
+<img width="1366" height="768" alt="20260815_19:01:23" src="https://github.com/user-attachments/assets/ce07f2ef-582b-4d08-98e9-ab6a6c3a74e1" />
+<img width="1366" height="768" alt="20260815_19:03:19" src="https://github.com/user-attachments/assets/486dc32a-8986-440d-a0b6-b41a0958ee0b" />
 <img width="2560" height="1440" alt="20260814_20:45:01" src="https://github.com/user-attachments/assets/4423cae8-1861-4549-8048-ee54192ba781" />
 <img width="2560" height="1440" alt="20260814_20:52:55" src="https://github.com/user-attachments/assets/79676107-7794-4491-946e-54a3a9c55166" />
-<img width="2560" height="1440" alt="20260814_21:04:33" src="https://github.com/user-attachments/assets/8d7b9490-7a24-472b-af3b-86890caa1089" />
 <img width="707" height="587" alt="20260814_20:45:36" src="https://github.com/user-attachments/assets/a892f7b3-8bf2-4084-b2f8-756b83bad376" />
 <img width="585" height="483" alt="20260814_20:45:47" src="https://github.com/user-attachments/assets/11a965e1-834c-4295-ae64-d7a525bafddf" />
 <img width="655" height="152" alt="20260814_20:49:26" src="https://github.com/user-attachments/assets/63c62f86-868c-44c4-8c93-720da4b5c47a" />
