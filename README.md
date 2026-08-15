@@ -18,6 +18,7 @@ My very messy dotfiles.
 ## Screenshots
 
 <img width="1366" height="768" alt="20260807_22:46:23" src="https://github.com/user-attachments/assets/21aed7b9-3430-4573-9449-1fcf0bd9a67c" />
+<img width="1366" height="768" alt="20260815_11:09:20" src="https://github.com/user-attachments/assets/fb96b68f-5c1d-49d2-ab51-5f64bb32096d" />
 <img width="2560" height="1440" alt="20260814_20:43:48" src="https://github.com/user-attachments/assets/9f1c638e-cf07-4b0f-82f5-c4cc635d3ea3" />
 <img width="2560" height="1440" alt="20260814_20:45:01" src="https://github.com/user-attachments/assets/4423cae8-1861-4549-8048-ee54192ba781" />
 <img width="2560" height="1440" alt="20260814_20:52:55" src="https://github.com/user-attachments/assets/79676107-7794-4491-946e-54a3a9c55166" />
