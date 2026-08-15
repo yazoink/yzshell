@@ -66,6 +66,8 @@ DEPS=(
     "cmake"
     "meson"
     "gcc"
+    "pigz"
+    "pbzip2"
 )
 
 AUR_DEPS=(
