@@ -83,7 +83,7 @@ function install_vscode() {
 }
 
 function install_dict() {
-    if ! which dict > /dev/null; then
+    if ! which dict > /dev/null 2>&1; then
         ! answer_yes "Install dict (https://github.com/yazoink/dict)?" && return 1
         echo ">> Installing dict..."
         curl -s https://raw.githubusercontent.com/yazoink/dict/refs/heads/main/dict > /tmp/dict
@@ -93,7 +93,7 @@ function install_dict() {
 }
 
 function install_soundboard() {
-    if ! which soundboard > /dev/null; then
+    if ! which soundboard > /dev/null 2>&1; then
         ! answer_yes "Install soundboard (https://github.com/yazoink/soundboard)?" && return 1
         echo ">> Installing soundboard..."
         deps=(

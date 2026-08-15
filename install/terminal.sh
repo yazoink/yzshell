@@ -18,8 +18,8 @@ function other_terminal() {
 }
 
 function install_terminal() {
-    which foot > /dev/null && yzconf set "terminal" "foot" && return
-    which alacritty > /dev/null && yzconf set "terminal" "alacritty" && return
+    which foot > /dev/null 2>&1 && yzconf set "terminal" "foot" && return
+    which alacritty > /dev/null 2>&1 && yzconf set "terminal" "alacritty" && return
     term=""
     echo "
 #### TERMINAL ####

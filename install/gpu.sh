@@ -6,7 +6,7 @@ function install_intel() {
 1. Standard
 2. Legacy (Gen 2-7)
 3. Cancel"
-    while True; do
+    while true; do
         read -p ">> Select drivers [1-3]: " a
         [[ "${a}" =~ [1-3] ]] && break
     done
@@ -52,7 +52,7 @@ function install_gpu_drivers() {
 #### GRAPHICS DRIVERS ####
 1. Intel
 2. AMD
-3. I will deal with grpahics drivers"
+3. I will deal with graphics drivers"
     while true; do
         read -p ">> Install file manager [1-3]: " fm
         [[ "${fm}" =~ [1-3] ]] && break

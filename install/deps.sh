@@ -47,6 +47,7 @@ DEPS=(
     "swayidle"
     "hyprlock"
     "network-manager-applet"
+    "nm-connection-editor"
     "pavucontrol"
     "zsh"
     "zsh-completions"
