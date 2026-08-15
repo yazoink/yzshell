@@ -15,6 +15,14 @@ My very messy dotfiles.
 - Browser: Zen
 - File manager: Thunar or PCManFM
 
+## Features
+
+- Really bad code
+- Various application themes/configs (Zen Browser, Neovim, Vscodium, Vesktop, ncmpcpp, etc.)
+- Colourscheme and wallpaper switcher
+- Inbuilt screenshot and screen recording utilities
+- Unified theming for GTK 3/4 and Qt 5/6
+
 ## Screenshots
 
 <img width="1366" height="768" alt="20260807_22:46:23" src="https://github.com/user-attachments/assets/21aed7b9-3430-4573-9449-1fcf0bd9a67c" />
@@ -32,7 +40,7 @@ My very messy dotfiles.
 
 Prerequisites:
 
-- Base Arch install
+- Base Arch install (I do not recommend installing on a system with any existing configs, it will just override some stuff and also stow will complain)
 - NetworkManager
 - Pipewire
 - `git` or `curl`
