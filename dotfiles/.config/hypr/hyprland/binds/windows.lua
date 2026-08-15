@@ -37,3 +37,5 @@ end
 -- split ratio
 hl.bind("SUPER + Minus", hl.dsp.layout("splitratio -0.1"), { repeating = true })
 hl.bind("SUPER + Equal", hl.dsp.layout("splitratio +0.1"), { repeating = true })
+
+hl.bind("SUPER + K", hl.dsp.layout("swapsplit"))
