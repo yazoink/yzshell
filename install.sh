@@ -237,11 +237,11 @@ function main() {
     fi
     echo "
 #### NOTES ####
->> To configure Zen Browser: once there is at least one profile in ~/.config/zen, run 'zenconf --select-profile' to ensure its configuration."
-    echo ">> Make sure Pipewire is installed and NetworkManager is in use! "
-    echo ">> Run 'chsh -s \"\$(which zsh)\"' to switch to Zsh."
-    echo ">> A reboot is recommended after the initial installation."
-    echo "
+>> To configure Zen Browser: once there is at least one profile in ~/.config/zen, run 'zenconf --select-profile' to ensure its configuration.
+>> Make sure Pipewire is installed and NetworkManager is in use!
+>> Run 'chsh -s \"\$(which zsh)\"' to switch to Zsh.
+>> A reboot is recommended after the initial installation.
+
 Done!"
 }
 
