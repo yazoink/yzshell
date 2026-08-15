@@ -66,6 +66,7 @@ function install_vscode() {
         "pkief.material-icon-theme"
         "pkief.material-product-icons"
         "meta.pyrefly"
+        "ms-python.python"
         "pinage404.bash-extension-pack"
         "eww-yuck.yuck"
         "devsense.phptools-vscode"

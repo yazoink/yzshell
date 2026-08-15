@@ -185,13 +185,12 @@ def init_widgets():
 
 
 def get_screen():
-    r = subprocess.run(
-        "hyprctl activeworkspace -j",
+    return subprocess.run(
+        "hyprctl monitors -j | jq '.[] | .id'",
         shell=True,
         text=True,
         capture_output=True
-    ).stdout
-    return str(json.loads(r)["monitorID"])
+    ).stdout.strip()
 
 
 def open_control_center(screen):
