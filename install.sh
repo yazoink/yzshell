@@ -185,7 +185,6 @@ function main() {
         deps_import_gpg_keys
         install_pkgs "${DEPS[@]}"
         install_aur_pkgs "${AUR_DEPS[@]}"
-        install_oh_my_zsh
     fi
     # INSTALL OPTIONAL DEPS
     if [ $install_opt_deps -eq 0 ]; then
@@ -214,6 +213,7 @@ function main() {
         source "${SRC_DIR}/install/terminal.sh"
         source "${SRC_DIR}/install/browser.sh"
         source "${SRC_DIR}/install/gpu.sh"
+        install_oh_my_zsh
         if answer_yes "Configure nvim with yzshell?"; then
             yzconf set "configure_nvim" "true"
         else
@@ -239,6 +239,7 @@ function main() {
 >> To configure Zen Browser: once there is at least one profile in ~/.config/zen, run 'zenconf --select-profile' to ensure its configuration.
 >> Make sure Pipewire is installed and NetworkManager is in use!
 >> Run 'chsh -s \"\$(which zsh)\"' to switch to Zsh.
+>> Hyprland is configured to start on TTY login from '~/.zprofile' -- if you are not using Zsh, it will need to be launched manually with 'exec dbus-run-session start-hyprland', or from a display manager.
 >> A reboot is recommended after the initial installation.
 
 Done!"

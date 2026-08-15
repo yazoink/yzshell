@@ -75,7 +75,8 @@ def get_default_config():
         "papirus_folders_colour": "palebrown",
         "configure_vscodium": False,
         "configure_nvim": False,
-        "configure_vesktop": False
+        "configure_vesktop": False,
+        "configure_zsh": False
     }
 
 def get_config():
@@ -242,6 +243,9 @@ def deploy_configs(cfg):
         delete_if_exists(path.join(STOW_DIR, ".config/nvim"))
     if cfg["configure_vesktop"] == False:
         delete_if_exists(path.join(STOW_DIR, ".config/vesktop/settings.json"))
+    if cfg["configure_zsh"] == False:
+        delete_if_exists(path.join(STOW_DIR, ".zshrc"))
+        delete_if_exists(path.join(STOW_DIR, ".oh-my-zsh"))
 
     subprocess.Popen(
         f'''

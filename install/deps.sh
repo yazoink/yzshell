@@ -50,8 +50,6 @@ DEPS=(
     "network-manager-applet"
     "nm-connection-editor"
     "pavucontrol"
-    "zsh"
-    "zsh-completions"
     "eza"
     "gnome-keyring"
     "adw-gtk-theme"
@@ -94,6 +92,12 @@ function deps_import_gpg_keys() {
 function install_oh_my_zsh() {
     # oh-my-zsh
     if [ ! -d ~/.oh-my-zsh ]; then
+        if ! answer_yes "Install and configure Zsh with yzshell?"; then
+            yzconf set "configure_zsh" "false"
+        fi
+        yzconf set "configure_zsh" "true"
+        pkgs=("zsh" "zsh-completions")
+        install_pkgs "${pkgs[@]}"
         sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
         exit_if_failed $? "failed to download oh-my-zsh"
         # autosuggestions
