@@ -229,7 +229,6 @@ function main() {
     yzconf deploy_configs -r
     # REMOVE SOURCE IF GIT INSTALL
     if [ $install_local -ne 0 ]; then
-        echo "REMOVE"
         if answer_yes "Delete repo at '${SRC_DIR}'?"; then
             rm -rf "${SRC_DIR}"
             echo ">> Repo deleted"
