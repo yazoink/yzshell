@@ -185,6 +185,8 @@ function main() {
         deps_import_gpg_keys
         install_pkgs "${DEPS[@]}"
         install_aur_pkgs "${AUR_DEPS[@]}"
+        sudo systemctl enable --now fstrim.timer
+        sudo systemctl enable --now systemd-oomd
         sudo systemctl enable --now swayosd-libinput-backend.service
     fi
     # INSTALL OPTIONAL DEPS
