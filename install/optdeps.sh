@@ -14,10 +14,6 @@ OPT_DEPS=(
     "kruler"
     "qbittorrent"
     "yt-dlp"
-    "mpd"
-    "ncmpcpp"
-    "mpc"
-    "ario"
     # nvim formatters
     "python-isort"
     "python-black"
@@ -50,8 +46,6 @@ OPT_DEPS=(
 )
 
 OPT_AUR_DEPS=(
-    "zen-browser-bin"
-    "vesktop-bin"
     "mpdris2-rs"
     # nvim formatters
     "alejandra"

@@ -186,11 +186,6 @@ function main() {
         install_pkgs "${DEPS[@]}"
         install_aur_pkgs "${AUR_DEPS[@]}"
         install_oh_my_zsh
-        if answer_yes "Configure nvim with yzshell?"; then
-            yzconf set "configure_nvim" "true"
-        else
-            yzconf set "configure_nvim" "false"
-        fi
     fi
     # INSTALL OPTIONAL DEPS
     if [ $install_opt_deps -eq 0 ]; then
@@ -205,6 +200,13 @@ function main() {
         else
             yzconf set "configure_vscodium" "false"
         fi
+        if answer_yes "Install and configure Vesktop with yzshell?"; then
+            yzconf set "configure_vesktop" "true"
+            install_aur_pkg "vesktop-bin"
+        else
+            yzconf set "configure_vesktop" "false"
+            echo ">> A Vesktop theme, which can be enabled manually, will still be created"
+        fi
     fi
     copy_files
     if [ $install_deps -eq 0 ]; then
@@ -212,15 +214,19 @@ function main() {
         source "${SRC_DIR}/install/terminal.sh"
         source "${SRC_DIR}/install/browser.sh"
         source "${SRC_DIR}/install/gpu.sh"
+        if answer_yes "Configure nvim with yzshell?"; then
+            yzconf set "configure_nvim" "true"
+        else
+            yzconf set "configure_nvim" "false"
+        fi
         install_file_manager
         install_terminal
         install_browser
         install_gpu_drivers
+        echo ""
         install_mpd
     fi
     yzconf deploy_configs -r
-    gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3
-    gsettings set org.gnome.desktop.interface font-name "sans 11"
     # REMOVE SOURCE IF GIT INSTALL
     if [ $install_local -ne 0 ]; then
         echo "REMOVE"
@@ -231,8 +237,7 @@ function main() {
     fi
     echo "
 #### NOTES ####
->> To configure Zen Browser: once there is at least one profile in
-   ~/.config/zen, run 'zenconf --select-profile' to ensure its configuration."
+>> To configure Zen Browser: once there is at least one profile in ~/.config/zen, run 'zenconf --select-profile' to ensure its configuration."
     echo ">> Make sure Pipewire is installed and NetworkManager is in use! "
     echo ">> Run 'chsh -s \"\$(which zsh)\"' to switch to Zsh."
     echo ">> A reboot is recommended after the initial installation."
