@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# TODO: optionally install nvim and deps, fix waybar workspaces menu, graphics
-# drivers?
-
 TARGET_DIR=~/.local/share/yzshell
 SRC_DIR=/tmp/yzshell
 EXECUTABLES=(
