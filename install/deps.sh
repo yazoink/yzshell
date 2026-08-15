@@ -119,6 +119,7 @@ function install_mpd() {
         "ario"
     )
     install_pkgs "${pkgs[@]}"
-    systemctl --user enable mpd
+    systemctl --user --now enable mpd
+    systemctl --user --now enable mpdris2-rs.service
     echo ">> MPD installed"
 }
