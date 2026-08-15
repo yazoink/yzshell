@@ -23,6 +23,74 @@ My very messy dotfiles.
 - Inbuilt screenshot and screen recording utilities
 - Unified theming for GTK 3/4 and Qt 5/6
 
+## Keybinds
+
+- Mod + Return: open terminal
+- Mod + W: open browser
+- Mod + E: open file manager
+- Mod + Shift + L: lock screen
+- Mod + R: open run launcher
+- Mod + P: open start menu
+- Mod + Shift + C: toggle calendar widget
+- Mod + Shift + Q: toggle power menu
+- Mod + Shift + A: toggle shell appearance settings
+- Mod + Tab: toggle workspace switcher
+- Mod + Shift + R: reload shell
+- Mod + Shift + B: reload bar
+- Mod + C: pick colour
+- Mod + Shift + D: toggle do-not-disturb
+- Mod + Alt + S: toggle screenshot widget
+- Mod + S: take selective screenshot
+- Mod + Ctrl + S: take full screenshot
+- Mod + Q: close active window
+- Mod + Ctrl + Q: kill active window
+- Mod + X: pin window
+- Mod + M: toggle maximise active window
+- Mod + Shift + M: toggle fullscreen active window
+- Mod + F: toggle float active window
+- Mod + \[1-9]: switch to workspace
+- Mod + Shift + \[1-9]: move active window to workspace
+- Mod + Shift + S: toggle special workspace
+- Mod + Ctrl + Up: move active window to special workspace
+- Mod + \[Left|Right|Up|Down]: focus in direction
+- Mod + Shift + \[Left|Right|Up|Down]: move active window in direction
+- Mod + \[-|=]: increase/decrease split ratio
+
+### Widgets
+
+#### Start Menu
+
+- \[Up|Down]: select app
+- Return: open selected app, or close if none selected
+- Esc: close
+
+#### Calendar
+
+- Esc: close
+
+#### Power Menu
+
+- L: lock screen
+- S: shut down
+- R: reboot
+- E: exit desktop
+- Esc: close
+
+#### Screenshot
+
+- Esc: close
+
+
+#### Appearance Settings
+
+- Esc: close
+
+#### Workspace Switcher
+
+- \[Left|Right|Up|Down]: switch to next/prev workspace
+- \[1-9]: switch to workspace and close
+- \[Esc|Tab|Return]: close
+
 ## Screenshots
 
 <img width="1366" height="768" alt="20260807_22:46:23" src="https://github.com/user-attachments/assets/21aed7b9-3430-4573-9449-1fcf0bd9a67c" />
