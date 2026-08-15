@@ -73,8 +73,8 @@ def get_default_config():
         "touchpad_scroll_factor": 0.15,
         "oh_my_zsh_theme": "robbyrussell",
         "papirus_folders_colour": "palebrown",
-        "configure_vscodium": True,
-        "configure_nvim": True
+        "configure_vscodium": False,
+        "configure_nvim": False
     }
 
 def get_config():
@@ -354,7 +354,12 @@ if __name__ == "__main__":
                 deploy_configs(cfg)
             case "set":
                 if argc > 3:
-                    cfg = set_option(cfg, argv[2], argv[3])
+                    val = argv[3]
+                    if val.lower() == "true":
+                        val = True
+                    elif val.lower() == "false":
+                        val = False
+                    cfg = set_option(cfg, argv[2], val)
                     write_config(cfg)
             case "get":
                 if argc > 2:

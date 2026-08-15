@@ -61,21 +61,36 @@ OPT_AUR_DEPS=(
     #"fixjson"
 )
 
+function install_vscode_extensions() {
+    extensions=(
+        "pkief.material-icon-theme"
+        "pkief.material-product-icons"
+        "meta.pyrefly"
+        "pinage404.bash-extension-pack"
+        "eww-yuck.yuck"
+        "devsense.phptools-vscode"
+        "redhat.vscode-yaml"
+        "redhat.vscode-xml"
+        "ecmel.vscode-html-css"
+        "yzhang.markdown-all-in-one"
+        "tamasfe.even-better-toml"
+        "sumneko.lua"
+    )
+    for e in "${extensions[@]}"; do
+        code --install-extension "${e}"
+    done
+}
+
 function install_vscode() {
-    ! answer_yes "Install VsCodium?" && return 1
-    install_pkg "code"
-    code --install-extension pkief.material-icon-theme
-    code --install-extension pkief.material-product-icons
-    code --install-extension meta.pyrefly
-    code --install-extension pinage404.bash-extension-pack
-    code --install-extension eww-yuck.yuck
-    code --install-extension devsense.phptools-vscode
-    code --install-extension redhat.vscode-yaml
-    code --install-extension redhat.vscode-xml
-    code --install-extension ecmel.vscode-html-css
-    code --install-extension yzhang.markdown-all-in-one
-    code --install-extension tamasfe.even-better-toml
-    code --install-extension sumneko.lua
+    if answer_yes "Configure Vscodium with yzshell?"; then
+        yzconf set "configure_vscodium" "true"
+        install_pkg "code"
+        install_vscode_extensions
+    else
+        yzconf set "configure_vscodium" "false"
+        ! answer_yes "Install VsCodium?" && return 1
+        install_pkg "code"
+    fi
 }
 
 function install_dict() {

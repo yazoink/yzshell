@@ -189,6 +189,11 @@ function main() {
         install_pkgs "${DEPS[@]}"
         install_aur_pkgs "${AUR_DEPS[@]}"
         install_oh_my_zsh
+        if answer_yes "Configure nvim with yzshell?"; then
+            yzconf set "configure_nvim" "true"
+        else
+            yzconf set "configure_nvim" "false"
+        fi
     fi
     # INSTALL OPTIONAL DEPS
     if [ $install_opt_deps -eq 0 ]; then
