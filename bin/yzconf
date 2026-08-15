@@ -3,6 +3,7 @@
 import json
 import subprocess
 from os import listdir, makedirs, path, remove, unlink
+from shutil import rmtree
 from sys import argv, exit, stderr
 
 CONFIG_DIR = path.expanduser("~/.config")
