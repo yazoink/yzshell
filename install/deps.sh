@@ -118,7 +118,9 @@ function install_mpd() {
         "ncmpcpp"
         "ario"
     )
+    aur_pkgs=("mpdris2-rs")
     install_pkgs "${pkgs[@]}"
+    install_aur_pkgs "${aur_pkgs[@]}"
     systemctl --user --now enable mpd
     systemctl --user --now enable mpdris2-rs.service
     echo ">> MPD installed"

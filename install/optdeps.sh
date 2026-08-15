@@ -46,7 +46,6 @@ OPT_DEPS=(
 )
 
 OPT_AUR_DEPS=(
-    "mpdris2-rs"
     # nvim formatters
     "alejandra"
     "beautysh"
