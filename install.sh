@@ -202,7 +202,12 @@ function main() {
         install_aur_pkgs "${OPT_AUR_DEPS[@]}"
         install_dict
         install_soundboard
-        install_vscode
+        if answer_yes "Install and configure Vscodium with yzshell?"; then
+            yzconf set "configure_vscodium" "true"
+            install_vscode
+        else
+            yzconf set "configure_vscodium" "false"
+        fi
     fi
     copy_files
     if [ $install_deps -eq 0 ]; then

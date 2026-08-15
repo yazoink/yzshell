@@ -61,7 +61,7 @@ OPT_AUR_DEPS=(
     #"fixjson"
 )
 
-function install_vscode_extensions() {
+function install_vscode() {
     extensions=(
         "pkief.material-icon-theme"
         "pkief.material-product-icons"
@@ -76,21 +76,10 @@ function install_vscode_extensions() {
         "tamasfe.even-better-toml"
         "sumneko.lua"
     )
+    install_pkg "code"
     for e in "${extensions[@]}"; do
         code --install-extension "${e}"
     done
-}
-
-function install_vscode() {
-    if answer_yes "Configure Vscodium with yzshell?"; then
-        yzconf set "configure_vscodium" "true"
-        install_pkg "code"
-        install_vscode_extensions
-    else
-        yzconf set "configure_vscodium" "false"
-        ! answer_yes "Install VsCodium?" && return 1
-        install_pkg "code"
-    fi
 }
 
 function install_dict() {
