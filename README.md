@@ -138,4 +138,5 @@ Install the required packages, and run:
 ```bash
 yzconf set <terminal|file_manager|web_browser> <LAUNCH CMD>
 yzconf deploy_configs -r
+yzshell reload
 ```
