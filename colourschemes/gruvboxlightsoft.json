@@ -1,0 +1,15 @@
+{
+    "scheme": "Gruvbox Light Soft",
+    "author": "Dawid Kurek (dawikur@gmail.com),\nmorhetz (https://github.com/morhetz/gruvbox)",
+    "polarity": "light",
+    "background": "f2e5bc",
+    "foreground": "504945",
+    "red": "9d0006",
+    "orange": "af3a03",
+    "yellow": "b57614",
+    "green": "79740e",
+    "cyan": "427b58",
+    "blue": "076678",
+    "purple": "8f3f71",
+    "brown": "d65d0e"
+}

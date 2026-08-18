@@ -1,15 +1,15 @@
 {
-    "scheme": "",
-    "author": "",
-    "polarity": "dark",
-    "background": "",
-    "foreground": "",
-    "red": "",
-    "orange": "",
-    "yellow": "",
-    "green": "",
-    "cyan": "",
-    "blue": "",
-    "purple": "",
-    "brown": ""
+    "scheme": "Terracotta",
+    "author": "Alexander Rossell Hayes (https://github.com/rossellhayes)",
+    "polarity": "light",
+    "background": "efeae8",
+    "foreground": "473731",
+    "red": "a75045",
+    "orange": "bd6942",
+    "yellow": "ce943e",
+    "green": "7a894a",
+    "cyan": "847f9e",
+    "blue": "625574",
+    "purple": "8d5968",
+    "brown": "b07158"
 }

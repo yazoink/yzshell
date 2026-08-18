@@ -1,0 +1,15 @@
+{
+    "scheme": "Gruvbox Material Light Soft",
+    "author": "Mayush Kumar (https://github.com/MayushKumar),\nsainnhe (https://github.com/sainnhe/gruvbox-material-vscode)",
+    "polarity": "light",
+    "background": "f2e5bc",
+    "foreground": "654735",
+    "red": "c14a4a",
+    "orange": "c35e0a",
+    "yellow": "b47109",
+    "green": "6c782e",
+    "cyan": "4c7a5d",
+    "blue": "45707a",
+    "purple": "945e80",
+    "brown": "e78a4e"
+}

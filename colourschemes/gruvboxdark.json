@@ -1,0 +1,15 @@
+{
+    "scheme": "Gruvbox Dark",
+    "author": "morhetz (https://github.com/morhetz/gruvbox)",
+    "polarity": "dark",
+    "background": "282828",
+    "foreground": "ebdbb2",
+    "red": "cc241d",
+    "orange": "d65d0e",
+    "yellow": "d79921",
+    "green": "98971a",
+    "cyan": "689d6a",
+    "blue": "458588",
+    "purple": "b16286",
+    "brown": "9d0006"
+}
