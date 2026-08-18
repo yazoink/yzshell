@@ -49,6 +49,7 @@ TEMPLATES = {
     "ncmpcpp.mustache": ".config/ncmpcpp/config",
     "ghostty.mustache": ".config/ghostty/config",
     "alacritty.toml.mustache": ".config/alacritty/alacritty.toml",
+    "cava.mustache": ".config/cava/config",
 }
 
 def get_default_config():
