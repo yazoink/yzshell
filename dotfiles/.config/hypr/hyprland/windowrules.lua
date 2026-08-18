@@ -12,3 +12,11 @@ hl.window_rule({ match = { title = "^(Authentication Required)$" }, float = true
 hl.window_rule({ match = { title = "^(Authentication Required)$" }, float = true })
 
 hl.layer_rule({match = { namespace = "search_input" }, no_anim = true})
+
+hl.window_rule({
+  name = "",
+  match = {
+    workspace = "name:special:special"
+  },
+  float = true
+})
