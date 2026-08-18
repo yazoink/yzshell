@@ -124,10 +124,8 @@ def get_colourscheme(name):
     except json.JSONDecodeError as e:
         print(f"Error: could not load colourscheme at '{scheme_file}'", file=stderr)
         exit(1)
-    scheme["surface1"] = overlay_colour(scheme["background"], scheme["foreground"], 0.1)
-    scheme["surface2"] = overlay_colour(scheme["background"], scheme["foreground"], 0.2)
-    scheme["surface3"] = overlay_colour(scheme["background"], scheme["foreground"], 0.3)
-    scheme["surface4"] = overlay_colour(scheme["background"], scheme["foreground"], 0.4)
+    for i in range(1, 5):
+        scheme[f"surface{i}"] = overlay_colour(scheme["background"], scheme["foreground"], i / 10)
     return scheme
 
 def copy_built_templates(scheme_dir):
@@ -318,6 +316,10 @@ if __name__ == "__main__":
                         for s in schemes:
                             print(s.replace(".json", ""))
                         exit(0)
+                    file = path.join(COLOURS_DIR, f"{argv[2]}.json")
+                    if path.isfile(file) == False:
+                        print(f"Error: colourscheme '{argv[2]}' not found!")
+                        exit(1)
                     cfg = set_option(cfg, "colourscheme", argv[2])
                     write_config(cfg)
                     deploy_configs(cfg)

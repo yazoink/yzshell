@@ -45,41 +45,70 @@
       }
     }
   }
-  .colours-scroller {
-    min-height: 300px;
-    background-color: $surface;
-    border-radius: $inner-radius;
-    .colours-box {
+  .colourschemes {
+    .polarity-button {
+      &.selected {
+        background-color: $blue;
+        background-image: none;
+        label {
+          color: $background;
+        }
+      }
+    }
+    .colours-box-outer {
       border-radius: $inner-radius;
-      font-weight: bold;
-      padding: $padding;
-      .scheme-button {
-        border: 1px solid $surface3;
-        .scheme-name {
-          font-size: 18pt;
-        }
-        .scheme-author {
-          opacity: 0.4;
-          font-style: italic;
-          font-weight: normal;
-          margin-bottom: $padding;
-        }
+      background-color: $surface1;
+    }
+    .colours-scroller {
+      min-height: 300px;
+      .colours-box {
         padding: $padding;
-        &:hover {
-          background-image: none;
+      }
+      .scheme-preview {
+        //border: 1px solid $surface3;
+        //margin: $padding;
+        border-radius: $outer-radius;
+        min-width: 300px;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+        .header {
+          label {
+            font-weight: bold;
+          }
+          .window-buttons, .scheme-name {
+            padding: $padding * 1.25;
+          }
+          .window-buttons label {
+            font-family: "Font Awesome 7 Free";
+            font-size: 15px;
+          }
         }
-      }
-      label {
-        padding: 0;
-      }
-      .scheme-colours label {
-        min-width: 50px;
-        min-height: 50px;
-        color: transparent;
-        border-radius: $inner-radius;
+        .body {
+          padding: $padding * 1.25;
+          .selected-text {
+            font-style: italic;
+            padding: $padding;
+          }
+          .title {
+            font-weight: bold;
+          }
+          .author-name {
+            font-weight: normal;
+            opacity: 0.4;
+            font-style: italic;
+            font-weight: normal;
+          }
+          .scheme-colours {
+            //border-radius: $inner-radius;
+            //padding: $padding;
+            .colour {
+              background-image: none;
+            }
+          }
+        }
       }
     }
   }
+  
   .fill-button label {
     // font-weight: bold;
   }

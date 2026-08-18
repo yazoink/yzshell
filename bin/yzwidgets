@@ -95,7 +95,10 @@ def settings_update_available_wallpapers(directory=None):
 
 
 def settings_set_colourschemes():
-    colourschemes = []
+    def sort_schemes(schemes):
+        return sorted(schemes, key=lambda d: d["scheme"])
+    light_colourschemes = []
+    dark_colourschemes = []
     directory = path.join(environ["HOME"], ".local/share/yzshell/colourschemes")
     files_list = listdir(directory)
     for n in files_list:
@@ -104,9 +107,15 @@ def settings_set_colourschemes():
             j = f.read()
         j = json.loads(j)
         j["id"] = n.replace(".json", "")
-        colourschemes.append(j)
+        if j["polarity"] == "light":
+            light_colourschemes.append(j)
+        else:
+            dark_colourschemes.append(j)
+    dark_colourschemes = sort_schemes(dark_colourschemes)
+    light_colourschemes = sort_schemes(light_colourschemes)
     subprocess.run(
-        f"eww update colourschemes=\"{json.dumps(colourschemes).replace("\"", "\\\"")}\"",
+        f'''eww update dark_colourschemes=\"{json.dumps(dark_colourschemes).replace("\"", "\\\"")}\"
+        eww update light_colourschemes=\"{json.dumps(light_colourschemes).replace("\"", "\\\"")}\"''',
         shell=True
     )
 

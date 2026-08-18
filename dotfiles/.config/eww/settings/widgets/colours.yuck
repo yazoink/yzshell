@@ -1,56 +1,186 @@
-(defvar colourschemes "[]")
+(defvar light_colourschemes "[]")
+(defvar dark_colourschemes "[]")
+(defvar schemes_selected 0)
+(deflisten current_scheme :run-while settings_visible "yzconf get colourscheme")
+(defvar scheme_cols `[
+  "background",
+  "foreground",
+  "red",
+  "orange",
+  "yellow",
+  "green",
+  "cyan",
+  "blue",
+  "purple",
+  "brown"
+]`)
 
-(defwidget colourschemes []
-  (scroll
-    :hscroll false
-    :vscroll true
-    :class "colours-scroller"
+(defwidget colour [hex border]
+  (button
+    :onclick "wl-copy '${hex}'; notify-send '${hex}' 'Copied to clipboard.'"
+    :class "colour"
+    :style "background-color: ${hex}; border: 1px solid ${border};"
+    :tooltip "${hex} (click to copy)"
     (box
-      :class "colours-box"
+      :width 30
+      :height 30
+    )
+  )
+)
+
+(defwidget scheme_preview [scheme]
+  (box
+    :class "scheme-preview"
+    :space-evenly false
+    :orientation "v"
+    :style "background-color: #${scheme["background"]}; border: 1px solid transparentize(#${scheme["foreground"]}, 0.9);"
+    (overlay
+      :class "header"
+      :halign "fill"
+      (box
+        :class "window-buttons"
+        :halign "start"
+        :hexpand true
+        :spacing 8
+        (label :text "" :style "color: #${scheme["red"]};")
+        (label :text "" :style "color: #${scheme["yellow"]};")
+        (label :text "" :style "color: #${scheme["green"]};")
+      )
+      (label :text "${scheme["scheme"]}" :style "color: #${scheme["foreground"]};" :class "scheme-name" :halign "center" :hexpand true)
+    )
+    (box
+      :class "body"
+      :spacing 8
       :orientation "v"
       :space-evenly false
-      :spacing 8
-      (for scheme in colourschemes
-        (button
-          :onclick "yzwidgets close all & yzconf colourscheme '${scheme["id"]}' &"
-          :class "scheme-button"
-          :tooltip "Apply colourscheme"
-          :style "background-color: #${scheme["background"]};"
-          (box
-            :orientation "v"
-            :class "scheme-box"
-            :space-evenly false
-            :spacing 8
-            (label
-              :text "${scheme["scheme"]}" 
-              :class "scheme-name"
-              :halign "start" 
-              :hexpand "true"
-              :style "color: #${scheme["foreground"]};"
-            )
-            (label
-              :text "${scheme["author"]}" 
-              :class "scheme-author"
-              :halign "start" 
-              :hexpand "true"
-              :style "color: #${scheme["foreground"]};"
-            )
-            (box
-              :spacing 8
-              :orientation "h"
-              :class "scheme-colours"
-              (label :text "" :style "background-color: #${scheme["red"]};")
-              (label :text "" :style "background-color: #${scheme["orange"]};")
-              (label :text "" :style "background-color: #${scheme["yellow"]};")
-              (label :text "" :style "background-color: #${scheme["green"]};")
-              (label :text "" :style "background-color: #${scheme["cyan"]};")
-              (label :text "" :style "background-color: #${scheme["blue"]};")
-              (label :text "" :style "background-color: #${scheme["purple"]};")
-              (label :text "" :style "background-color: #${scheme["brown"]};")
+      :valign "start"
+      :halign "fill"
+      :vexpand true
+      :hexpand true
+      (label 
+        :class "title" 
+        :style "color: #${scheme["foreground"]};" 
+        :valign "start"
+        :halign "start"
+        :vexpand true
+        :hexpand true
+        :text "Author(s)"
+      )
+      (label 
+        :class "author-name" 
+        :style "color: #${scheme["foreground"]};" 
+        :valign "start"
+        :halign "start"
+        :vexpand true
+        :hexpand true
+        :text "${scheme["author"]}"
+      )
+      (label 
+        :class "title" 
+        :style "color: #${scheme["foreground"]};" 
+        :valign "start"
+        :halign "start"
+        :vexpand true
+        :hexpand true
+        :text "Colours"
+      )
+      (box
+        :class "scheme-colours"
+        :halign "fill"
+        ;:style "background-color: transparentize(#${scheme["foreground"]}, 0.9);"
+        (box
+          :spacing 8
+          :orientation "h"
+          :halign "center"
+          :hexpand true
+          (for c in scheme_cols
+            (colour
+              :hex "#${scheme[c]}"
+              :border "transparentize(#${scheme["foreground"]}, 0.7);"
             )
           )
         )
       )
+      (stack 
+        :selected {current_scheme == "${scheme["id"]}" ? 1 : 0}
+        (button
+          :onclick "(yzconf colourscheme '${scheme["id"]}' && ${EWW_CMD} update settings_menu_item=1 && yzwidgets open settings) &"
+          :css "button {background-color: transparentize(#${scheme["foreground"]}, 0.9); &:hover {background: transparentize(#${scheme["foreground"]}, 0.8);}}"
+          (label 
+            :text "Select scheme" 
+            :style "color: #${scheme["foreground"]};"
+          )
+        )
+        (label
+          :style "color: transparentize(#${scheme["foreground"]}, 0.7); font-style: italic;"
+          :class "selected-text"
+          :text "(selected)"
+        )
+      )
     )
+  )  
+)
+
+(defwidget scheme_box [colourschemes polarity]
+  (box 
+    :class "colours-box-outer ${polarity}"
+    :style "background: url('${current_wallpaper}');"
+    (scroll
+      :hscroll false
+      :vscroll true
+      :class "colours-scroller"
+      (box
+        :class "colours-box"
+        :orientation "v"
+        :space-evenly false
+        :spacing 8
+        (for scheme in colourschemes
+          (scheme_preview :scheme scheme)
+        )
+      )
+    )
+  )
+)
+
+(defwidget scheme_polarity_buttons []
+  (box
+    :orientation "h"
+    :space-evenly false
+    :spacing 8
+    :halign "center"
+    :hexpand true
+    (button
+      :class "polarity-button ${schemes_selected == 0 ? "selected" : ""}"
+      :onclick "${EWW_CMD} update schemes_selected=0"
+      (label :text "Dark")
+    )
+    (button
+      :class "polarity-button ${schemes_selected == 1 ? "selected" : ""}"
+      :onclick "${EWW_CMD} update schemes_selected=1"
+      (label :text "Light")
+    )
+  )
+)
+
+(defwidget colourschemes []
+  (box
+    :class "colourschemes"
+    :orientation "v"
+    :space-evenly false
+    :spacing 8
+    :halign "fill"
+    (stack
+      :selected schemes_selected
+      :transition {schemes_selected == 0 ? "slideleft" : "slideright"}
+      (scheme_box
+        :colourschemes dark_colourschemes
+        :polarity "dark"
+      )
+      (scheme_box
+        :colourschemes light_colourschemes
+        :polarity "light"
+      )
+    )
+    (scheme_polarity_buttons)
   )
 )
