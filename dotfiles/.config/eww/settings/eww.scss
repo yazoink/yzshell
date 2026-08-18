@@ -71,7 +71,6 @@
       }
       .scheme-preview {
         //border: 1px solid $surface3;
-        //margin: $padding;
         border-radius: $outer-radius;
         min-width: 300px;
         box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
@@ -104,6 +103,7 @@
           }
           .scheme-colours {
             //border-radius: $inner-radius;
+            margin: $padding;
             //padding: $padding;
             .colour {
               background-image: none;
