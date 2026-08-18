@@ -1,7 +1,7 @@
 (defvar recording_output "")
 (defvar recording_format "mp4")
 (defvar record_audio false)
-(defvar recording false)
+(defpoll recording "control_center/scripts/is_recording.sh")
 (defvar mins "00")
 (defvar secs "00")
 
@@ -38,7 +38,7 @@
       (label :class "timer" :text secs)
     )
     (button
-      :onclick "pkill wf-recorder; ${EWW_CMD} update recording=false"
+      :onclick "pkill wf-recorder; ${EWW_CMD} update recording='0'"
       :halign "center"
       :hexpand "true"
       "Stop"
@@ -117,7 +117,7 @@
     (stack
       :same-size "false"
       :transition "slideleft"
-      :selected {recording ? 0 : 1}
+      :selected {recording == '1' ? 0 : 1}
       (recorder_recording)
       (recorder_not_recording)
     )
