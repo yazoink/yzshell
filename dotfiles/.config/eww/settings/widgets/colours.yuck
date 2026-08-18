@@ -172,6 +172,7 @@
     (stack
       :selected schemes_selected
       :transition {schemes_selected == 0 ? "slideleft" : "slideright"}
+      :same-size true
       (scheme_box
         :colourschemes dark_colourschemes
         :polarity "dark"
