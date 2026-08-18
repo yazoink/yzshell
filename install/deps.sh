@@ -66,6 +66,8 @@ DEPS=(
     "cmake"
     "meson"
     "gcc"
+    "pigz"
+    "pbzip2"
 )
 
 AUR_DEPS=(
@@ -118,7 +120,10 @@ function install_mpd() {
         "ncmpcpp"
         "ario"
     )
+    aur_pkgs=("mpdris2-rs")
     install_pkgs "${pkgs[@]}"
-    systemctl --user enable mpd
+    install_aur_pkgs "${aur_pkgs[@]}"
+    systemctl --user --now enable mpd
+    systemctl --user --now enable mpdris2-rs.service
     echo ">> MPD installed"
 }
