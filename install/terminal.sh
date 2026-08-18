@@ -5,7 +5,12 @@ function install_alacritty() {
 
 function install_foot() {
     install_pkg foot
-    yzconf set terminal thunar
+    yzconf set terminal foot
+}
+
+function install_ghostty() {
+    install_pkg ghostty
+    yzconf set terminal ghostty
 }
 
 function other_terminal() {
@@ -25,14 +30,16 @@ function install_terminal() {
 #### TERMINAL ####
 1. alacritty
 2. foot
+3. ghostty
 3. I already have a terminal"
     while true; do
         read -p ">> Install terminal [1-3]: " term
-        [[ "${term}" =~ [1-3] ]] && break
+        [[ "${term}" =~ [1-4] ]] && break
     done
     case "$term" in
         "1") install_alacritty ;;
         "2") install_foot ;;
-        "3") other_terminal ;;
+        "3") install_ghostty ;;
+        "4") other_terminal ;;
     esac
 }

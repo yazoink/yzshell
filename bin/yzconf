@@ -47,7 +47,7 @@ TEMPLATES = {
     "zshrc.mustache": ".zshrc",
     "mpd.conf.mustache": ".config/mpd/mpd.conf",
     "ncmpcpp.mustache": ".config/ncmpcpp/config",
-    #"ghostty.mustache": ".config/ghostty/config",
+    "ghostty.mustache": ".config/ghostty/config",
     "alacritty.toml.mustache": ".config/alacritty/alacritty.toml",
 }
 

@@ -130,3 +130,12 @@ git clone https://github.com/yazoink/yzshell
 cd yzshell
 ./install.sh --local --optional-deps
 ```
+
+## Changing the Default terminal / file manager / web browser
+
+Install the required packages, and run:       
+
+```bash
+yzconf set <terminal|file_manager|web_browser> <LAUNCH CMD>
+yzconf deploy_configs -r
+```
