@@ -94,16 +94,17 @@
           }
           .title {
             font-weight: bold;
+            font-size: 13pt;
           }
           .author-name {
             font-weight: normal;
-            opacity: 0.4;
-            font-style: italic;
+            //opacity: 0.4;
+            //font-style: italic;
             font-weight: normal;
           }
           .scheme-colours {
             //border-radius: $inner-radius;
-            margin: $padding;
+            margin: $padding / 2;
             //padding: $padding;
             .colour {
               background-image: none;

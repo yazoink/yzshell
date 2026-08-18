@@ -24,8 +24,8 @@
     :style "background-color: ${hex}; border: 1px solid ${border};"
     :tooltip "${hex} (click to copy)"
     (box
-      :width 32
-      :height 32
+      :width 30
+      :height 30
     )
   )
 )
