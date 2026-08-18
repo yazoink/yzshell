@@ -4,25 +4,25 @@
 ;(defpoll cover_art :run-while {menu_item == 0 && control_center_visible} :interval "3s"  "control_center/scripts/get_album_cover.sh")
 
 (defpoll song 
-  :run-while music_visible 
+  :run-while {menu_item == 0 && control_center_visible} 
   :interval "3s"  
   "./control_center/scripts/music_info.sh --song"
 )
 
 (defpoll song_artist 
-  :run-while music_visible 
+  :run-while {menu_item == 0 && control_center_visible} 
   :interval "3s"  
   "./control_center/scripts/music_info.sh --artist"
 )
 
 (defpoll song_status 
-  :run-while music_visible 
+  :run-while {menu_item == 0 && control_center_visible} 
   :interval "3s"  
   "./control_center/scripts/music_info.sh --status"
 )
 
 (defpoll cover_art 
-  :run-while music_visible 
+  :run-while {menu_item == 0 && control_center_visible} 
   :interval "2s"  
   "./control_center/scripts/music_info.sh --cover"
 )

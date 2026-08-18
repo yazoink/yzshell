@@ -1,7 +1,15 @@
-(defvar recording_output "")
+(deflisten recording_output 
+  :run-while {menu_item == 3 && control_center_visible} 
+  "yzconf get recording_dir"
+)
 (defvar recording_format "mp4")
 (defvar record_audio false)
-(defpoll recording :run-while control_center_visible :interval "3s" :initial "0" "control_center/scripts/is_recording.sh")
+(defpoll recording 
+  :run-while {menu_item == 3 && control_center_visible} 
+  :interval "3s" 
+  :initial "0" 
+  "control_center/scripts/is_recording.sh"
+)
 (defvar recorder_selected 0)
 (defvar mins "00")
 (defvar secs "00")

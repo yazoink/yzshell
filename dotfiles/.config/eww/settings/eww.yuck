@@ -67,7 +67,7 @@
     (stack
       :selected settings_menu_item
       :class "settings-content"
-      :same-size false
+      :same-size true
       :transition {settings_menu_item == 0 ? "slideleft" : "slideright"}
       (wallpaper)
       (colourschemes)

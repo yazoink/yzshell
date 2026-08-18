@@ -1,9 +1,8 @@
-(defvar menu_visible true)
+;(defvar menu_visible true)
 (defvar control_center_visible false)
 
 (defvar user_input "")
-(defpoll search_updater :run-while control_center_visible :interval "72h" "control_center/scripts/apps.py")
-(defvar search_results "[]")
+(deflisten search_results :run-while control_center_visible "control_center/scripts/apps.py")
 (defvar search_selected -1)
 
 (include "control_center/widgets/top_menu/top_menu.yuck")

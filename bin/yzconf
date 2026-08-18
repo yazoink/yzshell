@@ -328,7 +328,14 @@ if __name__ == "__main__":
                 if argc > 3:
                     match argv[2]:
                         case "image":
-                            p = path.abspath(argv[3])
+                            p = None
+                            if "~" in argv[3]:
+                                p = path.expanduser(argv[3])
+                            else:
+                                p = path.abspath(argv[3])
+                            if path.isfile(p) == False:
+                                print(f"Error: file '{p}' not found!")
+                                exit(1)
                             s = path.split(p)
                             cfg = set_option(cfg, "wallpaper_dir", s[0])
                             cfg = set_option(cfg, "wallpaper_image", s[1])

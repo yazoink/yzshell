@@ -24,8 +24,32 @@
     :style "background-color: ${hex}; border: 1px solid ${border};"
     :tooltip "${hex} (click to copy)"
     (box
-      :width 30
-      :height 30
+      :width 35
+      :height 35
+    )
+  )
+)
+
+(defwidget scheme_preview_heading [text text_col star_col]
+  (box
+    :orientation "h"
+    :space-evenly false
+    :spacing 8
+    (label
+      :class "title"
+      :style "color: ${star_col}; font-family: 'Font Awesome 7 Free';"
+      :valign "center"
+      :halign "start"
+      :text ""
+    )
+    (label 
+      :class "title" 
+      :style "color: ${text_col}; font-size: 17pt;" 
+      :valign "start"
+      :halign "start"
+      :vexpand true
+      :hexpand true
+      :text text
     )
   )
 )
@@ -59,18 +83,14 @@
       :halign "fill"
       :vexpand true
       :hexpand true
-      (label 
-        :class "title" 
-        :style "color: #${scheme["foreground"]};" 
-        :valign "start"
-        :halign "start"
-        :vexpand true
-        :hexpand true
+      (scheme_preview_heading
         :text "Author(s)"
+        :text_col "#${scheme["foreground"]}"
+        :star_col "#${scheme["blue"]}"
       )
       (label 
         :class "author-name" 
-        :style "color: #${scheme["foreground"]};" 
+        :style "color: #${scheme["foreground"]}; margin-bottom: 12px;" 
         :valign "start"
         :halign "start"
         :vexpand true
@@ -78,18 +98,15 @@
         :truncate true
         :text "${scheme["author"]}"
       )
-      (label 
-        :class "title" 
-        :style "color: #${scheme["foreground"]};" 
-        :valign "start"
-        :halign "start"
-        :vexpand true
-        :hexpand true
-        :text "Colours"
+      (scheme_preview_heading
+        :text "Palette"
+        :text_col "#${scheme["foreground"]}"
+        :star_col "#${scheme["blue"]}"
       )
       (box
         :class "scheme-colours"
         :halign "fill"
+        :style "margin-bottom: 12px;"
         ;:style "background-color: transparentize(#${scheme["foreground"]}, 0.9);"
         (box
           :spacing 8
@@ -99,7 +116,7 @@
           (for c in scheme_cols
             (colour
               :hex "#${scheme[c]}"
-              :border "transparentize(#${scheme["foreground"]}, 0.7);"
+              :border {c == "background" ? "#${scheme["foreground"]}" : "rgba(0, 0, 0, 0)"}
             )
           )
         )
@@ -128,7 +145,7 @@
   (box 
     :class "colours-box-outer ${polarity}"
     :style "background: url('${current_wallpaper}');"
-    :width 450
+    :width 530
     (scroll
       :hscroll false
       :vscroll true

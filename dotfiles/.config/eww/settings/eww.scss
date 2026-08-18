@@ -67,7 +67,7 @@
     .colours-scroller {
       min-height: 300px;
       .colours-box {
-        padding: $padding;
+        padding: $padding * 2;
       }
       .scheme-preview {
         //border: 1px solid $surface3;
@@ -79,7 +79,7 @@
             font-weight: bold;
           }
           .window-buttons, .scheme-name {
-            padding: $padding * 1.25;
+            padding: $padding * 1.5;
           }
           .window-buttons label {
             font-family: "Font Awesome 7 Free";
@@ -87,14 +87,14 @@
           }
         }
         .body {
-          padding: $padding * 1.25;
+          padding: $padding * 1.5;
           .selected-text {
             font-style: italic;
             padding: $padding;
           }
           .title {
             font-weight: bold;
-            font-size: 13pt;
+            font-size: 15pt;
           }
           .author-name {
             font-weight: normal;
@@ -104,7 +104,8 @@
           }
           .scheme-colours {
             //border-radius: $inner-radius;
-            margin: $padding / 2;
+            margin-top: $padding / 2;
+            margin-bottom: $padding / 2;
             //padding: $padding;
             .colour {
               background-image: none;

@@ -35,11 +35,5 @@
       )
       (label :text "${os_version}" :class "os-version" :halign "start")
     )
-    (button 
-      :class "reveal-button" 
-      :halign "end"
-      :hexpand true 
-      :onclick {menu_visible ? "${EWW_CMD} update menu_visible=false" : "${EWW_CMD} update menu_visible=true"}
-      {menu_visible ? "" : ""})
   )
 )

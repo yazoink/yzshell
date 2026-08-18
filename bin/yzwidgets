@@ -7,93 +7,6 @@ from shutil import rmtree
 from sys import argv, exit, stderr
 
 
-def screenshot_set_output():
-    directory = get_conf_opt("screenshot_dir")
-    date = subprocess.run(
-        "date +%d-%m-%Y_%H:%M:%S", 
-        shell=True, 
-        capture_output=True, 
-        text=True
-    ).stdout.strip()
-    out_path = path.join(directory, f"{date}_screenshot.png")
-    subprocess.run(f"eww update screenshot_output={out_path}", shell=True)
-
-
-def settings_update_wallpaper_thumbs(overwrite=False, directory=None):
-    from threading import Thread
-
-    from PIL import Image
-
-    cache_dir = "/tmp/wallpaper_cache"
-
-    def make_thumb(f):
-        with Image.open(path.join(directory, f)) as i:
-            MAX_SIZE = (150, 150)
-            i.thumbnail(MAX_SIZE)
-            i.save(path.join(cache_dir, f))
-
-    if path.exists(cache_dir) == True:
-        if overwrite == True:
-            rmtree(cache_dir)
-            makedirs(cache_dir)
-    else:
-        makedirs(cache_dir)
-
-    if directory == None:
-        directory = get_conf_opt("wallpaper_dir")
-
-    files = listdir(directory)
-    for f in files:
-        l = f.lower()
-        if l.endswith(('.jpg', '.png', '.jpeg')):
-            if path.exists(path.join(cache_dir, f)) == False:
-                print("??")
-                Thread(target=make_thumb, args=(f,)).start()
-
-
-def settings_update_available_wallpapers(directory=None):
-    from math import floor
-
-    columns = 3
-    available_wallpapers = []
-    cols = 0
-    rows = 0
-
-    subprocess.run(
-        "eww update wallpapers='[]'",
-        shell=True
-    )
-    if directory == None:
-        directory = get_conf_opt("wallpaper_dir")
-    settings_update_wallpaper_thumbs(directory=directory)
-    subprocess.run(
-        f"eww update wallpaper_dir='{directory}'",
-        shell=True
-    )
-    files = listdir(directory)
-    image_files = []
-    for f in files:
-        if f.endswith(('.jpg', '.png', '.jpeg')):
-            image_files.append(f)
-    if len(image_files) < 3:
-        rows = 1
-    else:
-        rows = floor(len(files) / 3)
-
-    i = 0
-    for row in range(0, rows):
-        cols = 3
-        available_wallpapers.append([])
-        for _ in range(0, cols):
-            if i < len(image_files):
-                available_wallpapers[row].append(image_files[i])
-                i += 1
-    subprocess.run(
-        f"eww update wallpapers='{json.dumps(available_wallpapers)}'",
-        shell=True
-    )
-
-
 def control_center_search_selected(direction="next"):
     r = subprocess.run(
         "eww get search_selected",
@@ -124,19 +37,6 @@ def control_center_search_selected(direction="next"):
     )
 
 
-def control_center_set_dnd_icon():
-    mode = subprocess.run(
-        "makoctl mode",
-        shell=True, 
-        text=True,
-        capture_output=True
-    ).stdout
-    if "do-not-disturb" in mode:
-        subprocess.run("eww update dnd_icon=''", shell=True)
-    else:
-        subprocess.run("eww update dnd_icon=''", shell=True)
-
-
 def get_conf_opt(opt):
     return subprocess.run(
         f"yzconf get {opt}",
@@ -147,23 +47,10 @@ def get_conf_opt(opt):
 
 
 def init_widgets():
-    wallpaper_dir = get_conf_opt("wallpaper_dir")
-    wallpaper_image = get_conf_opt("wallpaper_image")
-    wallpaper_path = path.join(wallpaper_dir, wallpaper_image)
-    wallpaper_mode = get_conf_opt("wallpaper_mode")
-    #profile_image = get_conf_opt("profile_image")
-    recording_dir = get_conf_opt("recording_dir")
     subprocess.run(
-        f'''
-        eww daemon
-        eww update recording_output='{recording_dir}'
-        eww update current_wallpaper='{wallpaper_path}'
-        eww update wallpaper_mode='{wallpaper_mode}'
-        ''',
+        "eww daemon",
         shell=True,
     )
-    control_center_set_dnd_icon()
-    settings_update_available_wallpapers(wallpaper_dir)
 
 
 def get_screen():
@@ -178,10 +65,10 @@ def get_screen():
 def open_control_center(screen):
     subprocess.run(
         f'''
+        eww update control_center_visible=true
         eww open closer --no-daemonize --screen {screen}
         eww open control_center --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"control_center\")'
-        eww update control_center_visible=true
         ''',
         shell=True,
         stdout=subprocess.DEVNULL, 
@@ -215,13 +102,13 @@ def open_workspaces(screen, args):
     args = parser.parse_args(args)
     subprocess.run(
         f'''
+        eww update workspaces_visible=true
         eww open closer --no-daemonize --screen {screen}
         eww open workspaces --no-daemonize \\
             --screen {screen} \\
             --anchor '{args.anchor}' \\
             --arg orientation='{args.orientation}' \\
             && hyprctl dispatch 'hl.dsp.submap(\"workspaces\")'
-        eww update workspaces_visible=true
         ''',
         shell=True,
         stdout=subprocess.DEVNULL, 
@@ -244,10 +131,10 @@ def close_workspaces():
 def open_settings(screen):
     subprocess.run(
         f'''
+        eww update settings_visible=true
         eww open closer --no-daemonize --screen {screen}
         eww open settings --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"settings\")'
-        eww update settings_visible=true
         ''',
         shell=True,
         stdout=subprocess.DEVNULL, 
@@ -270,6 +157,7 @@ def close_settings():
 def open_screenshot(screen):
     subprocess.run(
         f'''
+        eww update screenshot_visible=true
         eww open closer --no-daemonize --screen {screen}
         eww open screenshot --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"screenshot\")'
@@ -285,6 +173,7 @@ def close_screenshot():
     subprocess.run(
         '''
         eww close screenshot
+        eww update screenshot_visible=false
         ''',
         shell=True,
         stdout=subprocess.DEVNULL, 
@@ -309,7 +198,6 @@ def close_power():
     subprocess.run(
         '''
         eww close power
-        eww update power_visible=false
         ''',
         shell=True,
         stdout=subprocess.DEVNULL, 
@@ -350,6 +238,8 @@ def close_all_widgets():
         eww update control_center_visible=false
         eww update calendar_visible=false
         eww update settings_visible=false
+        eww update screenshot_visible=false
+        eww update workspaces_visible=false
         ''',
         shell=True,
         stdout=subprocess.DEVNULL, 
@@ -375,17 +265,6 @@ def help(exitcode=0):
         init: start daemon and initialise widgets
         ctl <COMMAND>: IPC commands
             Commands:
-                settings_update_wallpaper_thumbs [FLAGS]:
-                    update wallpaper thumbnails for settings widget
-                    Flags:
-                        -d | --directory <PATH>: specify directory to thumbnail
-                        -o | --overwrite: overwrite existing thumbnails
-                settings_update_available_wallpapers [FLAGS]: 
-                    update the wallpapers that the settings widget displays --
-                    will, by default, display wallpapers from directory 
-                    specified under 'wallpaper_dir' in yzshell config
-                    Flags:
-                        -d | --directory <PATH>: specify directory to display
                 control_center_update_weather: 
                     update the weather information displayed by the 
                     control_center widget
@@ -422,22 +301,6 @@ if __name__ == "__main__":
             case "ctl":
                 if argc > 2:
                     match argv[2]:
-                        case "settings_update_wallpaper_thumbs":
-                            import argparse
-                            parser = argparse.ArgumentParser(add_help=False)
-                            parser.add_argument("-d", "--directory", default=None)
-                            parser.add_argument("-o", "--overwrite", action='store_true', default=False)
-                            args = parser.parse_args(argv[3:])
-                            settings_update_wallpaper_thumbs(
-                                directory=args.directory, 
-                                overwrite=args.overwrite
-                            )
-                        case "settings_update_available_wallpapers":
-                            import argparse
-                            parser = argparse.ArgumentParser(add_help=False)
-                            parser.add_argument("-d", "--directory", default=None)
-                            args = parser.parse_args(argv[3:])
-                            settings_update_available_wallpapers(directory=args.directory)
                         case "control_center_update_weather":
                             control_center_update_weather()
                         case "control_center_search_selected":

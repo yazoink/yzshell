@@ -7,6 +7,8 @@
 ;(include "corners/eww.yuck")
 ;(include "notifs/eww.yuck")
 
+(defvar stack_transition "slideright")
+
 (defwindow closer
   :monitor 0
   :geometry (geometry :width "100%" :height "100%")

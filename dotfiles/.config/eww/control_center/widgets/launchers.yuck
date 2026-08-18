@@ -1,4 +1,7 @@
-(defvar dnd_icon "")
+(deflisten dnd_icon 
+  :run-while control_center_visible
+  "control_center/scripts/dnd_icon.sh"
+)
 
 (defwidget launchers []
   (box

@@ -1,9 +1,25 @@
-;(defpoll wallpapers :run-while settings_visible :interval "15s" "yzwidgets ctl settings_update_available_wallpapers")
 (defvar wallpaper_dir "")
-;(defpoll wallpaper_dir :run-while settings_visible :interval "72h" "yzconf get wallpaper_dir")
-(defvar wallpapers "[]")
-(defvar current_wallpaper "")
-(defvar wallpaper_mode "")
+(deflisten wallpapers 
+  :run-while settings_visible 
+  "settings/scripts/wallpapers.py"
+)
+(deflisten current_wallpaper 
+  :run-while settings_visible 
+  `echo "$(yzconf get wallpaper_dir)/$(yzconf get wallpaper_image)"`
+)
+(deflisten wallpaper_mode 
+  :run-while settings_visible 
+  "yzconf get wallpaper_mode"
+)
+(defvar dir_has_wallpapers false)
+
+(defwidget fill_button [text mode]
+  (button 
+    :onclick "yzconf wallpaper mode '${mode}' &" 
+    :class "fill-button${wallpaper_mode == mode ? " selected" : ""}"
+    text
+  )
+)
 
 (defwidget fill_buttons []
   (box
@@ -12,31 +28,11 @@
     :orientation "h"
     :halign "center"
     :hexpand true
-    (button 
-      :onclick "yzconf wallpaper mode 'stretch' &" 
-      :class "fill-button${wallpaper_mode == "stretch" ? " selected" : ""}"
-      "Stretch"
-    )
-    (button 
-      :onclick "yzconf wallpaper mode 'fit' &" 
-      :class "fill-button${wallpaper_mode == "fit" ? " selected" : ""}"
-      "Fit"
-    )
-    (button 
-      :onclick "yzconf wallpaper mode 'fill' &"
-      :class "fill-button${wallpaper_mode == "fill" ? " selected" : ""}"
-      "Fill"
-    )
-    (button 
-      :onclick "yzconf wallpaper mode 'center' &" 
-      :class "fill-button${wallpaper_mode == "center" ? " selected" : ""}"
-      "Center"
-    )
-    (button 
-      :onclick "yzconf wallpaper mode 'tile' &" 
-      :class "fill-button${wallpaper_mode == "tile" ? " selected" : ""}"
-      "Tile"
-    )
+    (fill_button :text "Stretch" :mode "stretch")
+    (fill_button :text "Fit" :mode "fit")
+    (fill_button :text "Fill" :mode "fill")
+    (fill_button :text "Center" :mode "center")
+    (fill_button :text "Tile" :mode "tile")
   )
 )
 
@@ -53,9 +49,14 @@
       (label :text "Directory:")
       (input 
         :value wallpaper_dir 
-        :onaccept "yzwidgets ctl settings_update_available_wallpapers -d '{}' &" 
+        :onaccept "settings/scripts/wallpapers.py -d '{}' &"
         :halign "fill"
         :hexpand true
+      )
+      (button
+        :onclick "settings/scripts/wallpapers.py -r -d '${wallpaper_dir}' &"
+        :tooltip "Reload wallpapers"
+        (label :text "" :style "font-weight: bold; font-family: 'Font Awesome 7 Free'; margin: 2px;")
       )
     )
     (scroll
@@ -67,7 +68,18 @@
         :orientation "v"
         :spacing 8
         :space-evenly false
-        (label :class "loading" :text "Loading..." :visible {wallpapers == "[]" ? true : false})
+        (stack
+          :visible {wallpapers == "[]" ? true : false}
+          :selected {dir_has_wallpapers ? 1 : 0}
+          (label
+            :class "loading" 
+            :text "No images found..." 
+          )
+          (label
+            :class "loading" 
+            :text "Loading..." 
+          )
+        )
         (for row in wallpapers
           (box
             :orientation "h"

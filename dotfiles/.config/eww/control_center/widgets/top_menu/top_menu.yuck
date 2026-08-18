@@ -9,6 +9,7 @@
   (button
     :class "${class} ${menu_item == index ? "selected" : ""}"
     :onclick "${EWW_CMD} update menu_item=${index}"
+    :onclick "scripts/slide.py ${menu_item} ${index} menu_item"
     :tooltip tooltip
     (box
       :orientation "h"
@@ -24,62 +25,58 @@
 )
 
 (defwidget control_center_menu []
-  (revealer
-    :transition "slideup"
-    :reveal menu_visible
+  (box
+    :orientation "v"
+    :space-evenly false
+    :class "menu-container"
+    (stack
+      :selected menu_item
+      :class "menu-content"
+      :same-size false
+      :transition stack_transition
+      :same-size false
+      (music)
+      (monitor)
+      (weather)
+      (recorder)
+    )
     (box
-      :orientation "v"
-      :space-evenly false
-      :class "menu-container"
-      (stack
-        :selected menu_item
-        :class "menu-content"
-        :same-size false
-        :transition "slideleft"
-        :same-size false
-        (music)
-        (monitor)
-        (weather)
-        (recorder)
-      )
+      :class "menu-box"
+      :halign "fill"
+      :space-evenly true
+      :hexpand true
       (box
-        :class "menu-box"
-        :halign "fill"
-        :space-evenly true
-        :hexpand true
-        (box
-          :orientation "h"
-          :halign "center"
-          :space-evenly false
-          :spacing 8
-          (menu_button
-            :name "Music"
-            :tooltip "Music controls"
-            :class "music"
-            :icon ""
-            :index 0
-          )
-          (menu_button
-            :name "Resources"
-            :tooltip "Resource monitor"
-            :class "monitor"
-            :icon ""
-            :index 1
-          )
-          (menu_button
-            :name "Weather"
-            :tooltip "Weather"
-            :class "weather"
-            :icon ""
-            :index 2
-          )
-          (menu_button
-            :name "Recorder"
-            :tooltip "Screen recorder"
-            :class "recorder"
-            :icon ""
-            :index 3
-          )
+        :orientation "h"
+        :halign "center"
+        :space-evenly false
+        :spacing 8
+        (menu_button
+          :name "Music"
+          :tooltip "Music controls"
+          :class "music"
+          :icon ""
+          :index 0
+        )
+        (menu_button
+          :name "Resources"
+          :tooltip "Resource monitor"
+          :class "monitor"
+          :icon ""
+          :index 1
+        )
+        (menu_button
+          :name "Weather"
+          :tooltip "Weather"
+          :class "weather"
+          :icon ""
+          :index 2
+        )
+        (menu_button
+          :name "Recorder"
+          :tooltip "Screen recorder"
+          :class "recorder"
+          :icon ""
+          :index 3
         )
       )
     )

@@ -53,7 +53,6 @@ function get_logs() {
 }
 
 function toggle_dnd() {
-    mode="$(makoctl mode)"
     if makoctl mode | grep -q do-not-disturb; then
         eww update dnd_icon=''
         makoctl mode -r do-not-disturb
