@@ -4,12 +4,12 @@
     "polarity": "dark",
     "background": "191724",
     "foreground": "E0DEF4",
-    "red": "56526E",
-    "orange": "F6C177",
-    "yellow": "EA9A97",
-    "green": "3E8FB0",
-    "cyan": "9CCFD8",
-    "blue": "C4A7E7",
-    "purple": "F6C177",
-    "brown": "56526E"
+    "red": "eb6f92",
+    "orange": "f6c177",
+    "yellow": "ebbcba",
+    "green": "31748f",
+    "cyan": "9ccfd8",
+    "blue": "c4a7e7",
+    "purple": "f6c177",
+    "brown": "524f67"
 }
