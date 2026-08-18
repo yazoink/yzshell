@@ -56,7 +56,7 @@
       (button
         :onclick "settings/scripts/wallpapers.py -r -d '${wallpaper_dir}' &"
         :tooltip "Reload wallpapers"
-        (label :text "" :style "font-weight: bold; font-family: 'Font Awesome 7 Free'; margin: 2px;")
+        (label :text "" :class "blue" :style "font-weight: bold; font-family: 'Font Awesome 7 Free'; margin: 2px;")
       )
     )
     (scroll

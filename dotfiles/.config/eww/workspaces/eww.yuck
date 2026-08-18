@@ -1,45 +1,59 @@
 (defvar workspaces_visible false)
+(defvar workspaces_width 225)
+(defvar workspaces_height 125)
 (defpoll workspaces 
     :interval "15s" 
     :initial "[]" 
     :run-while workspaces_visible
-    "hyprctl workspaces -j"
+    "workspaces/scripts/workspaces.py"
 )
-(defpoll active_workspace 
-    :interval "3s" 
-    :initial "0"
-    :run-while workspaces_visible
-    "hyprctl activeworkspace -j | jq -r '.name'"
-)
+;(defpoll active_workspace 
+;    :interval "3s" 
+;    :initial "0"
+;    :run-while workspaces_visible
+;    "hyprctl activeworkspace -j | jq -r '.name'"
+;)
+(defvar active_workspace 0)
 
-(defwidget workspaces [?orientation]
-    (box
-        :class "workspaces"
-        :orientation {orientation ?: "h"}
-        :spacing 8
-        (for w in workspaces
-            (button
-                :class "workspace-button ${active_workspace == "${w["name"]}" ? "selected" : ""}"
-                :visible {"${w["name"]}" == "special:special" ? false : true}
-                :onclick 
-                    `eww poll active_workspace
-                    hyprctl dispatch 'hl.dsp.focus({workspace = ${w["id"]}})' & 
-                    yzwidgets close all &`
-                "${w["name"]}"
+(defwidget workspaces_scroll []
+    (scroll
+        :class "workspaces-scroll"
+        :hscroll false
+        :vscroll true
+        :height workspaces_height
+        :width workspaces_width
+        (box
+            :class "workspaces-box"
+            :orientation "v"
+            :spacing 8
+            (for w in workspaces
+                (button
+                    :class "workspace-button ${active_workspace == "${w["name"]}" ? "selected" : ""}"
+                    ;:visible {"${w["name"]}" == "special:special" ? false : true}
+                    :height 125
+                    :onclick 
+                        `eww poll workspaces
+                        hyprctl dispatch 'hl.dsp.focus({workspace = ${w["id"]}})' & 
+                        yzwidgets close all &`
+                    "${w["name"]}"
+                )
             )
         )
     )
 )
 
-(defwindow workspaces [?orientation]
+(defwindow workspaces
     :monitor 0 
     :geometry (geometry 
-        :x 4
-        :y 4 
-        :anchor "bottom center"
+        :x "4px"
+        :y "4px"
+        :anchor "bottom left"
     )
     :stacking "fg"
     :exclusive false
     :focusable false
-    (workspaces :orientation orientation)
+    (box
+        :class "workspaces"
+        (workspaces_scroll)
+    )
 )

@@ -89,25 +89,12 @@ def close_control_center():
 
 
 def open_workspaces(screen, args):
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-a", "--anchor", 
-        default="center bottom"
-    )
-    parser.add_argument(
-        "-o", "--orientation",
-        default="h"
-    )
-    args = parser.parse_args(args)
     subprocess.run(
         f'''
         eww update workspaces_visible=true
         eww open closer --no-daemonize --screen {screen}
         eww open workspaces --no-daemonize \\
             --screen {screen} \\
-            --anchor '{args.anchor}' \\
-            --arg orientation='{args.orientation}' \\
             && hyprctl dispatch 'hl.dsp.submap(\"workspaces\")'
         ''',
         shell=True,
