@@ -54,6 +54,7 @@
       font-weight: bold;
       padding: $padding;
       .scheme-button {
+        border: 1px solid $surface3;
         .scheme-name {
           font-size: 18pt;
         }
