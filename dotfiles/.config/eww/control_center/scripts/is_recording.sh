@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 if pidof wf-recorder; then
-    echo '1'
+    eww update recorder_selected=0
+    echo 'true'
 else
-    echo '0'
+    eww update recorder_selected=1
+    echo 'false'
 fi

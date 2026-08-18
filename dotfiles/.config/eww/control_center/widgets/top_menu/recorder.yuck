@@ -1,7 +1,8 @@
 (defvar recording_output "")
 (defvar recording_format "mp4")
 (defvar record_audio false)
-(defpoll recording "control_center/scripts/is_recording.sh")
+(defpoll recording :run-while control_center_visible :interval "3s" :initial "0" "control_center/scripts/is_recording.sh")
+(defvar recorder_selected 0)
 (defvar mins "00")
 (defvar secs "00")
 
@@ -117,7 +118,7 @@
     (stack
       :same-size "false"
       :transition "slideleft"
-      :selected {recording == '1' ? 0 : 1}
+      :selected recorder_selected
       (recorder_recording)
       (recorder_not_recording)
     )

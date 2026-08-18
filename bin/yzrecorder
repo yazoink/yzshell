@@ -4,9 +4,11 @@ from time import sleep
 from math import floor
 import subprocess
 import argparse
-from sys import argv
+from sys import argv, stdin, stdout
 from os import path, makedirs
 from threading import Thread
+import signal
+
 
 def update_timer(i):
     mins = floor(i / 60)
@@ -43,7 +45,7 @@ def recorder(audio, display, fmt, directory, select):
     cmd = '''
     eww update mins='00' 
     eww update secs='00'
-    eww update recording=true
+    eww update recorder_selected=0
     wf-recorder'''
     if audio == "true":
         cmd += " -a"
@@ -63,18 +65,21 @@ def recorder(audio, display, fmt, directory, select):
         cmd += f" -o {display}"
     cmd += f" -f {output}"
     print(cmd)
-    p = subprocess.Popen(
-        cmd,
-        shell=True
-    )
-    i = 1
-    while p.poll() is None:
-        sleep(1)
-        Thread(target=update_timer, args=(i,)).start()
-        i += 1
+    try:
+        p = subprocess.Popen(
+            cmd,
+            shell=True,
+        )
+        i = 1
+        while p.poll() is None:
+            sleep(1)
+            Thread(target=update_timer, args=(i,)).start()
+            i += 1
+    except KeyboardInterrupt:
+        p.send_signal(signal.SIGINT)
 
     subprocess.run(
-        f"eww update recording=false; notify-send 'Recording saved' '{output}'",
+        f"eww update recorder_selected=1; notify-send 'Recording saved' '{output}'",
         shell=True
     )
 
