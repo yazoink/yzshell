@@ -1,6 +1,7 @@
 (defvar wallpaper_dir "")
 (deflisten wallpapers 
   :run-while settings_visible 
+  :initial "[]"
   "settings/scripts/wallpapers.py"
 )
 (deflisten current_wallpaper 
