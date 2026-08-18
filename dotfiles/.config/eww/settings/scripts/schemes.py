@@ -45,7 +45,7 @@ def filter_arr(qry, a):
     for sch in a:
         name = sch["scheme"].lower()
         if qry in sch["id"] or qry in name:
-            if qry == sch["id"] or qry == name:
+            if qry.startswith(sch["id"]) or qry.startswith(name):
                 r.insert(0, sch)
             else:
                 r.append(sch)
