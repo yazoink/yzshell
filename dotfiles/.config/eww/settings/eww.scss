@@ -46,6 +46,11 @@
     }
   }
   .colourschemes {
+    .filter-label {
+      margin: $padding;
+      font-style: italic;
+      opacity: 0.4;
+    }
     .polarity-button {
       &.selected {
         background-color: $blue;

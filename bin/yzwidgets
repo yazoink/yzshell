@@ -94,32 +94,6 @@ def settings_update_available_wallpapers(directory=None):
     )
 
 
-def settings_set_colourschemes():
-    def sort_schemes(schemes):
-        return sorted(schemes, key=lambda d: d["scheme"])
-    light_colourschemes = []
-    dark_colourschemes = []
-    directory = path.join(environ["HOME"], ".local/share/yzshell/colourschemes")
-    files_list = listdir(directory)
-    for n in files_list:
-        j = ""
-        with open(f"{directory}/{n}", "r") as f:
-            j = f.read()
-        j = json.loads(j)
-        j["id"] = n.replace(".json", "")
-        if j["polarity"] == "light":
-            light_colourschemes.append(j)
-        else:
-            dark_colourschemes.append(j)
-    dark_colourschemes = sort_schemes(dark_colourschemes)
-    light_colourschemes = sort_schemes(light_colourschemes)
-    subprocess.run(
-        f'''eww update dark_colourschemes=\"{json.dumps(dark_colourschemes).replace("\"", "\\\"")}\"
-        eww update light_colourschemes=\"{json.dumps(light_colourschemes).replace("\"", "\\\"")}\"''',
-        shell=True
-    )
-
-
 def control_center_search_selected(direction="next"):
     r = subprocess.run(
         "eww get search_selected",
@@ -189,7 +163,6 @@ def init_widgets():
         shell=True,
     )
     control_center_set_dnd_icon()
-    settings_set_colourschemes()
     settings_update_available_wallpapers(wallpaper_dir)
 
 
@@ -413,9 +386,6 @@ def help(exitcode=0):
                     specified under 'wallpaper_dir' in yzshell config
                     Flags:
                         -d | --directory <PATH>: specify directory to display
-                settings_set_colourschemes: 
-                    set/update the colourschemes that the settings widget 
-                    displays
                 control_center_update_weather: 
                     update the weather information displayed by the 
                     control_center widget
@@ -468,8 +438,6 @@ if __name__ == "__main__":
                             parser.add_argument("-d", "--directory", default=None)
                             args = parser.parse_args(argv[3:])
                             settings_update_available_wallpapers(directory=args.directory)
-                        case "settings_set_colourschemes":
-                            settings_set_colourschemes()
                         case "control_center_update_weather":
                             control_center_update_weather()
                         case "control_center_search_selected":

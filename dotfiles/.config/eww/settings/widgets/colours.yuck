@@ -2,6 +2,8 @@
 (defvar dark_colourschemes "[]")
 (defvar schemes_selected 0)
 (deflisten current_scheme :run-while settings_visible "yzconf get colourscheme")
+(defpoll schemes_setter :run-while settings_visible :interval "24h" "settings/scripts/schemes.py")
+(defvar scheme_query "")
 (defvar scheme_cols `[
   "background",
   "foreground",
@@ -73,6 +75,7 @@
         :halign "start"
         :vexpand true
         :hexpand true
+        :truncate true
         :text "${scheme["author"]}"
       )
       (label 
@@ -125,6 +128,7 @@
   (box 
     :class "colours-box-outer ${polarity}"
     :style "background: url('${current_wallpaper}');"
+    :width 450
     (scroll
       :hscroll false
       :vscroll true
@@ -169,6 +173,21 @@
     :space-evenly false
     :spacing 8
     :halign "fill"
+    (overlay
+      :halign "fill"
+      (input 
+        :value scheme_query
+        :halign "fill"
+        :onchange "${EWW_CMD} update scheme_query='{}'; settings/scripts/schemes.py '{}' &"
+      )
+      (label 
+        :text "Filter... " 
+        :class "filter-label" 
+        :halign "start" 
+        :hexpand true
+        :visible {scheme_query == "" ? true : false}
+      )
+    )
     (stack
       :selected schemes_selected
       :transition {schemes_selected == 0 ? "slideleft" : "slideright"}
