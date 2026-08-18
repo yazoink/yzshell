@@ -36,7 +36,7 @@
     "tooltip": true,
     "tooltip-format": "Switch workspaces",
     "format": "",
-    "on-click": "yzwidgets toggle workspaces -o 'v' -a 'left bottom'",
+    "on-click": "yzwidgets toggle workspaces",
     "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"-1\" })'",
     "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"+1\" })'"
   },
