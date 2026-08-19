@@ -4,7 +4,7 @@ import argparse
 import json
 import subprocess
 from math import floor
-from os import listdir, makedirs, path
+from os import listdir, makedirs, path, remove
 from shutil import rmtree
 from sys import argv, exit
 from threading import Thread
@@ -65,6 +65,13 @@ def update_thumbs(refresh=False, directory=None):
 
 
 if __name__ == "__main__":
+    lockfile = "/tmp/yzthumbnailer.lock"
+
+    if path.isfile(lockfile) == True:
+        exit(0)
+    with open(lockfile, "w") as f:
+        f.write("")
+
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--directory", default=None)
     parser.add_argument("-r", "--refresh", action='store_true', default=False)
@@ -122,3 +129,4 @@ if __name__ == "__main__":
         ''',
         shell=True
     )
+    remove(lockfile)
