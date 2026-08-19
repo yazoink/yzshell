@@ -22,7 +22,7 @@ My very messy dotfiles.
 - Colourscheme and wallpaper switcher
 - Inbuilt screenshot and screen recording utilities
 - Unified theming for GTK 2/3/4 and Qt 5/6
-- A bunch of CLI utilities: `yzshell`, `yzconf`, `yzpicker`, `yzrecorder`, `yzshot`, `yzwallpaper`, `yzwidgets`, `base16-to-yzshell`, and `zenconf` (run `-h` on them for details)
+- A bunch of CLI utilities: `yzshell`, `yzconf`, `yzpicker`, `yzrecorder`, `yzshot`, `yzwallpaper`, `yzwidgets`, `base16-to-yzshell-scheme`, `base16-to-yzshell-template`, and `zenconf` (run `-h` on them for details)
 
 ## Keybinds
 
@@ -212,7 +212,7 @@ To add a scheme, place it in `colourschemes/`, and it will be detected
 automatically (same goes for removals and modifications). The name of the file
 (minus the `.json`) will be used as the scheme's ID.
 
-The script at `misc/scripts/base16-to-yzshell-theme` can be used to convert
+The `base16-to-yzshell-theme` script can be used to convert
 base16 yaml themes to the yzshell format.
 
 ### Dotfiles
@@ -237,7 +237,7 @@ The colourscheme tags consist of all values declared in json, plus `surface1`,
 `<COL>-rgb-r`, `<COL>-rgb-g`, `<COL>-rgb-b`, `<COL>-hex`, and `<COL>-hex-bgr`
 are also included.
 
-The script at `misc/scripts/base16-to-yzshell-template` can be used to convert
+The `base16-to-yzshell-template` script can be used to convert
 base16 templates to yzshell templates.
 
 To add a template to yzshell, copy it to `templates/`, and add it to

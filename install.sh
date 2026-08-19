@@ -13,6 +13,8 @@ EXECUTABLES=(
     "iconfetch"
     "zenconf"
     "yzshell-install-hyprland-plugins"
+    "base16-to-yzshell-scheme"
+    "base16-to-yzshell-template"
 )
 DIRECTORIES=(
     "assets"
