@@ -233,13 +233,6 @@ def close_calendar():
     )
 
 def close_all_widgets():
-    # if is_open("control_center"):
-    #     subprocess.run(
-    #         "eww poll search_results",
-    #         shell=True,
-    #         stdout=subprocess.DEVNULL, 
-    #         stderr=subprocess.STDOUT
-    #     )
     subprocess.run(
         '''
         eww close-all
