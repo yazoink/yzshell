@@ -18,7 +18,7 @@ def update_eww(arrs):
 
 def get_all(refresh=False):
     def sort_schemes(schemes):
-        return sorted(schemes, key=lambda d: d["scheme"])
+        return sorted(schemes, key=lambda d: d["scheme"].lower())
 
     r = {"dark": [], "light": []}
 
@@ -39,6 +39,8 @@ def get_all(refresh=False):
         j["id"] = n.replace(".json", "")
         if "window_buttons" not in j:
             j["window_buttons"] = ["red", "yellow", "green"]
+        if "accent" not in j:
+            j["accent"] = "blue"
         r[j["polarity"]].append(j)
     for a in r:
         r[a] = sort_schemes(r[a])

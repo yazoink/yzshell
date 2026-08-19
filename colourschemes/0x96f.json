@@ -11,5 +11,6 @@
     "cyan": "AEE8F4",
     "blue": "49CAE4",
     "purple": "A093E2",
-    "brown": "FF8787"
+    "brown": "FF8787",
+    "accent": "cyan"
 }

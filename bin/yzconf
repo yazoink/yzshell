@@ -71,12 +71,14 @@ def get_colourscheme(name):
         "cyan",
         "blue",
         "purple",
-        "brown"
+        "brown",
+        "accent"
     ]
     scheme_file = path.join(COLOURS_DIR, f"{name}.json")
     scheme = None
     buf = None
-    window_buttons = None
+    window_buttons = ["red", "yellow", "green"]
+    accent = "blue"
 
     if path.isfile(scheme_file) == False:
         print(f"Error: colourscheme '{name}' not found", file=stderr)
@@ -97,9 +99,12 @@ def get_colourscheme(name):
         window_buttons = scheme["window_buttons"]
     else:
         window_buttons = ["red", "yellow", "green"]
+    if "accent" in scheme:
+        accent = scheme["accent"]
     scheme["window_button1"] = scheme[window_buttons[0]]
     scheme["window_button2"] = scheme[window_buttons[1]]
     scheme["window_button3"] = scheme[window_buttons[2]]
+    scheme["accent"] = scheme[accent]
 
     for c in cols:
         d = scheme[c]

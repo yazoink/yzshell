@@ -1,4 +1,118 @@
+[mgr]
+cwd = { fg = "#{{foreground}}" }
+
+# Find
+find_keyword  = { fg = "#{{yellow}}", bold = true, italic = true, underline = true }
+find_position = { fg = "#{{purple}}", bg = "reset", bold = true, italic = true }
+
+# Marker
+marker_copied   = { fg = "#{{green}}", bg = "#{{green}}" }
+marker_cut      = { fg = "#{{red}}", bg = "#{{red}}" }
+marker_marked   = { fg = "#{{green}}", bg = "#{{green}}" }
+marker_selected = { fg = "#{{yellow}}", bg = "#{{yellow}}" }
+
+# Count
+count_copied   = { fg = "#{{background}}", bg = "#{{green}}" }
+count_cut      = { fg = "#{{background}}", bg = "#{{red}}" }
+count_selected = { fg = "#{{background}}", bg = "#{{yellow}}" }
+
+# Border
+border_symbol = "│"
+border_style  = { fg = "#{{surface2}}" }
+
+[tabs]
+active   = { fg = "#{{background}}", bg = "#{{accent}}", bold = true }
+inactive = { fg = "#{{accent}}", bg = "#{{surface1}}" }
+
+[mode]
+
+normal_main = { fg = "#{{background}}", bg = "#{{accent}}", bold = true }
+normal_alt  = { fg = "#{{accent}}", bg = "#{{surface1}}" }
+
+# Select mode
+select_main = { fg = "#{{background}}", bg = "#{{green}}", bold = true }
+select_alt  = { fg = "#{{green}}", bg = "#{{surface1}}" }
+
+# Unset mode
+unset_main = { fg = "#{{background}}", bg = "#{{orange}}", bold = true }
+unset_alt  = { fg = "#{{orange}}", bg = "#{{surface1}}" }
+
+[status]
+# Permissions
+perm_sep   = { fg = "#{{surface2}}" }
+perm_type  = { fg = "#{{accent}}" }
+perm_read  = { fg = "#{{yellow}}" }
+perm_write = { fg = "#{{red}}" }
+perm_exec  = { fg = "#{{green}}" }
+
+# Progress
+progress_label  = { fg = "#{{foreground}}", bold = true }
+progress_normal = { fg = "#{{green}}", bg = "#{{surface1}}" }
+progress_error  = { fg = "#{{yellow}}", bg = "#{{red}}" }
+
+[pick]
+border   = { fg = "#{{accent}}" }
+active   = { fg = "#{{purple}}", bold = true }
+inactive = {}
+
+[input]
+border   = { fg = "#{{accent}}" }
+title    = {}
+value    = {}
+selected = { reversed = true }
+
+[cmp]
+border = { fg = "#{{accent}}" }
+
+[tasks]
+border  = { fg = "#{{accent}}" }
+title   = {}
+hovered = { fg = "#{{purple}}", bold = true }
+
+[which]
+border          = { fg = "#{{accent}}" }
+cand            = { fg = "#{{green}}" }
+rest            = { fg = "#{{surface3}}" }
+desc            = { fg = "#{{purple}}" }
+separator       = "  "
+separator_style = { fg = "#{{surface2}}" }
+
+[help]
+on      = { fg = "#{{green}}" }
+run     = { fg = "#{{purple}}" }
+hovered = { reversed = true, bold = true }
+footer  = { fg = "#{{surface1}}", bg = "#{{blue}}" }
+
+[spot]
+border   = { fg = "#{{accent}}" }
+title    = { fg = "#{{accent}}" }
+tbl_col  = { fg = "#{{green}}" }
+tbl_cell = { fg = "#{{purple}}", bg = "#{{surface1}}" }
+
+[notify]
+title_info  = { fg = "#{{green}}" }
+title_warn  = { fg = "#{{yellow}}" }
+title_error = { fg = "#{{red}}" }
+
+[filetype]
+
+rules = [
+	# Image
+	{ mime = "**/image/*", fg = "#{{green}}" },
+	# Media
+	{ mime = "**/{audio,video}/*", fg = "#{{yellow}}" },
+	# Archive
+	{ mime = "**/application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#{{purple}}" },
+	# Document
+	{ mime = "**/application/{pdf,doc,rtf}", fg = "#{{green}}" },
+	# Virtual file system
+	{ mime = "vfs/{absent,stale}", fg = "#{{surface3}}" },
+	# Fallback
+	{ url = "*", fg = "#{{foreground}}" },
+	{ url = "*/", fg = "#{{accent}}" },
+]
+
 [icon]
 prepend_conds = [
-    { if = "dir", text = "", fg = "#{{blue}}" }
+    { if = "dir", text = "", fg = "#{{accent}}" }
 ]

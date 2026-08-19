@@ -217,9 +217,12 @@ base16 yaml themes to the yzshell format:
 
 `base16-to-yzshell-theme --source base16-theme.yaml --polarity light`
 
-The colours of the titlebar buttons can also be specified by adding:
+The colours of the titlebar buttons can be specified by adding:
 `"window_buttons": ["red", "orange", "yellow"]` -- the default is
 `["red", "yellow", "green"]`.
+
+The accent colour can be specified by adding `"accent": "purple"` -- defaults
+to `"blue"`.
 
 ### Dotfiles
 
@@ -239,9 +242,11 @@ options, all colourscheme values, plus more. To view all of the available tags,
 run `yzconf dump_mustache_data`.
 
 The colourscheme tags consist of all values declared in json, plus `surface1`,
-`surface2`, `surface3`, and `surface4` (equivalent to base\[1-4]). The tags
-`<COL>-rgb-r`, `<COL>-rgb-g`, `<COL>-rgb-b`, `<COL>-hex`, and `<COL>-hex-bgr`
-are also included.
+`surface2`, `surface3`, and `surface4` (equivalent to base\[1-4]), and
+`window_button1`, `window_button2`, and `window_button3` (titlebar buttons).
+`accent` is converted from the name of its colour to the colour itself, and the
+tags `<COL>-rgb-r`, `<COL>-rgb-g`, `<COL>-rgb-b`, `<COL>-hex`, and
+`<COL>-hex-bgr` are also included.
 
 The `base16-to-yzshell-template` script can be used to convert
 base16 templates to yzshell templates:

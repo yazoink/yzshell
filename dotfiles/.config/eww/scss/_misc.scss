@@ -23,16 +23,19 @@ $inner-radius: 8px;
   min-height: 30px;
   padding: $padding;
 }
-.picker label {
-  color: $blue;
+.settings label {
+  color: $cyan;
 }
-
-.shot label {
+.picker label {
   color: $green;
 }
 
-.dnd label {
+.shot label {
   color: $yellow;
+}
+
+.dnd label {
+  color: $orange;
 }
 
 .search label {

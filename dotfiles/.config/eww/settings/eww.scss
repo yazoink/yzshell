@@ -22,13 +22,10 @@
     border-radius: $inner-radius;
     font-weight: bold;
     .wallpaper .icon {
-      color: $purple;
+      color: $red;
     }
     .colours .icon {
-      color: $green;
-    }
-    .close label {
-      color: $red;
+      color: $orange;
     }
     .selected {
       .icon {
@@ -36,11 +33,11 @@
         border-bottom-left-radius: $inner-radius;
       }
       &.wallpaper .icon {
-        background-color: $purple;
+        background-color: $red;
         color: $bg;
       }
       &.colours .icon {
-        background-color: $green;
+        background-color: $orange;
         color: $bg;
       }
     }
@@ -53,7 +50,7 @@
     }
     .polarity-button {
       &.selected {
-        background-color: $blue;
+        background-color: $accent;
         background-image: none;
         label {
           color: $background;
@@ -150,7 +147,7 @@
         &:hover {
           background-image: none;
         }
-        background-color: $blue;
+        background-color: $accent;
         color: $bg;
         border-radius: $inner-radius;
         label {

@@ -12,5 +12,6 @@
   "purple": "999999",
   "brown": "444444",
   "polarity": "dark",
-  "window_buttons": ["yellow", "green", "red"]
+  "accent": "red",
+  "window_buttons": ["red", "orange", "yellow"]
 }

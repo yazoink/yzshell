@@ -86,7 +86,7 @@
       (scheme_preview_heading
         :text "Author(s)"
         :text_col "#${scheme["foreground"]}"
-        :star_col "#${scheme["blue"]}"
+        :star_col "#${scheme[scheme.accent]}"
       )
       (label 
         :class "author-name" 
@@ -101,7 +101,7 @@
       (scheme_preview_heading
         :text "Palette"
         :text_col "#${scheme["foreground"]}"
-        :star_col "#${scheme["blue"]}"
+        :star_col "#${scheme[scheme.accent]}"
       )
       (box
         :class "scheme-colours"

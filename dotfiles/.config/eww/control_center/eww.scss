@@ -3,9 +3,6 @@
   border-radius: $outer-radius;
   background: $bg;
   border: 1px solid $border;
-   .settings label {
-     color: $purple;
-   }
   .user-box {
     .reveal-button {
       padding-right: 27px;
@@ -27,7 +24,7 @@
         font-size: 18pt;
       }
       .at {
-        color: $blue;
+        color: $accent;
         font-size: 18pt;
       }
       .hostname {
@@ -101,16 +98,16 @@
 .menu-box {
   border-radius: $inner-radius;
   .music .icon {
-    color: $blue;
+    color: $red;
   }
   .monitor .icon {
-    color: $green;
+    color: $orange;
   }
   .weather .icon {
     color: $yellow;
   }
   .recorder .icon {
-    color: $red;
+    color: $green;
   }
   .selected {
     .icon {
@@ -118,11 +115,11 @@
       border-bottom-left-radius: $inner-radius;
     }
     &.music .icon {
-      background-color: $blue;
+      background-color: $red;
       color: $bg;
     }
     &.monitor .icon {
-      background-color: $green;
+      background-color: $orange;
       color: $bg;
     }
     &.weather .icon {
@@ -130,7 +127,7 @@
       color: $bg;
     }
     &.recorder .icon {
-      background-color: $red;
+      background-color: $green;
       color: $bg;
     }
   }
@@ -174,8 +171,8 @@
   }
 
   checkbutton:checked {
-    border: 2px solid $blue;
-    background-color: $blue;
+    border: 2px solid $accent;
+    background-color: $accent;
     check {
       color: $background;
     }
@@ -378,7 +375,7 @@
         &:hover {
           background-image: none;
         }
-        background-color: $blue;
+        background-color: $accent;
         label {
           color: $bg;
         }
@@ -400,7 +397,7 @@
   border-radius: $inner-radius;
   .icon {
     padding: $padding;
-    background-color: $blue;
+    background-color: $accent;
     border-top-left-radius: $inner-radius;
     border-bottom-left-radius: $inner-radius;
     color: $bg;
