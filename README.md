@@ -230,9 +230,7 @@ All static dotfiles can be found in `dotfiles/`. All files in this directory
 get copied to `~/.dotfiles` and symlinked with stow as-is.
 
 There are some other configs which are modified during the deployment process
-that can be found in `misc/`. I would recommend checking the `deploy_configs`
-function in `bin/yzconf` before modifying them (the code is bad, sorry). Most
-dynamically configured dotfiles are templated.
+that can be found in `misc/`.
 
 #### Templates
 

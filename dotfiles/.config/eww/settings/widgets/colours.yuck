@@ -1,8 +1,16 @@
-(defvar light_colourschemes `[{"window_buttons": ["red", "yellow", "green"]}]`)
-(defvar dark_colourschemes `[{"window_buttons": ["red", "yellow", "green"]}]`)
+(defvar light_colourschemes `[]`)
+(defvar dark_colourschemes `[]`)
 (defvar schemes_selected 0)
-(deflisten current_scheme :run-while settings_visible "yzconf get colourscheme")
-(defpoll schemes_setter :run-while settings_visible :interval "24h" "settings/scripts/schemes.py")
+(deflisten current_scheme 
+    :run-while {settings_visible == false}
+    :initial ""
+    "yzconf get colourscheme"
+)
+(defpoll schemes_setter 
+    :run-while {settings_visible == false}
+    :interval "999999h"
+    "settings/scripts/schemes.py &"
+)
 (defvar scheme_query "")
 (defvar scheme_cols `[
   "background",
@@ -144,7 +152,7 @@
 (defwidget scheme_box [colourschemes polarity]
   (box 
     :class "colours-box-outer ${polarity}"
-    :style "background: url('${current_wallpaper}');"
+    :style "background-image: url('${current_wallpaper}');"
     :width 530
     (scroll
       :hscroll false
@@ -212,12 +220,15 @@
       (scheme_box
         :colourschemes dark_colourschemes
         :polarity "dark"
+        :visible {dark_colourschemes == '{"window_buttons": ["red", "yellow", "green"]}' ? false : true}
       )
       (scheme_box
         :colourschemes light_colourschemes
         :polarity "light"
+        :visible {light_colourschemes == `{"window_buttons": ["red", "yellow", "green"]}` ? false : true}
       )
     )
     (scheme_polarity_buttons)
+    (label :text schemes_setter :visible false)
   )
 )

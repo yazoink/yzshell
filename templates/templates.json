@@ -36,5 +36,7 @@
     "alacritty.toml.mustache": ".config/alacritty/alacritty.toml",
     "cava.mustache": ".config/cava/config",
     "fontconfig.conf.mustache": ".config/fontconfig/fonts.conf",
-    "gtkrc.mustache": ".gtkrc-2.0"
+    "gtkrc.mustache": ".gtkrc-2.0",
+    "waybar.jsonc.mustache": ".config/waybar/config.jsonc",
+    "newtcols.mustache": ".config/newtcols"
 }

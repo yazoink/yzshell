@@ -201,35 +201,6 @@ def deploy_configs(cfg):
         copytree(path.join(DATA_DIR, "dotfiles"), STOW_DIR)
     copy_built_templates(sch_dir, templates)
 
-    # additional config
-    c = None
-    s = path.join(DATA_DIR, "misc/waybar/config.jsonc")
-    with open(s, "r") as f:
-        buf = f.read()
-        c = json.loads(buf)
-    
-    if data["bar_show_battery"] == True:
-        c["group/quick-access"]["modules"].insert(3, "group/battery-expander")
-    if data["bar_show_backlight"] == True:
-        c["group/quick-access"]["modules"].insert(3, "group/backlight-expander")
-
-    battery_name = "AC"
-    bats = sorted(listdir("/sys/class/power_supply"))
-    for b in bats:
-        if b.startswith("BAT"):
-            battery_name = b
-            break
-    c["battery#icon"]["bat"] = battery_name
-    c["battery#percentage"]["bat"] = battery_name
-
-    d = path.join(CONFIG_DIR, "waybar")
-
-    if path.exists(d) == False:
-        makedirs(d)
-
-    with open(path.join(d, "config.jsonc"), "w") as f:
-        f.write(json.dumps(c))
-
     if cfg["configure_vscodium"] == False:
         delete_if_exists(path.join(STOW_DIR, ".config/Code - OSS"))
     if cfg["configure_nvim"] == False:
@@ -240,9 +211,16 @@ def deploy_configs(cfg):
         delete_if_exists(path.join(STOW_DIR, ".zshrc"))
         delete_if_exists(path.join(STOW_DIR, ".oh-my-zsh"))
 
+    r = subprocess.run(
+        f"stow --target='{path.expanduser("~")}' --dir='{STOW_DIR}' -R .",
+        shell=True
+    )
+    if r.returncode != 0:
+        print("Error: could not stow dotfiles, please fix any conflicts.")
+        exit(1)
+
     subprocess.Popen(
-        f'''
-        stow --target='{path.expanduser("~")}' --dir='{STOW_DIR}' -R .
+        f'''    
         gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3
         gsettings set org.gnome.desktop.interface font-name "sans 11"
         gsettings set org.gnome.desktop.interface color-scheme prefer-{data["polarity"]}

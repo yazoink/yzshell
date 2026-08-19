@@ -23,28 +23,6 @@ $inner-radius: 8px;
   min-height: 30px;
   padding: $padding;
 }
-.settings label {
-  color: $cyan;
-}
-.picker label {
-  color: $green;
-}
-
-.shot label {
-  color: $yellow;
-}
-
-.dnd label {
-  color: $orange;
-}
-
-.search label {
-  color: $purple;
-}
-
-.shutdown label {
-  color: $red;
-}
 
 tooltip {
   padding: $padding;

@@ -61,6 +61,12 @@
     "modules": [
       "network",
       "group/volume-expander"
+      {{#bar_show_battery}}
+      ,"group/battery-expander"
+      {{/bar_show_battery}}
+      {{#bar_show_backlight}}
+      ,"group/backlight-expander"
+      {{/bar_show_backlight}}
     ]
   },
   "custom/left-arrow": {
@@ -94,7 +100,7 @@
   "wireplumber#icon": {
     "format": "{icon}",
     "format-muted": "",
-    "on-click": "$(yzconf get terminal) -e alsamixer",
+    "on-click": "{{terminal}} -e alsamixer",
     "on-click-right": "amixer -D pipewire set Master toggle",
     "tooltip-format": "Volume\n- Right click to mute\n- Click to open settings\n- Scroll to adjust",
     "format-icons": {
@@ -109,7 +115,7 @@
     }
   },
   "wireplumber#volume": {
-    "on-click": "$(yzconf get terminal) -e alsamixer",
+    "on-click": "{{terminal}} -e alsamixer",
     "on-click-right": "amixer -D pipewire set Master toggle",
     "format": "{volume}%",
     "format-muted": "{volume}%"
@@ -120,8 +126,8 @@
     "format-linked": "󱘖",
     "format-disconnected": "󰤣",
     "format-disabled": "󰤮",
-    "on-click": "$(yzconf get terminal) -e nmtui",
-    "on-click-right": "$(yzconf get terminal) -e nmtui",
+    "on-click": "source ~/.config/newtcols; {{terminal}} -e nmtui",
+    "on-click-right": "source ~/.config/newtcols; {{terminal}} -e nmtui",
     "on-scroll-up": "nmcli radio wifi on",
     "on-scroll-down": "nmcli radio wifi off",
     "tooltip-format-disconnected": "No Connection",

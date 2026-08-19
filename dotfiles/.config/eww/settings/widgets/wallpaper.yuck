@@ -1,18 +1,18 @@
-(defvar wallpaper_dir "")
-(deflisten wallpapers 
-  :run-while settings_visible 
-  :initial "[]"
-  "settings/scripts/wallpapers.py"
+(deflisten wallpaper_dir "yzconf get wallpaper_dir")
+(defvar wallpapers "[]")
+(defpoll wallpapers_setter
+  :run-while {settings_visible == false}
+  :interval "999999h"
+  "settings/scripts/wallpapers.py &"
 )
 (deflisten current_wallpaper 
-  :run-while settings_visible 
   `echo "$(yzconf get wallpaper_dir)/$(yzconf get wallpaper_image)"`
 )
 (deflisten wallpaper_mode 
   :run-while settings_visible 
   "yzconf get wallpaper_mode"
 )
-(defvar dir_has_wallpapers false)
+(defvar wallpapers_loading true)
 
 (defwidget fill_button [text mode]
   (button 
@@ -71,7 +71,7 @@
         :space-evenly false
         (stack
           :visible {wallpapers == "[]" ? true : false}
-          :selected {dir_has_wallpapers ? 1 : 0}
+          :selected {wallpapers_loading ? 1 : 0}
           (label
             :class "loading" 
             :text "No images found..." 
@@ -80,6 +80,7 @@
             :class "loading" 
             :text "Loading..." 
           )
+          (label :text wallpapers_setter :visible false)
         )
         (for row in wallpapers
           (box

@@ -4,6 +4,24 @@
 (include "settings/widgets/wallpaper.yuck")
 (include "settings/widgets/colours.yuck")
 
+(defwidget settings_menu_button [index icon tooltip text class]
+    (button
+      :onclick "${EWW_CMD} update settings_menu_item=${index}"
+      :tooltip tooltip
+      :class "${class} ${settings_menu_item == index ? "selected" : ""}"
+      (box
+        :orientation "h"
+        :space-evenly false
+        (label :text icon :class "icon")
+        (revealer
+          :transition "slideright"
+          :reveal {settings_menu_item == index ? true : false}
+          (label :text text)
+        )
+      )
+    )
+)
+
 (defwindow settings
   :monitor 0
   :geometry (geometry
@@ -32,35 +50,19 @@
         :halign "center"
         :space-evenly false
         :spacing 8
-        (button
-          :onclick "${EWW_CMD} update settings_menu_item=0"
+        (settings_menu_button
+          :index 0
+          :icon ""
           :tooltip "Wallpaper settings"
-          :class "wallpaper ${settings_menu_item == 0 ? "selected" : ""}"
-          (box
-            :orientation "h"
-            :space-evenly false
-            (label :text "" :class "icon")
-            (revealer
-              :transition "slideright"
-              :reveal {settings_menu_item == 0 ? true : false}
-              (label :text "Wallpaper")
-            )
-          )
+          :text "Wallpaper"
+          :class "wallpaper"
         )
-        (button
-          :onclick "${EWW_CMD} update settings_menu_item=1"
+        (settings_menu_button
+          :index 1
+          :icon ""
           :tooltip "Colourscheme settings"
-          :class "colours ${settings_menu_item == 1 ? "selected" : ""}"
-          (box
-            :orientation "h"
-            :space-evenly false
-            (label :text "" :class "icon")
-            (revealer
-              :transition "slideright"
-              :reveal {settings_menu_item == 1 ? true : false}
-              (label :text "Colourscheme")
-            )
-          )
+          :text "Colourscheme"
+          :class "colours"
         )
       )
     )
