@@ -70,24 +70,24 @@ function install_vscode() {
         "tamasfe.even-better-toml"
         "sumneko.lua"
     )
-    install_pkg "code"
+    install_pkgs "code"
     for e in "${extensions[@]}"; do
         code --install-extension "${e}"
     done
 }
 
 function install_dict() {
-    if ! which dict > /dev/null 2>&1; then
+    if ! which dict >/dev/null 2>&1; then
         ! answer_yes "Install dict (https://github.com/yazoink/dict)?" && return 1
         echo ">> Installing dict..."
-        curl -s https://raw.githubusercontent.com/yazoink/dict/refs/heads/main/dict > /tmp/dict
+        curl -s https://raw.githubusercontent.com/yazoink/dict/refs/heads/main/dict >/tmp/dict
         sudo install -Dm755 /tmp/dict /usr/bin/dict
         rm /tmp/dict
     fi
 }
 
 function install_soundboard() {
-    if ! which soundboard > /dev/null 2>&1; then
+    if ! which soundboard >/dev/null 2>&1; then
         ! answer_yes "Install soundboard (https://github.com/yazoink/soundboard)?" && return 1
         echo ">> Installing soundboard..."
         deps=(
@@ -109,6 +109,6 @@ function install_soundboard() {
 Name=Soundboard
 Comment=play sounds and stuff
 Exec=soundboard
-Type=Application" | sudo tee /usr/share/applications/soundboard.desktop > /dev/null
+Type=Application" | sudo tee /usr/share/applications/soundboard.desktop >/dev/null
     fi
 }

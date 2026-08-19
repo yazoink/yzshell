@@ -1,15 +1,15 @@
 function install_alacritty() {
-    install_pkg "alacritty"
+    install_pkgs "alacritty"
     yzconf set terminal alacritty
 }
 
 function install_foot() {
-    install_pkg foot
+    install_pkgs foot
     yzconf set terminal foot
 }
 
 function install_ghostty() {
-    install_pkg ghostty
+    install_pkgs ghostty
     yzconf set terminal ghostty
 }
 
@@ -23,8 +23,8 @@ function other_terminal() {
 }
 
 function install_terminal() {
-    which foot > /dev/null 2>&1 && yzconf set "terminal" "foot" && return
-    which alacritty > /dev/null 2>&1 && yzconf set "terminal" "alacritty" && return
+    which foot >/dev/null 2>&1 && yzconf set "terminal" "foot" && return
+    which alacritty >/dev/null 2>&1 && yzconf set "terminal" "alacritty" && return
     term=""
     echo "
 #### TERMINAL ####

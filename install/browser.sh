@@ -1,5 +1,5 @@
 function install_zen() {
-    install_aur_pkg "zen-browser-bin"
+    install_aur_pkgs "zen-browser-bin"
     yzconf set "web_browser" "zen-browser"
 }
 
@@ -13,7 +13,7 @@ function other_browser() {
 }
 
 function install_browser() {
-    which zen-browser > /dev/null 2>&1 && yzconf set "web_browser" "zen-browser" && return
+    which zen-browser >/dev/null 2>&1 && yzconf set "web_browser" "zen-browser" && return
     br=""
     echo "
 #### WEB BROWSER ####
@@ -25,6 +25,6 @@ function install_browser() {
     done
     case "${br}" in
         "1") install_zen ;;
-        "2") other_browser ;; 
+        "2") other_browser ;;
     esac
 }

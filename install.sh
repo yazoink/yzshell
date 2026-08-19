@@ -159,7 +159,7 @@ function main() {
     fi
     # INSTALL ESSENTIAL DEPS
     source "${SRC_DIR}/install/pkgutils.sh"
-    install_pkg "git"
+    install_pkgs "git"
     install_yay
     enable_chaotic_aur
     # IF GIT INSTALL, CLONE REPO
@@ -185,10 +185,12 @@ function main() {
         deps_import_gpg_keys
         install_pkgs "${DEPS[@]}"
         install_aur_pkgs "${AUR_DEPS[@]}"
+        sudo ln -s /usr/share/fontconfig/conf.avail/10-nerd-font-symbols.conf /etc/fonts/conf.d/
         sudo journalctl --vacuum-time=2weeks
         sudo systemctl enable --now fstrim.timer
         sudo systemctl enable --now systemd-oomd
         sudo systemctl enable --now swayosd-libinput-backend.service
+        sudo systemctl enable --now bluetooth.service
     fi
     # INSTALL OPTIONAL DEPS
     if [ $install_opt_deps -eq 0 ]; then
@@ -205,7 +207,7 @@ function main() {
         fi
         if answer_yes "Install and configure Vesktop with yzshell?"; then
             yzconf set "configure_vesktop" "true"
-            install_aur_pkg "vesktop-bin"
+            install_aur_pkgs "vesktop-bin"
         else
             yzconf set "configure_vesktop" "false"
             echo ">> A Vesktop theme, which can be enabled manually, will still be created"

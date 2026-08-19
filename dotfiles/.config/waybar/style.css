@@ -7,10 +7,11 @@
 window#waybar,
 tooltip label,
 menuitem {
-  font-family: "sans", "Font Awesome 7 Free";
+  font-family: "sans", "Font Awesome 7 Free", "Symbols Nerd Font Mono";
 }
 
 #custom-tray-icon,
+#network,
 #custom-dnd,
 #bluetooth-icon,
 #idle_inhibitor,
@@ -21,8 +22,19 @@ menuitem {
 #custom-search,
 #custom-power,
 #custom-left-arrow {
-  font-family: "Font Awesome 7 Free";
-  font-size: 10pt;
+  font-family: "Font Awesome 7 Free", "Symbols Nerd Font Mono";
+}
+
+#network,
+#bluetooth {
+  font-family: "Symbols Nerd Font Mono";
+  font-weight: bold;
+  padding-right: 8px;
+  /* padding-right: 18px; */
+}
+
+#bluetooth {
+  padding-right: 12px;
 }
 
 window#waybar {
@@ -69,6 +81,7 @@ window#waybar {
 
 #clock,
 #quick-access,
+#tray,
 #workspaces-group,
 #custom-menu,
 #custom-power {
@@ -176,12 +189,15 @@ menuitem:hover {
   background-color: @bg2;
 }
 
-#tray,
 #bluetooth,
 #battery.percentage,
 #wireplumber.volume,
 #backlight {
   margin-left: 8px;
+}
+
+#tray {
+  margin-left: 4px;
 }
 
 #custom-power {

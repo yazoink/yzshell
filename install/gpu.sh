@@ -54,7 +54,7 @@ function install_gpu_drivers() {
 2. AMD
 3. I will deal with graphics drivers"
     while true; do
-        read -p ">> Install file manager [1-3]: " fm
+        read -p ">> Install graphics drivers [1-3]: " fm
         [[ "${fm}" =~ [1-3] ]] && break
     done
     case "${fm}" in

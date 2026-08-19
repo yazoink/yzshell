@@ -59,8 +59,9 @@
   "group/quick-access": {
     "orientation": "inherit",
     "modules": [
-      "group/volume-expander",
-      "group/tray-expander"
+      "network",
+      "bluetooth",
+      "group/volume-expander"
     ]
   },
   "custom/left-arrow": {
@@ -76,7 +77,8 @@
     },
     "modules": [
       "custom/left-arrow",
-      "group/quick-access"
+      "group/quick-access",
+      "tray"
     ]
   },
   "group/volume-expander": {
@@ -93,10 +95,9 @@
   "wireplumber#icon": {
     "format": "{icon}",
     "format-muted": "",
-    "on-click-right": "pavucontrol",
-    "on-click-middle": "amixer -D pipewire set Master toggle",
-    "on-click": "amixer -D pipewire set Master toggle",
-    "tooltip-format": "Volume\\n- Click to mute\\n- Right click to open settings\\n- Scroll to adjust",
+    "on-click": "$(yzconf get terminal) -e alsamixer",
+    "on-click-right": "amixer -D pipewire set Master toggle",
+    "tooltip-format": "Volume\n- Right click to mute\n- Click to open settings\n- Scroll to adjust",
     "format-icons": [
       "",
       "",
@@ -104,11 +105,43 @@
     ]
   },
   "wireplumber#volume": {
-    "on-click-right": "pavucontrol",
-    "on-click-middle": "amixer -D pipewire set Master toggle",
-    "on-click": "amixer -D pipewire set Master toggle",
+    "on-click": "$(yzconf get terminal) -e alsamixer",
+    "on-click-right": "amixer -D pipewire set Master toggle",
     "format": "{volume}%",
     "format-muted": "{volume}%"
+  },
+  "network": {
+      "format-wifi": "<span font='11' rise='3000'>{icon}</span>",
+      "format-ethernet": "",
+      "format-linked": "󱘖",
+      "format-disconnected": "󰤣",
+      "format-disabled": "󰤮",
+      "on-click": "$(yzconf get terminal) -e nmtui",
+      "on-click-right": "$(yzconf get terminal) -e nmtui",
+      "on-scroll-up": "nmcli radio wifi on",
+      "on-scroll-down": "nmcli radio wifi off",
+      "tooltip-format-disconnected": "No Connection",
+      "tooltip-format-disabled": "Wi-Fi is OFF",
+      "tooltip-format-wifi": "󱄙  {essid} ({signalStrength}%)\n\n󰐻  Freq: {frequency}GHz\n  {bandwidthDownBytes}   {bandwidthUpBytes}",
+      "tooltip-format-ethernet": "󰈀  {ifname} (Connected)\n  {bandwidthDownBytes}   {bandwidthUpBytes}",
+      "tooltip-format-linked": "󱘖 {ifname}: No IP Address",
+      "format-icons": [
+      "󰤯",
+      "󰤟",
+      "󰤢",
+      "󰤥",
+      "󰤨"
+    ]
+  },
+  "bluetooth": {
+    "format": "<span font='11' rise='3000'>󰂯</span>",
+    "format-connected": "<span font='11' rise='3000'>󰂱</span>",
+    "format-disabled": "<span font='11' rise='3000'>󰂲</span>",
+    "tooltip-format": "{controller_alias} {status}",
+    "tooltip-format-connected": "󰐻  {num_connections} Connected:\n{device_enumerate}",
+    "tooltip-format-enumerate-connected-battery": "󰂱  {device_alias} (󰠠  {device_battery_percentage}%)",
+    "on-click": "blueman-manager",
+    "on-click-right": "rfkill toggle bluetooth"
   },
   "group/battery-expander": {
     "orientation": "inherit",
@@ -169,22 +202,6 @@
     "format": "{percent}%",
     "tooltip": true,
     "tooltip-format": "Backlight (scroll to adjust)"
-  },
-  "group/tray-expander": {
-    "orientation": "inherit",
-    "drawer": {
-      "transition-duration": 600,
-      "children-class": "tray-group-item"
-    },
-    "modules": [
-      "custom/tray-icon",
-      "tray"
-    ]
-  },
-  "custom/tray-icon": {
-    "format": "",
-    "tooltip": true,
-    "tooltip-format": "Systray"
   },
   "tray": {
     "icon-size": 15,
