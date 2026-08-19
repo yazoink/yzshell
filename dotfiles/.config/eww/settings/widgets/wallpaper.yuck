@@ -2,7 +2,7 @@
 (defvar wallpapers "[]")
 (deflisten wallpapers_setter
   :initial ""
-  "settings/scripts/wallpapers.py"
+  "rm /tmp/wp_settings.lock; settings/scripts/wallpapers.py"
 )
 (deflisten current_wallpaper 
   :initial ""

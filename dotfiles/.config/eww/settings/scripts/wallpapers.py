@@ -65,7 +65,7 @@ def update_thumbs(refresh=False, directory=None):
 
 
 if __name__ == "__main__":
-    lockfile = "/tmp/yzthumbnailer.lock"
+    lockfile = "/tmp/wp_settings.lock"
 
     if path.isfile(lockfile) == True:
         exit(0)

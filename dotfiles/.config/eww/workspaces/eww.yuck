@@ -2,17 +2,11 @@
 (defvar workspaces_width 225)
 (defvar workspaces_height 125)
 (defpoll workspaces 
-    :interval "15s" 
+    :interval "3s" 
     :initial "[]" 
     :run-while workspaces_visible
     "workspaces/scripts/workspaces.py"
 )
-;(defpoll active_workspace 
-;    :interval "3s" 
-;    :initial "0"
-;    :run-while workspaces_visible
-;    "hyprctl activeworkspace -j | jq -r '.name'"
-;)
 (defvar active_workspace 0)
 
 (defwidget workspaces_scroll []

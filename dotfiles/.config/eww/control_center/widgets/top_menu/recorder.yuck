@@ -1,10 +1,10 @@
 (deflisten recording_output 
-  :run-while {menu_item == 3 && control_center_visible} 
+  :initial ""
   "yzconf get recording_dir"
 )
 (defvar recording_format "mp4")
 (defvar record_audio false)
-(defpoll recording 
+(defpoll recorder_updater
   :run-while {menu_item == 3 && control_center_visible} 
   :interval "3s" 
   :initial ""

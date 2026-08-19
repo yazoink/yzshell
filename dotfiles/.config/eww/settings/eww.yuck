@@ -1,4 +1,3 @@
-(defvar settings_visible false)
 (defvar settings_menu_item 0)
 
 (include "settings/widgets/wallpaper.yuck")

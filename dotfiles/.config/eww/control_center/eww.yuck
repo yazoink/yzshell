@@ -3,7 +3,7 @@
 
 (defvar user_input "")
 (deflisten search_results 
-  :run-while {control_center_visible == false} 
+  :initial ""
   "control_center/scripts/apps.py"
 )
 (defvar search_selected -1)

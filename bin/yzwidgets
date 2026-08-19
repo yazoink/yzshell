@@ -118,7 +118,6 @@ def close_workspaces():
 def open_settings(screen):
     subprocess.run(
         f'''
-        eww update settings_visible=true
         eww open closer --no-daemonize --screen {screen}
         eww open settings --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"settings\")'
@@ -133,7 +132,6 @@ def close_settings():
     subprocess.run(
         '''
         eww close settings
-        eww update settings_visible=false
         ''',
         shell=True,
         stdout=subprocess.DEVNULL, 
