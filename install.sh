@@ -66,7 +66,7 @@ function install_yay() {
         echo ">> Installing yay..."
         local -
         set -e
-        sudo pacman -S --needed --no-confirm base-devel
+        ! pkg_installed "base-devel" && install_pkgs "base-devel"
         mkdir ~/src
         git clone https://aur.archlinux.org/yay.git ~/src/yay
         exit_if_failed $? "failed to download yay"
@@ -159,7 +159,7 @@ function main() {
     fi
     # INSTALL ESSENTIAL DEPS
     source "${SRC_DIR}/install/pkgutils.sh"
-    install_pkgs "git"
+    ! pkg_installed "git" && install_pkgs "git"
     install_yay
     enable_chaotic_aur
     # IF GIT INSTALL, CLONE REPO
