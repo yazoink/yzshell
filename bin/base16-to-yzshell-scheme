@@ -44,7 +44,7 @@ def convert(src, dest, polarity):
         exit(1)
 
     if dest == None:
-        n = path.basename(src).replace(".yml", "")
+        n = path.basename(src).replace(".yml", "").replace(".yaml", "")
         n = "".join([char for char in n if char.isalnum()])
         dest = f"{n}.json"
 
