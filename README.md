@@ -213,7 +213,9 @@ automatically (same goes for removals and modifications). The name of the file
 (minus the `.json`) will be used as the scheme's ID.
 
 The `base16-to-yzshell-theme` script can be used to convert
-base16 yaml themes to the yzshell format.
+base16 yaml themes to the yzshell format:
+
+`base16-to-yzshell-theme --source base16-theme.yaml --polarity light`
 
 ### Dotfiles
 
@@ -238,7 +240,9 @@ The colourscheme tags consist of all values declared in json, plus `surface1`,
 are also included.
 
 The `base16-to-yzshell-template` script can be used to convert
-base16 templates to yzshell templates.
+base16 templates to yzshell templates:
+
+`base16-to-yzshell-template --source template.mustache`
 
 To add a template to yzshell, copy it to `templates/`, and add it to
 `templates/templates.json`:
