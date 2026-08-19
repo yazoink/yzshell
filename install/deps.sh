@@ -32,6 +32,7 @@ DEPS=(
     "python"
     "python-gobject"
     "python-pillow"
+    "python-yaml"
     #"python-beautifulsoup4"
     #"python-lxml"
     "python-requests"

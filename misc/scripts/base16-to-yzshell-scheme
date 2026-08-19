@@ -1,0 +1,86 @@
+#!/usr/bin/env python
+# base16-to-yzshell colourscheme converter
+
+import json
+from argparse import ArgumentParser
+from os import path
+from sys import argv, exit
+
+import yaml
+
+
+def get_full_path(p):
+    if "~" in p:
+        return path.expanduser(p)
+    else:
+        return path.abspath(p)
+
+
+def convert(src, dest, polarity):
+    src = get_full_path(src)
+    base16 = None
+    yzshell = {}
+    conv_map = {
+        "scheme": "scheme",
+        "author": "author",
+        "base00": "background",
+        "base05": "foreground",
+        "base08": "red",
+        "base09": "orange",
+        "base0A": "yellow",
+        "base0B": "green",
+        "base0C": "cyan",
+        "base0D": "blue",
+        "base0E": "purple",
+        "base0F": "brown",
+    }
+
+    if path.isfile(src) == False:
+        print(f"Error: file '{src}' not found!")
+        exit(1)
+
+    if polarity not in ["dark", "light"]:
+        print("Error: polarity must be either 'dark' or 'light'.")
+        exit(1)
+
+    if dest == None:
+        dest = f"{path.basename(src).replace(".yaml", "")}.json"
+
+    with open(src, "r") as f:
+        base16 = yaml.load(f, Loader=yaml.FullLoader)
+
+    for c in conv_map:
+        yzshell[conv_map[c]] = base16[c]
+
+    yzshell["polarity"] = polarity
+
+    if path.isfile(dest):
+        while True:
+            a = input(f">> File '{dest}' already exists, overwrite? [Y/n]: ")
+            a = a.strip().lower()
+            if a in ["", "y", "yes"]:
+                break
+            elif a in ["n", "no"]:
+                print(">> Operation cancelled, exiting.")
+                exit(1)
+
+    try:
+        with open(dest, "w") as f:
+            json.dump(yzshell, f)
+    except OSError:
+        print(f"Error: could not write to file '{dest}'!")
+        exit(1)
+
+    print(f">> Converted scheme saved to '{dest}'.")
+
+
+def main():
+    parser = ArgumentParser()
+    parser.add_argument("-s", "--source")
+    parser.add_argument("-d", "--dest", default=None)
+    parser.add_argument("-l", "--polarity", default="dark")
+    args = parser.parse_args(argv[1:])
+    convert(args.source, args.dest, args.polarity)
+
+
+main()
