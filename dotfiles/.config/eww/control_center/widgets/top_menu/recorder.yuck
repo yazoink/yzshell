@@ -7,7 +7,7 @@
 (defpoll recording 
   :run-while {menu_item == 3 && control_center_visible} 
   :interval "3s" 
-  :initial "false"
+  :initial ""
   "control_center/scripts/is_recording.sh"
 )
 (defvar recorder_selected 0)
