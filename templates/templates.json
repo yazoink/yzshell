@@ -1,0 +1,40 @@
+{
+    "eww.scss.mustache": ".config/eww/scss/_colours.scss",
+    "foot.ini.mustache": ".config/foot/foot.ini",
+    "gtk.css.mustache": [
+        ".config/gtk-3.0/gtk.css",
+        ".config/gtk-4.0/gtk.css"
+    ],
+    "gtk.ini.mustache": [
+        ".config/gtk-3.0/settings.ini",
+        ".config/gtk-4.0/settings.ini"
+    ],
+    "qtct.conf.mustache": [
+        ".config/qt5ct/qt5ct.conf",
+        ".config/qt6ct/qt6ct.conf"
+    ],
+    "kvantum.kvconfig.mustache": ".config/Kvantum/KvRecolour/KvRecolour.kvconfig",
+    "kvantum.svg.mustache": ".config/Kvantum/KvRecolour/KvRecolour.svg",
+    "mako.mustache": ".config/mako/config",
+    "waybar.css.mustache": ".config/waybar/colours.css",
+    "wofi.css.mustache": ".config/wofi/style.css",
+    "yazi.toml.mustache": ".config/yazi/theme.toml",
+    "swayosd.css.mustache": ".config/swayosd/style.css",
+    "zathurarc.mustache": ".config/zathura/zathurarc",
+    "discord.css.mustache": ".config/vesktop/themes/yzshell.theme.css",
+    "vscode.json.mustache": ".config/Code - OSS/User/settings.json",
+    "hyprland_colours.lua.mustache": ".config/hypr/hyprland/colours.lua",
+    "hyprland_vars.lua.mustache": ".config/hypr/hyprland/vars.lua",
+    "hyprlock.conf.mustache": ".config/hypr/hyprlock/colours.conf",
+    "hyprtoolkit.conf.mustache": ".config/hypr/hyprtoolkit.conf",
+    "nvim.lua.mustache": ".config/nvim/plugin/colourscheme.lua",
+    "zshrc.mustache": ".zshrc",
+    "mpd.conf.mustache": ".config/mpd/mpd.conf",
+    "kitty.conf.mustache": ".config/kitty/kitty.conf",
+    "ncmpcpp.mustache": ".config/ncmpcpp/config",
+    "ghostty.mustache": ".config/ghostty/config",
+    "alacritty.toml.mustache": ".config/alacritty/alacritty.toml",
+    "cava.mustache": ".config/cava/config",
+    "fontconfig.conf.mustache": ".config/fontconfig/fonts.conf",
+    "gtkrc.mustache": ".gtkrc-2.0"
+}

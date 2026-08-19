@@ -1,3 +1,13 @@
+# prettifies json
+function prttyjson () {
+    f=$1
+    j="$(cat $f | jq)"
+    if ! echo "${j}" > "${f}"; then
+        echo "Error: could not write file."
+        return 1
+    fi
+}
+
 function extr() {
 	for archive in "$@"; do
 		if [ -f "$archive" ] ; then

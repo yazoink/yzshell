@@ -60,7 +60,7 @@ My very messy dotfiles.
 
 ### Widgets
 
-#### Start Menu
+#### Start menu
 
 - \[Up|Down]: select app
 - Return: open selected app, or close if none selected
@@ -82,12 +82,11 @@ My very messy dotfiles.
 
 - Esc: close
 
-
-#### Appearance Settings
+#### Appearance settings
 
 - Esc: close
 
-#### Workspace Switcher
+#### Workspace switcher
 
 - \[Left|Right|Up|Down]: switch to next/prev workspace
 - \[1-9]: switch to workspace and close
@@ -131,12 +130,131 @@ cd yzshell
 ./install.sh --local --optional-deps
 ```
 
-## Changing the Default terminal / file manager / web browser
+## Configuration
 
-Install the required packages, and run:       
+yzshell is configured with the `yzconf` command. To view all options, run
+`yzconf get` (`yzconf get <OPTION>` for specific values). To set an option,
+run `yzconf set <OPTION> <VALUE>`; and to apply the changes, run
+`yzconf deploy_configs --refresh`, then reload the shell
+(`yzshell reload` or Ctrl+Shift+R).
+
+### Default terminal / file manager / web browser
+
+The default terminal / file manager / web browser are declared with the options:
+`terminal`, `file_manager`, and `web_browser`, and they should be set to the
+launch command of the application.
+
+### Fonts
+
+Fonts are configured with the options: `sans_font`, `mono_font`, `serif_font`,
+and `terminal_font_size`. Run `fc-cache -fv` after changing any of the first
+three.
+
+### Misc. notable options
+
+- Show/hide the battery/backlight modules on the bar: `bar_show_battery`,
+  `bar_show_backlight`.
+- Profile image: `profile_image`.
+- Screenshot / screen recording directories: `screenshot_dir`, `recording_dir`.
+- Music directory for MPD: `music_dir`.
+- oh-my-zsh theme: `oh_my_zsh_theme`.
+- Papirus-Folders colour: `papirus_folders_colour`
+- Touchpad scrolling sensitivity: `touchpad_scroll_factor`.
+
+## Further customisation
+
+Aside from the config options, there is no way to override the yzshell dotfiles,
+or add custom colourschemes or templates, aside from forking the repo. I don't
+intend to change this anytime soon unless other people actually start using
+this.
+
+Nonetheless, if you want to fork the repo, it's pretty easy to change basic
+stuff.
+
+To apply any changes, run:
 
 ```bash
-yzconf set <terminal|file_manager|web_browser> <LAUNCH CMD>
-yzconf deploy_configs -r
+./install.sh --local --no-deps
 yzshell reload
+```
+
+from the root directory. This will re-copy all the necessary files.
+
+### Colourschemes
+
+yzshell uses its own colourscheme format, similar to base16, and written in
+json. A template can be found at `misc/colourscheme-template.json`. A complete
+scheme file would look as such:
+
+```json
+{
+  "scheme": "Carob",
+  "author": "yazoink (https://github.com/yazoink/carob-theme)",
+  "polarity": "dark",
+  "background": "242120",
+  "foreground": "C8BAA4",
+  "red": "C65F5F",
+  "orange": "d08b65",
+  "yellow": "d9b27c",
+  "green": "859e82",
+  "cyan": "829e9b",
+  "blue": "728797",
+  "purple": "998396",
+  "brown": "ab9382"
+}
+```
+
+The yzshell format doesn't include background highlights because they get
+generated automatically during the template-building process. It doesn't
+include foreground highlights either because I don't really like them.
+
+To add a scheme, place it in `colourschemes/`, and it will be detected
+automatically (same goes for removals and modifications). The name of the file
+(minus the `.json`) will be used as the scheme's ID.
+
+### Dotfiles
+
+All static dotfiles can be found in `dotfiles/`. All files in this directory
+get copied to `~/.dotfiles` and symlinked with stow as-is.
+
+There are some other configs which are modified during the deployment process
+that can be found in `misc/`. I would recommend checking the `deploy_configs`
+function in `bin/yzconf` before modifying them (the code is bad, sorry). Most
+dynamically configured dotfiles are templated.
+
+#### Templates
+
+yzshell uses Mustache templates for most dynamically generated configs.
+The tags used in building the templates contain all yzshell configuration
+options, all colourscheme values, plus more. To view all of the available tags,
+run `yzconf dump_mustache_data`.
+
+The colourscheme tags consist of all values declared in json, plus `surface1`,
+`surface2`, `surface3`, and `surface4` (equivalent to base\[1-4]). The tags
+`<COL>-rgb-r`, `<COL>-rgb-g`, `<COL>-rgb-b`, `<COL>-hex`, and `<COL>-hex-bgr`
+are also included.
+
+The script at `misc/scripts/base16-to-yzshell` can be used to convert base16
+templates to yzshell templates.
+
+To add a template to yzshell, copy it to `templates/`, and add it to
+`templates/templates.json`:
+
+```json
+{
+    ...
+    "<TEMPLATE>": "<DESTINATION>"
+}
+```
+
+Or for multiple destinations:
+
+```json
+{
+    ...
+    "<TEMPLATE>": [
+        "<DESTINATION 1>",
+        "<DESTINATION 2>"
+    ]
+}
 ```
