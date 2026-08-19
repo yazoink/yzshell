@@ -44,7 +44,9 @@ def convert(src, dest, polarity):
         exit(1)
 
     if dest == None:
-        dest = f"{path.basename(src).replace(".yaml", "")}.json"
+        n = path.basename(src).replace(".yml", "")
+        n = "".join([char for char in n if char.isalnum()])
+        dest = f"{n}.json"
 
     with open(src, "r") as f:
         base16 = yaml.load(f, Loader=yaml.FullLoader)
