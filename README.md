@@ -22,7 +22,7 @@ My very messy dotfiles.
 - Colourscheme and wallpaper switcher
 - Inbuilt screenshot and screen recording utilities
 - Unified theming for GTK 2/3/4 and Qt 5/6
-- A bunch of CLI utilities: `yzshell`, `yzconf`, `yzpicker`, `yzrecorder`, `yzshot`, `yzwallpaper`, `yzwidgets`, and `zenconf` (run `-h` on them for details)
+- A bunch of CLI utilities: `yzshell`, `yzconf`, `yzpicker`, `yzrecorder`, `yzshot`, `yzwallpaper`, `yzwidgets`, `base16-to-yzshell`, and `zenconf` (run `-h` on them for details)
 
 ## Keybinds
 
