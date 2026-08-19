@@ -2,14 +2,12 @@
 (defvar dark_colourschemes `[]`)
 (defvar schemes_selected 0)
 (deflisten current_scheme 
-    :run-while {settings_visible == false}
     :initial ""
     "yzconf get colourscheme"
 )
-(defpoll schemes_setter 
-    :run-while {settings_visible == false}
-    :interval "999999h"
-    "settings/scripts/schemes.py &"
+(deflisten schemes_setter 
+    :initial ""
+    "settings/scripts/schemes.py"
 )
 (defvar scheme_query "")
 (defvar scheme_cols `[
@@ -227,8 +225,9 @@
         :polarity "light"
         :visible {light_colourschemes == `{"window_buttons": ["red", "yellow", "green"]}` ? false : true}
       )
+      (label :text schemes_setter :visible false)
+      (label :text current_scheme :visible false)
     )
     (scheme_polarity_buttons)
-    (label :text schemes_setter :visible false)
   )
 )

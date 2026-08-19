@@ -1,15 +1,15 @@
 (deflisten wallpaper_dir "yzconf get wallpaper_dir")
 (defvar wallpapers "[]")
-(defpoll wallpapers_setter
-  :run-while {settings_visible == false}
-  :interval "999999h"
-  "settings/scripts/wallpapers.py &"
+(deflisten wallpapers_setter
+  :initial ""
+  "settings/scripts/wallpapers.py"
 )
 (deflisten current_wallpaper 
+  :initial ""
   `echo "$(yzconf get wallpaper_dir)/$(yzconf get wallpaper_image)"`
 )
 (deflisten wallpaper_mode 
-  :run-while settings_visible 
+  :initial ""
   "yzconf get wallpaper_mode"
 )
 (defvar wallpapers_loading true)
@@ -81,6 +81,8 @@
             :text "Loading..." 
           )
           (label :text wallpapers_setter :visible false)
+          (label :text wallpaper_mode :visible false)
+          (label :text current_wallpaper :visible false)
         )
         (for row in wallpapers
           (box
