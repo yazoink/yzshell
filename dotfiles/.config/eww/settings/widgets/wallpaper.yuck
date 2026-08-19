@@ -1,15 +1,22 @@
-(deflisten wallpaper_dir "yzconf get wallpaper_dir")
+(defpoll wallpaper_dir 
+  :run-while false 
+  :interval "10s" 
+  "yzconf get wallpaper_dir"
+)
 (defvar wallpapers "[]")
-(deflisten wallpapers_setter
-  :initial ""
+(defpoll wallpapers_setter
+  :run-while false 
+  :interval "10s" 
   "rm /tmp/wp_settings.lock; settings/scripts/wallpapers.py"
 )
-(deflisten current_wallpaper 
-  :initial ""
+(defpoll current_wallpaper 
+  :run-while false 
+  :interval "10s" 
   `echo "$(yzconf get wallpaper_dir)/$(yzconf get wallpaper_image)"`
 )
-(deflisten wallpaper_mode 
-  :initial ""
+(defpoll wallpaper_mode 
+  :run-while false 
+  :interval "10s" 
   "yzconf get wallpaper_mode"
 )
 (defvar wallpapers_loading true)
@@ -80,9 +87,6 @@
             :class "loading" 
             :text "Loading..." 
           )
-          (label :text wallpapers_setter :visible false)
-          (label :text wallpaper_mode :visible false)
-          (label :text current_wallpaper :visible false)
         )
         (for row in wallpapers
           (box

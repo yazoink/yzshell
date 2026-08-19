@@ -1,7 +1,7 @@
-(defpoll username :interval "24h" `whoami`)
-(defpoll hostname :interval "24h" `cat /etc/hostname`)
-(defpoll os_version :interval "24h" "control_center/scripts/get_os_version.sh")
-(defpoll profile_image_path :interval "24h" "yzconf get profile_image")
+(defpoll username :run-while false :interval "24h" `whoami`)
+(defpoll hostname :run-while false :interval "24h" `cat /etc/hostname`)
+(defpoll os_version :run-while false :interval "24h" "control_center/scripts/get_os_version.sh")
+(defpoll profile_image_path :run-while false :interval "24h" "yzconf get profile_image")
 
 (defwidget user []
   (box

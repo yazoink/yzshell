@@ -1,5 +1,6 @@
-(deflisten recording_output 
-  :initial ""
+(defpoll recording_output 
+  :interval "10s"
+  :run-while false
   "yzconf get recording_dir"
 )
 (defvar recording_format "mp4")

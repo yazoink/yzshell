@@ -1,5 +1,6 @@
 (defpoll dnd_icon 
-  :interval "24h"
+  :run-while false
+  :interval "5s"
   "control_center/scripts/dnd_icon.sh"
 )
 

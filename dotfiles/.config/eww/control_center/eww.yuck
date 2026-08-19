@@ -2,8 +2,9 @@
 (defvar control_center_visible false)
 
 (defvar user_input "")
-(deflisten search_results 
-  :initial ""
+(defpoll search_results 
+  :interval "10s"
+  :run-while false
   "control_center/scripts/apps.py"
 )
 (defvar search_selected -1)

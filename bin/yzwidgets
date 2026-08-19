@@ -48,7 +48,23 @@ def get_conf_opt(opt):
 
 def init_widgets():
     subprocess.run(
-        "eww daemon",
+        '''
+        eww daemon
+        eww poll dnd_icon
+        eww poll username
+        eww poll hostname
+        eww poll os_version
+        eww poll profile_image_path
+        eww poll recording_output
+        eww poll search_results
+        eww poll current_scheme
+        eww poll wallpaper_dir
+        eww poll wallpaper_mode
+        eww poll current_wallpaper
+        eww poll wallpaper_mode
+        eww poll wallpapers_setter
+        eww poll schemes_setter
+        ''',
         shell=True,
     )
 
@@ -81,6 +97,7 @@ def close_control_center():
         '''
         eww close control_center
         eww update control_center_visible=false
+        eww poll search_results
         ''',
         shell=True,
         stdout=subprocess.DEVNULL, 
@@ -216,6 +233,13 @@ def close_calendar():
     )
 
 def close_all_widgets():
+    # if is_open("control_center"):
+    #     subprocess.run(
+    #         "eww poll search_results",
+    #         shell=True,
+    #         stdout=subprocess.DEVNULL, 
+    #         stderr=subprocess.STDOUT
+    #     )
     subprocess.run(
         '''
         eww close-all
@@ -225,6 +249,7 @@ def close_all_widgets():
         eww update settings_visible=false
         eww update screenshot_visible=false
         eww update workspaces_visible=false
+        eww poll search_results
         ''',
         shell=True,
         stdout=subprocess.DEVNULL, 

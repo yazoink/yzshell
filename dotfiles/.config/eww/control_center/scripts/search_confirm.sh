@@ -15,4 +15,4 @@ if [ $selected -gt -1 ]; then
     )
 fi
 
-./control_center/scripts/apps.py
+#./control_center/scripts/apps.py
