@@ -1,5 +1,5 @@
-(defvar light_colourschemes "[]")
-(defvar dark_colourschemes "[]")
+(defvar light_colourschemes `[{"window_buttons": ["red", "yellow", "green"]}]`)
+(defvar dark_colourschemes `[{"window_buttons": ["red", "yellow", "green"]}]`)
 (defvar schemes_selected 0)
 (deflisten current_scheme :run-while settings_visible "yzconf get colourscheme")
 (defpoll schemes_setter :run-while settings_visible :interval "24h" "settings/scripts/schemes.py")
@@ -68,9 +68,9 @@
         :halign "start"
         :hexpand true
         :spacing 8
-        (label :text "" :style "color: #${scheme["red"]};")
-        (label :text "" :style "color: #${scheme["yellow"]};")
-        (label :text "" :style "color: #${scheme["green"]};")
+        (for b in {scheme.window_buttons}
+            (label :text "" :style "color: #${scheme[b]};")
+        )
       )
       (label :text "${scheme["scheme"]}" :style "color: #${scheme["foreground"]};" :class "scheme-name" :halign "center" :hexpand true)
     )

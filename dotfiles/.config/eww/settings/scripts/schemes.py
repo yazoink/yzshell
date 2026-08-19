@@ -1,18 +1,20 @@
 #!/usr/bin/env python
 
-import subprocess
 import json
+import subprocess
+from os import listdir, path
 from sys import argv, exit
-from os import path, listdir
 
 CACHE_FILE = "/tmp/all_colourschemes.json"
+
 
 def update_eww(arrs):
     for a in arrs:
         subprocess.run(
             f"eww update {a}_colourschemes=\"{json.dumps(arrs[a]).replace("\"", "\\\"")}\"",
-            shell=True
+            shell=True,
         )
+
 
 def get_all(refresh=False):
     def sort_schemes(schemes):
@@ -35,10 +37,13 @@ def get_all(refresh=False):
             j = f.read()
         j = json.loads(j)
         j["id"] = n.replace(".json", "")
+        if "window_buttons" not in j:
+            j["window_buttons"] = ["red", "yellow", "green"]
         r[j["polarity"]].append(j)
     for a in r:
         r[a] = sort_schemes(r[a])
     return r
+
 
 def filter_arr(qry, a):
     r = []
@@ -50,6 +55,7 @@ def filter_arr(qry, a):
             else:
                 r.append(sch)
     return r
+
 
 arrs = get_all()
 

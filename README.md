@@ -217,6 +217,10 @@ base16 yaml themes to the yzshell format:
 
 `base16-to-yzshell-theme --source base16-theme.yaml --polarity light`
 
+The colours of the titlebar buttons can also be specified by adding:
+`"window_buttons": ["red", "orange", "yellow"]` -- the default is
+`["red", "yellow", "green"]`.
+
 ### Dotfiles
 
 All static dotfiles can be found in `dotfiles/`. All files in this directory

@@ -76,9 +76,12 @@ def get_colourscheme(name):
     scheme_file = path.join(COLOURS_DIR, f"{name}.json")
     scheme = None
     buf = None
+    window_buttons = None
+
     if path.isfile(scheme_file) == False:
         print(f"Error: colourscheme '{name}' not found", file=stderr)
         exit(1)
+
     with open(scheme_file, "r") as f:
         buf = f.read()
     try:
@@ -86,8 +89,18 @@ def get_colourscheme(name):
     except json.JSONDecodeError as e:
         print(f"Error: could not load colourscheme at '{scheme_file}'", file=stderr)
         exit(1)
+
     for i in range(1, 5):
         scheme[f"surface{i}"] = overlay_colour(scheme["background"], scheme["foreground"], i / 10)
+
+    if "window_buttons" in scheme:
+        window_buttons = scheme["window_buttons"]
+    else:
+        window_buttons = ["red", "yellow", "green"]
+    scheme["window_button1"] = scheme[window_buttons[0]]
+    scheme["window_button2"] = scheme[window_buttons[1]]
+    scheme["window_button3"] = scheme[window_buttons[2]]
+
     for c in cols:
         d = scheme[c]
         rgb = hex_to_rgb(d)
