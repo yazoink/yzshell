@@ -1,4 +1,26 @@
 .control-center-box {
+.settings label {
+  color: $cyan;
+}
+.picker label {
+  color: $green;
+}
+
+.shot label {
+  color: $yellow;
+}
+
+.dnd label {
+  color: $orange;
+}
+
+.search label {
+  color: $purple;
+}
+
+.shutdown label {
+  color: $red;
+}
   padding: $padding;
   border-radius: $outer-radius;
   background: $bg;
