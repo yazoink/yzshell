@@ -60,7 +60,6 @@
     "orientation": "inherit",
     "modules": [
       "network",
-      "bluetooth",
       "group/volume-expander"
     ]
   },
