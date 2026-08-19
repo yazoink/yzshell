@@ -1,8 +1,8 @@
-(deflisten screenshot_output
-  :run-while screenshot_visible
+(defpoll screenshot_output
+  :run-while false
+  :interval "10s"
   `echo "$(yzconf get screenshot_dir)/$(date +%d-%m-%Y_%H:%M:%S)_screenshot.png"`
 )
-(defvar screenshot_visible false)
 
 (defwindow screenshot
   :monitor 0

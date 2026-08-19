@@ -7,7 +7,7 @@
 (defpoll wallpapers_setter
   :run-while false 
   :interval "10s" 
-  "rm /tmp/wp_settings.lock; settings/scripts/wallpapers.py"
+  "rm /tmp/wp_settings.lock; settings/scripts/wallpapers.py &"
 )
 (defpoll current_wallpaper 
   :run-while false 

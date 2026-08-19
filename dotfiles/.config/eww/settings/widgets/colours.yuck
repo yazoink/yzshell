@@ -9,7 +9,7 @@
 (defpoll schemes_setter 
     :interval "10s"
     :run-while false
-    "settings/scripts/schemes.py"
+    "settings/scripts/schemes.py &"
 )
 (defvar scheme_query "")
 (defvar scheme_cols `[
@@ -80,7 +80,7 @@
             (label :text "" :style "color: #${scheme[b]};")
         )
       )
-      (label :text "${scheme["scheme"]}" :style "color: #${scheme["foreground"]};" :class "scheme-name" :halign "center" :hexpand true)
+      (label :text {scheme.scheme} :style "color: #${scheme["foreground"]};" :class "scheme-name" :halign "center" :hexpand true)
     )
     (box
       :class "body"
@@ -104,7 +104,7 @@
         :vexpand true
         :hexpand true
         :truncate true
-        :text "${scheme["author"]}"
+        :text {scheme.author}
       )
       (scheme_preview_heading
         :text "Palette"

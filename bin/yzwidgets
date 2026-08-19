@@ -57,6 +57,7 @@ def init_widgets():
         eww poll profile_image_path
         eww poll recording_output
         eww poll search_results
+        eww poll screenshot_output
         eww poll current_scheme
         eww poll wallpaper_dir
         eww poll wallpaper_mode
@@ -159,7 +160,6 @@ def close_settings():
 def open_screenshot(screen):
     subprocess.run(
         f'''
-        eww update screenshot_visible=true
         eww open closer --no-daemonize --screen {screen}
         eww open screenshot --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"screenshot\")'
@@ -175,7 +175,7 @@ def close_screenshot():
     subprocess.run(
         '''
         eww close screenshot
-        eww update screenshot_visible=false
+        eww poll screenshot_output
         ''',
         shell=True,
         stdout=subprocess.DEVNULL, 
@@ -243,6 +243,7 @@ def close_all_widgets():
         eww update screenshot_visible=false
         eww update workspaces_visible=false
         eww poll search_results
+        eww poll screenshot_output
         ''',
         shell=True,
         stdout=subprocess.DEVNULL, 
