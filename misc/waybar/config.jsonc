@@ -98,11 +98,16 @@
     "on-click": "$(yzconf get terminal) -e alsamixer",
     "on-click-right": "amixer -D pipewire set Master toggle",
     "tooltip-format": "Volume\n- Right click to mute\n- Click to open settings\n- Scroll to adjust",
-    "format-icons": [
-      "",
-      "",
-      ""
-    ]
+    "format-icons": {
+      "headphone": "󰋋",
+      "headset": "󰋋",
+      "hands-free": "󰋋",
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    }
   },
   "wireplumber#volume": {
     "on-click": "$(yzconf get terminal) -e alsamixer",
@@ -111,21 +116,21 @@
     "format-muted": "{volume}%"
   },
   "network": {
-      "format-wifi": "<span font='11' rise='3000'>{icon}</span>",
-      "format-ethernet": "",
-      "format-linked": "󱘖",
-      "format-disconnected": "󰤣",
-      "format-disabled": "󰤮",
-      "on-click": "$(yzconf get terminal) -e nmtui",
-      "on-click-right": "$(yzconf get terminal) -e nmtui",
-      "on-scroll-up": "nmcli radio wifi on",
-      "on-scroll-down": "nmcli radio wifi off",
-      "tooltip-format-disconnected": "No Connection",
-      "tooltip-format-disabled": "Wi-Fi is OFF",
-      "tooltip-format-wifi": "󱄙  {essid} ({signalStrength}%)\n\n󰐻  Freq: {frequency}GHz\n  {bandwidthDownBytes}   {bandwidthUpBytes}",
-      "tooltip-format-ethernet": "󰈀  {ifname} (Connected)\n  {bandwidthDownBytes}   {bandwidthUpBytes}",
-      "tooltip-format-linked": "󱘖 {ifname}: No IP Address",
-      "format-icons": [
+    "format-wifi": "<span font='11' rise='3000'>{icon}</span>",
+    "format-ethernet": "",
+    "format-linked": "󱘖",
+    "format-disconnected": "󰤣",
+    "format-disabled": "󰤮",
+    "on-click": "$(yzconf get terminal) -e nmtui",
+    "on-click-right": "$(yzconf get terminal) -e nmtui",
+    "on-scroll-up": "nmcli radio wifi on",
+    "on-scroll-down": "nmcli radio wifi off",
+    "tooltip-format-disconnected": "No Connection",
+    "tooltip-format-disabled": "Wi-Fi is OFF",
+    "tooltip-format-wifi": "󱄙  {essid} ({signalStrength}%)\n\n󰐻  Freq: {frequency}GHz\n  {bandwidthDownBytes}   {bandwidthUpBytes}",
+    "tooltip-format-ethernet": "󰈀  {ifname} (Connected)\n  {bandwidthDownBytes}   {bandwidthUpBytes}",
+    "tooltip-format-linked": "󱘖 {ifname}: No IP Address",
+    "format-icons": [
       "󰤯",
       "󰤟",
       "󰤢",
