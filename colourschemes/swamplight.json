@@ -11,5 +11,6 @@
     "cyan": "D09700",
     "blue": "BF7979",
     "purple": "9E5581",
-    "brown": "75858C"
+    "brown": "75858C",
+    "window_buttons": ["yellow", "cyan", "green"]
 }
