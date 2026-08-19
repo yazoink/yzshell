@@ -7,7 +7,7 @@
 (defpoll recording 
   :run-while {menu_item == 3 && control_center_visible} 
   :interval "3s" 
-  :initial "0" 
+  :initial "false"
   "control_center/scripts/is_recording.sh"
 )
 (defvar recorder_selected 0)
@@ -47,7 +47,7 @@
       (label :class "timer" :text secs)
     )
     (button
-      :onclick "pkill wf-recorder; ${EWW_CMD} update recording='0'"
+      :onclick "control_center/scripts/stop_recording.sh &"
       :halign "center"
       :hexpand "true"
       "Stop"

@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
-from time import sleep
-from math import floor
-import subprocess
 import argparse
-from sys import argv, stdin, stdout
-from os import path, makedirs
-from threading import Thread
 import signal
+import subprocess
+from math import floor
+from os import makedirs, path
+from sys import argv, stdin, stdout
+from threading import Thread
+from time import sleep
 
 
 def update_timer(i):
