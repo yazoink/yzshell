@@ -116,7 +116,7 @@
     "format-muted": "{volume}%"
   },
   "network": {
-    "format-wifi": "<span font='11' rise='3000'>{icon}</span>",
+    "format-wifi": "<span font='13' rise='3000'>{icon}</span>",
     "format-ethernet": "",
     "format-linked": "󱘖",
     "format-disconnected": "󰤣",
@@ -139,9 +139,9 @@
     ]
   },
   "bluetooth": {
-    "format": "<span font='11' rise='3000'>󰂯</span>",
-    "format-connected": "<span font='11' rise='3000'>󰂱</span>",
-    "format-disabled": "<span font='11' rise='3000'>󰂲</span>",
+    "format": "<span font='13' rise='3000'>󰂯</span>",
+    "format-connected": "<span font='13' rise='3000'>󰂱</span>",
+    "format-disabled": "<span font='13' rise='3000'>󰂲</span>",
     "tooltip-format": "{controller_alias} {status}",
     "tooltip-format-connected": "󰐻  {num_connections} Connected:\n{device_enumerate}",
     "tooltip-format-enumerate-connected-battery": "󰂱  {device_alias} (󰠠  {device_battery_percentage}%)",

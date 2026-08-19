@@ -29,12 +29,12 @@ menuitem {
 #bluetooth {
   font-family: "Symbols Nerd Font Mono";
   font-weight: bold;
-  padding-right: 8px;
+  padding-right: 9px;
   /* padding-right: 18px; */
 }
 
 #bluetooth {
-  padding-right: 12px;
+  padding-right: 11px;
 }
 
 window#waybar {

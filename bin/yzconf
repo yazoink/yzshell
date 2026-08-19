@@ -209,9 +209,9 @@ def deploy_configs(cfg):
         c = json.loads(buf)
     
     if data["bar_show_battery"] == True:
-        c["group/quick-access"]["modules"].insert(1, "group/battery-expander")
+        c["group/quick-access"]["modules"].insert(3, "group/battery-expander")
     if data["bar_show_backlight"] == True:
-        c["group/quick-access"]["modules"].insert(1, "group/backlight-expander")
+        c["group/quick-access"]["modules"].insert(3, "group/backlight-expander")
 
     battery_name = "AC"
     bats = sorted(listdir("/sys/class/power_supply"))
