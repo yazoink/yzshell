@@ -1,0 +1,61 @@
+linux_display_server wayland
+
+# --- Cursor ---
+cursor_shape beam
+
+# --- Fonts ---
+font_size {{terminal_font_size}}
+
+# --- Scrollback ---
+scrollback_lines 5000
+wheel_scroll_multiplier 3
+
+# --- Performance ---
+repaint_delay 5
+input_delay 1
+
+# --- Bell ---
+enable_audio_bell no
+
+# --- Window Layout ---
+window_border_width 0pt
+window_padding_width 25
+confirm_os_window_close 0
+
+# --- Colours
+background #{{background-hex}}
+foreground #{{foreground-hex}}
+selection_background #{{foreground-hex}}
+selection_foreground #{{background-hex}}
+url_color #{{surface4-hex}}
+cursor #{{foreground-hex}}
+cursor_text_color #{{background-hex}}
+active_border_color #{{surface3-hex}}
+inactive_border_color #{{surface1-hex}}
+active_tab_background #{{background-hex}}
+active_tab_foreground #{{foreground-hex}}
+inactive_tab_background #{{surface1-hex}}
+inactive_tab_foreground #{{surface4-hex}}
+tab_bar_background #{{surface1-hex}}
+wayland_titlebar_color #{{background-hex}}
+macos_titlebar_color #{{background-hex}}
+
+# normal
+color0 #{{background-hex}}
+color1 #{{red-hex}}
+color2 #{{green-hex}}
+color3 #{{yellow-hex}}
+color4 #{{blue-hex}}
+color5 #{{purple-hex}}
+color6 #{{cyan-hex}}
+color7 #{{foreground-hex}}
+
+# bright
+color8 #{{surface3-hex}}
+color9 #{{orange-hex}}
+color10 #{{surface1-hex}}
+color11 #{{surface2-hex}}
+color12 #{{surface4-hex}}
+color13 #{{foreground-hex}}
+color14 #{{brown-hex}}
+color15 #{{foreground-hex}}

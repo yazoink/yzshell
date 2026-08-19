@@ -46,17 +46,24 @@ TEMPLATES = {
     "nvim.lua.mustache": ".config/nvim/plugin/colourscheme.lua",
     "zshrc.mustache": ".zshrc",
     "mpd.conf.mustache": ".config/mpd/mpd.conf",
+    "kitty.conf.mustache": ".config/kitty/kitty.conf",
     "ncmpcpp.mustache": ".config/ncmpcpp/config",
     "ghostty.mustache": ".config/ghostty/config",
     "alacritty.toml.mustache": ".config/alacritty/alacritty.toml",
     "cava.mustache": ".config/cava/config",
+    "fontconfig.conf.mustache": ".config/fontconfig/fonts.conf",
+    "gtkrc.mustache": ".gtkrc-2.0",
 }
 
 def get_default_config():
     return {
         "sans_font": "Gabarito",
+        # other good fonts:
+        # - M+1Code Nerd Font Mono (ttf-mplus-nerd)
+        # - Monofur Nerd Font (ttf-monofur-nerd)
         "mono_font": "Aporetic Serif Mono",
         "serif_font": "TeX Gyre Schola",
+        "terminal_font_size": 12,
         "colourscheme": "camellia",
         "bar_show_battery": True,
         "bar_show_backlight": True,
@@ -112,6 +119,22 @@ def get_colourscheme(name):
         return rgb_to_hex((r, g, b))
 
     #schemes = listdir(COLOURS_DIR)
+    cols = [
+        "background",
+        "foreground",
+        "surface1",
+        "surface2",
+        "surface3",
+        "surface4",
+        "red",
+        "orange",
+        "yellow",
+        "green",
+        "cyan",
+        "blue",
+        "purple",
+        "brown"
+    ]
     scheme_file = path.join(COLOURS_DIR, f"{name}.json")
     scheme = None
     buf = None
@@ -127,6 +150,14 @@ def get_colourscheme(name):
         exit(1)
     for i in range(1, 5):
         scheme[f"surface{i}"] = overlay_colour(scheme["background"], scheme["foreground"], i / 10)
+    for c in cols:
+        d = scheme[c]
+        rgb = hex_to_rgb(d)
+        scheme[f"{c}-rgb-r"] = rgb[0]
+        scheme[f"{c}-rgb-g"] = rgb[1]
+        scheme[f"{c}-rgb-b"] = rgb[2]
+        scheme[f"{c}-hex"] = f"#{d}"
+        scheme[f"{c}-bgr-hex"] = f"{d[4]}{d[5]}{d[2]}{d[3]}{d[0]}{d[1]}"
     return scheme
 
 def copy_built_templates(scheme_dir):

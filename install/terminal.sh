@@ -13,6 +13,11 @@ function install_ghostty() {
     yzconf set terminal ghostty
 }
 
+function install_kitty() {
+    install_pkgs kitty
+    yzconf set terminal kitty
+}
+
 function other_terminal() {
     cmd=""
     while true; do
@@ -31,15 +36,17 @@ function install_terminal() {
 1. alacritty
 2. foot
 3. ghostty
-3. I already have a terminal"
+4. kitty
+5. I already have a terminal"
     while true; do
-        read -p ">> Install terminal [1-3]: " term
+        read -p ">> Install terminal [1-5]: " term
         [[ "${term}" =~ [1-4] ]] && break
     done
     case "$term" in
         "1") install_alacritty ;;
         "2") install_foot ;;
         "3") install_ghostty ;;
-        "4") other_terminal ;;
+        "4") install_kitty ;;
+        "5") other_terminal ;;
     esac
 }

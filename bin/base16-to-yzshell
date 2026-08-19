@@ -1,0 +1,86 @@
+#!/usr/bin/env python
+# base16-to-yzshell template converter
+
+from argparse import ArgumentParser
+from os import path
+from sys import argv, exit
+
+
+def get_full_path(p):
+    if "~" in p:
+        return path.expanduser(p)
+    else:
+        return path.abspath(p)
+
+
+def convert(src, dest):
+    conv_map = {
+        "base00": "background",
+        "base01": "surface1",
+        "base02": "surface2",
+        "base03": "surface3",
+        "base04": "surface4",
+        "base05": "foreground",
+        "base06": "foreground",
+        "base07": "foreground",
+        "base08": "red",
+        "base09": "orange",
+        "base0A": "yellow",
+        "base0B": "green",
+        "base0C": "cyan",
+        "base0D": "blue",
+        "base0E": "purple",
+        "base0F": "brown",
+        "scheme-name": "scheme",
+        "scheme-author": "author",
+        "scheme-slug": "id",
+    }
+    src = get_full_path(src)
+    src_file = path.basename(src)
+    data = None
+
+    if dest == None:
+        dest = f"yzshell-{src_file}"
+
+    if path.isfile(src) == False:
+        print(f"Error: file '{src}' not found!")
+        exit(1)
+
+    with open(src, "r") as f:
+        data = f.read()
+
+    for c in conv_map:
+        data = data.replace(c, conv_map[c])
+
+    if path.isfile(dest):
+        while True:
+            a = input(f">> File '{dest}' already exists, overwrite? [Y/n]: ")
+            a = a.strip().lower()
+            if a in ["", "y", "yes"]:
+                break
+            elif a in ["n", "no"]:
+                print(">> Operation cancelled, exiting.")
+                exit(1)
+
+    try:
+        with open(dest, "w") as f:
+            f.write(data)
+    except OSError:
+        print(f"Error: could not write to file '{dest}'!")
+        exit(1)
+
+    print(f">> Converted template saved to '{dest}'.")
+
+
+def main():
+    parser = ArgumentParser()
+    parser.add_argument("-s", "--source")
+    parser.add_argument("-d", "--dest", default=None)
+    args = parser.parse_args(argv[1:])
+    print(
+        ">> Note: yzshell does not support decimal or hsl colours -- these values must be manually configured!"
+    )
+    convert(args.source, args.dest)
+
+
+main()

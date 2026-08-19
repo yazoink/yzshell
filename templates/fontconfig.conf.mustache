@@ -3,18 +3,18 @@
 <fontconfig>
     <match target="pattern">
         <test qual="any" name="family"><string>serif</string></test>
-        <edit name="family" mode="assign" binding="same"><string>TeX Gyre Schola</string></edit>
+        <edit name="family" mode="assign" binding="same"><string>{{serif_font}}</string></edit>
     </match>
     <match target="pattern">
         <test qual="any" name="family"><string>sans</string></test>
-        <edit name="family" mode="assign" binding="same"><string>Gabarito</string></edit>
+        <edit name="family" mode="assign" binding="same"><string>{{sans_font}}</string></edit>
     </match>
     <match target="pattern">
         <test qual="any" name="family"><string>sans-serif</string></test>
-        <edit name="family" mode="assign" binding="same"><string>Gabarito</string></edit>
+        <edit name="family" mode="assign" binding="same"><string>{{sans_font}}</string></edit>
     </match>
     <match target="pattern">
         <test qual="any" name="family"><string>monospace</string></test>
-        <edit name="family" mode="assign" binding="same"><string>Aporetic Serif Mono</string></edit>
+        <edit name="family" mode="assign" binding="same"><string>{{mono_font}}</string></edit>
     </match>
 </fontconfig>
