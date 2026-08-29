@@ -11,10 +11,7 @@ function aur_pkg_installed() {
 function install_aur_pkgs() {
     for pkg in "${@}"; do
         aur_pkg_installed "${pkg}" && continue
-        gum spin \
-            --spinner dot \
-            --title "Installing ${pkg}..." -- \
-            yay -S --needed --norebuild --noredownload --noconfirm "${pkg}"
+        yay -S --needed --norebuild --noredownload --noconfirm "${pkg}"
         exit_if_failed $? "Failed to install '${pkg}'"
     done
 }
@@ -22,10 +19,7 @@ function install_aur_pkgs() {
 function install_pkgs() {
     for pkg in "${@}"; do
         pkg_installed "${pkg}" && continue
-        gum spin \
-            --spinner dot \
-            --title "Installing ${pkg}..." -- \
-            sudo pacman -S -y --needed --noconfirm "${pkg}"
+        sudo pacman -S -y --needed --noconfirm "${pkg}"
         exit_if_failed $? "Failed to install '${pkg}'"
     done
 }

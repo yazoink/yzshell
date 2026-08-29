@@ -175,15 +175,11 @@ function main() {
     ! pkg_installed "git" &&
     install_pkgs "git"
     if ! pkg_installed "yay"; then
-        export -f install_yay
-        gum spin --spinner dot --title "Installing yay..." -- \
-            bash -c install_yay
+        install_yay
     fi
     if ! grep -q "chaotic-aur" /etc/pacman.conf; then
-        export -f enable_chaotic_aur
         gum confirm "Enable Chaotic AUR?" &&
-        gum spin --spinner dot --title "Enabling Chaotic AUR..." -- \
-            bash -c enable_chaotic_aur
+        enable_chaotic_aur
     fi
     source "${SRC_DIR}/install/copyutils.sh"
     copy_files
@@ -193,8 +189,8 @@ function main() {
         deps_import_gpg_keys
         install_pkgs "${DEPS[@]}"
         install_aur_pkgs "${AUR_DEPS[@]}"
-        sudo sh -c ln -s /usr/share/fontconfig/conf.avail/10-nerd-font-symbols.conf \
-            /etc/fonts/conf.d/ >/dev/null 2>&1 &
+        sudo sh -c 'ln -s /usr/share/fontconfig/conf.avail/10-nerd-font-symbols.conf \
+            /etc/fonts/conf.d/ >/dev/null 2>&1 &'
         sudo sh -c 'journalctl --vacuum-time=2weeks >/dev/null 2>&1'
         sudo sh -c 'systemctl enable --now fstrim.timer >/dev/null 2>&1'
         sudo sh -c 'systemctl enable --now systemd-oomd >/dev/null 2>&1'
@@ -248,7 +244,7 @@ function main() {
         clear
         if gum confirm "Delete repo at '${SRC_DIR}'?"; then
             rm -rf "${SRC_DIR}"
-            echo ">> Repo deleted"
+            announce "Repo deleted"
         fi
     fi
     gum style "" # the output gets garbled if i don't put this here, idk why
