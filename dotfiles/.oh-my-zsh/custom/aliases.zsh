@@ -1,3 +1,4 @@
+alias webcam="ffplay -fast /dev/video0"
 alias vim="nvim"
 alias ff="fastfetch"
 alias ls="eza --hyperlink=always"
