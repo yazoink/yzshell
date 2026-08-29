@@ -22,25 +22,30 @@ USERCHROME_FILES = {
 }
 
 
+def announce(s):
+    cmd = f'gum style --foreground 212 "{s}"'
+    subprocess.run(cmd, shell=True)
+
+
+def print_err(msg):
+    cmd = f"gum log --structured --level='fatal' '{msg}'"
+    subprocess.run(cmd, shell=True)
+
+
 def answer_yes(question):
-    while True:
-        a = input(f">> {question} [Y/n]: ")
-        match a.lower().strip():
-            case "" | "y" | "yes":
-                return True
-            case "n" | "no":
-                return False
+    a = subprocess.run(f'gum confirm "{question}"', shell=True)
+    if a.returncode == 0:
+        return True
+    return False
 
 
-def select_option(x, num):
-    while True:
-        a = input(f">> Select {x} [1-{num}]: ")
-        try:
-            a = int(a)
-        except:
-            continue
-        if a in range(1, num + 1):
-            return a
+def select_option(x, opts):
+    cmd = f"gum choose --header 'Select {x}...'"
+    for o in opts:
+        cmd += f" '{o}'"
+    return subprocess.run(
+        cmd, shell=True, text=True, stdout=subprocess.PIPE
+    ).stdout.strip()
 
 
 def get_profiles():
@@ -51,23 +56,16 @@ def get_profiles():
         if path.isdir(path.join(ZEN_DIR, item)) and item not in ignore:
             profiles.append(item)
     if profiles == []:
-        print(f">> No profiles found in '{ZEN_DIR}', cannot continue.")
-        print(">> Try launching and closing the browser before running again.")
+        announce(f"No profiles found in '{ZEN_DIR}', cannot continue.")
+        announce("Try launching and closing the browser before running again.")
         exit(1)
     return profiles
 
 
 def select_profile(profiles):
-    print("#### PROFILES ####")
-    profile_num = len(profiles)
-    for i in range(1, profile_num + 1):
-        print(f"{i}. {profiles[i - 1]}")
-    o = select_option("profile", profile_num)
-    profile_dir = path.join(ZEN_DIR, profiles[o-1])
-    subprocess.run(
-        f"yzconf set zen_profile_dir '{profile_dir}'",
-        shell=True
-    )
+    o = select_option("profile", profiles)
+    profile_dir = path.join(ZEN_DIR, o)
+    subprocess.run(f"yzconf set zen_profile_dir '{profile_dir}'", shell=True)
     return profile_dir
 
 
@@ -79,17 +77,20 @@ def delete_if_exists(p):
     elif path.islink(p) == True:
         unlink(p)
 
+
 def write_userchrome(profile_dir):
     scheme = subprocess.run(
         ["yzconf", "get", "colourscheme"],
         text=True,
-        capture_output=True
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
     ).stdout.strip()
     data = json.loads(
         subprocess.run(
             ["yzconf", "dump_mustache_data"],
             text=True,
-            capture_output=True
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
         ).stdout.strip()
     )
     chrome_dir = path.join(profile_dir, "chrome")
@@ -101,32 +102,27 @@ def write_userchrome(profile_dir):
             buf = chevron.render(f, data)
         with open(path.join(chrome_dir, c), "w") as f:
             f.write(buf)
-        print(f">> Wrote '{c}' to '{chrome_dir}'")
+        announce("Wrote '" + c + "'")
 
 
 def write_user_js(profile_dir):
     dest = path.join(profile_dir, "user.js")
     delete_if_exists(dest)
-    copyfile(
-        path.join(DATA_DIR, "misc/zen/user.js"),
-        dest
-    )
-    print(f">> Copied 'user.js' to {profile_dir}")
+    copyfile(path.join(DATA_DIR, "misc/zen/user.js"), dest)
+    announce(f"Copied 'user.js'")
 
 
 def remove_policies():
     if path.exists(POLICIES_FILE) == True:
-        r = subprocess.run(
-            f"sudo rm -rf {POLICIES_FILE}",
-            shell=True
-        )
+        r = subprocess.run(f"sudo rm -rf {POLICIES_FILE}", shell=True)
         if r.returncode != 0:
-            print(">> Could not remove policies.json, cannot continue.")
+            print_err("Could not remove policies.json, cannot continue.")
             exit(1)
 
 
 def configure_policies():
-    print(">> Configuring policies.json...")
+    print("")
+    announce("Configuring policies.json...")
     addons = {
         "uBlock Origin": "uBlock0@raymondhill.net",
         "SponsorBlock": "sponsorBlocker@ajay.app",
@@ -139,132 +135,100 @@ def configure_policies():
         "Control Panel for YouTube": "control-panel-for-youtube@jbscript.dev",
         "KeePassXC-Browser": "keepassxc-browser@keepassxc.org",
         "I Still Don't Care About Cookies": "idcac-pub@guus.ninja",
-        "enhanced-h264ify": "{9a41dee2-b924-4161-a971-7fb35c053a4a}"
+        "enhanced-h264ify": "{9a41dee2-b924-4161-a971-7fb35c053a4a}",
     }
 
     src = path.join(DATA_DIR, "misc/zen/policies.json")
     policies = None
     with open(src, "r") as f:
         policies = json.load(f)
-    print("#### ADDONS ####")
     for a in addons:
         if answer_yes(f"Install addon '{a}'?") == True:
             policies["policies"]["ExtensionSettings"][a] = {
                 "installation_mode": "force_installed",
-                "install_url": f"https://addons.mozilla.org/firefox/downloads/latest/{addons[a]}/latest.xpi"
+                "install_url": f"https://addons.mozilla.org/firefox/downloads/latest/{addons[a]}/latest.xpi",
             }
     remove_policies()
     if path.exists(POLICIES_DIR) == False:
-        r = subprocess.run(
-            f"sudo mkdir -p {POLICIES_DIR}",
-            shell=True
-        )
+        r = subprocess.run(f"sudo mkdir -p {POLICIES_DIR}", shell=True)
         if r.returncode == False:
-            print(f">> Could not make directory: {POLICIES_DIR}!")
+            print_err(f"Could not make directory: {POLICIES_DIR}!")
             exit(1)
     with open("/tmp/policies.json", "w") as f:
         json.dump(policies, f)
     r = subprocess.run(
-        f'''
+        f"""
         sudo cp -rf /tmp/policies.json {POLICIES_FILE}
         rm /tmp/policies.json
-        ''',
-        shell=True
+        """,
+        shell=True,
     )
     if r.returncode != 0:
-        print(">> Could not write 'policies.json'!")
+        print_err("Could not write 'policies.json'!")
         exit(1)
-    print(f">> Wrote 'policies.json' to '{POLICIES_DIR}'")
+    announce(f"Wrote 'policies.json' to '{POLICIES_DIR}'")
 
 
 if __name__ == "__main__":
     # ARGS
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-np", "--no-policies", 
-        action='store_true', 
-        default=False
-    )
-    parser.add_argument(
-        "-nu", "--no-userchrome", 
-        action='store_true', 
-        default=False
-    )
-    parser.add_argument(
-        "-nj", "--no-userjs", 
-        action='store_true', 
-        default=False
-    )
-    parser.add_argument(
-        "-u", "--unattended", 
-        action='store_true', 
-        default=False
-    )
-    parser.add_argument(
-        "-s", "--select-profile", 
-        action='store_true', 
-        default=False
-    )
-    parser.add_argument(
-        "-d", "--profile-dir", 
-        default=None
-    )
+    parser.add_argument("-np", "--no-policies", action="store_true", default=False)
+    parser.add_argument("-nu", "--no-userchrome", action="store_true", default=False)
+    parser.add_argument("-nj", "--no-userjs", action="store_true", default=False)
+    parser.add_argument("-u", "--unattended", action="store_true", default=False)
+    parser.add_argument("-s", "--select-profile", action="store_true", default=False)
+    parser.add_argument("-d", "--profile-dir", default=None)
     args = parser.parse_args(argv[1:])
 
-    r = subprocess.run(
-        ["yay", "-Qi", "zen-browser-bin"],
-        capture_output=True
-    )
+    r = subprocess.run(["yay", "-Qi", "zen-browser-bin"], capture_output=True)
     # ENSURE ZEN INSTALLED
     if r.returncode != 0:
         if args.unattended == True:
-            print("Zen not installed, cannot configure.")
+            print_err("Zen not installed, cannot configure.")
             exit(1)
-        print(">> Zen package not installed!")
-        if answer_yes("Install package?") == True:
+        if answer_yes("Install Zen Browser?") == True:
             remove_policies()
-            subprocess.run([
-                "yay",
-                "-S", 
-                "--needed", 
-                "--norebuild", 
-                "--noredownload", 
-                "zen-browser-bin"
-            ])
+            subprocess.run(
+                "yay -S --needed --norebuild --noredownload --noconfirm zen-browser-bin",
+                shell=True,
+            )
         else:
-            print(">> Zen must be installed to continue.")
+            print_err("Zen must be installed to continue.")
             exit(1)
     if path.exists(ZEN_DIR) == False:
-        print(">> Configuration directory does not exist, cannot continue.")
-        print(">> Try launching and closing the browser before running again.")
+        print_err(
+            "Configuration directory does not exist, cannot continue. Try launching and closing the browser before running again."
+        )
         exit(1)
 
     if args.no_userchrome == False or args.no_userjs == False:
         profile_dir = None
         if args.select_profile == True:
             if args.profile_dir != None:
-                print(">> Conflicting args: --select-profile and --profile-dir.")
+                print_err("Conflicting args: --select-profile and --profile-dir.")
                 exit(1)
             if args.unattended == True:
-                print(">> Cannot select profile in unattended mode.")
+                print_err("Cannot select profile in unattended mode.")
                 exit(1)
             profiles = get_profiles()
             profile_dir = select_profile(profiles)
         elif args.profile_dir != None:
-            profile_dir = path.abspath(args.profile_dir)
+            profile_dir = args.profile_dir
         else:
             profile_dir = subprocess.run(
                 ["yzconf", "get", "zen_profile_dir"],
-                capture_output=True,
-                text=True
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
             ).stdout.strip()
-            
+
+        announce("Generating configuration files...")
         if args.no_userchrome == False:
             write_userchrome(profile_dir)
         if args.no_userjs == False:
             write_user_js(profile_dir)
     if args.no_policies == False:
         if args.unattended == True:
-            print(">> Cannot install policies in unattended mode.")
+            print_err("Cannot install policies in unattended mode.")
             exit(1)
         configure_policies()
