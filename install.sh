@@ -221,7 +221,7 @@ function main() {
             install_aur_pkgs "vesktop-bin"
         else
             yzconf set "configure_vesktop" "false"
-            announce "A Vesktop theme, which can be enabled manually, will still be created"
+            # announce "A Vesktop theme, which can be enabled manually, will still be created"
         fi
     fi
     if [ $install_deps -eq 0 ]; then
