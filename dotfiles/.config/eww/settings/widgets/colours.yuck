@@ -2,12 +2,12 @@
 (defvar dark_colourschemes `[]`)
 (defvar schemes_selected 0)
 (defpoll current_scheme 
-    :interval "10s"
+    :interval "999999h"
     :run-while false
     "yzconf get colourscheme"
 )
 (defpoll schemes_setter 
-    :interval "10s"
+    :interval "999999h"
     :run-while false
     "settings/scripts/schemes.py &"
 )

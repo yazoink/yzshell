@@ -3,7 +3,7 @@
 
 (defvar user_input "")
 (defpoll search_results 
-  :interval "10s"
+  :interval "999999h"
   :run-while false
   "control_center/scripts/apps.py &"
 )

@@ -1,6 +1,6 @@
 (defpoll screenshot_output
   :run-while false
-  :interval "10s"
+  :interval "999999h"
   `echo "$(yzconf get screenshot_dir)/$(date +%d-%m-%Y_%H:%M:%S)_screenshot.png"`
 )
 
