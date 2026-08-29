@@ -201,7 +201,7 @@ if __name__ == "__main__":
             print_err(
                 "Configuration directory does not exist, cannot continue. Try launching and closing the browser before running again."
             )
-        exit(1)
+            exit(1)
         profile_dir = None
         if args.select_profile == True:
             if args.profile_dir != None:
