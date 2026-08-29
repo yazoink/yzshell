@@ -110,7 +110,7 @@ if __name__ == "__main__":
     for f in files:
         if f.endswith((".jpg", ".png", ".jpeg")):
             image_files.append(f)
-    if len(image_files) > 1:
+    if len(image_files) > 0:
         if len(image_files) < 3:
             rows = 1
         else:
