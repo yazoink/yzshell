@@ -1,6 +1,7 @@
 function install_zen() {
     announce "Installing Zen Browser..."
     install_aur_pkgs "zen-browser-bin"
+    zenconf -nu -nj
     yzconf set "web_browser" "zen-browser"
 }
 
