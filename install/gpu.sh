@@ -1,17 +1,9 @@
 function install_intel() {
-    a=""
+    clear
     pkgs=("linux-firmware-intel" "libvpl" "libvdpau-va-gl")
-    echo "
-#### INTEL DRIVERS ####
-1. Standard
-2. Legacy (Gen 2-7)
-3. Cancel"
-    while true; do
-        read -p ">> Select drivers [1-3]: " a
-        [[ "${a}" =~ [1-3] ]] && break
-    done
+    a="$(gum choose --header 'Select Intel drivers...' 'Standard' 'Legacy (Gen 2-7)' 'Cancel')"
     case "${a}" in
-        "1")
+        "Standard")
             pkgs+=(
                 "mesa"
                 "vulkan-intel"
@@ -19,9 +11,9 @@ function install_intel() {
                 "vpl-gpu-rt"
             )
             ;;
-        "2")
+        "Legacy (Gen 2-7)")
             pkg_installed "mesa" && sudo pacman -Rns mesa
-            if answer_yes "Install Vulkan drivers? (Gen 3+)"; then
+            if gum confirm "Install Vulkan drivers? (Gen 3+)"; then
                 pkgs+=("vulkan-intel")
             fi
             pkgs+=(
@@ -36,7 +28,8 @@ function install_intel() {
 }
 
 function install_amd() {
-    ! answer_yes "This script does not support < Rx 2000, continue?" && return
+    clear
+    ! gum confirm "This script does not support < Rx 2000, continue?" && return
     pkgs=(
         "mesa"
         "libva-mesa-driver"
@@ -47,18 +40,10 @@ function install_amd() {
 }
 
 function install_gpu_drivers() {
-    fm=""
-    echo "
-#### GRAPHICS DRIVERS ####
-1. Intel
-2. AMD
-3. I will deal with graphics drivers"
-    while true; do
-        read -p ">> Install graphics drivers [1-3]: " fm
-        [[ "${fm}" =~ [1-3] ]] && break
-    done
+    clear
+    fm=$(gum choose --header 'Select graphics drivers...' "Intel" "AMD" "I will deal with graphics drivers")
     case "${fm}" in
-        "1") install_intel ;;
-        "2") install_amd ;;
+        "Intel") install_intel ;;
+        "AMD") install_amd ;;
     esac
 }

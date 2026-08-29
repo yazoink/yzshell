@@ -9,13 +9,23 @@ function aur_pkg_installed() {
 }
 
 function install_aur_pkgs() {
-    echo ">> Installing packages ${@}..."
-    yay -S --needed --norebuild --noredownload --noconfirm "${@}"
-    exit_if_failed $? "failed to install package '${@}'"
+    for pkg in "${@}"; do
+        aur_pkg_installed "${pkg}" && continue
+        gum spin \
+            --spinner dot \
+            --title "Installing ${pkg}..." -- \
+            yay -S --needed --norebuild --noredownload --noconfirm "${pkg}"
+        exit_if_failed $? "Failed to install '${pkg}'"
+    done
 }
 
 function install_pkgs() {
-    echo ">> Installing packages ${@}..."
-    sudo pacman -S -y --needed --noconfirm "${@}"
-    exit_if_failed $? "failed to install package '${@}'"
+    for pkg in "${@}"; do
+        pkg_installed "${pkg}" && continue
+        gum spin \
+            --spinner dot \
+            --title "Installing ${pkg}..." -- \
+            sudo pacman -S -y --needed --noconfirm "${pkg}"
+        exit_if_failed $? "Failed to install '${pkg}'"
+    done
 }

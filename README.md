@@ -114,6 +114,7 @@ Prerequisites:
 - Base Arch install (I do not recommend installing on a system with any existing configs, it will just override some stuff, and also stow will complain)
 - NetworkManager
 - Pipewire
+- `gum`
 - `git` or `curl`
 
 ### With curl

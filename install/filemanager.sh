@@ -6,7 +6,7 @@ function install_pcmanfm() {
 
 function install_thunar() {
     pkgs=(
-        "thunar" 
+        "thunar"
         "thunar-archive-plugin"
         "thunar-media-tags-plugin"
         "thunar-shares-plugin"
@@ -19,28 +19,21 @@ function install_thunar() {
 function other_file_manager() {
     cmd=""
     while true; do
-        read -p ">> Enter file manager command: " cmd
-        answer_yes "Set '${cmd}' as file manager?" && break
+        clear
+        cmd="$(gum input --placeholder 'Enter file manager command...')"
+        gum confirm "Set '${cmd}' as file manager?" && break
     done
     yzconf set file_manager "${cmd}"
 }
 
 function install_file_manager() {
-    which thunar > /dev/null 2>&1 && yzconf set "file_manager" "thunar" && return
-    which pcmanfm > /dev/null 2>&1 && yzconf set "file_manager" "pcmanfm" && return
-    fm=""
-    echo "
-#### FILE MANAGER ####
-1. pcmanfm
-2. thunar
-3. I already have a file manager"
-    while true; do
-        read -p ">> Install file manager [1-3]: " fm
-        [[ "${fm}" =~ [1-3] ]] && break
-    done
+    which thunar >/dev/null 2>&1 && yzconf set "file_manager" "thunar" && return
+    which pcmanfm >/dev/null 2>&1 && yzconf set "file_manager" "pcmanfm" && return
+    clear
+    fm="$(gum choose --header 'Select file manager...' 'PCManFM' 'Thunar' 'I already have a file manager')"
     case "$fm" in
-        "1") install_pcmanfm ;;
-        "2") install_thunar ;;
-        "3") other_file_manager ;; 
+        "PCManFM") install_pcmanfm ;;
+        "Thunar") install_thunar ;;
+        "I already have a file manager") other_file_manager ;;
     esac
 }

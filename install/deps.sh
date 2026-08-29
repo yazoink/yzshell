@@ -98,22 +98,38 @@ function deps_import_gpg_keys() {
 function install_oh_my_zsh() {
     # oh-my-zsh
     if [ ! -d ~/.oh-my-zsh ]; then
-        if ! answer_yes "Install and configure Zsh with yzshell?"; then
+        clear
+        if ! gum confirm "Install and configure Zsh with yzshell?"; then
             yzconf set "configure_zsh" "false"
+            return 1
         fi
         yzconf set "configure_zsh" "true"
         pkgs=("zsh" "zsh-completions")
         install_pkgs "${pkgs[@]}"
-        sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
-        exit_if_failed $? "failed to download oh-my-zsh"
+        gum spin \
+            --spinner dot \
+            --title "Installing oh-my-zsh..." -- \
+            sh -c \
+            "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" \
+            "" --unattended
+        exit_if_failed $? "Failed to install oh-my-zsh"
         # autosuggestions
         [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions" ] &&
-        git clone https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions"
-        exit_if_failed $? "failed to download zsh-autosuggestions"
+        gum spin \
+            --spinner dot \
+            --title "Installing autosuggestions for Zsh..." -- \
+            git clone https://github.com/zsh-users/zsh-autosuggestions \
+            "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions"
+        exit_if_failed $? "Failed to download zsh-autosuggestions"
         # syntax highlighting
         [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting" ] &&
-        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
-        exit_if_failed $? "failed to download zsh-syntax-highlighting"
+        gum spin \
+            --spinner dot \
+            --title "Installing syntax highlighting for Zsh..." -- \
+            git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
+            "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
+        exit_if_failed $? "Failed to download zsh-syntax-highlighting"
+        announce "Zsh installed!"
     fi
 }
 
@@ -129,5 +145,4 @@ function install_mpd() {
     install_aur_pkgs "${aur_pkgs[@]}"
     systemctl --user --now enable mpd
     systemctl --user --now enable mpdris2-rs.service
-    echo ">> MPD installed"
 }

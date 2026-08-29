@@ -72,24 +72,32 @@ function install_vscode() {
     )
     install_pkgs "code"
     for e in "${extensions[@]}"; do
-        code --install-extension "${e}"
+        gum spin \
+            --spinner dot \
+            --title "Installing Vscodium extension '${e}'..." -- \
+            code --install-extension "${e}"
     done
+    announce "Vscodium installed!"
 }
 
 function install_dict() {
     if ! which dict >/dev/null 2>&1; then
-        ! answer_yes "Install dict (https://github.com/yazoink/dict)?" && return 1
-        echo ">> Installing dict..."
+        clear
+        ! gum confirm "Install Dict (https://github.com/yazoink/dict)?" &&
+        return 1
         curl -s https://raw.githubusercontent.com/yazoink/dict/refs/heads/main/dict >/tmp/dict
         sudo install -Dm755 /tmp/dict /usr/bin/dict
         rm /tmp/dict
+        announce "Dict installed!"
     fi
 }
 
 function install_soundboard() {
     if ! which soundboard >/dev/null 2>&1; then
-        ! answer_yes "Install soundboard (https://github.com/yazoink/soundboard)?" && return 1
-        echo ">> Installing soundboard..."
+        clear
+        ! gum confirm \
+            "Install Soundboard (https://github.com/yazoink/soundboard)?" &&
+        return 1
         deps=(
             "python"
             "python-gobject"
@@ -99,7 +107,10 @@ function install_soundboard() {
         install_pkgs "${deps[@]}"
 
         [ ! -d ~/src ] && mkdir -p ~/src
-        git clone https://github.com/yazoink/soundboard.git ~/src/soundboard
+        gum spin \
+            --spinner dot \
+            --title "Downloading Soundboard..." -- \
+            git clone https://github.com/yazoink/soundboard.git ~/src/soundboard
         sudo mkdir -p /usr/share/soundboard/
         sudo cp -rf ~/src/soundboard/sounds /usr/share/soundboard/sounds
         [ ! -d ~/.config/soundboard ] && mkdir -p ~/.config/soundboard
@@ -110,5 +121,6 @@ Name=Soundboard
 Comment=play sounds and stuff
 Exec=soundboard
 Type=Application" | sudo tee /usr/share/applications/soundboard.desktop >/dev/null
+        announce "Soundboard installed!"
     fi
 }

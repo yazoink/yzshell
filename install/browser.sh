@@ -4,27 +4,22 @@ function install_zen() {
 }
 
 function other_browser() {
+    clear
     cmd=""
     while true; do
-        read -p ">> Enter web browser command: " cmd
-        answer_yes "Set '${cmd}' as web browser?" && break
+        clear
+        cmd="$(gum input --placeholder 'Enter web browser command...')"
+        gum confirm "Set '${cmd}' as web browser?" && break
     done
     yzconf set "web_browser" "${cmd}"
 }
 
 function install_browser() {
     which zen-browser >/dev/null 2>&1 && yzconf set "web_browser" "zen-browser" && return
-    br=""
-    echo "
-#### WEB BROWSER ####
-1. Zen
-3. I already have a web browser"
-    while true; do
-        read -p ">> Install web browser [1-2]: " br
-        [[ "${br}" =~ [1-2] ]] && break
-    done
+    clear
+    br="$(gum choose --header 'Select web browser...' 'Zen' 'I already have a web browser')"
     case "${br}" in
-        "1") install_zen ;;
-        "2") other_browser ;;
+        "Zen") install_zen ;;
+        "I already have a web browser") other_browser ;;
     esac
 }
