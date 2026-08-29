@@ -130,6 +130,7 @@ def open_settings(screen):
         f"""
         rm /tmp/wp_settings.lock
         eww poll wallpapers_setter
+        eww poll wallpaper_dir
         eww open closer --no-daemonize --screen {screen}
         eww open settings --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"settings\")'
