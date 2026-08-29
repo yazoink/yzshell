@@ -1,22 +1,22 @@
 (defpoll wallpaper_dir 
   :run-while false 
-  :interval "10s" 
+  :interval "999999h" 
   "yzconf get wallpaper_dir"
 )
 (defvar wallpapers "[]")
 (defpoll wallpapers_setter
   :run-while false 
-  :interval "10s" 
+  :interval "999999h" 
   "rm /tmp/wp_settings.lock; settings/scripts/wallpapers.py &"
 )
 (defpoll current_wallpaper 
   :run-while false 
-  :interval "10s" 
+  :interval "999999h" 
   `echo "$(yzconf get wallpaper_dir)/$(yzconf get wallpaper_image)"`
 )
 (defpoll wallpaper_mode 
   :run-while false 
-  :interval "10s" 
+  :interval "999999h" 
   "yzconf get wallpaper_mode"
 )
 (defvar wallpapers_loading true)
