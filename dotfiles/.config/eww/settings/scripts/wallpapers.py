@@ -14,10 +14,7 @@ from PIL import Image
 
 def get_default_dir():
     return subprocess.run(
-        "yzconf get wallpaper_dir",
-        shell=True,
-        text=True,
-        capture_output=True
+        "yzconf get wallpaper_dir", shell=True, text=True, capture_output=True
     ).stdout.strip()
 
 
@@ -51,7 +48,7 @@ def update_thumbs(refresh=False, directory=None):
     img_num = 0
     for f in files:
         l = f.lower()
-        if l.endswith(('.jpg', '.png', '.jpeg')):
+        if l.endswith((".jpg", ".png", ".jpeg")):
             img_num += 1
             if path.exists(path.join(cache_dir, f)) == False:
                 threads.append(Thread(target=make_thumb, args=(f,)))
@@ -68,13 +65,13 @@ if __name__ == "__main__":
     lockfile = "/tmp/wp_settings.lock"
 
     if path.isfile(lockfile) == True:
-        exit(0)
+        exit(1)
     with open(lockfile, "w") as f:
         f.write("")
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--directory", default=None)
-    parser.add_argument("-r", "--refresh", action='store_true', default=False)
+    parser.add_argument("-r", "--refresh", action="store_true", default=False)
     args = parser.parse_args(argv[1:])
 
     directory = get_dir(args.directory)
@@ -85,19 +82,20 @@ if __name__ == "__main__":
 
     if path.isdir(directory) == False:
         subprocess.run(
-            f'''
+            f"""
             eww update wallpaper_dir="$(yzconf get wallpaper_dir)"
-            ''',
-            shell=True
+            """,
+            shell=True,
         )
         exit(1)
 
     subprocess.run(
-        f'''
+        f"""
+        eww update wallpaper_dir='{directory}'
         eww update wallpapers_loading=true
         eww update wallpapers="[]"
-        ''',
-        shell=True
+        """,
+        shell=True,
     )
 
     # update thumbs
@@ -106,7 +104,7 @@ if __name__ == "__main__":
     files = listdir(directory)
     image_files = []
     for f in files:
-        if f.endswith(('.jpg', '.png', '.jpeg')):
+        if f.endswith((".jpg", ".png", ".jpeg")):
             image_files.append(f)
     if len(image_files) > 1:
         if len(image_files) < 3:
@@ -123,10 +121,10 @@ if __name__ == "__main__":
                     available_wallpapers[row].append(image_files[i])
                     i += 1
     subprocess.run(
-        f'''
+        f"""
         eww update wallpapers_loading=false
         eww update wallpapers=\'{json.dumps(available_wallpapers)}\'
-        ''',
-        shell=True
+        """,
+        shell=True,
     )
     remove(lockfile)
