@@ -178,6 +178,7 @@ function main() {
         install_yay
     fi
     if ! grep -q "chaotic-aur" /etc/pacman.conf; then
+        clear
         gum confirm "Enable Chaotic AUR?" &&
         enable_chaotic_aur
     fi
