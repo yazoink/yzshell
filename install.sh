@@ -250,6 +250,10 @@ function main() {
             announce "Repo deleted"
         fi
     fi
+    zsh="$(which zsh)"
+    if [ "${SHELL}" != "${zsh}" ]; then
+        gum confirm "Set Zsh as default shell?" && chsh -s "${zsh}"
+    fi
     gum style "" # the output gets garbled if i don't put this here, idk why
     notes="A reboot is recommended after the initial installation.
 
