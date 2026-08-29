@@ -21,7 +21,7 @@
     "class": "shutdown",
     "icon": "",
     "desc": "Power off",
-    "cmd": "systemctl shutdown &"
+    "cmd": "shutdown now &"
   }
 ]`)
 (defvar selected "lock")
