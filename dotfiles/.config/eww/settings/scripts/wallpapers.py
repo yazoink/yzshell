@@ -81,9 +81,12 @@ if __name__ == "__main__":
     rows = 0
 
     if path.isdir(directory) == False:
+        directory = subprocess.run(
+            ["yzconf", "get", "wallpaper_dir"], text=True, capture_output=True
+        ).stdout.strip()
         subprocess.run(
             f"""
-            eww update wallpaper_dir="$(yzconf get wallpaper_dir)"
+            eww update wallpaper_dir="{directory}"
             """,
             shell=True,
         )
