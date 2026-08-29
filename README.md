@@ -119,8 +119,6 @@ Prerequisites:
 
 ### With curl
 
-(I haven't fully tested this method, so maybe don't yet)
-
 `bash -c "$(curl -Ss https://raw.githubusercontent.com/yazoink/yzshell/refs/heads/main/install.sh)" "" --optional-deps`
 
 ### With git
