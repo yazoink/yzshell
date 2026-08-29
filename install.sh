@@ -24,16 +24,6 @@ DIRECTORIES=(
     "misc"
 )
 
-function answer_yes() {
-    while true; do
-        read -p ">> $1 [Y/n]: " answer
-        case "${answer^^}" in
-            "" | "Y" | "YES") return 0 ;;
-            "N" | "NO") return 1 ;;
-        esac
-    done
-}
-
 function exit_if_failed() {
     ret=$1
     error_msg="$2"
@@ -161,6 +151,25 @@ function main() {
         announce "Installing from Github"
         [ $dir_index -ne -1 ] && SRC_DIR="${!dir_index}"
     fi
+    # IF GIT INSTALL, CLONE REPO
+    if [ $install_local -ne 0 ]; then
+        clone=0
+        if [ -d "$SRC_DIR" ]; then
+            clear
+            if gum confirm "Directory '${SRC_DIR}' already exists, overwrite?"; then
+                rm -rf "${SRC_DIR}"
+            else
+                clone=1
+            fi
+        fi
+        if [ $clone -eq 0 ]; then
+            gum spin \
+                --spinner dot \
+                --title "Cloning yzshell to '${SRC_DIR}'..." -- \
+                git clone "https://github.com/yazoink/yzshell.git" "$SRC_DIR"
+            exit_if_failed $? "Could not clone repo."
+        fi
+    fi
     # INSTALL ESSENTIAL DEPS
     source "${SRC_DIR}/install/pkgutils.sh"
     ! pkg_installed "git" &&
@@ -175,26 +184,6 @@ function main() {
         gum confirm "Enable Chaotic AUR?" &&
         gum spin --spinner dot --title "Enabling Chaotic AUR..." -- \
             bash -c enable_chaotic_aur
-    fi
-    # IF GIT INSTALL, CLONE REPO
-    if [ $install_local -ne 0 ]; then
-        clone=0
-        if [ -d "$SRC_DIR" ]; then
-            clear
-            if gum confirm "Directory '${SRC_DIR}' already exists, overwrite?"; then
-                rm -rf "${SRC_DIR}"
-                pass
-            else
-                clone=1
-            fi
-        fi
-        if [ $clone -eq 0 ]; then
-            gum spin \
-                --spinner dot \
-                --title "Cloning yzshell to '${SRC_DIR}'..." -- \
-                git clone "https://github.com/yazoink/yzshell.git" "$SRC_DIR"
-            exit_if_failed $? "Could not clone repo."
-        fi
     fi
     source "${SRC_DIR}/install/copyutils.sh"
     copy_files
@@ -268,7 +257,7 @@ To configure Zen Browser: once there is at least one profile in '~/.config/zen',
 
 Make sure Pipewire is installed and NetworkManager is in use!
 
-Run 'chsh -s \"\$(which zsh)\"' to switch to Zsh.
+Run 'sudo chsh -s \"\$(which zsh)\"' to switch to Zsh.
 
 Hyprland is configured to start on TTY login from '~/.zprofile'; if you are not using Zsh, it will need to be launched manually with 'exec dbus-run-session start-hyprland', or from a display manager."
     reset
