@@ -158,7 +158,7 @@ def configure_policies():
         json.dump(policies, f)
     r = subprocess.run(
         f"""
-        sudo cp -rf /tmp/policies.json {POLICIES_FILE}
+        sudo install -m644 /tmp/policies.json {POLICIES_FILE}
         rm /tmp/policies.json
         """,
         shell=True,
