@@ -128,12 +128,12 @@ def close_workspaces():
 def open_settings(screen):
     subprocess.run(
         f"""
-        rm /tmp/wp_settings.lock
-        eww poll wallpapers_setter
-        eww poll wallpaper_dir
         eww open closer --no-daemonize --screen {screen}
         eww open settings --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"settings\")'
+        rm /tmp/wp_settings.lock
+        eww poll wallpaper_dir
+        eww poll wallpapers_setter
         """,
         shell=True,
         stdout=subprocess.DEVNULL,
