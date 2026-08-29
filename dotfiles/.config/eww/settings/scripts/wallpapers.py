@@ -90,6 +90,7 @@ if __name__ == "__main__":
             """,
             shell=True,
         )
+        remove(lockfile)
         exit(1)
 
     subprocess.run(
