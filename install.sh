@@ -238,6 +238,8 @@ function main() {
         install_gpu_drivers
         install_mpd
     fi
+    rm -rf ~/.config/hypr/hyprland.lua
+    rm -rf ~/.zshrc
     yzconf deploy_configs -r
     # REMOVE SOURCE IF GIT INSTALL
     if [ $install_local -ne 0 ]; then
