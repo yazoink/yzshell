@@ -256,7 +256,7 @@ To configure Zen Browser: once there is at least one profile in '~/.config/zen',
 
 Make sure Pipewire is installed and NetworkManager is in use!
 
-Run 'sudo chsh -s \"\$(which zsh)\"' to switch to Zsh.
+Run 'chsh -s \"\$(which zsh)\"' to switch to Zsh.
 
 Hyprland is configured to start on TTY login from '~/.zprofile'; if you are not using Zsh, it will need to be launched manually with 'exec dbus-run-session start-hyprland', or from a display manager."
     reset
