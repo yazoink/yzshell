@@ -1,8 +1,4 @@
-(defpoll wallpaper_dir 
-  :run-while false 
-  :interval "999999h" 
-  "yzconf get wallpaper_dir"
-)
+(defvar wallpaper_dir "")
 (defvar wallpapers "[]")
 (defpoll wallpapers_setter
   :run-while false 

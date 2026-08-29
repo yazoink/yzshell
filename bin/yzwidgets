@@ -9,18 +9,12 @@ from sys import argv, exit, stderr
 
 def control_center_search_selected(direction="next"):
     r = subprocess.run(
-        "eww get search_selected",
-        shell=True,
-        text=True,
-        capture_output=True
+        "eww get search_selected", shell=True, text=True, capture_output=True
     ).stdout.strip()
     selected = int(r)
     if direction == "next":
         r = subprocess.run(
-            "eww get search_results",
-            shell=True,
-            text=True,
-            capture_output=True
+            "eww get search_results", shell=True, text=True, capture_output=True
         ).stdout.strip()
         results = json.loads(r)
         l = len(results)
@@ -33,22 +27,20 @@ def control_center_search_selected(direction="next"):
         f"eww update search_selected={selected}",
         shell=True,
         stdout=subprocess.DEVNULL,
-        stderr=subprocess.STDOUT
+        stderr=subprocess.STDOUT,
     )
 
 
 def get_conf_opt(opt):
     return subprocess.run(
-        f"yzconf get {opt}",
-        shell=True,
-        text=True,
-        capture_output=True
+        f"yzconf get {opt}", shell=True, text=True, capture_output=True
     ).stdout.strip()
 
 
 def init_widgets():
+    wallpaper_dir = get_conf_opt("wallpaper_dir")
     subprocess.run(
-        '''
+        f"""
         eww daemon
         eww poll dnd_icon
         eww poll username
@@ -59,13 +51,13 @@ def init_widgets():
         eww poll search_results
         eww poll screenshot_output
         eww poll current_scheme
-        eww poll wallpaper_dir
+        eww update wallpaper_dir='{wallpaper_dir}'
         eww poll wallpaper_mode
         eww poll current_wallpaper
         eww poll wallpaper_mode
         eww poll wallpapers_setter
         eww poll schemes_setter
-        ''',
+        """,
         shell=True,
     )
 
@@ -75,166 +67,167 @@ def get_screen():
         "hyprctl monitors -j | jq '.[] | .id'",
         shell=True,
         text=True,
-        capture_output=True
+        capture_output=True,
     ).stdout.strip()
 
 
 def open_control_center(screen):
     subprocess.run(
-        f'''
+        f"""
         eww update control_center_visible=true
         eww open closer --no-daemonize --screen {screen}
         eww open control_center --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"control_center\")'
-        ''',
+        """,
         shell=True,
-        stdout=subprocess.DEVNULL, 
-        stderr=subprocess.STDOUT
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.STDOUT,
     )
 
 
 def close_control_center():
     subprocess.run(
-        '''
+        """
         eww close control_center
         eww update control_center_visible=false
         eww poll search_results
-        ''',
+        """,
         shell=True,
-        stdout=subprocess.DEVNULL, 
-        stderr=subprocess.STDOUT
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.STDOUT,
     )
 
 
 def open_workspaces(screen, args):
     subprocess.run(
-        f'''
+        f"""
         eww update workspaces_visible=true
         eww open closer --no-daemonize --screen {screen}
         eww open workspaces --no-daemonize \\
             --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"workspaces\")'
-        ''',
+        """,
         shell=True,
-        stdout=subprocess.DEVNULL, 
-        stderr=subprocess.STDOUT
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.STDOUT,
     )
 
 
 def close_workspaces():
     subprocess.run(
-        '''
+        """
         eww close workspaces
         eww update workspaces_visible=false
-        ''',
+        """,
         shell=True,
-        stdout=subprocess.DEVNULL, 
-        stderr=subprocess.STDOUT
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.STDOUT,
     )
 
 
 def open_settings(screen):
     subprocess.run(
-        f'''
+        f"""
         eww open closer --no-daemonize --screen {screen}
         eww open settings --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"settings\")'
-        ''',
+        """,
         shell=True,
-        stdout=subprocess.DEVNULL, 
-        stderr=subprocess.STDOUT
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.STDOUT,
     )
 
 
 def close_settings():
     subprocess.run(
-        '''
+        """
         eww close settings
-        ''',
+        """,
         shell=True,
-        stdout=subprocess.DEVNULL, 
-        stderr=subprocess.STDOUT
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.STDOUT,
     )
 
 
 def open_screenshot(screen):
     subprocess.run(
-        f'''
+        f"""
         eww open closer --no-daemonize --screen {screen}
         eww open screenshot --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"screenshot\")'
-        ''',
+        """,
         shell=True,
-        stdout=subprocess.DEVNULL, 
-        stderr=subprocess.STDOUT
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.STDOUT,
     )
     screenshot_set_output()
 
 
 def close_screenshot():
     subprocess.run(
-        '''
+        """
         eww close screenshot
         eww poll screenshot_output
-        ''',
+        """,
         shell=True,
-        stdout=subprocess.DEVNULL, 
-        stderr=subprocess.STDOUT
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.STDOUT,
     )
 
 
 def open_power(screen):
     subprocess.run(
-        f'''
+        f"""
         eww open closer --no-daemonize --screen {screen}
         eww open power --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"power\")'
-        ''',
+        """,
         shell=True,
-        stdout=subprocess.DEVNULL, 
-        stderr=subprocess.STDOUT
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.STDOUT,
     )
 
 
 def close_power():
     subprocess.run(
-        '''
+        """
         eww close power
-        ''',
+        """,
         shell=True,
-        stdout=subprocess.DEVNULL, 
-        stderr=subprocess.STDOUT
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.STDOUT,
     )
 
 
 def open_calendar(screen):
     subprocess.run(
-        f'''
+        f"""
         eww open closer --no-daemonize --screen {screen}
         eww open calendar --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"calendar\")'
         eww update calendar_visible=true
-        ''',
+        """,
         shell=True,
-        stdout=subprocess.DEVNULL, 
-        stderr=subprocess.STDOUT
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.STDOUT,
     )
 
 
 def close_calendar():
     subprocess.run(
-        '''
+        """
         eww close calendar
         eww update calendar_visible=false
-        ''',
+        """,
         shell=True,
-        stdout=subprocess.DEVNULL, 
-        stderr=subprocess.STDOUT
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.STDOUT,
     )
+
 
 def close_all_widgets():
     subprocess.run(
-        '''
+        """
         eww close-all
         hyprctl dispatch 'hl.dsp.submap(\"reset\")'
         eww update control_center_visible=false
@@ -244,18 +237,16 @@ def close_all_widgets():
         eww update workspaces_visible=false
         eww poll search_results
         eww poll screenshot_output
-        ''',
+        """,
         shell=True,
-        stdout=subprocess.DEVNULL, 
-        stderr=subprocess.STDOUT
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.STDOUT,
     )
 
 
 def is_open(window):
     r = subprocess.run(
-        f"eww active-windows | grep {window}",
-        shell=True,
-        capture_output=True
+        f"eww active-windows | grep {window}", shell=True, capture_output=True
     ).returncode
     if r == 0:
         return True
@@ -264,7 +255,7 @@ def is_open(window):
 
 
 def help(exitcode=0):
-    print('''Usage: yzwidgets <OPTION> ...
+    print("""Usage: yzwidgets <OPTION> ...
     Options:
         init: start daemon and initialise widgets
         ctl <COMMAND>: IPC commands
@@ -292,7 +283,7 @@ def help(exitcode=0):
             Flags:
                 -a | --anchor <ANCHOR>: anchor of widget (i.e. 'left bottom')
                 -o | --orientation <h|v|horizontal|vertical>
-    ''')
+    """)
     exit(exitcode)
 
 
@@ -330,10 +321,7 @@ if __name__ == "__main__":
                             open_calendar(screen)
                         case "workspaces":
                             screen = get_screen()
-                            open_workspaces(
-                                screen, 
-                                argv[3:]
-                            )
+                            open_workspaces(screen, argv[3:])
             case "close":
                 if argc > 2:
                     match argv[2]:
@@ -389,10 +377,7 @@ if __name__ == "__main__":
                                 close_workspaces()
                             else:
                                 screen = get_screen()
-                                open_workspaces(
-                                    screen, 
-                                    argv[3:]
-                                )
+                                open_workspaces(screen, argv[3:])
             case "state":
                 if argc > 1:
                     if is_open(argv[2]):
