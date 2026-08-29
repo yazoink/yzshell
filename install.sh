@@ -193,13 +193,13 @@ function main() {
         deps_import_gpg_keys
         install_pkgs "${DEPS[@]}"
         install_aur_pkgs "${AUR_DEPS[@]}"
-        sudo ln -s /usr/share/fontconfig/conf.avail/10-nerd-font-symbols.conf \
-            /etc/fonts/conf.d/
-        sudo journalctl --vacuum-time=2weeks
-        sudo systemctl enable --now fstrim.timer
-        sudo systemctl enable --now systemd-oomd
-        sudo systemctl enable --now swayosd-libinput-backend.service
-        sudo systemctl enable --now bluetooth.service
+        sudo sh -c ln -s /usr/share/fontconfig/conf.avail/10-nerd-font-symbols.conf \
+            /etc/fonts/conf.d/ >/dev/null 2>&1 &
+        sudo sh -c 'journalctl --vacuum-time=2weeks >/dev/null 2>&1'
+        sudo sh -c 'systemctl enable --now fstrim.timer >/dev/null 2>&1'
+        sudo sh -c 'systemctl enable --now systemd-oomd >/dev/null 2>&1'
+        sudo sh -c 'systemctl enable --now swayosd-libinput-backend.service >/dev/null 2>&1'
+        sudo sh -c 'systemctl enable --now bluetooth.service >/dev/null 2>&1'
     fi
     # INSTALL OPTIONAL DEPS
     if [ $install_opt_deps -eq 0 ]; then
