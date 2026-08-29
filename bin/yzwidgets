@@ -40,7 +40,7 @@ def get_conf_opt(opt):
 def init_widgets():
     wallpaper_dir = get_conf_opt("wallpaper_dir")
     subprocess.run(
-        f"""
+        """
         eww daemon
         eww poll dnd_icon
         eww poll username
@@ -51,7 +51,7 @@ def init_widgets():
         eww poll search_results
         eww poll screenshot_output
         eww poll current_scheme
-        eww update wallpaper_dir='{wallpaper_dir}'
+        eww poll wallpaper_dir
         eww poll wallpaper_mode
         eww poll current_wallpaper
         eww poll wallpaper_mode
