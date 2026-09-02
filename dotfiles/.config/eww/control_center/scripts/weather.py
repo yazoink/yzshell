@@ -1,15 +1,18 @@
 #!/usr/bin/env python
 
 import json
+import subprocess
 import time
-from argparse import ArgumentParser
 from sys import argv, exit
 
 import requests
 
 
-def get_unit(arg):
-    match arg:
+def get_unit():
+    unit = subprocess.run(
+        ["yzconf", "get", "weather_unit"], text=True, capture_output=True
+    ).stdout.strip()
+    match unit:
         case "celsius":
             return "C"
         case "farenheit":
@@ -126,12 +129,7 @@ def main():
     aparr_temp = None
     area = None
 
-    # args
-    parser = ArgumentParser()
-    parser.add_argument("-u", "--unit", default="celsius")
-    args = parser.parse_args(argv[1:])
-
-    unit = get_unit(args.unit)
+    unit = get_unit()
     data = get_data()
 
     icon = get_icon(data, day)
