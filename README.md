@@ -151,7 +151,7 @@ Run `git pull` on the repo and run the install command again.
 
 yzshell is generally configured with the `yzctl` command, which provides
 a TUI interface. The `yzconf` command can also be used for manual configuration
-(`yzctl` is a wrapper for it). Note that when configuring manually, you
+(`yzctl` is just a wrapper for it). Note that when configuring manually, you
 need to run `yzconf deploy_configs --refresh`, and then reload the shell
 (`yzshell reload` or Ctrl+Shift+R) to apply any changes; otherwise bugs may
 occur.
