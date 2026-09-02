@@ -96,9 +96,9 @@ function configure_fonts() {
         reset
         selected="$(gum choose --header "Font configuration..." "${o[@]}")"
         case "${selected}" in
-            "Select sans font") configure_sans_font "${fonts}" ;;
-            "Select serif font") configure_serif_font "${fonts}" ;;
-            "Select monospace font") configure_mono_font "${fonts}" ;;
+            "Select sans font") configure_font "sans" "${fonts}" ;;
+            "Select serif font") configure_font "serif" "${fonts}" ;;
+            "Select monospace font") configure_font "mono" "${fonts}" ;;
             "Set terminal font size") set_term_font_size ;;
             *) return 0 ;;
         esac
@@ -131,26 +131,27 @@ function set_term_font_size() {
     fi
 }
 
-function configure_mono_font() {
+function configure_font() {
     reset
-    mono="$(yzconf get mono_font)"
-    def_mono="$(yzconf get defaults mono_font)"
+    type="${1}"
+    curr="$(yzconf get "${type}_font")"
+    default="$(yzconf get defaults "${type}_font")"
     gum style --foreground 212 "Current"
-    echo "${mono}"
+    echo "${curr}"
     echo ""
     gum style --foreground 212 "Default"
-    echo "${def_mono}"
+    echo "${default}"
     echo ""
-    if gum confirm "Change monospace font?"; then
-        fonts="${1}"
+    if gum confirm "Change ${type} font?"; then
+        fonts="${2}"
         selection="$(echo "${fonts}" | gum filter --header "Select a font...")"
         if [ "${selection}" == "" ]; then
             return 1
         fi
-        if gum confirm "Set monospace font to '${selection}'?"; then
-            yzconf set mono_font "${selection}"
+        if gum confirm "Set ${type} font to '${selection}'?"; then
+            yzconf set "${type}_font" "${selection}"
             reconf "fonts"
-            notice "Set monospace font to '${selection}'!"
+            notice "Set ${type} font to '${selection}'!"
         fi
     fi
 }
