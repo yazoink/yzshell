@@ -74,11 +74,11 @@ function toggle_dnd() {
 function toggle_idle() {
     a="Idle inhibitor"
     b="enabled"
-    if pgrep --quiet caffeine; then
-        killall caffeine
+    if pgrep --quiet hypridle; then
+        killall hypridle
         b="disabled"
     else
-        exec caffeine &
+        hypridle &
         disown
     fi
     eww poll idle_icon

@@ -284,7 +284,7 @@ if __name__ == "__main__":
             case "colourscheme":
                 if argc > 2:
                     if argv[2] == "list":
-                        schemes = listdir(COLOURS_DIR)
+                        schemes = sorted(listdir(COLOURS_DIR))
                         for s in schemes:
                             print(s.replace(".json", ""))
                         exit(0)
@@ -360,12 +360,18 @@ if __name__ == "__main__":
                             print(json.dumps(defaults, indent=4))
                         else:
                             if argv[3] in defaults:
-                                print(defaults[argv[3]])
+                                val = defaults[argv[3]]
+                                if type(val) == bool:
+                                    val = str(val).lower()
+                                print(val)
                             else:
                                 print(f"Error: invalid config option '{argv[2]}'", file=stderr)
                     else:
                         if argv[2] in cfg:
-                            print(cfg[argv[2]])
+                            val = cfg[argv[2]]
+                            if type(val) == bool:
+                                val = str(val).lower()
+                            print(val)
                         else:
                             print(f"Error: invalid config option '{argv[2]}'", file=stderr)
                 else:

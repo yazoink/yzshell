@@ -10,6 +10,7 @@ EXECUTABLES=(
     "yzpicker"
     "yzrecorder"
     "yzshot"
+    "yzctl"
     "iconfetch"
     "zenconf"
     "yzshell-install-hyprland-plugins"
@@ -226,7 +227,13 @@ function main() {
         source "${SRC_DIR}/install/terminal.sh"
         source "${SRC_DIR}/install/browser.sh"
         source "${SRC_DIR}/install/gpu.sh"
-        install_oh_my_zsh
+        clear
+        if gum confirm "Configure Zsh with yzshell?"; then
+            install_oh_my_zsh
+            yzconf set "configure_zsh" "true"
+        else
+            yzconf set "configure_zsh" "false"
+        fi
         clear
         if gum confirm "Configure Neovim with yzshell?"; then
             yzconf set "configure_nvim" "true"

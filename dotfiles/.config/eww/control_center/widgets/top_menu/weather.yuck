@@ -11,7 +11,9 @@
       :orientation "h"
       :space-evenly false
       :halign "center"
+      :valign "center"
       :hexpand true
+      :spacing 8
       (label
         :class "icon ${weather_data.colour}"
         :text {weather_data.icon}
@@ -26,10 +28,11 @@
         :orientation "v"
         :valign "center"
         :space-evenly false
-        :halign "center"
+        :halign "start"
         :hexpand true
-        (label :text {weather_data.temp} :class "temp")
-        (label :text {weather_data.appar_temp} :class "apparent_temp")
+        :vexpand true
+        (label :text {weather_data.temp} :class "temp" :halign "center")
+        (label :text {weather_data.appar_temp} :class "apparent_temp" :halign "center")
       )
     )
   )

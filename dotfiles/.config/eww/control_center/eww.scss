@@ -330,25 +330,25 @@
 .weather-box {
   margin-bottom: $padding;
   border-radius: $inner-radius;
-  background: $surface;
+  background: $surface1;
   padding: $padding;
   .icon {
-    font-size: 58pt;
+    font-size: 80px;
     padding: 0;
   }
   .timezone {
     opacity: 0.4;
-    font-style: italic;
   }
   .temp-apparent-temp {
     padding: $padding 0;
   }
   .temp {
-    font-size: 40pt;
+    font-size: 42pt;
     font-weight: bold;
   }
   .apparent_temp {
     font-size: 13pt;
+    font-style: italic;
     // opacity: 0.4;
   }
 }

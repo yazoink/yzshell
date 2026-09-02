@@ -149,13 +149,14 @@ def main():
     aparr_temp = data["current_condition"][0][f"FeelsLike{unit}"]
     area = data["nearest_area"][0]["areaName"][0]["value"]
     country = data["nearest_area"][0]["country"][0]["value"]
+    region = data["nearest_area"][0]["region"][0]["value"]
     colour = get_colour(data, day)
 
     r = {
         "icon": icon,
         "temp": f"{temp}°{unit}",
         "appar_temp": f"Feels like {aparr_temp}°{unit}",
-        "location": f"{area}, {country}",
+        "location": f"{area}, {region} ({country})",
         "day": day,
         "colour": colour,
     }

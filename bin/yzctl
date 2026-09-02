@@ -1,0 +1,386 @@
+#!/usr/bin/env bash
+
+function main() {
+    opts=(
+        "Change colourscheme"
+        "Configure wallpaper"
+        "Configure bar"
+        "Configure fonts"
+        "Set profile image"
+        "View full config"
+        "Edit config"
+        "Quit"
+    )
+    selected=""
+    while true; do
+        reset
+        # textbox "YZSHELL CONTROL INTERFACE"
+        selected="$(gum choose --header "What would you like to do?" "${opts[@]}")"
+        case "${selected}" in
+            "Change colourscheme") change_colourscheme ;;
+            "Configure wallpaper") configure_wallpaper ;;
+            "Configure bar") configure_bar ;;
+            "Configure fonts") configure_fonts ;;
+            "Set profile image") set_profile_image ;;
+            "View full config") gum pager "$(yzconf get | jq)" ;;
+            "Edit config") edit_config ;;
+            *) exit 0 ;;
+        esac
+    done
+}
+
+function notice() {
+    reset
+    gum style --trim --no-strip-ansi --bold --foreground 212 \
+        "${1}"
+    echo ""
+    read -p "Press enter to continue..."
+    reset
+}
+
+function reconf() {
+    (
+        yzconf deploy_configs -r >/dev/null 2>&1
+        yzshell reload --no-wallpaper >/dev/null 2>&1
+    ) &
+    disown
+}
+
+function set_profile_image() {
+    curr="$(yzconf get profile_image)"
+    default="$(yzconf get defaults profile_image)"
+    gum style --foreground 212 "Current"
+    echo "${curr}"
+    echo ""
+    gum style --foreground 212 "Default"
+    echo "${default}"
+    echo ""
+    if gum confirm "Change profile image?"; then
+        file="$(gum file \
+            --all \
+            --no-permissions \
+            --no-size \
+            --padding 1 \
+            "${HOME}")"
+        if [ "${file}" == "" ]; then
+            return 1
+        fi
+        if gum confirm "Set profile image to '${file}'?"; then
+            yzconf set profile_image "${file}"
+            reconf
+            notice "Profile image set to '${file}'!"
+        fi
+    fi
+}
+
+function configure_fonts() {
+    o=(
+        "Select sans font"
+        "Select serif font"
+        "Select monospace font"
+        "Set terminal font size"
+        "Back"
+    )
+    while true; do
+        reset
+        selected="$(gum choose --header "Font configuration..." "${o[@]}")"
+        case "${selected}" in
+            "Select sans font") configure_sans_font ;;
+            "Select serif font") configure_serif_font ;;
+            "Select monospace font") configure_mono_font ;;
+            "Set terminal font size") set_term_font_size ;;
+            *) return 0 ;;
+        esac
+    done
+}
+
+function set_term_font_size() {
+    reset
+    term_font_size="$(yzconf get terminal_font_size)"
+    def_term_font_size="$(yzconf get defaults terminal_font_size)"
+    gum style --foreground 212 "Current"
+    echo "${term_font_size}"
+    echo ""
+    gum style --foreground 212 "Default"
+    echo "${def_term_font_size}"
+    echo ""
+    size=""
+    if gum confirm "Change terminal font size?"; then
+        while true; do
+            size="$(gum input --placeholder "Enter new size...")"
+            if [[ $size =~ ^[0-9]+$ ]]; then
+                break
+            fi
+        done
+        if gum confirm "Set terminal font size to ${size}?"; then
+            yzconf set terminal_font_size "${size}"
+            reconf
+            notice "Terminal font size set to ${size}!"
+        fi
+    fi
+}
+
+function configure_mono_font() {
+    reset
+    mono="$(yzconf get mono_font)"
+    def_mono="$(yzconf get defaults mono_font)"
+    gum style --foreground 212 "Current"
+    echo "${mono}"
+    echo ""
+    gum style --foreground 212 "Default"
+    echo "${def_mono}"
+    echo ""
+    if gum confirm "Change monospace font?"; then
+        fonts="$(fc-match -s monospace : family 2>/dev/null | sort)"
+        selection="$(echo "${fonts}" | gum filter --header "Select a font...")"
+        if [ "${selection}" == "" ]; then
+            return 1
+        fi
+        if gum confirm "Set monospace font to '${selection}'?"; then
+            yzconf set mono_font "${selection}"
+            reconf
+            notice "Set monospace font to '${selection}'!"
+        fi
+    fi
+}
+
+function configure_serif_font() {
+    reset
+    serif="$(yzconf get serif_font)"
+    def_serif="$(yzconf get defaults serif_font)"
+    gum style --foreground 212 "Current"
+    echo "${serif}"
+    echo ""
+    gum style --foreground 212 "Default"
+    echo "${def_serif}"
+    echo ""
+    if gum confirm "Change serif font?"; then
+        fonts="$(fc-list : family 2>/dev/null | sort)"
+        selection="$(echo "${fonts}" | gum filter --header "Select a font...")"
+        if [ "${selection}" == "" ]; then
+            return 1
+        fi
+        if gum confirm "Set serif font to '${selection}'?"; then
+            yzconf set serif_font "${selection}"
+            reconf
+            notice "Set serif font to '${selection}'!"
+        fi
+    fi
+}
+
+function configure_sans_font() {
+    reset
+    sans="$(yzconf get sans_font)"
+    def_sans="$(yzconf get defaults sans_font)"
+    gum style --foreground 212 "Current"
+    echo "${sans}"
+    echo ""
+    gum style --foreground 212 "Default"
+    echo "${def_sans}"
+    echo ""
+    if gum confirm "Change sans font?"; then
+        fonts="$(fc-list : family 2>/dev/null | sort)"
+        selection="$(echo "${fonts}" | gum filter --header "Select a font...")"
+        if [ "${selection}" == "" ]; then
+            return 1
+        fi
+        if gum confirm "Set sans font to '${selection}'?"; then
+            yzconf set sans_font "${selection}"
+            reconf
+            notice "Set sans font to '${selection}'!"
+        fi
+    fi
+}
+
+function edit_config() {
+    data="$(yzconf get)"
+    o="Back
+"
+
+    for k in $(echo "${data}" | jq -r -c 'keys | .[]'); do
+        o+="${k}
+"
+    done
+
+    while true; do
+        selected="$(echo "${o}" | gum filter --header "Select an option...")"
+        case "${selected}" in
+            "Back" | "") return 0 ;;
+            *) configure_option "${selected}" ;;
+        esac
+    done
+}
+
+function configure_option() {
+    reset
+    opt="${1}"
+    curr="$(yzconf get "${opt}")"
+    default="$(yzconf get defaults "${opt}")"
+
+    # gum style --bold --foreground 99 "${opt}"
+    # echo ""
+    gum style --foreground 212 "Current value"
+    echo "${curr}"
+    echo ""
+    gum style --foreground 212 "Default value"
+    echo "${default}"
+    echo ""
+    if gum confirm "Edit '${opt}'?"; then
+        val="$(gum input --placeholder "Enter new value...")"
+        if gum confirm "Set '${opt}' to '${val}'?"; then
+            yzconf set "${opt}" "${val}"
+            reconf
+            notice "Set configuration option '${opt}' to '${val}'!"
+        fi
+    fi
+}
+
+function configure_bar() {
+    o=(
+        "Show battery module"
+        "Show backlight module"
+    )
+    bat_enabled=false
+    light_enabled=false
+    enabled=","
+    if [ "$(yzconf get bar_show_battery)" == "True" ]; then
+        enabled+="Show battery module,"
+        bat_enabled=true
+    fi
+    if [ "$(yzconf get bar_show_backlight)" == "True" ]; then
+        enabled+="Show backlight module,"
+        light_enabled=true
+    fi
+    selection="$(gum choose \
+        --no-limit \
+        --selected "${enabled}" \
+        --header "Configure bar..." \
+        "${o[@]}")"
+
+    reload=false
+    if [[ "${selection}" == *"Show battery module"* ]]; then
+        if ! $bat_enabled; then
+            yzconf set bar_show_battery true
+            reload=true
+        fi
+    else
+        if $bat_enabled; then
+            yzconf set bar_show_battery false
+            reload=true
+        fi
+    fi
+    if [[ "${selection}" == *"Show backlight module"* ]]; then
+        if ! $light_enabled; then
+            yzconf set bar_show_backlight true
+            reload=true
+        fi
+    else
+        if $light_enabled; then
+            yzconf set bar_show_backlight false
+            reload=true
+        fi
+    fi
+
+    if $reload; then
+        reconf
+        notice "Bar reconfigured!"
+    fi
+}
+
+function configure_wallpaper() {
+    o=(
+        "Set image"
+        "Set mode"
+        "Back"
+    )
+    while true; do
+        reset
+        curr_wallpaper="$(yzconf get wallpaper_dir)/$(yzconf get wallpaper_image)"
+        curr_mode="$(yzconf get wallpaper_mode)"
+        gum style --foreground 212 "Current image"
+        echo "${curr_wallpaper}"
+        echo ""
+        gum style --foreground 212 "Current mode"
+        echo "${curr_mode}"
+        echo ""
+        selected="$(gum choose --header "Wallpaper configuration..." "${o[@]}")"
+        case "${selected}" in
+            "Set image") set_wallpaper_image "${curr_wallpaper}" ;;
+            "Set mode") set_wallpaper_mode ;;
+            *) return 1 ;;
+        esac
+    done
+}
+
+function set_wallpaper_mode() {
+    modes=(
+        "stretch"
+        "fit"
+        "fill"
+        "center"
+        "tile"
+        "Back"
+    )
+    while true; do
+        reset
+        curr="$(yzconf get wallpaper_mode)"
+        selected="$(gum choose --selected "${curr}" --header "Select wallpaper mode.." "${modes[@]}")"
+        case "${selected}" in
+            "Back" | "") return 0 ;;
+            *) yzconf wallpaper mode "${selected}" >/dev/null 2>&1 ;;
+        esac
+    done
+}
+
+function set_wallpaper_image() {
+    orig="${1}"
+    file="$(gum file \
+        --padding 1 \
+        --all \
+        --no-permissions \
+        --no-size \
+        "$(yzconf get wallpaper_dir)")"
+
+    if [ "${file}" == "no file selected" ] || [ "${file}" == "" ]; then
+        return 1
+    fi
+
+    if [ "${orig}" == "${file}" ]; then
+        notice "Wallpaper already set to '${file}'!"
+        return 1
+    fi
+
+    exec yzconf wallpaper image "${file}" >/dev/null 2>&1 &
+    if ! gum confirm \
+        --affirmative="Keep" \
+        --negative="Revert" \
+        "Wallpaper set to '${file}'..."; then
+        exec yzconf wallpaper image "${orig}" >/dev/null 2>&1 &
+    fi
+}
+
+function change_colourscheme() {
+    s="Cancel
+$(yzconf colourscheme list)"
+    current="$(yzconf get colourscheme)"
+
+    s="$(echo "${s}" | sed "s/^${current}$/${current} \(selected\)/")"
+    selected="$(echo "${s}" | gum filter --header "Select a colourscheme...")"
+
+    if [ "${selected}" == "Cancel" ] || [ "${selected}" == "" ]; then
+        return 1
+    elif [[ "${selected}" == *'(selected)'* ]]; then
+        notice "Colourscheme '${current}' is already selected!"
+        return 1
+    fi
+
+    if gum confirm "Change colourscheme to '${selected}'?"; then
+        exec yzconf colourscheme "${selected}" >/dev/null 2>&1 &
+    else
+        return 1
+    fi
+
+    notice "Colourscheme changed to '${selected}'!"
+}
+
+main
