@@ -105,6 +105,7 @@ My very messy dotfiles.
 <img width="2560" height="1440" alt="20260818_23:50:46" src="https://github.com/user-attachments/assets/06829364-4664-47d7-957c-715ee9166569" />
 <img width="2560" height="1440" alt="20260818_23:51:11" src="https://github.com/user-attachments/assets/728c8c49-7ee5-4a58-b271-aa63a7bfe8cc" />
 <img width="546" height="85" alt="20260814_20:50:35" src="https://github.com/user-attachments/assets/e8b43321-1925-4424-b53c-be088c30c8c5" />
+<img width="641" height="568" alt="20260902_23:30:32" src="https://github.com/user-attachments/assets/b3f80f9d-6d56-4c54-8cec-9e6d1cd6dea3" />
 
 ## Installation
 
