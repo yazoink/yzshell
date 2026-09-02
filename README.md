@@ -230,7 +230,7 @@ To add a scheme, place it in `colourschemes/`, and it will be detected
 automatically (same goes for removals and modifications). The name of the file
 (minus the `.json`) will be used as the scheme's ID.
 
-The `base16-to-yzshell-theme` script can be used to convert
+The `base16-to-yzshell-scheme` script can be used to convert
 base16 yaml themes to the yzshell format:
 
 `base16-to-yzshell-theme --source base16-theme.yaml --polarity light`
