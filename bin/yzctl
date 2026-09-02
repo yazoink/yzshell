@@ -49,6 +49,9 @@ function reconf() {
     (
         yzconf deploy_configs -r >/dev/null 2>&1
         yzshell reload --no-wallpaper >/dev/null 2>&1
+        if [ "${1}" == "fonts" ]; then
+            fc-cache -fv >/dev/null 2>&1
+        fi
     ) &
     disown
 }
@@ -88,13 +91,14 @@ function configure_fonts() {
         "Set terminal font size"
         "Back"
     )
+    fonts="$(fc-list : family 2>/dev/null | sort)"
     while true; do
         reset
         selected="$(gum choose --header "Font configuration..." "${o[@]}")"
         case "${selected}" in
-            "Select sans font") configure_sans_font ;;
-            "Select serif font") configure_serif_font ;;
-            "Select monospace font") configure_mono_font ;;
+            "Select sans font") configure_sans_font "${fonts}" ;;
+            "Select serif font") configure_serif_font "${fonts}" ;;
+            "Select monospace font") configure_mono_font "${fonts}" ;;
             "Set terminal font size") set_term_font_size ;;
             *) return 0 ;;
         esac
@@ -138,16 +142,14 @@ function configure_mono_font() {
     echo "${def_mono}"
     echo ""
     if gum confirm "Change monospace font?"; then
-        fonts="$(fc-match -s monospace : family 2>/dev/null | sort)"
+        fonts="${1}"
         selection="$(echo "${fonts}" | gum filter --header "Select a font...")"
         if [ "${selection}" == "" ]; then
             return 1
         fi
         if gum confirm "Set monospace font to '${selection}'?"; then
             yzconf set mono_font "${selection}"
-            reconf
-            fc-cache -fv >/dev/null 2>&1 &
-            disown
+            reconf "fonts"
             notice "Set monospace font to '${selection}'!"
         fi
     fi
@@ -164,16 +166,14 @@ function configure_serif_font() {
     echo "${def_serif}"
     echo ""
     if gum confirm "Change serif font?"; then
-        fonts="$(fc-list : family 2>/dev/null | sort)"
+        fonts="${1}"
         selection="$(echo "${fonts}" | gum filter --header "Select a font...")"
         if [ "${selection}" == "" ]; then
             return 1
         fi
         if gum confirm "Set serif font to '${selection}'?"; then
             yzconf set serif_font "${selection}"
-            reconf
-            fc-cache -fv >/dev/null 2>&1 &
-            disown
+            reconf "fonts"
             notice "Set serif font to '${selection}'!"
         fi
     fi
@@ -190,16 +190,14 @@ function configure_sans_font() {
     echo "${def_sans}"
     echo ""
     if gum confirm "Change sans font?"; then
-        fonts="$(fc-list : family 2>/dev/null | sort)"
+        fonts="${1}"
         selection="$(echo "${fonts}" | gum filter --header "Select a font...")"
         if [ "${selection}" == "" ]; then
             return 1
         fi
         if gum confirm "Set sans font to '${selection}'?"; then
             yzconf set sans_font "${selection}"
-            reconf
-            fc-cache -fv >/dev/null 2>&1 &
-            disown
+            reconf "fonts"
             notice "Set sans font to '${selection}'!"
         fi
     fi
