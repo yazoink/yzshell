@@ -254,8 +254,8 @@ in `misc/`.
 
 yzshell uses Mustache templates for most dynamically generated configs.
 The tags used in building the templates contain all yzshell configuration
-options, all colourscheme values, plus more. To view all of the available tags,
-run `yzconf dump_mustache_data`.
+options, all colourscheme values, plus a few extras. To view all of the
+available tags, run `yzconf dump_mustache_data`.
 
 The colourscheme tags consist of all values declared in json, plus `surface1`,
 `surface2`, `surface3`, and `surface4` (equivalent to base\[1-4]), and
