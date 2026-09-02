@@ -147,8 +147,6 @@ Run the install command again.
 
 Run `git pull` on the repo and run the install command again.
 
-### Post-install
-
 ## Configuration
 
 yzshell is generally configured with the `yzctl` command, which provides
