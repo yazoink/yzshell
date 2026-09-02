@@ -1,9 +1,4 @@
-(defpoll weather_updater :interval "5m" "control_center/scripts/weather.py &")
-(defvar weather_temp "n/a")
-(defvar weather_apparent_temp "n/a")
-(defvar weather_icon "n/a")
-(defvar weather_tz "n/a")
-(defvar weather_colour "n/a")
+(defpoll weather_data :interval "5m" "control_center/scripts/weather.py &")
 
 (defwidget weather []
   (box
@@ -11,14 +6,21 @@
     :orientation "v"
     :space-evenly false
     :halign "fill"
-    (label :text weather_tz :class "timezone")
+    (label :text {weather_data.location} :class "timezone")
     (box
       :orientation "h"
       :space-evenly false
       :halign "center"
       :hexpand true
-      (label :text weather_updater :visible false)
-      (label :text weather_icon :class "icon ${weather_colour}")
+      (label
+        :class "icon ${weather_data.colour}"
+        :text {weather_data.icon}
+      )
+      ;(image 
+      ;  :image-width 50
+      ;  :image-height 50
+      ;  :path "control_center/images/weather/${weather_data.icon}.svg"
+      ;)
       (box
         :class "temp-apparent-temp"
         :orientation "v"
@@ -26,8 +28,8 @@
         :space-evenly false
         :halign "center"
         :hexpand true
-        (label :text weather_temp :class "temp")
-        (label :text weather_apparent_temp :class "apparent_temp")
+        (label :text {weather_data.temp} :class "temp")
+        (label :text {weather_data.appar_temp} :class "apparent_temp")
       )
     )
   )
