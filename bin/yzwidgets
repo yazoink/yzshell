@@ -24,7 +24,7 @@ def control_center_search_selected(direction="next"):
         if selected > -1:
             selected -= 1
     subprocess.run(
-        f"eww update search_selected={selected}",
+        f"eww update search_selected={str(selected)}",
         shell=True,
         stdout=subprocess.DEVNULL,
         stderr=subprocess.STDOUT,
