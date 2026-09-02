@@ -8,6 +8,15 @@ from sys import argv, exit
 import requests
 
 
+def get_location():
+    location = subprocess.run(
+        ["yzconf", "get", "weather_location"], text=True, capture_output=True
+    ).stdout.strip()
+    if location == "default":
+        location = ""
+    return location
+
+
 def get_unit():
     unit = subprocess.run(
         ["yzconf", "get", "weather_unit"], text=True, capture_output=True
@@ -23,8 +32,11 @@ def get_unit():
 
 
 def get_data():
+    location = get_location()
     try:
-        data = json.loads(requests.get("https://wttr.in/?format=j1", timeout=15).text)
+        data = json.loads(
+            requests.get(f"https://wttr.in/{location}?format=j1", timeout=15).text
+        )
     except:
         print("Error: could not update weather")
         exit(1)

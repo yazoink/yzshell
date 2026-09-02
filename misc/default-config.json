@@ -25,5 +25,6 @@
     "configure_nvim": false,
     "configure_vesktop": false,
     "configure_zsh": false,
-    "weather_unit": "celsius"
+    "weather_unit": "celsius",
+    "weather_location": "default"
 }
