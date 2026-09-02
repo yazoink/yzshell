@@ -17,6 +17,7 @@ hl.bind("SUPER + CTRL + S", hl.dsp.exec_cmd("yzshot -m full"), { submap_universa
 hl.bind("SUPER + ALT + S", hl.dsp.exec_cmd("yzwidgets toggle screenshot"))
 hl.bind("SUPER + SHIFT + B", hl.dsp.exec_cmd("killall waybar; waybar &"), { submap_universal = true })
 hl.bind("SUPER + SHIFT + D", hl.dsp.exec_cmd("yzshell cmd toggle_dnd"), { submap_universal = true })
+hl.bind("SUPER + SHIFT + I", hl.dsp.exec_cmd("yzshell cmd toggle_idle_inhib"), { submap_universal = true })
 
 hl.define_submap("control_center", function()
 	hl.bind("escape", hl.dsp.exec_cmd("yzwidgets close all"))

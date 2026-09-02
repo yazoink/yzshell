@@ -43,6 +43,7 @@ def init_widgets():
         """
         eww daemon
         eww poll dnd_icon
+        eww poll idle_icon
         eww poll username
         eww poll hostname
         eww poll os_version
@@ -78,6 +79,8 @@ def open_control_center(screen):
         eww open closer --no-daemonize --screen {screen}
         eww open control_center --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"control_center\")'
+        eww poll dnd_icon
+        eww poll idle_icon
         """,
         shell=True,
         stdout=subprocess.DEVNULL,

@@ -1,7 +1,12 @@
 (defpoll dnd_icon 
   :run-while false
-  :interval "5s"
+  :interval "999999h"
   "control_center/scripts/dnd_icon.sh"
+)
+(defpoll idle_icon 
+  :run-while false
+  :interval "99999h"
+  "control_center/scripts/idle_icon.sh"
 )
 
 (defwidget launchers []
@@ -23,9 +28,9 @@
       )
       (button
         :class "launcher-button picker"
-        :onclick "yzpicker &"
-        :tooltip "Open colour picker"
-        (label :text "" :class "icon")
+        :onclick "yzshell cmd toggle_idle_inhib &"
+        :tooltip "Toggle idle inhibitor"
+        (label :text idle_icon :class "icon")
       )
       (button
         :class "launcher-button shot"

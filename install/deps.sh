@@ -29,6 +29,7 @@ DEPS=(
     "grim"
     "slurp"
     "swaybg"
+    "caffeine"
     "python"
     "python-gobject"
     "python-pillow"
