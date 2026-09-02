@@ -91,14 +91,13 @@ function configure_fonts() {
         "Set terminal font size"
         "Back"
     )
-    fonts="$(fc-list : family 2>/dev/null | sort)"
     while true; do
         reset
         selected="$(gum choose --header "Font configuration..." "${o[@]}")"
         case "${selected}" in
-            "Select sans font") configure_font "sans" "${fonts}" ;;
-            "Select serif font") configure_font "serif" "${fonts}" ;;
-            "Select monospace font") configure_font "mono" "${fonts}" ;;
+            "Select sans font") configure_font "sans" ;;
+            "Select serif font") configure_font "serif" ;;
+            "Select monospace font") configure_font "mono" ;;
             "Set terminal font size") set_term_font_size ;;
             *) return 0 ;;
         esac
@@ -143,7 +142,7 @@ function configure_font() {
     echo "${default}"
     echo ""
     if gum confirm "Change ${type} font?"; then
-        fonts="${2}"
+        fonts="$(fc-list : family 2>/dev/null | sort)"
         selection="$(echo "${fonts}" | gum filter --header "Select a font...")"
         if [ "${selection}" == "" ]; then
             return 1
