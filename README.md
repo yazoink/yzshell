@@ -21,7 +21,7 @@ My very messy dotfiles.
 - Colourscheme and wallpaper switcher
 - Inbuilt screenshot and screen recording utilities
 - Unified theming for GTK 2/3/4 and Qt 5/6
-- A bunch of CLI utilities: `yzshell`, `yzconf`, `yzpicker`, `yzrecorder`, `yzshot`, `yzwallpaper`, `yzwidgets`, `base16-to-yzshell-scheme`, `base16-to-yzshell-template`, and `zenconf` (run `-h` on them for details)
+- A bunch of CLI utilities: `yzshell`, `yzctl`, `yzconf`, `yzpicker`, `yzrecorder`, `yzshot`, `yzwallpaper`, `yzwidgets`, `base16-to-yzshell-scheme`, `base16-to-yzshell-template`, and `zenconf` (run `-h` on them for details)
 - Really bad code, but at least it's not vibe-coded
 
 ## Keybinds
