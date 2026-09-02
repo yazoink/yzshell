@@ -343,12 +343,13 @@
     padding: $padding 0;
   }
   .temp {
-    font-size: 42pt;
+    font-size: 38pt;
     font-weight: bold;
   }
   .apparent_temp {
     font-size: 13pt;
-    font-style: italic;
+    font-weight: bold;
+    // font-style: italic;
     // opacity: 0.4;
   }
 }
