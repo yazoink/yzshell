@@ -156,54 +156,6 @@ function configure_font() {
     fi
 }
 
-function configure_serif_font() {
-    reset
-    serif="$(yzconf get serif_font)"
-    def_serif="$(yzconf get defaults serif_font)"
-    gum style --foreground 212 "Current"
-    echo "${serif}"
-    echo ""
-    gum style --foreground 212 "Default"
-    echo "${def_serif}"
-    echo ""
-    if gum confirm "Change serif font?"; then
-        fonts="${1}"
-        selection="$(echo "${fonts}" | gum filter --header "Select a font...")"
-        if [ "${selection}" == "" ]; then
-            return 1
-        fi
-        if gum confirm "Set serif font to '${selection}'?"; then
-            yzconf set serif_font "${selection}"
-            reconf "fonts"
-            notice "Set serif font to '${selection}'!"
-        fi
-    fi
-}
-
-function configure_sans_font() {
-    reset
-    sans="$(yzconf get sans_font)"
-    def_sans="$(yzconf get defaults sans_font)"
-    gum style --foreground 212 "Current"
-    echo "${sans}"
-    echo ""
-    gum style --foreground 212 "Default"
-    echo "${def_sans}"
-    echo ""
-    if gum confirm "Change sans font?"; then
-        fonts="${1}"
-        selection="$(echo "${fonts}" | gum filter --header "Select a font...")"
-        if [ "${selection}" == "" ]; then
-            return 1
-        fi
-        if gum confirm "Set sans font to '${selection}'?"; then
-            yzconf set sans_font "${selection}"
-            reconf "fonts"
-            notice "Set sans font to '${selection}'!"
-        fi
-    fi
-}
-
 function edit_config() {
     data="$(yzconf get)"
     o="Back
