@@ -5,15 +5,12 @@ My very messy dotfiles.
 ## Software
 
 - Window manager: Hyprland
-- Terminal: Foot
 - Shell: Zsh
 - Widgets: EWW
 - Run launcher: Wofi
 - Notifications: Mako/SwayOSD
 - Lockscreen: Hyprlock
 - Bar: Waybar
-- Browser: Zen
-- File manager: Thunar or PCManFM
 
 ## Features
 
