@@ -76,10 +76,10 @@ function toggle_idle() {
     b="enabled"
     if pgrep --quiet hypridle; then
         killall hypridle
-        b="disabled"
     else
         hypridle &
         disown
+        b="disabled"
     fi
     eww poll idle_icon
     echo "${a} ${b}"
