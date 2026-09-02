@@ -149,11 +149,12 @@ Run `git pull` on the repo and run the install command again.
 
 ## Configuration
 
-yzshell is configured with the `yzconf` command. To view all options, run
-`yzconf get` (`yzconf get <OPTION>` for specific values). To set an option,
-run `yzconf set <OPTION> <VALUE>`; and to apply the changes, run
-`yzconf deploy_configs --refresh`, then reload the shell
-(`yzshell reload` or Ctrl+Shift+R).
+yzshell is generally configured with the `yzctl` command, which provides
+a TUI interface. The `yzconf` command can also be used for manual configuration
+(`yzctl` is a wrapper for it). Note that when configuring manually, you
+need to run `yzconf deploy_configs --refresh`, and then reload the shell
+(`yzshell reload` or Ctrl+Shift+R) to apply any changes; otherwise bugs may
+occur.
 
 ### Default terminal / file manager / web browser
 
@@ -164,8 +165,8 @@ launch command of the application.
 ### Fonts
 
 Fonts are configured with the options: `sans_font`, `mono_font`, `serif_font`,
-and `terminal_font_size`. Run `fc-cache -fv` after changing any of the first
-three.
+and `terminal_font_size`. If configuring manually, run `fc-cache -fv` after
+changing any of the first three.
 
 ### Misc. notable options
 

@@ -146,6 +146,8 @@ function configure_mono_font() {
         if gum confirm "Set monospace font to '${selection}'?"; then
             yzconf set mono_font "${selection}"
             reconf
+            fc-cache -fv >/dev/null 2>&1 &
+            disown
             notice "Set monospace font to '${selection}'!"
         fi
     fi
@@ -170,6 +172,8 @@ function configure_serif_font() {
         if gum confirm "Set serif font to '${selection}'?"; then
             yzconf set serif_font "${selection}"
             reconf
+            fc-cache -fv >/dev/null 2>&1 &
+            disown
             notice "Set serif font to '${selection}'!"
         fi
     fi
@@ -194,6 +198,8 @@ function configure_sans_font() {
         if gum confirm "Set sans font to '${selection}'?"; then
             yzconf set sans_font "${selection}"
             reconf
+            fc-cache -fv >/dev/null 2>&1 &
+            disown
             notice "Set sans font to '${selection}'!"
         fi
     fi
