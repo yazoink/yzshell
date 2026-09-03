@@ -22,8 +22,8 @@ hl.bind("SUPER + SHIFT + I", hl.dsp.exec_cmd("yzshell cmd toggle_idle_inhib"), {
 
 hl.define_submap("control_center", function()
 	hl.bind("escape", hl.dsp.exec_cmd("yzwidgets close all"))
-	hl.bind("up", hl.dsp.exec_cmd("yzwidgets ctl control_center_search_selected prev"))
-	hl.bind("down", hl.dsp.exec_cmd("yzwidgets ctl control_center_search_selected next"))
+	hl.bind("up", hl.dsp.exec_cmd("python $YZSHELL_EWW_SCRIPT_DIR/search_selected.py prev"))
+	hl.bind("down", hl.dsp.exec_cmd("python $YZSHELL_EWW_SCRIPT_DIR/search_selected.py next"))
 	hl.bind("SUPER + P", hl.dsp.exec_cmd("yzwidgets close all"))
 end)
 

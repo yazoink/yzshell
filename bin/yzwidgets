@@ -10,30 +10,6 @@ sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
 from configutils import get_config
 
 
-def control_center_search_selected(direction="next"):
-    r = subprocess.run(
-        "eww get search_selected", shell=True, text=True, capture_output=True
-    ).stdout.strip()
-    selected = int(r)
-    if direction == "next":
-        r = subprocess.run(
-            "eww get search_results", shell=True, text=True, capture_output=True
-        ).stdout.strip()
-        results = json.loads(r)
-        l = len(results)
-        if selected < l:
-            selected += 1
-    elif direction == "prev":
-        if selected > -1:
-            selected -= 1
-    subprocess.run(
-        f"eww update search_selected={str(selected)}",
-        shell=True,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.STDOUT,
-    )
-
-
 def init_widgets(config):
     wallpaper_path = path.join(config["wallpaper_dir"], config["wallpaper_image"])
     subprocess.run(
@@ -266,14 +242,6 @@ def help(exitcode=0):
     print("""Usage: yzwidgets <OPTION> ...
     Options:
         init: start daemon and initialise widgets
-        ctl <COMMAND>: IPC commands
-            Commands:
-                control_center_search_selected [DIRECTION]:
-                    cycle app selecion in control_center launcher (will select 
-                    next by default)
-                    Directions:
-                        next
-                        prev
         open <WIDGET>: opens widget 
         close <all|WIDGET>: closes widget
         toggle <WIDGET>: toggles widget
@@ -299,16 +267,6 @@ if __name__ == "__main__":
             case "init":
                 config = get_config()
                 init_widgets(config)
-            case "ctl":
-                if argc > 2:
-                    match argv[2]:
-                        case "control_center_search_selected":
-                            direction = "next"
-                            if argc > 3:
-                                if argv[3] == "prev":
-                                    direction = "prev"
-                            control_center_search_selected(direction)
-
             case "open":
                 screen = get_screen()
                 if argc > 2:
