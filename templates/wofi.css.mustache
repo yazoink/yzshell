@@ -1,21 +1,26 @@
+@define-color background #{{background}};
+@define-color foreground #{{foreground}};
+@define-color surface1 #{{surface1}};
+@define-color accent #{{accent}};
+
 window {
-  color: #{{foreground}};
+  color: @foreground;
   background: transparent;
 }
 
 #outer-box {
-  background: #{{background}};
-  border: 1px solid #{{surface1}};
+  background: @background;
+  border: 1px solid @surface1;
   border-radius: 16px;
   padding: 8px;
   /*box-shadow: 0 0 50px rgba(0, 0, 0, 0.4);*/
-  color: #{{foreground}};
+  color: @foreground;
 }
 
 #input, #input:focus {
   margin-bottom: 8px;
   border-radius: 8px;
-  background: #{{surface1}};
+  background: @surface1;
   border: transparent;
   outline: transparent;
   box-shadow: none;
@@ -24,7 +29,7 @@ window {
   padding-top: 0;
   padding-bottom: 0;
   padding: 0 8px;
-  color: #{{foreground}};
+  color: @foreground;
 }
 
 #inner-box {
@@ -41,11 +46,11 @@ window {
 }
 
 #entry:selected {
-  background: #{{accent}};
+  background: @accent;
 }
 
 #entry:selected #text {
-  color: #{{background}};
+  color: @background;
 }
 
 #img {

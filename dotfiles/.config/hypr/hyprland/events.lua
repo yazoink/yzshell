@@ -16,7 +16,7 @@ hl.on("window.fullscreen", function()
 		},
 		animations = {
 			enabled = false, -- Disable animations
-			borderangle = { enabled = false },
+			-- borderangle = { enabled = false },
 		},
 		-- Disable blur, shadow and window rounding
 		decoration = {
