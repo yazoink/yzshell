@@ -47,7 +47,7 @@ def init_widgets(config):
         bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "dnd_icon.sh")}
         bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "idle_icon.sh")}
         bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "get_os_version.sh")}
-        eww poll weather_data &
+        eww poll weather_data
         eww update username="$(whoami)"
         eww update hostname="$(cat /etc/hostname)"
         eww update profile_image='{config["profile_image"]}'
