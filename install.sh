@@ -350,7 +350,7 @@ function main() {
     shopt -u dotglob
     (
         yzconf deploy_configs -r
-        hyprland_running && yzshell reload
+        pgrep --quiet Hyprland && yzshell reload
     ) >/dev/null 2>&1 & disown
 
     # REMOVE SOURCE IF GIT INSTALL
