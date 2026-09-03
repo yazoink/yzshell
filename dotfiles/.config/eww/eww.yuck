@@ -81,7 +81,7 @@
   :initial ""
   "$YZSHELL_EWW_SCRIPT_DIR/is_recording.sh"
 )
-(defvar recorder_selected 0)
+(defvar recorder_selected 1)
 (defvar mins "00")
 (defvar secs "00")
 (defpoll weather_data :interval "5m" "$YZSHELL_EWW_SCRIPT_DIR/weather.py &")

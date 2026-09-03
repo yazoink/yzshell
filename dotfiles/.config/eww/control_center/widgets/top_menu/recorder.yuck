@@ -100,7 +100,7 @@
     :halign "fill"
     (stack
       :same-size "false"
-      :transition "slideleft"
+      :transition {recorder_selected == 0 ? "slideup" : "slidedown"}
       :selected recorder_selected
       (recorder_recording)
       (recorder_not_recording)
