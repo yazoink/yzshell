@@ -14,15 +14,7 @@ from PIL import Image
 
 sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
 from configutils import get_config
-
-
-def get_dir(arg):
-    directory = None
-    if arg is not None:
-        directory = path.expanduser(arg)
-    else:
-        directory = path.expanduser(get_config()["wallpaper_dir"])
-    return directory
+from miscutils import get_full_path
 
 
 def get_image_files(directory):
@@ -101,21 +93,15 @@ if __name__ == "__main__":
     parser.add_argument("-r", "--refresh", action="store_true", default=False)
     args = parser.parse_args(argv[1:])
 
-    directory = get_dir(args.directory)
+    default_dir = get_config()["wallpaper_dir"]
+    directory = args.directory
+    if directory is not None:
+        directory = get_full_path(directory)
+        if path.isdir(directory) == False:
+            directory = default_dir
+    else:
+        directory = default_dir
 
-    # invalid dir
-    if path.isdir(directory) == False:
-        directory = subprocess.run(
-            ["yzconf", "get", "wallpaper_dir"], text=True, capture_output=True
-        ).stdout.strip()
-        subprocess.run(
-            f"eww update wallpaper_dir='{directory}'",
-            shell=True,
-        )
-        remove(lockfile)
-        exit(1)
-
-    # valid dir
     subprocess.run(
         f"""
         eww update wallpaper_dir='{directory}'

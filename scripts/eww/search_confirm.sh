@@ -14,5 +14,3 @@ if [ $selected -gt -1 ]; then
         disown
     )
 fi
-
-#./control_center/scripts/apps.py
