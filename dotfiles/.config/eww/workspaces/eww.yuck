@@ -1,14 +1,3 @@
-(defvar workspaces_visible false)
-(defvar workspaces_width 225)
-(defvar workspaces_height 125)
-(defpoll workspaces 
-    :interval "3s" 
-    :initial "[]" 
-    :run-while workspaces_visible
-    "$YZSHELL_EWW_SCRIPT_DIR/workspaces.py"
-)
-(defvar active_workspace 0)
-
 (defwidget workspaces_scroll []
     (scroll
         :class "workspaces-scroll"

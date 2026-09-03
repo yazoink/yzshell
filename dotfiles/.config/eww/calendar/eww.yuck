@@ -1,5 +1,3 @@
-(defvar calendar_visible false)
-
 (include "./calendar/widgets/clock.yuck")
 
 (defwindow calendar

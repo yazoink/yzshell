@@ -1,5 +1,3 @@
-(defvar settings_menu_item 0)
-
 (include "settings/widgets/wallpaper.yuck")
 (include "settings/widgets/colours.yuck")
 

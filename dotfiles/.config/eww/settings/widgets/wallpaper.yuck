@@ -1,9 +1,3 @@
-(defvar wallpaper_dir "")
-(defvar wallpaper_mode "")
-(defvar wallpapers "[]")
-(defvar current_wallpaper "")
-(defvar wallpapers_loading true)
-
 (defwidget fill_button [text mode]
   (button 
     :onclick "yzconf wallpaper mode '${mode}' &" 

@@ -1,5 +1,3 @@
-(defvar screenshot_output "")
-
 (defwindow screenshot
   :monitor 0
   :geometry (geometry

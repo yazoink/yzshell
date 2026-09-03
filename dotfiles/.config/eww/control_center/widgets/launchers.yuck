@@ -1,6 +1,3 @@
-(defvar dnd_icon "")
-(defvar idle_icon "")
-
 (defwidget launchers []
   (box
     :orientation "v"

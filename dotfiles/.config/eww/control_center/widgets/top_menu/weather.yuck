@@ -1,5 +1,3 @@
-(defpoll weather_data :interval "5m" "$YZSHELL_EWW_SCRIPT_DIR/weather.py &")
-
 (defwidget weather []
   (box
     :class "weather-box"

@@ -1,31 +1,3 @@
-(defvar power_buttons_arr `[
-  {
-    "class": "lock",
-    "icon": "",
-    "desc": "Lock screen",
-    "cmd": "yzwidgets close all; hyprlock &"
-  },
-  {
-    "class": "exit",
-    "icon": "",
-    "desc": "Exit desktop",
-    "cmd": "hyprctl dispatch 'hl.dsp.exit()' &"
-  },
-  {
-    "class": "reboot",
-    "icon": "",
-    "desc": "Reboot",
-    "cmd": "systemctl reboot &"
-  },
-  {
-    "class": "shutdown",
-    "icon": "",
-    "desc": "Power off",
-    "cmd": "shutdown now &"
-  }
-]`)
-(defvar selected "lock")
-
 (defwidget yes_no [action cmd]
   (box
     :orientation "v"
@@ -51,18 +23,18 @@
     :space-evenly false
     :class "power-button"
     (button
-      :class "${class} ${selected == class ? "selected" : ""}"
+      :class "${class} ${power_selected == class ? "selected" : ""}"
       :onclick {
-        selected == class 
-        ? "${EWW_CMD} update selected=''" 
-        : "${EWW_CMD} update selected='${class}'"
+        power_selected == class 
+        ? "${EWW_CMD} update power_selected=''" 
+        : "${EWW_CMD} update power_selected='${class}'"
       }
       :tooltip desc
       (label :text icon :class "icon")
     )
     (revealer
       :transition "slideright"
-      :reveal {selected == class}
+      :reveal {power_selected == class}
       (yes_no :action desc :cmd cmd)
     )
   )

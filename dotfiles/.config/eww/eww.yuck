@@ -5,7 +5,158 @@
 (include "screenshot/eww.yuck")
 (include "workspaces/eww.yuck")
 
+; VARIABLES
 (defvar stack_transition "slideright")
+
+; calendar
+(defvar calendar_visible false)
+(defpoll hour 
+  :run-while calendar_visible 
+  :initial "" 
+  :interval "30s" 
+  `date +%I`
+)
+(defpoll minute 
+  :run-while calendar_visible 
+  :initial "" 
+  :interval "30s" 
+  `date +%M`
+)
+(defpoll date 
+  :run-while calendar_visible 
+  :initial "" 
+  :interval "30s" 
+  `date '+%A %B %d %Y'`
+)
+
+; control center
+(defvar control_center_visible false)
+(defvar control_center_menu_item 0)
+(defvar user_input "")
+(defvar search_results "")
+(defvar search_selected -1)
+(defvar username "")
+(defvar hostname "")
+(defvar os_version "")
+(defvar profile_image "")
+(defvar dnd_icon "")
+(defvar idle_icon "")
+(defpoll cpu 
+  :run-while {control_center_menu_item == 1 && control_center_visible} 
+  :interval "3s" 
+  "$YZSHELL_EWW_SCRIPT_DIR/cpu_perc.sh"
+)
+(defpoll temp 
+  :run-while {control_center_menu_item == 1 && control_center_visible}
+  :interval "3s" 
+  "$YZSHELL_EWW_SCRIPT_DIR/cpu_temp.sh"
+)
+(defpoll song 
+  :run-while {control_center_menu_item == 0 && control_center_visible} 
+  :interval "3s"  
+  "$YZSHELL_EWW_SCRIPT_DIR/music_info.sh --song"
+)
+(defpoll song_artist 
+  :run-while {control_center_menu_item == 0 && control_center_visible} 
+  :interval "3s"  
+  "$YZSHELL_EWW_SCRIPT_DIR/music_info.sh --artist"
+)
+(defpoll song_status 
+  :run-while {control_center_menu_item == 0 && control_center_visible} 
+  :interval "3s"  
+  "$YZSHELL_EWW_SCRIPT_DIR/music_info.sh --status"
+)
+(defpoll cover_art 
+  :run-while {control_center_menu_item == 0 && control_center_visible} 
+  :interval "3s"  
+  "$YZSHELL_EWW_SCRIPT_DIR/music_info.sh --cover"
+)
+(defvar recording_output "")
+(defvar recording_format "mp4")
+(defvar record_audio false)
+(defpoll recorder_updater
+  :run-while {control_center_menu_item == 3 && control_center_visible} 
+  :interval "3s" 
+  :initial ""
+  "$YZSHELL_EWW_SCRIPT_DIR/is_recording.sh"
+)
+(defvar recorder_selected 0)
+(defvar mins "00")
+(defvar secs "00")
+(defpoll weather_data :interval "5m" "$YZSHELL_EWW_SCRIPT_DIR/weather.py &")
+
+; power
+(defvar power_selected "lock")
+(defvar power_buttons_arr `[
+  {
+    "class": "lock",
+    "icon": "",
+    "desc": "Lock screen",
+    "cmd": "yzwidgets close all; hyprlock &"
+  },
+  {
+    "class": "exit",
+    "icon": "",
+    "desc": "Exit desktop",
+    "cmd": "hyprctl dispatch 'hl.dsp.exit()' &"
+  },
+  {
+    "class": "reboot",
+    "icon": "",
+    "desc": "Reboot",
+    "cmd": "systemctl reboot &"
+  },
+  {
+    "class": "shutdown",
+    "icon": "",
+    "desc": "Power off",
+    "cmd": "shutdown now &"
+  }
+]`)
+
+; screenshot
+(defvar screenshot_output "")
+
+; settings
+(defvar settings_menu_item 0)
+(defvar light_colourschemes `[]`)
+(defvar dark_colourschemes `[]`)
+(defvar schemes_selected 0)
+(defvar current_scheme "")
+(defvar scheme_query "")
+(defvar colourschemes_bg_image "")
+(defvar no_light_schemes_found false)
+(defvar no_dark_schemes_found false)
+(defvar scheme_cols `[
+  "background",
+  "foreground",
+  "red",
+  "orange",
+  "yellow",
+  "green",
+  "cyan",
+  "blue",
+  "purple",
+  "brown"
+]`)
+(defvar wallpaper_dir "")
+(defvar wallpaper_mode "")
+(defvar wallpapers "[]")
+(defvar current_wallpaper "")
+(defvar wallpapers_loading true)
+
+; workspaces
+(defvar workspaces_visible false)
+(defvar workspaces_width 225)
+(defvar workspaces_height 125)
+(defpoll workspaces 
+    :interval "3s" 
+    :initial "[]" 
+    :run-while workspaces_visible
+    "$YZSHELL_EWW_SCRIPT_DIR/workspaces.py"
+)
+(defvar active_workspace 0)
+
 
 (defwindow closer
   :monitor 0

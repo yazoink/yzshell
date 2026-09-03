@@ -1,14 +1,7 @@
-(defvar control_center_visible false)
-
-(defvar user_input "")
-(defvar search_results "")
-(defvar search_selected -1)
-
 (include "control_center/widgets/top_menu/top_menu.yuck")
 (include "control_center/widgets/launchers.yuck")
 (include "control_center/widgets/user.yuck")
 (include "control_center/widgets/search.yuck")
-
 
 (defwindow control_center
   :monitor 0

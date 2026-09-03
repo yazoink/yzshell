@@ -1,24 +1,3 @@
-(defvar light_colourschemes `[]`)
-(defvar dark_colourschemes `[]`)
-(defvar schemes_selected 0)
-(defvar current_scheme "")
-(defvar scheme_query "")
-(defvar colourschemes_bg_image "")
-(defvar no_light_schemes_found false)
-(defvar no_dark_schemes_found false)
-(defvar scheme_cols `[
-  "background",
-  "foreground",
-  "red",
-  "orange",
-  "yellow",
-  "green",
-  "cyan",
-  "blue",
-  "purple",
-  "brown"
-]`)
-
 (defwidget colour [hex border]
   (button
     :onclick "wl-copy '${hex}'; notify-send '${hex}' 'Copied to clipboard.'"
