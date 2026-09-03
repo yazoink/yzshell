@@ -87,7 +87,10 @@
                     :valign "center"
                     :spacing 8
                     :space-evenly false
-                    (image :path "/tmp/wallpaper_cache/${wallpaper}" :image-width 150)
+                    (image 
+                        :path "/tmp/wallpaper_cache/${wallpaper}" 
+                        :image-width 150
+                    )
                     ;(label :text "${wallpaper_dir}/${wallpaper}")
                     (label
                       :text wallpaper 

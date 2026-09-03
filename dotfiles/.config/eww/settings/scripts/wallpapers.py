@@ -27,6 +27,30 @@ def get_dir(arg):
     return directory
 
 
+def get_image_files(directory):
+    files = listdir(directory)
+    image_files = []
+    for f in files:
+        if f.endswith((".jpg", ".png", ".jpeg")):
+            image_files.append(f)
+    return sorted(image_files)
+
+
+def get_wallpaper_data(image_files, cols):
+    a = []
+    if len(image_files) > 0:
+        rows = ceil(len(image_files) / cols)
+
+        i = 0
+        for _ in range(0, rows):
+            r = []
+            for _ in range(0, cols):
+                r.append(image_files[i])
+                i += 1
+            a.append(r)
+    return a
+
+
 def update_thumbs(refresh=False, directory=None):
     cache_dir = "/tmp/wallpaper_cache"
 
@@ -71,27 +95,25 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--directory", default=None)
+    parser.add_argument("-c", "--columns", default=3)
     parser.add_argument("-r", "--refresh", action="store_true", default=False)
     args = parser.parse_args(argv[1:])
 
     directory = get_dir(args.directory)
-    available_wallpapers = []
-    cols = 3
-    rows = 0
 
+    # invalid dir
     if path.isdir(directory) == False:
         directory = subprocess.run(
             ["yzconf", "get", "wallpaper_dir"], text=True, capture_output=True
         ).stdout.strip()
         subprocess.run(
-            f"""
-            eww update wallpaper_dir="{directory}"
-            """,
+            f"eww update wallpaper_dir='{directory}'",
             shell=True,
         )
         remove(lockfile)
         exit(1)
 
+    # valid dir
     subprocess.run(
         f"""
         eww update wallpaper_dir='{directory}'
@@ -101,30 +123,15 @@ if __name__ == "__main__":
         shell=True,
     )
 
-    # update thumbs
     update_thumbs(directory=directory, refresh=args.refresh)
 
-    files = listdir(directory)
-    image_files = []
-    for f in files:
-        if f.endswith((".jpg", ".png", ".jpeg")):
-            image_files.append(f)
-        image_files = sorted(image_files)
-    if len(image_files) > 0:
-        rows = ceil(len(image_files) / cols)
-
-        i = 0
-        for _ in range(0, rows):
-            r = []
-            for _ in range(0, cols):
-                r.append(image_files[i])
-                i += 1
-            available_wallpapers.append(r)
+    image_files = get_image_files(directory)
+    wallpaper_data = get_wallpaper_data(image_files, args.columns)
 
     subprocess.run(
         f"""
         eww update wallpapers_loading=false
-        eww update wallpapers=\'{json.dumps(available_wallpapers)}\'
+        eww update wallpapers=\'{json.dumps(wallpaper_data)}\'
         """,
         shell=True,
     )

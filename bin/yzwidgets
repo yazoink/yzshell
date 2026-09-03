@@ -141,6 +141,7 @@ def open_settings(screen):
     subprocess.run(
         f"""
         rm /tmp/wp_settings.lock
+        python {EWW_DIR}/settings/scripts/wallpapers.py &
         python {EWW_DIR}/settings/scripts/schemes_background.py &
         eww open closer --no-daemonize --screen {screen}
         eww open settings --no-daemonize --screen {screen} \\
