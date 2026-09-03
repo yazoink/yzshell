@@ -29,10 +29,16 @@ def main():
     if not path.isfile(target_path):
         with Image.open(wp_path) as im:
             w, h =  im.size
-            left = (w / 2) - (target_w / 2)
-            upper = (h / 2) - (target_h / 2)
-            right = (w / 2) + (target_w / 2)
-            lower = (h / 2) + (target_h / 2)
+            left = 0
+            upper = 0
+            right = w
+            lower = h
+            if w > target_w:
+                left = (w / 2) - (target_w / 2)
+                right = (w / 2) + (target_w / 2)
+            if h > target_h:
+                upper = (h / 2) - (target_h / 2)
+                lower = (h / 2) + (target_h / 2)
             im.crop((
                 left, 
                 upper, 

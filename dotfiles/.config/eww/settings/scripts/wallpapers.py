@@ -3,7 +3,7 @@
 import argparse
 import json
 import subprocess
-from math import floor
+from math import ceil
 from os import listdir, makedirs, path, remove
 from shutil import rmtree
 from sys import argv, exit
@@ -75,9 +75,8 @@ if __name__ == "__main__":
     args = parser.parse_args(argv[1:])
 
     directory = get_dir(args.directory)
-    columns = 3
     available_wallpapers = []
-    cols = 0
+    cols = 3
     rows = 0
 
     if path.isdir(directory) == False:
@@ -110,24 +109,18 @@ if __name__ == "__main__":
     for f in files:
         if f.endswith((".jpg", ".png", ".jpeg")):
             image_files.append(f)
-    if len(image_files) > 0:
-        if len(image_files) < 3:
-            rows = 1
-        else:
-            rows = floor(len(files) / 3)
-
         image_files = sorted(image_files)
+    if len(image_files) > 0:
+        rows = ceil(len(image_files) / cols)
 
         i = 0
-        for row in range(0, rows):
-            cols = 3
-            # available_wallpapers.append([])
+        for _ in range(0, rows):
             r = []
             for _ in range(0, cols):
-                if i < len(image_files):
-                    r.append(image_files[i])
-                    i += 1
+                r.append(image_files[i])
+                i += 1
             available_wallpapers.append(r)
+
     subprocess.run(
         f"""
         eww update wallpapers_loading=false
