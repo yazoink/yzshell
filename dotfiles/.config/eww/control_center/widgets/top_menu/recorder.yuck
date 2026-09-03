@@ -18,16 +18,7 @@
       :halign "center"
       :hexpand "true"
       (label :class "timer" :text mins)
-      (box
-        :orientation "vertical"
-        :space-evenly "true"
-        :valign "center"
-        :spacing 4
-        :class "separator"
-        (label :text "" :class "red")
-        (label :text "" :class "green")
-        (label :text "" :class "blue")
-      )
+      (vertical_separator)
       (label :class "timer" :text secs)
     )
     (button

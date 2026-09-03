@@ -72,6 +72,12 @@ tooltip {
   color: $cyan;
 }
 
+.vertical-separator label {
+  font-weight: bold;
+  font-size: 5pt;
+  font-family: "Font Awesome 7 Free";
+}
+
 menu {
   color: $foreground;
   background-color: $background;

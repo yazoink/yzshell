@@ -11,16 +11,7 @@
       :halign "center"
       :class "clock"
       (label :text "${hour}")
-      (box
-        :orientation "vertical"
-        :space-evenly "true"
-        :valign "center"
-        :spacing 4
-        :class "separator"
-        (label :text "" :class "red")
-        (label :text "" :class "green")
-        (label :text "" :class "blue")
-      )
+      (vertical_separator)
       (label :text "${minute}")
     )
     (label :text "${date}" :class "date")

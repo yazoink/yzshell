@@ -1,3 +1,12 @@
+(defwidget launcher_button [name command tooltip icon]
+  (button
+    :class "launcher-button ${name}"
+    :tooltip tooltip
+    :onclick command
+    (label :text icon :class "icon")
+  )
+)
+
 (defwidget launchers []
   (box
     :orientation "v"
@@ -9,29 +18,29 @@
       :spacing 8
       :space-evenly false
       :vexpand true
-      (button
-        :class "launcher-button settings"
+      (launcher_button
+        :name "settings"
         :tooltip "Change appearance"
-        :onclick "yzwidgets close control_center & yzwidgets open settings &"
-        (label :text "" :class "icon")
+        :command "yzwidgets close control_center & yzwidgets open settings &"
+        :icon ""
       )
-      (button
-        :class "launcher-button picker"
-        :onclick "yzshell cmd toggle_idle_inhib &"
+      (launcher_button
+        :name "idle"
         :tooltip "Toggle idle inhibitor"
-        (label :text idle_icon :class "icon")
+        :command "yzshell cmd toggle_idle_inhib &"
+        :icon idle_icon
       )
-      (button
-        :class "launcher-button shot"
-        :onclick "yzwidgets close control_center & yzwidgets open screenshot &"
+      (launcher_button
+        :name "shot"
         :tooltip "Take screenshot"
-        (label :text "" :class "icon")
+        :command "yzwidgets close control_center & yzwidgets open screenshot &"
+        :icon ""
       )
-      (button
-        :class "launcher-button dnd"
+      (launcher_button
+        :name "dnd"
         :tooltip "Toggle do-not-disturb"
-        :onclick "yzshell cmd toggle_dnd &"
-        (label :text dnd_icon :class "icon")
+        :command "yzshell cmd toggle_dnd &"
+        :icon dnd_icon
       )
     )
     (box
@@ -40,11 +49,11 @@
       :spacing 8
       :space-evenly true
       :vexpand true
-      (button
-        :class "launcher-button shutdown"
+      (launcher_button
+        :name "shutdown"
         :tooltip "Open power menu"
-        :onclick "yzwidgets close control_center & yzwidgets open power"
-        (label :text "" :class "icon")
+        :command "yzwidgets close control_center & yzwidgets open power &"
+        :icon ""
       )
     )
   )

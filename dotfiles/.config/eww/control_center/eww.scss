@@ -2,7 +2,7 @@
 .settings label {
   color: $cyan;
 }
-.picker label {
+.idle label {
   color: $green;
 }
 
@@ -200,10 +200,8 @@
     }
   }
 
-  .separator label {
+  .vertical-separator label {
     font-size: 5pt;
-    font-weight: bold;
-    font-family: "Font Awesome 7 Free";
   }
 
   .recording-label {
@@ -408,11 +406,6 @@
       }
     }
   }
-}
-
-
-.search_input {
-  margin: calc($padding + 5px);
 }
 
 .search-bar {

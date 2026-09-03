@@ -1,3 +1,12 @@
+(defwidget monitor_usage [name colour icon tooltip value]
+  (box
+    :class "monitor-item ${name} ${colour}"
+    :tooltip tooltip
+    (label :text icon :class "icon")
+    (label :text value :class "usage")
+  )
+)
+
 (defwidget monitor []
   (box
     :class "monitor-box"
@@ -9,30 +18,38 @@
       :orientation "h"
       :spacing 8
       :halign "center"
-      (box
-        :class "monitor-item cpu red"
-        (label :text "" :class "icon")
-        (label :text "${cpu}%" :class "usage")
+      (monitor_usage
+        :name "cpu"
+        :tooltip "CPU usage"
+        :icon ""
+        :colour "red"
+        :value "${cpu}%"
       )
-      (box
-        :class "monitor-item ram yellow"
-        (label :text "" :class "icon")
-        (label :text "${round(EWW_RAM.used_mem_perc, 0)}%" :class "usage")
+      (monitor_usage
+        :name "ram"
+        :tooltip "Memory usage"
+        :icon ""
+        :colour "yellow"
+        :value "${round(EWW_RAM.used_mem_perc, 0)}%"
       )
     )
     (box
       :orientation "h"
       :spacing 8
       :halign "center"
-      (box
-        :class "monitor-item disk green"
-        (label :text "" :class "icon")
-        (label :text "${round(EWW_DISK["/"].used_perc, 0)}%" :class "usage")
+      (monitor_usage
+        :name "disk"
+        :tooltip "Disk usage"
+        :icon ""
+        :colour "green"
+        :value "${round(EWW_DISK["/"].used_perc, 0)}%"
       )
-      (box
-        :class "monitor-item temp blue"
-        (label :text "" :class "icon")
-        (label :text "${temp}°C" :class "usage")
+      (monitor_usage
+        :name "temp"
+        :tooltip "CPU temperature"
+        :icon ""
+        :colour "blue"
+        :value "${temp}°C"
       )
     )
   )

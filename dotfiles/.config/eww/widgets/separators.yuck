@@ -1,0 +1,12 @@
+(defwidget vertical_separator []
+    (box
+        :orientation "vertical"
+        :space-evenly "true"
+        :valign "center"
+        :spacing 4
+        :class "vertical-separator"
+        (label :text "" :class "red")
+        (label :text "" :class "green")
+        (label :text "" :class "blue")
+    )
+)
