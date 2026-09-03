@@ -111,9 +111,6 @@
   padding: $padding;
 }
 
-.menu-content {
-}
-
 .menu-box {
   border-radius: $inner-radius;
   .music .icon {
@@ -301,8 +298,8 @@
     border-radius: $inner-radius;
     min-height: 50px;
     min-width: 135px;
-    // font-weight: bold;
     .usage {
+      //font-weight: bold;
       font-size: 13pt;
       color: $fg;
       padding: $padding;
