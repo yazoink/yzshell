@@ -18,12 +18,16 @@
     border-radius: $inner-radius;
     font-weight: bold;
     .power-button-icon {
-      min-width: 75px;
-      min-height: 75px;
-      font-size: 40pt;
+      min-width: 65px;
+      min-height: 65px;
+      font-size: 35pt;
     }
     .yes-no {
+      min-width: 65px;
       margin: $padding;
+      button {
+        margin: 0;
+      }
     }
   
     .lock .icon {

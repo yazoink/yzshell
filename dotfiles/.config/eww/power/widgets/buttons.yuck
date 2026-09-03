@@ -1,7 +1,7 @@
 (defwidget yes_no [action cmd]
   (box
     :orientation "v"
-    :spacing 8
+    :spacing 4
     :space-evenly false
     :valign "center"
     :vexpand true
@@ -9,7 +9,7 @@
     (label :text action :class "action")
     (box
       :orientation "h"
-      :spacing 8
+      :spacing 4
       :space-evenly false
       :valign "center"
       :halign "center"
