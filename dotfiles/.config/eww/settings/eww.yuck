@@ -47,19 +47,23 @@
         :halign "center"
         :space-evenly false
         :spacing 8
-        (settings_menu_button
-          :index 0
-          :icon ""
+        (menu_button
+          :name "Wallpaper"
           :tooltip "Wallpaper settings"
-          :text "Wallpaper"
-          :class "wallpaper"
+          :colour "red"
+          :icon ""
+          :index 0
+          :curr_selected settings_menu_item
+          :menu_var "settings_menu_item"
         )
-        (settings_menu_button
-          :index 1
-          :icon ""
+        (menu_button
+          :name "Colourscheme"
           :tooltip "Colourscheme settings"
-          :text "Colourscheme"
-          :class "colours"
+          :colour "orange"
+          :icon ""
+          :index 1
+          :curr_selected settings_menu_item
+          :menu_var "settings_menu_item"
         )
       )
     )

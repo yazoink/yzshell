@@ -3,24 +3,6 @@
 (include "control_center/widgets/top_menu/music.yuck")
 (include "control_center/widgets/top_menu/recorder.yuck")
 
-(defwidget menu_button [name class tooltip icon index]
-  (button
-    :class "${class} ${control_center_menu_item == index ? "selected" : ""}"
-    :onclick "$YZSHELL_EWW_SCRIPT_DIR/slide.py ${control_center_menu_item} ${index} control_center_menu_item"
-    :tooltip tooltip
-    (box
-      :orientation "h"
-      :space-evenly false
-      (label :text icon :class "icon")
-      (revealer
-        :transition stack_transition
-        :reveal {control_center_menu_item == index ? true : false}
-        (label :text name)
-      )
-    )
-  )
-)
-
 (defwidget control_center_menu []
   (box
     :orientation "v"
@@ -50,30 +32,38 @@
         (menu_button
           :name "Music"
           :tooltip "Music controls"
-          :class "music"
+          :colour "red"
           :icon ""
           :index 0
+          :curr_selected control_center_menu_item
+          :menu_var "control_center_menu_item"
         )
         (menu_button
           :name "Resources"
           :tooltip "Resource monitor"
-          :class "monitor"
+          :colour "orange"
           :icon ""
           :index 1
+          :curr_selected control_center_menu_item
+          :menu_var "control_center_menu_item"
         )
         (menu_button
           :name "Weather"
           :tooltip "Weather"
-          :class "weather"
+          :colour "yellow"
           :icon ""
           :index 2
+          :curr_selected control_center_menu_item
+          :menu_var "control_center_menu_item"
         )
         (menu_button
           :name "Recorder"
           :tooltip "Screen recorder"
-          :class "recorder"
+          :colour "green"
           :icon ""
           :index 3
+          :curr_selected control_center_menu_item
+          :menu_var "control_center_menu_item"
         )
       )
     )

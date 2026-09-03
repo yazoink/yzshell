@@ -1,26 +1,4 @@
 .control-center-box {
-.settings label {
-  color: $cyan;
-}
-.idle label {
-  color: $green;
-}
-
-.shot label {
-  color: $yellow;
-}
-
-.dnd label {
-  color: $orange;
-}
-
-.search label {
-  color: $purple;
-}
-
-.shutdown label {
-  color: $red;
-}
   padding: $padding;
   border-radius: $outer-radius;
   background: $bg;
@@ -113,51 +91,13 @@
 
 .menu-box {
   border-radius: $inner-radius;
-  .music .icon {
-    color: $red;
-  }
-  .monitor .icon {
-    color: $orange;
-  }
-  .weather .icon {
-    color: $yellow;
-  }
-  .recorder .icon {
-    color: $green;
-  }
-  .selected {
-    .icon {
-      border-top-left-radius: $inner-radius;
-      border-bottom-left-radius: $inner-radius;
-    }
-    &.music .icon {
-      background-color: $red;
-      color: $bg;
-    }
-    &.monitor .icon {
-      background-color: $orange;
-      color: $bg;
-    }
-    &.weather .icon {
-      background-color: $yellow;
-      color: $bg;
-    }
-    &.recorder .icon {
-      background-color: $green;
-      color: $bg;
-    }
-  }
   button {
-    background-color: $surface;
-    border-radius: $inner-radius;
-    font-weight: bold;
+    background-color: $surface1;
     label {
       padding: $padding;
     }
-    .icon {
-    }
     &:hover {
-      background-image: linear-gradient($surface2);
+      background: $surface2;
     }
   }
 }

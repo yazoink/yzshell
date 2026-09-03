@@ -7,3 +7,21 @@
         icon
     )
 )
+
+(defwidget menu_button [name colour tooltip icon index curr_selected menu_var]
+  (button
+    :class "menu-button ${curr_selected == index ? "selected" : ""}"
+    :onclick "$YZSHELL_EWW_SCRIPT_DIR/slide.py ${curr_selected} ${index} ${menu_var}"
+    :tooltip tooltip
+    (box
+      :orientation "h"
+      :space-evenly false
+      (label :text icon :class "menu-button-icon ${colour}")
+      (revealer
+        :transition stack_transition
+        :reveal {curr_selected == index ? true : false}
+        (label :text name)
+      )
+    )
+  )
+)

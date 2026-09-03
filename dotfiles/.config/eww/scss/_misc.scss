@@ -10,6 +10,47 @@ $inner-radius: 8px;
   font-size: 11pt;
 }
 
+.accent .icon {
+  background-color: $accent;
+}
+.blue .icon {
+  background-color: $blue;
+}
+.green .icon {
+  background-color: $green;
+}
+.yellow .icon {
+  background-color: $yellow;
+}
+.red .icon {
+  background-color: $red;
+}
+.purple .icon {
+  background-color: $purple;
+}
+.cyan .icon {
+  background-color: $cyan;
+}
+.orange .icon {
+  background-color: $cyan;
+}
+
+.red, .red label { color: $red; }
+.orange, .orange label { color: $orange; }
+.yellow, .yellow label { color: $yellow; }
+.green, .green label { color: $green; }
+.cyan, .cyan label { color: $cyan; }
+.blue, .blue label { color: $blue; }
+.purple, .purple label { color: $purple; }
+.brown, .brown label { color: $brown; }
+.accent, .accent label { color: $accent; }
+
+.vertical-separator label {
+  font-weight: bold;
+  font-size: 5pt;
+  font-family: "Font Awesome 7 Free";
+}
+
 .icon {
   font-family: "Font Awesome 7 Free";
   font-weight: bold;
@@ -56,67 +97,47 @@ $inner-radius: 8px;
   min-height: 50px;
 }
 
+.menu-button {
+  background-color: $surface1;
+  border-radius: $inner-radius;
+  font-weight: bold;
+  .menu-button-icon {
+    font-size: 18pt;
+    min-width: 30px;
+    min-height: 30px;
+    font-family: "Font Awesome 7 Free";
+  }
+  label {
+    font-weight: bold;
+    padding: $padding;
+  }
+  &.selected {
+    .menu-button-icon {
+      color: $background;
+      border-top-left-radius: $inner-radius;
+      border-bottom-left-radius: $inner-radius;
+      &.red { background-color: $red; }
+      &.orange { background-color: $orange; }
+      &.yellow { background-color: $yellow; }
+      &.green { background-color: $green; }
+      &.cyan { background-color: $cyan; }
+      &.blue { background-color: $blue; }
+      &.purple { background-color: $purple; }
+      &.brown { background-color: $brown; }
+      &.foreground { background-color: $foreground; }
+      &.accent { background-color: $accent; }
+    }
+  }
+  &:hover {
+    background-image: linear-gradient($surface2);
+  }
+}
+
 tooltip {
   padding: $padding;
   border-radius: $inner-radius;
   background: $bg;
   border: 1px solid $border;
-}
-
-.accent .icon {
-  background-color: $accent;
-}
-.blue .icon {
-  background-color: $blue;
-}
-.green .icon {
-  background-color: $green;
-}
-.yellow .icon {
-  background-color: $yellow;
-}
-.red .icon {
-  background-color: $red;
-}
-.purple .icon {
-  background-color: $purple;
-}
-.cyan .icon {
-  background-color: $cyan;
-}
-.orange .icon {
-  background-color: $cyan;
-}
-
-.accent, .accent label {
-  color: $blue;
-}
-.blue, .blue label {
-  color: $blue;
-}
-.green, .green label {
-  color: $green;
-}
-.yellow, .yellow label {
-  color: $yellow;
-}
-.red, .red label {
-  color: $red;
-}
-.purple, .purple label {
-  color: $purple;
-}
-.cyan, .cyan label {
-  color: $cyan;
-}
-.orange, .orange label {
-  color: $orange;
-}
-
-.vertical-separator label {
-  font-weight: bold;
-  font-size: 5pt;
-  font-family: "Font Awesome 7 Free";
 }
 
 menu {

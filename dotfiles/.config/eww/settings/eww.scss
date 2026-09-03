@@ -20,27 +20,6 @@
   }
   .settings-menu {
     border-radius: $inner-radius;
-    font-weight: bold;
-    .wallpaper .icon {
-      color: $red;
-    }
-    .colours .icon {
-      color: $orange;
-    }
-    .selected {
-      .icon {
-        border-top-left-radius: $inner-radius;
-        border-bottom-left-radius: $inner-radius;
-      }
-      &.wallpaper .icon {
-        background-color: $red;
-        color: $bg;
-      }
-      &.colours .icon {
-        background-color: $orange;
-        color: $bg;
-      }
-    }
   }
   .colourschemes {
     .filter-label {
@@ -124,10 +103,7 @@
       }
     }
   }
-  
-  .fill-button label {
-    // font-weight: bold;
-  }
+
   .wp-scroller {
     min-height: 300px;
     min-width: 530px;
@@ -165,8 +141,6 @@
         label {
           color: $bg;
         }
-      }
-      image {
       }
     }
   }
