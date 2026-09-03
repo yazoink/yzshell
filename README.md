@@ -35,6 +35,7 @@ My very messy dotfiles.
 - Mod + Tab: toggle workspace switcher
 - Mod + Shift + R: reload shell
 - Mod + Shift + B: reload bar
+- Mod + Shift + E: reload widgets
 - Mod + C: pick colour
 - Mod + Shift + D: toggle do-not-disturb
 - Mod + Shift + I: toggle idle inhibitor

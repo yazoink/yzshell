@@ -1,17 +1,11 @@
 (defvar light_colourschemes `[]`)
 (defvar dark_colourschemes `[]`)
 (defvar schemes_selected 0)
-(defpoll current_scheme 
-    :interval "999999h"
-    :run-while false
-    "yzconf get colourscheme"
-)
-(defpoll schemes_setter 
-    :interval "999999h"
-    :run-while false
-    "settings/scripts/schemes.py &"
-)
+(defvar current_scheme "")
 (defvar scheme_query "")
+(defvar colourschemes_bg_image "")
+(defvar no_light_schemes_found false)
+(defvar no_dark_schemes_found false)
 (defvar scheme_cols `[
   "background",
   "foreground",
@@ -149,10 +143,11 @@
   )  
 )
 
-(defwidget scheme_box [colourschemes polarity]
+(defwidget scheme_box [colourschemes polarity empty]
   (box 
     :class "colours-box-outer ${polarity}"
-    :style "background-image: url('${current_wallpaper}');"
+    ;:style "background-image: url('${current_wallpaper}');"
+    :style "background-image: url('${colourschemes_bg_image}');"
     :width 530
     (scroll
       :hscroll false
@@ -163,6 +158,11 @@
         :orientation "v"
         :space-evenly false
         :spacing 8
+        (box
+            :class "no-schemes-found"
+            :visible empty
+            (label :text "No schemes found...")
+        )
         (for scheme in colourschemes
           (scheme_preview :scheme scheme)
         )
@@ -221,11 +221,13 @@
         :colourschemes dark_colourschemes
         :polarity "dark"
         :visible {dark_colourschemes == '{"window_buttons": ["red", "yellow", "green"]}' ? false : true}
+        :empty no_dark_schemes_found
       )
       (scheme_box
         :colourschemes light_colourschemes
         :polarity "light"
         :visible {light_colourschemes == `{"window_buttons": ["red", "yellow", "green"]}` ? false : true}
+        :empty no_light_schemes_found
       )
     )
     (scheme_polarity_buttons)

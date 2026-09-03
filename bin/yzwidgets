@@ -6,6 +6,8 @@ from os import environ, listdir, makedirs, path
 from shutil import rmtree
 from sys import argv, exit, stderr
 
+EWW_DIR = path.expanduser("~/.config/eww")
+
 
 def control_center_search_selected(direction="next"):
     r = subprocess.run(
@@ -39,8 +41,12 @@ def get_conf_opt(opt):
 
 def init_widgets():
     wallpaper_dir = get_conf_opt("wallpaper_dir")
+    wallpaper_img = get_conf_opt("wallpaper_image")
+    wallpaper_mode = get_conf_opt("wallpaper_mode")
+    wallpaper_path = path.join(wallpaper_dir, wallpaper_img)
+    curr_sch = get_conf_opt("colourscheme")
     subprocess.run(
-        """
+        f"""
         eww daemon
         eww poll dnd_icon
         eww poll idle_icon
@@ -49,15 +55,13 @@ def init_widgets():
         eww poll os_version
         eww poll profile_image_path
         eww poll recording_output
-        eww poll search_results
         eww poll screenshot_output
-        eww poll current_scheme
-        eww poll wallpaper_dir
-        eww poll wallpaper_mode
-        eww poll current_wallpaper
-        eww poll wallpaper_mode
-        eww poll wallpapers_setter
-        eww poll schemes_setter
+        eww update current_scheme='{curr_sch}'
+        eww update current_wallpaper='{wallpaper_path}'
+        eww update wallpaper_mode='{wallpaper_mode}'
+        eww update wallpaper_dir='{wallpaper_dir}'
+        python {EWW_DIR}/settings/scripts/wallpapers.py &
+        python {EWW_DIR}/settings/scripts/schemes.py &
         """,
         shell=True,
     )
@@ -75,6 +79,7 @@ def get_screen():
 def open_control_center(screen):
     subprocess.run(
         f"""
+        python {EWW_DIR}/control_center/scripts/apps.py &
         eww update control_center_visible=true
         eww open closer --no-daemonize --screen {screen}
         eww open control_center --no-daemonize --screen {screen} \\
@@ -93,7 +98,6 @@ def close_control_center():
         """
         eww close control_center
         eww update control_center_visible=false
-        eww poll search_results
         """,
         shell=True,
         stdout=subprocess.DEVNULL,
@@ -129,14 +133,21 @@ def close_workspaces():
 
 
 def open_settings(screen):
+    wallpaper_dir = get_conf_opt("wallpaper_dir")
+    wallpaper_img = get_conf_opt("wallpaper_image")
+    wallpaper_mode = get_conf_opt("wallpaper_mode")
+    wallpaper_path = path.join(wallpaper_dir, wallpaper_img)
+    curr_sch = get_conf_opt("colourscheme")
     subprocess.run(
         f"""
+        rm /tmp/wp_settings.lock
+        python {EWW_DIR}/settings/scripts/schemes_background.py &
         eww open closer --no-daemonize --screen {screen}
         eww open settings --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"settings\")'
-        rm /tmp/wp_settings.lock
-        eww poll wallpaper_dir
-        eww poll wallpapers_setter
+        eww update current_wallpaper='{wallpaper_path}'
+        eww update wallpaper_mode='{wallpaper_mode}'
+        eww update current_scheme='{curr_sch}'
         """,
         shell=True,
         stdout=subprocess.DEVNULL,

@@ -1,24 +1,7 @@
-(defpoll wallpaper_dir 
-  :run-while false 
-  :interval "999999h" 
-  "yzconf get wallpaper_dir"
-)
+(defvar wallpaper_dir "")
+(defvar wallpaper_mode "")
 (defvar wallpapers "[]")
-(defpoll wallpapers_setter
-  :run-while false 
-  :interval "999999h" 
-  "settings/scripts/wallpapers.py &"
-)
-(defpoll current_wallpaper 
-  :run-while false 
-  :interval "999999h" 
-  `echo "$(yzconf get wallpaper_dir)/$(yzconf get wallpaper_image)"`
-)
-(defpoll wallpaper_mode 
-  :run-while false 
-  :interval "999999h" 
-  "yzconf get wallpaper_mode"
-)
+(defvar current_wallpaper "")
 (defvar wallpapers_loading true)
 
 (defwidget fill_button [text mode]
@@ -62,7 +45,7 @@
         :hexpand true
       )
       (button
-        :onclick "settings/scripts/wallpapers.py -r -d '${wallpaper_dir}' &"
+        :onclick "settings/scripts/wallpapers.py -r -d '${wallpaper_dir}' & settings/scripts/schemes_background.py"
         :tooltip "Reload wallpapers"
         (label :text "" :class "blue" :style "font-weight: bold; font-family: 'Font Awesome 7 Free'; margin: 2px;")
       )

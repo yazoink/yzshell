@@ -14,6 +14,7 @@ DATA_DIR = path.expanduser("~/.local/share/yzshell")
 COLOURS_DIR = path.join(DATA_DIR, "colourschemes")
 BUILT_TEMPLATE_DIR = path.expanduser("~/.cache/yzshell/built_templates")
 TEMPLATES_DIR = path.join(DATA_DIR, "templates")
+EWW_DIR = path.expanduser("~/.config/eww")
 
 def get_default_config():
     with open(path.join(DATA_DIR, "misc/default-config.json"), "r") as f:
@@ -315,6 +316,7 @@ if __name__ == "__main__":
                             subprocess.run(
                                 f'''
                                 eww update current_wallpaper='{p}'
+                                python {EWW_DIR}/settings/scripts/schemes_background.py
                                 yzwallpaper reload
                                 ''',
                                 shell=True

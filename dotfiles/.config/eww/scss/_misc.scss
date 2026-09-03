@@ -43,6 +43,12 @@ tooltip {
 .red .icon {
   background-color: $red;
 }
+.purple .icon {
+  background-color: $purple;
+}
+.cyan .icon {
+  background-color: $cyan;
+}
 
 .blue, .blue label {
   color: $blue;
@@ -58,6 +64,12 @@ tooltip {
 
 .red, .red label {
   color: $red;
+}
+.purple, .purple label {
+  color: $purple;
+}
+.cyan, .cyan label {
+  color: $cyan;
 }
 
 menu {

@@ -118,7 +118,7 @@ def get_icon(data, day):
 
 
 def get_colour(data, day):
-    colour = None
+    colour = "blue"
     rain = float(data["current_condition"][0]["precipMM"])
     cloud = int(data["current_condition"][0]["cloudcover"])
     if rain > 0.1:  # raining

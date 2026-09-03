@@ -10,8 +10,14 @@ CACHE_FILE = "/tmp/all_colourschemes.json"
 
 def update_eww(arrs):
     for a in arrs:
+        empty = "true"
+        if len(arrs[a]) > 0:
+            empty = "false"
         subprocess.run(
-            f"eww update {a}_colourschemes=\"{json.dumps(arrs[a]).replace("\"", "\\\"")}\"",
+            f"""
+            eww update {a}_colourschemes="{json.dumps(arrs[a]).replace("\"", "\\\"")}"
+            eww update no_{a}_schemes_found={empty}
+            """,
             shell=True,
         )
 

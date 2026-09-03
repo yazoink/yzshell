@@ -116,14 +116,18 @@ if __name__ == "__main__":
         else:
             rows = floor(len(files) / 3)
 
+        image_files = sorted(image_files)
+
         i = 0
         for row in range(0, rows):
             cols = 3
-            available_wallpapers.append([])
+            # available_wallpapers.append([])
+            r = []
             for _ in range(0, cols):
                 if i < len(image_files):
-                    available_wallpapers[row].append(image_files[i])
+                    r.append(image_files[i])
                     i += 1
+            available_wallpapers.append(r)
     subprocess.run(
         f"""
         eww update wallpapers_loading=false

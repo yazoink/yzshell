@@ -14,16 +14,23 @@ hl.on("window.fullscreen", function()
 			gaps_out = 0, -- Disable gaps
 			border_size = 0,
 		},
-
 		animations = {
 			enabled = false, -- Disable animations
+			borderangle = { enabled = false },
 		},
-
 		-- Disable blur, shadow and window rounding
 		decoration = {
 			shadow = { enabled = false },
 			blur = { enabled = false },
 			rounding = 0,
+			active_opacity = 1,
+			inactive_opacity = 1,
+			fullscreen_opacity = 1,
 		},
 	})
+end)
+
+-- reset submap on reload
+hl.on("config.reloaded", function()
+	hl.dsp.submap("reset")
 end)

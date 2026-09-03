@@ -68,6 +68,15 @@
       .colours-box {
         padding: $padding * 2;
       }
+      .no-schemes-found {
+        // padding: $padding;
+        // border-radius: $inner-radius;
+        // background: $surface1;
+        label {
+          // opacity: 0.4;
+          font-style: italic;
+        }
+      }
       .scheme-preview {
         //border: 1px solid $surface3;
         border-radius: $outer-radius;
