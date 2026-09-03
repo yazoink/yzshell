@@ -13,7 +13,7 @@
     :height 50
     :width 334
     :style "margin: 9px; margin-left: 10px;"
-    (label :text "" :class "icon search" :halign "start")
+    (label :text "" :class "search-icon" :halign "start")
     (input ; search bar
       :value user_input 
       :active true
@@ -60,7 +60,7 @@
                 :orientation "h"
                 :space-evenly false
                 :spacing 8
-                (image :icon {app["icon"]} :icon-size "dialog" :class "icon")
+                (image :icon {app["icon"]} :icon-size "dialog" :class "app-icon")
                 (box
                   :orientation "v"
                   :space-evenly false

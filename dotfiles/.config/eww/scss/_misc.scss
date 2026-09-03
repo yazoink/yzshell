@@ -10,31 +10,6 @@ $inner-radius: 8px;
   font-size: 11pt;
 }
 
-.accent .icon {
-  background-color: $accent;
-}
-.blue .icon {
-  background-color: $blue;
-}
-.green .icon {
-  background-color: $green;
-}
-.yellow .icon {
-  background-color: $yellow;
-}
-.red .icon {
-  background-color: $red;
-}
-.purple .icon {
-  background-color: $purple;
-}
-.cyan .icon {
-  background-color: $cyan;
-}
-.orange .icon {
-  background-color: $cyan;
-}
-
 .red, .red label { color: $red; }
 .orange, .orange label { color: $orange; }
 .yellow, .yellow label { color: $yellow; }
@@ -49,15 +24,6 @@ $inner-radius: 8px;
   font-weight: bold;
   font-size: 5pt;
   font-family: "Font Awesome 7 Free";
-}
-
-.icon {
-  font-family: "Font Awesome 7 Free";
-  font-weight: bold;
-  font-size: 18pt;
-  min-width: 30px;
-  min-height: 30px;
-  padding: $padding;
 }
 
 .icon-button {

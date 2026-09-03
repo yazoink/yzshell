@@ -282,12 +282,6 @@
 
 .outer-box {
   all: unset;
-  .icon {
-    padding: 0;
-    margin: 0;
-  }
-  .search {
-  }
   // background-color: $bg;
   // border-radius: $outer-radius;
   // padding: $padding;
@@ -308,8 +302,11 @@
     .entry {
       min-height: 70px;
       border-radius: $inner-radius;
-      padding: calc($padding / 2);
       padding: 0 $padding;
+      .app-icon {
+        margin: 0;
+        padding: 0;
+      }
       .name {
         font-weight: bold;
       }
@@ -339,15 +336,16 @@
 .search-bar {
   background-color: $surface;
   border-radius: $inner-radius;
-  .icon {
+  .search-icon {
+    font-family: "Font Awesome 7 Free";
+    font-weight: bold;
+    font-size: 18pt;
+    min-width: 30px;
+    min-height: 30px;
     padding: $padding;
     background-color: $accent;
     border-top-left-radius: $inner-radius;
     border-bottom-left-radius: $inner-radius;
     color: $bg;
-  }
-  entry {
-    // font-size: 13pt;
-    // font-weight: bold;
   }
 }
