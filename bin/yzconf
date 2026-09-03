@@ -7,7 +7,7 @@ from sys import argv, exit, stderr
 from sys import path as sys_path
 
 sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
-from configutils import get_config, set_config_option, write_config, get_colourscheme, get_mustache_data
+from configutils import get_config, get_default_config, set_config_option, write_config, get_colourscheme, get_mustache_data
 from miscutils import delete_if_exists
 
 
