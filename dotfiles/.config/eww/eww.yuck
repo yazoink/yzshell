@@ -87,27 +87,31 @@
 (defpoll weather_data :interval "5m" "$YZSHELL_EWW_SCRIPT_DIR/weather.py &")
 
 ; power
-(defvar power_selected "lock")
+(defvar power_selected 0)
 (defvar power_buttons_arr `[
   {
+    "index": 0,
     "class": "lock",
     "icon": "",
     "desc": "Lock screen",
     "cmd": "yzwidgets close all; hyprlock &"
   },
   {
+    "index": 1,
     "class": "exit",
     "icon": "",
     "desc": "Exit desktop",
     "cmd": "hyprctl dispatch 'hl.dsp.exit()' &"
   },
   {
+    "index": 2,
     "class": "reboot",
     "icon": "",
     "desc": "Reboot",
     "cmd": "systemctl reboot &"
   },
   {
+    "index": 3,
     "class": "shutdown",
     "icon": "",
     "desc": "Power off",

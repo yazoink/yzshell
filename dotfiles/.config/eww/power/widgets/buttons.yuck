@@ -17,24 +17,20 @@
   )
 )
 
-(defwidget power_button [class icon desc cmd]
+(defwidget power_button [index class icon desc cmd]
   (box
     :orientation "h"
     :space-evenly false
     :class "power-button"
     (button
-      :class "${class} ${power_selected == class ? "selected" : ""}"
-      :onclick {
-        power_selected == class 
-        ? "${EWW_CMD} update power_selected=''" 
-        : "${EWW_CMD} update power_selected='${class}'"
-      }
+      :class "${class} ${power_selected == index ? "selected" : ""}"
+      :onclick "$YZSHELL_EWW_SCRIPT_DIR/slide.py ${power_selected} ${index} power_selected"
       :tooltip desc
       (label :text icon :class "icon")
     )
     (revealer
       :transition "slideright"
-      :reveal {power_selected == class}
+      :reveal {power_selected == index}
       (yes_no :action desc :cmd cmd)
     )
   )
@@ -51,6 +47,7 @@
     ;:visible power_visible
     (for button in power_buttons_arr
       (power_button
+        :index {button["index"]}
         :class {button["class"]}
         :icon {button["icon"]}
         :desc {button["desc"]}

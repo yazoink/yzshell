@@ -11,7 +11,7 @@
         :space-evenly false
         (label :text icon :class "icon")
         (revealer
-          :transition "slideright"
+          :transition stack_transition
           :reveal {settings_menu_item == index ? true : false}
           (label :text text)
         )
