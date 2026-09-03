@@ -68,7 +68,7 @@ def deploy_configs(cfg):
         delete_if_exists(path.join(environ["YZSHELL_STOW_DIR"], ".oh-my-zsh"))
 
     r = subprocess.run(
-        f"stow --target='{path.expanduser("~")}' --dir='{environ["YZSHELL_STOW_DIR"]}' -R .",
+        f"stow --target='{environ["HOME"]}' --dir='{environ["YZSHELL_STOW_DIR"]}' -R .",
         shell=True
     )
     if r.returncode != 0:
