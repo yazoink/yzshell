@@ -4,13 +4,13 @@
   background: $bg;
   border: 1px solid $border;
   button {
-    background-color: $surface;
+    background-color: $surface1;
     border-radius: $inner-radius;
     label, image {
       padding: $padding;
     }
     &:hover {
-      background-image: linear-gradient($surface2, $surface2);
+      background: $surface2;
     }
   }
   entry {
@@ -128,12 +128,13 @@
   }
   .wp-box {
     button {
+      padding: 0;
       &:hover {
-        background-image: linear-gradient($surface2);
+        background: $surface2;
       }
       &.selected {
         &:hover {
-          background-image: none;
+          background: transparent;
         }
         background-color: $accent;
         color: $bg;

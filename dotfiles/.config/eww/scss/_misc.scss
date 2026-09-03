@@ -26,16 +26,17 @@ $inner-radius: 8px;
   font-family: "Font Awesome 7 Free";
 }
 
+.icon {
+  font-family: "Font Awesome 7 Free";
+  font-weight: bold;
+  padding: $padding;
+}
+
 .icon-button {
   background-color: $surface1;
   border-radius: $inner-radius;
   &:hover {
     background-color: $surface2;
-  }
-  label {
-    font-family: "Font Awesome 7 Free";
-    font-weight: bold;
-    padding: $padding;
   }
 }
 
@@ -66,12 +67,10 @@ $inner-radius: 8px;
 .menu-button {
   background-color: $surface1;
   border-radius: $inner-radius;
-  font-weight: bold;
   .menu-button-icon {
     font-size: 18pt;
     min-width: 30px;
     min-height: 30px;
-    font-family: "Font Awesome 7 Free";
   }
   label {
     font-weight: bold;

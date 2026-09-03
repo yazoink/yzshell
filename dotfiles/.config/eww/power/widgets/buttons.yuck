@@ -11,8 +11,8 @@
       :space-evenly false
       :valign "center"
       :halign "center"
-      (button :onclick "${cmd}" :timeout "800ms" :class "yes green" "")
-      (button :onclick "yzwidgets close all &" :class "no red" "")
+      (button :onclick "${cmd}" :timeout "800ms" :class "icon yes green" "")
+      (button :onclick "yzwidgets close all &" :class "icon no red" "")
     )
   )
 )

@@ -13,7 +13,7 @@
     :height 50
     :width 334
     :style "margin: 9px; margin-left: 10px;"
-    (label :text "" :class "search-icon" :halign "start")
+    (label :text "" :class "icon search-icon" :halign "start")
     (input ; search bar
       :value user_input 
       :active true

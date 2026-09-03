@@ -3,7 +3,7 @@
     (button
         :onclick command
         :tooltip tooltip
-        :class "icon-button icon-button-${size} ${colour}"
+        :class "icon icon-button icon-button-${size} ${colour}"
         icon
     )
 )
@@ -16,7 +16,7 @@
     (box
       :orientation "h"
       :space-evenly false
-      (label :text icon :class "menu-button-icon ${colour}")
+      (label :text icon :class "icon menu-button-icon ${colour}")
       (revealer
         :transition stack_transition
         :reveal {curr_selected == index ? true : false}
