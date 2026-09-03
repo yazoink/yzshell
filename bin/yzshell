@@ -24,26 +24,33 @@ function ensure_hyprland_plugins() {
 }
 
 function launch_waybar() {
-    while true; do
-        exec waybar >$BAR_LOG_FILE 2>&1 &
-        disown
-        sleep 1
-        pidof waybar >/dev/null 2>&1 && break
-    done
-}
-
-function launch_yzshell() {
-    [ "$1" != "--no-wallpaper" ] && exec yzwallpaper >/dev/null 2>&1 &
-    disown
-    launch_waybar &
+    exec waybar >$BAR_LOG_FILE 2>&1 &
     disown
     echo ">> Bar logs: ${BAR_LOG_FILE}"
+}
+
+function launch_widgets() {
     exec yzwidgets init >$EWW_LOG_FILE 2>&1 &
     disown
     echo ">> Widget logs: ${EWW_LOG_FILE}"
+}
+
+function launch_osd() {
     exec swayosd-server >$OSD_LOG_FILE 2>&1 &
     disown
     echo ">> OSD logs: ${OSD_LOG_FILE}"
+}
+
+function launch_wallpaper() {
+    exec yzwallpaper >/dev/null 2>&1 &
+    disown
+}
+
+function launch_yzshell() {
+    [ "$1" != "--no-wallpaper" ] && launch_wallpaper
+    launch_waybar
+    launch_widgets
+    launch_osd
     hyprctl reload &
     makoctl reload &
     ensure_hyprland_plugins
@@ -77,7 +84,7 @@ function toggle_idle() {
     if pgrep --quiet hypridle; then
         killall hypridle
     else
-        hypridle &
+        exec hypridle &
         disown
         b="disabled"
     fi
@@ -98,7 +105,7 @@ function yzshell_cmd() {
 }
 
 function help() {
-    echo "Usage: yzshell [OPTION]
+    echo "Usage: yzshell [OPTION] ...
     Options:
         logs <COMPONENT>: view logs for yzshell component
             Components:
@@ -109,9 +116,24 @@ function help() {
             Commands:
                 toggle_dnd: toggle do-not-disturb
                 toggle_idle_inhib: toggle idle inhibitor
-        launch (default): launch shell
-        kill: kill shell
-        reload [FLAGS]: reload shell
+        launch [COMPONENT] (default): launch shell
+            Components:
+                bar
+                widgets
+                osd
+                wallpaper
+        kill [COMPONENT]: kill shell
+            Components:
+                bar
+                widgets
+                osd
+                wallpaper
+        reload [COMPONENT] [FLAGS]: reload shell
+            Components:
+                bar
+                widgets
+                osd
+                wallpaper
             Flags:
                 --no-wallpaper: don't reload wallpaper
     "
@@ -119,14 +141,61 @@ function help() {
 
 function main() {
     case "$1" in
-        "" | "launch") launch_yzshell ;;
-        "kill") kill_yzshell ;;
+        "kill")
+            case "${2}" in
+                "bar") killall waybar ;;
+                "osd") killall swayosd-server ;;
+                "widgets") killall eww ;;
+                "wallpaper") killall swaybg ;;
+                *) kill_yzshell ;;
+            esac
+            ;;
         "reload")
-            kill_yzshell "$2"
-            launch_yzshell "$2"
+            case "${2}" in
+                "bar")
+                    killall waybar
+                    launch_waybar
+                    ;;
+                "osd")
+                    killall swayosd-server
+                    launch_osd
+                    ;;
+                "widgets")
+                    killall eww
+                    launch_widgets
+                    ;;
+                "wallpaper")
+                    killall swaybg
+                    launch_wallpaper
+                    ;;
+                *)
+                    nw="--no-wallpaper"
+                    arg=""
+                    if [ "${2}" == "${nw}" ] || [ "${3}" == "${nw}" ]; then
+                        arg="${nw}"
+                    fi
+                    kill_yzshell "${arg}"
+                    launch_yzshell "${arg}"
+                    ;;
+            esac
             ;;
         "logs") get_logs "$2" ;;
         "cmd") yzshell_cmd "$2" ;;
+        "bar" | "osd" | "widgets" | "wallpaper" | "launch")
+            arg2=""
+            if [ "${1}" == "launch" ]; then
+                arg2="${2}"
+            else
+                arg2="${1}"
+            fi
+            case "${arg2}" in
+                "bar") launch_waybar ;;
+                "widgets") launch_widgets ;;
+                "osd") launch_osd ;;
+                "wallpaper") launch_walpaper ;;
+                *) launch_yzshell ;;
+            esac
+            ;;
         *) help ;;
     esac
 }
