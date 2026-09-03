@@ -1,32 +1,25 @@
 #!/usr/bin/env python
 
-from os import path
+from os import path, environ, makedirs
 import json
 from gi.repository import Gio
-from subprocess import run
+import subprocess
 from sys import argv
+from sys import path as sys_path
 
-APP_CACHE_FILE=path.expanduser("~/.cache/yzshell/apps.json")
-INDEX_CACHE_FILE=path.expanduser("~/.cache/yzshell/apps_index.json")
-TERM_CACHE_FILE=path.expanduser("~/.cache/yzshell/apps_term")
+sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
+from configutils import get_config
+
 REPLACE = {
     "vesktop": "vesktop --enable-features=UseOzonePlatform --ozone-platform=wayland"
 }
 
 
-def get_terminal():
-    if path.exists(TERM_CACHE_FILE):
-        with open(TERM_CACHE_FILE, "r") as f:
-            return f.read.strip()
-    return run(
-        ["yzconf", "get", "terminal"],
-        capture_output=True,
-        text=True
-    ).stdout.strip()
-
-
-def update_app_cache(all_apps):
-    with open(APP_CACHE_FILE, "w") as f:
+def update_app_cache(cache_file, all_apps):
+    d = path.dirname(cache_file)
+    if not path.exists(d):
+        makedirs(d)
+    with open(cache_file, "w") as f:
         json.dump(all_apps, f)
 
 
@@ -60,15 +53,15 @@ def get_desktop_entries(app_info, index, terminal):
         "index": index,
     }
 
-def get_cached_apps(refresh=False):
-    if path.exists(APP_CACHE_FILE) and not refresh:
-        with open(APP_CACHE_FILE, "r") as f:
+def get_cached_apps(cache_file, refresh=False):
+    if path.exists(cache_file) and not refresh:
+        with open(cache_file, "r") as f:
             try:
                 return json.load(f)
             except json.JSONDecodeError:
                 pass
     all_apps = []
-    terminal = get_terminal()
+    terminal = get_config()["terminal"]
     app_info = Gio.AppInfo
     i = 0
     for app_info in app_info.get_all():
@@ -81,7 +74,7 @@ def get_cached_apps(refresh=False):
     #for a in all_apps:
     #    a["index"] = i
     #    i += 1
-    update_app_cache(all_apps)
+    update_app_cache(cache_file, all_apps)
     return all_apps
 
 
@@ -108,9 +101,13 @@ def filter_top(apps, n):
     return apps
 
 
-def update_eww(var, val):
-    run(
-        ["eww", "update", f"{var}={val}"]
+def update_eww(var, val, string=False):
+    if string == True:
+        val=f"\"{val.replace("\"", "\\\"")}\""
+    #print(f"eww update {var}={val}")
+    subprocess.run(
+        f"eww update {var}={val}",
+        shell=True
     )
 
 
@@ -119,13 +116,14 @@ if __name__ == "__main__":
     query = ""
     if argc > 1:
         query = argv[1]
+    cache_file = path.join(environ["YZSHELL_CACHE_DIR"], "apps.json")
     if query.strip() != "":
         update_eww("search_selected", 0)
-        apps = filter_top(filter_entries(get_cached_apps(), query), 10)
-        update_eww("search_results", json.dumps(apps))
+        apps = filter_top(filter_entries(get_cached_apps(cache_file), query), 10)
+        update_eww("search_results", json.dumps(apps), True)
         #print(json.dumps(apps))
     else:
         update_eww("search_selected", -1)
-        apps = get_cached_apps(refresh=True)
-        update_eww("search_results", json.dumps(apps))
+        apps = get_cached_apps(cache_file, refresh=True)
+        update_eww("search_results", json.dumps(apps), True)
         #print(json.dumps(apps))

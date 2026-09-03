@@ -4,18 +4,16 @@ import argparse
 import json
 import subprocess
 from math import ceil
-from os import listdir, makedirs, path, remove
+from os import listdir, makedirs, path, remove, environ
 from shutil import rmtree
 from sys import argv, exit
+from sys import path as sys_path
 from threading import Thread
 
 from PIL import Image
 
-
-def get_default_dir():
-    return subprocess.run(
-        "yzconf get wallpaper_dir", shell=True, text=True, capture_output=True
-    ).stdout.strip()
+sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
+from configutils import get_config
 
 
 def get_dir(arg):
@@ -23,7 +21,7 @@ def get_dir(arg):
     if arg is not None:
         directory = path.expanduser(arg)
     else:
-        directory = path.expanduser(get_default_dir())
+        directory = path.expanduser(get_config()["wallpaper_dir"])
     return directory
 
 
@@ -38,21 +36,25 @@ def get_image_files(directory):
 
 def get_wallpaper_data(image_files, cols):
     a = []
-    if len(image_files) > 0:
-        rows = ceil(len(image_files) / cols)
+    l = len(image_files)
+    if l > 0:
+        rows = ceil(l / cols)
 
         i = 0
         for _ in range(0, rows):
             r = []
             for _ in range(0, cols):
-                r.append(image_files[i])
-                i += 1
+                if i < l:
+                    r.append(image_files[i])
+                    i += 1
+                else:
+                    break
             a.append(r)
     return a
 
 
 def update_thumbs(refresh=False, directory=None):
-    cache_dir = "/tmp/wallpaper_cache"
+    cache_dir = environ["YZSHELL_WALLPAPER_CACHE_DIR"]
 
     def make_thumb(f):
         with Image.open(path.join(directory, f)) as i:
@@ -86,7 +88,7 @@ def update_thumbs(refresh=False, directory=None):
 
 
 if __name__ == "__main__":
-    lockfile = "/tmp/wp_settings.lock"
+    lockfile = environ["YZSHELL_WALLPAPER_LOCKFILE"]
 
     if path.isfile(lockfile) == True:
         exit(1)
@@ -135,4 +137,5 @@ if __name__ == "__main__":
         """,
         shell=True,
     )
+    #print(json.dumps(wallpaper_data))
     remove(lockfile)

@@ -6,25 +6,25 @@
 (defpoll song 
   :run-while {menu_item == 0 && control_center_visible} 
   :interval "3s"  
-  "./control_center/scripts/music_info.sh --song"
+  "$YZSHELL_EWW_SCRIPT_DIR/music_info.sh --song"
 )
 
 (defpoll song_artist 
   :run-while {menu_item == 0 && control_center_visible} 
   :interval "3s"  
-  "./control_center/scripts/music_info.sh --artist"
+  "$YZSHELL_EWW_SCRIPT_DIR/music_info.sh --artist"
 )
 
 (defpoll song_status 
   :run-while {menu_item == 0 && control_center_visible} 
   :interval "3s"  
-  "./control_center/scripts/music_info.sh --status"
+  "$YZSHELL_EWW_SCRIPT_DIR/music_info.sh --status"
 )
 
 (defpoll cover_art 
   :run-while {menu_item == 0 && control_center_visible} 
-  :interval "2s"  
-  "./control_center/scripts/music_info.sh --cover"
+  :interval "3s"  
+  "$YZSHELL_EWW_SCRIPT_DIR/music_info.sh --cover"
 )
 
 (defwidget music []
@@ -87,12 +87,21 @@
         :spacing 4
         :halign "center"
         :hexpand true
-        ;(button :class "prev" :onclick "control_center/scripts/player.sh previous" "")
-        (button :class "prev" :onclick "./control_center/scripts/music_info.sh --prev" "")
-        ;(button :class "toggle" :onclick "control_center/scripts/player.sh play-pause" song_status)
-        (button :class "toggle" :onclick "./control_center/scripts/music_info.sh --toggle" song_status)
-        ;(button :class "next" :onclick "control_center/scripts/player.sh next" "")
-        (button :class "next" :onclick "./control_center/scripts/music_info.sh --prev" "")
+        (button 
+          :class "prev" 
+          :onclick "$YZSHELL_EWW_SCRIPT_DIR/music_info.sh --prev" 
+          ""
+        )
+        (button 
+          :class "toggle" 
+          :onclick "$YZSHELL_EWW_SCRIPT_DIR/music_info.sh --toggle" 
+          song_status
+        )
+        (button 
+          :class "next" 
+          :onclick "$YZSHELL_EWW_SCRIPT_DIR/music_info.sh --prev" 
+          ""
+        )
       )
     )
   )

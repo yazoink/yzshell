@@ -20,7 +20,7 @@
     "format": "",
     "tooltip": true,
     "tooltip-format": "Open start menu (Mod+P)",
-    "on-click": "yzwidgets toggle control_center"
+    "on-click": "yzwidgets open control_center"
   },
   "ext/workspaces": {
     "on-click": "activate",
@@ -36,7 +36,7 @@
     "tooltip": true,
     "tooltip-format": "Switch workspaces",
     "format": "",
-    "on-click": "yzwidgets toggle workspaces",
+    "on-click": "yzwidgets open workspaces",
     "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"-1\" })'",
     "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"+1\" })'"
   },
@@ -219,7 +219,7 @@
   },
   "clock": {
     "format": "{:%I:%M %p}",
-    "on-click": "yzwidgets toggle calendar",
+    "on-click": "yzwidgets open calendar",
     "tooltip": true,
     "tooltip-format": "Open calendar (Mod+Shift+C)"
   }

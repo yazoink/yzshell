@@ -3,14 +3,12 @@
 
 from argparse import ArgumentParser
 from os import path
-from sys import argv, exit
+from sys import argv, exit, environ
+from sys import path as sys_path
 
-
-def get_full_path(p):
-    if "~" in p:
-        return path.expanduser(p)
-    else:
-        return path.abspath(p)
+sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
+from tuiutils import announce, print_err, confirm
+from miscutils import get_full_path
 
 
 def convert(src, dest):
@@ -43,7 +41,7 @@ def convert(src, dest):
         dest = f"yzshell-{src_file}"
 
     if path.isfile(src) == False:
-        print(f"Error: file '{src}' not found!")
+        print_err(f"File '{src}' not found!")
         exit(1)
 
     with open(src, "r") as f:
@@ -53,23 +51,20 @@ def convert(src, dest):
         data = data.replace(c, conv_map[c])
 
     if path.isfile(dest):
-        while True:
-            a = input(f">> File '{dest}' already exists, overwrite? [Y/n]: ")
-            a = a.strip().lower()
-            if a in ["", "y", "yes"]:
-                break
-            elif a in ["n", "no"]:
-                print(">> Operation cancelled, exiting.")
-                exit(1)
+        if confirm(f"File '{dest}' already exists, overwrite?"):
+            break
+        else:
+            announce("Operation cancelled, exiting.")
+            exit(1)
 
     try:
         with open(dest, "w") as f:
             f.write(data)
     except OSError:
-        print(f"Error: could not write to file '{dest}'!")
+        print_err(f"Could not write to file '{dest}'!")
         exit(1)
 
-    print(f">> Converted template saved to '{dest}'.")
+    announce(f"Converted template saved to '{dest}'!")
 
 
 def main():
@@ -77,8 +72,8 @@ def main():
     parser.add_argument("-s", "--source")
     parser.add_argument("-d", "--dest", default=None)
     args = parser.parse_args(argv[1:])
-    print(
-        ">> Note: yzshell does not support decimal or hsl colours -- these values must be manually configured!"
+    announce(
+        "Note: yzshell does not support decimal or hsl colours -- these values must be manually configured!"
     )
     convert(args.source, args.dest)
 

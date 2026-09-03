@@ -3,17 +3,15 @@
 
 import json
 from argparse import ArgumentParser
-from os import path
+from os import path, environ
 from sys import argv, exit
-
 import yaml
 
+from sys import path as sys_path
 
-def get_full_path(p):
-    if "~" in p:
-        return path.expanduser(p)
-    else:
-        return path.abspath(p)
+sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
+from tuiutils import announce, print_err, confirm
+from miscutils import get_full_path
 
 
 def convert(src, dest, polarity):
@@ -36,11 +34,11 @@ def convert(src, dest, polarity):
     }
 
     if path.isfile(src) == False:
-        print(f"Error: file '{src}' not found!")
+        print_err(f"File '{src}' not found!")
         exit(1)
 
     if polarity not in ["dark", "light"]:
-        print("Error: polarity must be either 'dark' or 'light'.")
+        print_err("Polarity must be either 'dark' or 'light'.")
         exit(1)
 
     if dest == None:
@@ -57,23 +55,20 @@ def convert(src, dest, polarity):
     yzshell["polarity"] = polarity
 
     if path.isfile(dest):
-        while True:
-            a = input(f">> File '{dest}' already exists, overwrite? [Y/n]: ")
-            a = a.strip().lower()
-            if a in ["", "y", "yes"]:
-                break
-            elif a in ["n", "no"]:
-                print(">> Operation cancelled, exiting.")
-                exit(1)
+        if confirm(f"File '{dest}' already exists, overwrite?"):
+            break
+        else:
+            announce("Operation cancelled, exiting.")
+            exit(1)
 
     try:
         with open(dest, "w") as f:
             json.dump(yzshell, f)
     except OSError:
-        print(f"Error: could not write to file '{dest}'!")
+        print_err(f"Could not write to file '{dest}'!")
         exit(1)
 
-    print(f">> Converted scheme saved to '{dest}'.")
+    announce(f"Converted scheme saved to '{dest}'!")
 
 
 def main():

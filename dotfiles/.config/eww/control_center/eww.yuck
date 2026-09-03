@@ -1,4 +1,3 @@
-;(defvar menu_visible true)
 (defvar control_center_visible false)
 
 (defvar user_input "")

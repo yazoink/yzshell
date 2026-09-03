@@ -4,10 +4,14 @@ import argparse
 import signal
 import subprocess
 from math import floor
-from os import makedirs, path
-from sys import argv, stdin, stdout
+from os import makedirs, path, environ
+from sys import argv
 from threading import Thread
 from time import sleep
+
+sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
+from configutils import get_config
+from miscutils import get_full_path
 
 
 def update_timer(i):
@@ -27,12 +31,8 @@ def update_timer(i):
 
 def recorder(audio, display, fmt, directory, select):
     if directory == "":
-        directory = subprocess.run(
-            "yzconf get recording_dir",
-            shell=True,
-            text=True,
-            capture_output=True
-        ).stdout.strip()
+        directory = get_config()["recording_dir"]
+    directory = get_full_path(directory)
     if path.exists(directory) == False:
         makedirs(directory)
     date = subprocess.run(
@@ -79,7 +79,10 @@ def recorder(audio, display, fmt, directory, select):
         p.send_signal(signal.SIGINT)
 
     subprocess.run(
-        f"eww update recorder_selected=1; notify-send 'Recording saved' '{output}'",
+        f"""
+        eww update recorder_selected=1
+        notify-send 'Recording saved' '{output}'
+        """,
         shell=True
     )
 

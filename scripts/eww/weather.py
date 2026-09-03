@@ -3,36 +3,31 @@
 import json
 import subprocess
 import time
-from sys import argv, exit
-
+from sys import exit
 import requests
+from sys import path as sys_path
+from os import environ
+
+sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
+from configutils import get_config
 
 
-def get_location():
-    location = subprocess.run(
-        ["yzconf", "get", "weather_location"], text=True, capture_output=True
-    ).stdout.strip()
-    if location == "default":
-        location = ""
-    return location
-
-
-def get_unit():
-    unit = subprocess.run(
-        ["yzconf", "get", "weather_unit"], text=True, capture_output=True
-    ).stdout.strip()
+def get_unit(config):
+    unit = config["weather_unit"]
     match unit:
         case "celsius":
             return "C"
         case "farenheit":
             return "F"
         case _:
-            print(f"Error: invalid unit: {args.unit}")
+            print(f"Error: invalid unit: {unit}")
             exit(1)
 
 
-def get_data():
-    location = get_location()
+def get_data(config):
+    location = config["weather_location"]
+    if location == "default":
+        location = ""
     try:
         data = json.loads(
             requests.get(f"https://wttr.in/{location}?format=j1", timeout=15).text
@@ -140,9 +135,10 @@ def main():
     temp = None
     aparr_temp = None
     area = None
+    config = get_config()
 
-    unit = get_unit()
-    data = get_data()
+    unit = get_unit(config)
+    data = get_data(config)
 
     icon = get_icon(data, day)
     temp = data["current_condition"][0][f"temp_{unit}"]

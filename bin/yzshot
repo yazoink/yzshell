@@ -3,8 +3,13 @@
 from argparse import ArgumentParser
 from subprocess import run
 from time import sleep
-from os import path, makedirs
+from os import path, makedirs, environ
 from sys import argv 
+from sys import path as sys_path
+
+sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
+from configutils import get_config
+from miscutils import get_full_path
 
 
 def screenshot(output, mode, sleep_time):
@@ -16,11 +21,7 @@ def screenshot(output, mode, sleep_time):
             capture_output=True,
             text=True
         ).stdout.strip()
-        dir = run(
-            ["yzconf","get", "screenshot_dir"],
-            capture_output=True,
-            text=True
-        ).stdout.strip()
+        dir = get_config()["screenshot_dir"]
         output = f"{dir}/{date}.png"
     else:
         s = path.split(output)
@@ -54,7 +55,7 @@ if __name__ == "__main__":
     args = parser.parse_args(argv[1:])
     o = None
     if args.output != None:
-        o = path.abspath(args.output)
+        o = get_full_path(args.output)
     screenshot(
         output=o,
         mode=args.mode,

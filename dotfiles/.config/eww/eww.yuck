@@ -4,8 +4,6 @@
 (include "power/eww.yuck")
 (include "screenshot/eww.yuck")
 (include "workspaces/eww.yuck")
-;(include "corners/eww.yuck")
-;(include "notifs/eww.yuck")
 
 (defvar stack_transition "slideright")
 

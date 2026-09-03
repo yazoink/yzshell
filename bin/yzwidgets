@@ -2,11 +2,12 @@
 
 import json
 import subprocess
-from os import environ, listdir, makedirs, path
-from shutil import rmtree
-from sys import argv, exit, stderr
+from os import environ, path
+from sys import argv, exit
+from sys import path as sys_path
 
-EWW_DIR = path.expanduser("~/.config/eww")
+sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
+from configutils import get_config
 
 
 def control_center_search_selected(direction="next"):
@@ -33,35 +34,28 @@ def control_center_search_selected(direction="next"):
     )
 
 
-def get_conf_opt(opt):
-    return subprocess.run(
-        f"yzconf get {opt}", shell=True, text=True, capture_output=True
-    ).stdout.strip()
-
-
-def init_widgets():
-    wallpaper_dir = get_conf_opt("wallpaper_dir")
-    wallpaper_img = get_conf_opt("wallpaper_image")
-    wallpaper_mode = get_conf_opt("wallpaper_mode")
-    wallpaper_path = path.join(wallpaper_dir, wallpaper_img)
-    curr_sch = get_conf_opt("colourscheme")
+def init_widgets(config):
+    wallpaper_path = path.join(config["wallpaper_dir"], config["wallpaper_image"])
     subprocess.run(
         f"""
+        rm {environ["YZSHELL_WALLPAPER_LOCKFILE"]}
         eww daemon
-        eww poll dnd_icon
-        eww poll idle_icon
-        eww poll username
-        eww poll hostname
-        eww poll os_version
-        eww poll profile_image_path
-        eww poll recording_output
-        eww poll screenshot_output
-        eww update current_scheme='{curr_sch}'
+        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "apps.py")} &
+        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes.py")} &
+        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "wallpapers.py")} &
+        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes_background.py")} &
+        bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "dnd_icon.sh")}
+        bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "idle_icon.sh")}
+        bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "get_os_version.sh")}
+        eww poll weather_data &
+        eww update username="$(whoami)"
+        eww update hostname="$(cat /etc/hostname)"
+        eww update profile_image='{config["profile_image"]}'
+        eww update recording_output='{config["recording_dir"]}'
+        eww update current_scheme='{config["colourscheme"]}'
         eww update current_wallpaper='{wallpaper_path}'
-        eww update wallpaper_mode='{wallpaper_mode}'
-        eww update wallpaper_dir='{wallpaper_dir}'
-        python {EWW_DIR}/settings/scripts/wallpapers.py &
-        python {EWW_DIR}/settings/scripts/schemes.py &
+        eww update wallpaper_mode='{config["wallpaper_mode"]}'
+        eww update wallpaper_dir='{config["wallpaper_dir"]}'
         """,
         shell=True,
     )
@@ -76,16 +70,16 @@ def get_screen():
     ).stdout.strip()
 
 
-def open_control_center(screen):
+def open_control_center(screen, config):
     subprocess.run(
         f"""
-        python {EWW_DIR}/control_center/scripts/apps.py &
+        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "apps.py")} &
+        bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "dnd_icon.sh")} &
+        bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "idle_icon.sh")} &
         eww update control_center_visible=true
         eww open closer --no-daemonize --screen {screen}
         eww open control_center --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"control_center\")'
-        eww poll dnd_icon
-        eww poll idle_icon
         """,
         shell=True,
         stdout=subprocess.DEVNULL,
@@ -132,23 +126,18 @@ def close_workspaces():
     )
 
 
-def open_settings(screen):
-    wallpaper_dir = get_conf_opt("wallpaper_dir")
-    wallpaper_img = get_conf_opt("wallpaper_image")
-    wallpaper_mode = get_conf_opt("wallpaper_mode")
-    wallpaper_path = path.join(wallpaper_dir, wallpaper_img)
-    curr_sch = get_conf_opt("colourscheme")
+def open_settings(screen, config):
+    wallpaper_path = path.join(config["wallpaper_dir"], config["wallpaper_image"])
     subprocess.run(
         f"""
-        rm /tmp/wp_settings.lock
-        python {EWW_DIR}/settings/scripts/wallpapers.py &
-        python {EWW_DIR}/settings/scripts/schemes_background.py &
+        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "wallpapers.py")} &
+        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes_background.py")} &
         eww open closer --no-daemonize --screen {screen}
         eww open settings --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"settings\")'
         eww update current_wallpaper='{wallpaper_path}'
-        eww update wallpaper_mode='{wallpaper_mode}'
-        eww update current_scheme='{curr_sch}'
+        eww update wallpaper_mode='{config["wallpaper_mode"]}'
+        eww update current_scheme='{config["colourscheme"]}'
         """,
         shell=True,
         stdout=subprocess.DEVNULL,
@@ -167,9 +156,10 @@ def close_settings():
     )
 
 
-def open_screenshot(screen):
+def open_screenshot(screen, config):
     subprocess.run(
         f"""
+        eww update screenshot_output="{config["screenshot_dir"]}/$(date +%d-%m-%Y_%H:%M:%S)_screenshot.png"
         eww open closer --no-daemonize --screen {screen}
         eww open screenshot --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"screenshot\")'
@@ -278,9 +268,6 @@ def help(exitcode=0):
         init: start daemon and initialise widgets
         ctl <COMMAND>: IPC commands
             Commands:
-                control_center_update_weather: 
-                    update the weather information displayed by the 
-                    control_center widget
                 control_center_search_selected [DIRECTION]:
                     cycle app selecion in control_center launcher (will select 
                     next by default)
@@ -310,12 +297,11 @@ if __name__ == "__main__":
     if argc > 1:
         match argv[1]:
             case "init":
-                init_widgets()
+                config = get_config()
+                init_widgets(config)
             case "ctl":
                 if argc > 2:
                     match argv[2]:
-                        case "control_center_update_weather":
-                            control_center_update_weather()
                         case "control_center_search_selected":
                             direction = "next"
                             if argc > 3:
@@ -328,11 +314,14 @@ if __name__ == "__main__":
                 if argc > 2:
                     match argv[2]:
                         case "screenshot":
-                            open_screenshot(screen)
+                            config = get_config()
+                            open_screenshot(screen, config)
                         case "control_center":
-                            open_control_center(screen)
+                            config = get_config()
+                            open_control_center(screen, config)
                         case "settings":
-                            open_settings(screen)
+                            config = get_config()
+                            open_settings(screen, config)
                         case "power":
                             open_power(screen)
                         case "calendar":
@@ -364,20 +353,23 @@ if __name__ == "__main__":
                             if is_open("screenshot") == True:
                                 close_screenshot()
                             else:
+                                config = get_config()
                                 screen = get_screen()
-                                open_screenshot(screen)
+                                open_screenshot(screen, config)
                         case "control_center":
                             if is_open("control_center") == True:
                                 close_control_center()
                             else:
+                                config = get_config()
                                 screen = get_screen()
-                                open_control_center(screen)
+                                open_control_center(screen, config)
                         case "settings":
                             if is_open("settings") == True:
                                 close_settings()
                             else:
+                                config = get_config()
                                 screen = get_screen()
-                                open_settings(screen)
+                                open_settings(screen, config)
                         case "power":
                             if is_open("settings") == True:
                                 close_power()

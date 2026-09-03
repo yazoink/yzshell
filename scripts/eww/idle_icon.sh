@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
+i=""
+
 if pgrep --quiet hypridle; then
-    echo ""
+    i=""
 else
-    echo ""
+    i=""
 fi
+
+eww update idle_icon="${i}"

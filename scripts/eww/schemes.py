@@ -2,10 +2,10 @@
 
 import json
 import subprocess
-from os import listdir, path
+from os import listdir, path, environ
 from sys import argv, exit
 
-CACHE_FILE = "/tmp/all_colourschemes.json"
+CACHE_FILE = path.join(environ["YZSHELL_CACHE_DIR"], "schemes.json")
 
 
 def update_eww(arrs):
@@ -35,7 +35,7 @@ def get_all(refresh=False):
         except json.JSONDecodeError:
             pass
 
-    directory = path.expanduser("~/.local/share/yzshell/colourschemes")
+    directory = environ["YZSHELL_COLOURS_DIR"]
     files_list = listdir(directory)
     for n in files_list:
         j = ""
@@ -68,13 +68,11 @@ def filter_arr(qry, a):
 arrs = get_all()
 
 if len(argv) < 2:
-    print("no qry, updating")
     subprocess.run("eww update scheme_query=''", shell=True)
     update_eww(get_all(refresh=True))
     exit(0)
 
 if argv[1].strip() == "":
-    print("no qry, not updating")
     update_eww(get_all())
     exit(0)
 

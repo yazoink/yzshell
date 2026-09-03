@@ -40,14 +40,23 @@
       (label :text "Directory:")
       (input 
         :value wallpaper_dir 
-        :onaccept "settings/scripts/wallpapers.py -d '{}' &"
+        :onaccept "$YZSHELL_EWW_SCRIPT_DIR/wallpapers.py -d '{}' &"
         :halign "fill"
         :hexpand true
       )
       (button
-        :onclick "settings/scripts/wallpapers.py -r -d '${wallpaper_dir}' & settings/scripts/schemes_background.py"
+        :onclick `
+          $YZSHELL_EWW_SCRIPT_DIR/wallpapers.py -r -d '${wallpaper_dir}' & 
+          $YZSHELL_EWW_SCRIPT_DIR/schemes_background.py &`
         :tooltip "Reload wallpapers"
-        (label :text "" :class "blue" :style "font-weight: bold; font-family: 'Font Awesome 7 Free'; margin: 2px;")
+        (label 
+          :text "" 
+          :class "blue" 
+          :style `
+            font-weight: bold; 
+            font-family: 'Font Awesome 7 Free';
+            margin: 2px;`
+        )
       )
     )
     (scroll
@@ -88,10 +97,9 @@
                     :spacing 8
                     :space-evenly false
                     (image 
-                        :path "/tmp/wallpaper_cache/${wallpaper}" 
+                        :path "${get_env("YZSHELL_WALLPAPER_CACHE_DIR")}/${wallpaper}" 
                         :image-width 150
                     )
-                    ;(label :text "${wallpaper_dir}/${wallpaper}")
                     (label
                       :text wallpaper 
                       ;:truncate true 

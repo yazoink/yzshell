@@ -1,15 +1,11 @@
-(defpoll recording_output 
-  :interval "999999h"
-  :run-while false
-  "yzconf get recording_dir"
-)
+(defvar recording_output "")
 (defvar recording_format "mp4")
 (defvar record_audio false)
 (defpoll recorder_updater
   :run-while {menu_item == 3 && control_center_visible} 
   :interval "3s" 
   :initial ""
-  "control_center/scripts/is_recording.sh"
+  "$YZSHELL_EWW_SCRIPT_DIR/is_recording.sh"
 )
 (defvar recorder_selected 0)
 (defvar mins "00")
@@ -48,7 +44,7 @@
       (label :class "timer" :text secs)
     )
     (button
-      :onclick "control_center/scripts/stop_recording.sh &"
+      :onclick "$YZSHELL_EWW_SCRIPT_DIR/stop_recording.sh &"
       :halign "center"
       :hexpand "true"
       "Stop"

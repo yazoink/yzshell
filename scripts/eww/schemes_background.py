@@ -1,23 +1,19 @@
 #!/usr/bin/env python
 
 import subprocess
-from os import makedirs, path
-
+from os import makedirs, path, environ
 from PIL import Image
+from sys import path as sys_path
 
-
-def get_conf_opt(opt):
-    return subprocess.run(
-        ["yzconf", "get", opt],
-        capture_output=True,
-        text=True
-    ).stdout.strip()
+sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
+from configutils import get_config
 
 
 def main():
-    cache_dir = "/tmp/wallpaper_cache"
-    wp_dir = get_conf_opt("wallpaper_dir")
-    wp_img = get_conf_opt("wallpaper_image")
+    config = get_config()
+    cache_dir = environ["YZSHELL_WALLPAPER_CACHE_DIR"]
+    wp_dir = config["wallpaper_dir"]
+    wp_img = config["wallpaper_image"]
     wp_path = path.join(wp_dir, wp_img)
     target_path = path.join(cache_dir, f"cropped_{wp_img}")
     target_w = 530

@@ -1,13 +1,13 @@
 (defpoll cpu 
   :run-while {menu_item == 1 && control_center_visible} 
   :interval "3s" 
-  "control_center/scripts/cpu_perc.sh"
+  "$YZSHELL_EWW_SCRIPT_DIR/cpu_perc.sh"
 )
 
 (defpoll temp 
   :run-while {menu_item == 1 && control_center_visible}
   :interval "3s" 
-  "control_center/scripts/cpu_temp.sh"
+  "$YZSHELL_EWW_SCRIPT_DIR/cpu_temp.sh"
 )
 
 (defwidget monitor []

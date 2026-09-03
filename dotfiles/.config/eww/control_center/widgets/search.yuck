@@ -15,8 +15,8 @@
     (input ; search bar
       :value user_input 
       :active true
-      :onchange "control_center/scripts/apps.py '{}' &"
-      :onaccept "control_center/scripts/search_confirm.sh &"
+      :onchange "$YZSHELL_EWW_SCRIPT_DIR/apps.py '{}' &"
+      :onaccept "$YZSHELL_EWW_SCRIPT_DIR/search_confirm.sh &"
       :halign "fill"
     )
   )
@@ -42,12 +42,17 @@
           :valign "start"
           :vexpand true
           :spacing 8
-          (label :class "no-results" :text "No results found..." :visible {search_results == "[]" ? true : false})
+          (label 
+            :class "no-results" 
+            :text "No results found..." 
+            :visible {search_results == "[]" ? true : false}
+          )
           (for app in search_results
             (button
               :class "entry${search_selected == app["index"] ? " selected" : ""}"
-              :onclick "eww update search_selected=${app["index"]} && control_center/scripts/search_confirm.sh &"
-              ;:onclick "${search_selected == app["index"] ? "control_center/scripts/search_confirm.sh &" : "eww update search_selected=${app["index"]} &"}"
+              :onclick `
+                eww update search_selected=${app["index"]} \
+                && $YZSHELL_EWW_SCRIPT_DIR/search_confirm.sh &`
               :tooltip {app["cmd"]}
               (box
                 :orientation "h"

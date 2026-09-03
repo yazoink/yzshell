@@ -1,13 +1,5 @@
-(defpoll dnd_icon 
-  :run-while false
-  :interval "999999h"
-  "control_center/scripts/dnd_icon.sh"
-)
-(defpoll idle_icon 
-  :run-while false
-  :interval "99999h"
-  "control_center/scripts/idle_icon.sh"
-)
+(defvar dnd_icon "")
+(defvar idle_icon "")
 
 (defwidget launchers []
   (box

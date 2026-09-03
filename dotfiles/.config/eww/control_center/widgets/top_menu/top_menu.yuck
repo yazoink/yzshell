@@ -9,7 +9,7 @@
   (button
     :class "${class} ${menu_item == index ? "selected" : ""}"
     :onclick "${EWW_CMD} update menu_item=${index}"
-    :onclick "scripts/slide.py ${menu_item} ${index} menu_item"
+    :onclick "$YZSHELL_EWW_SCRIPT_DIR/slide.py ${menu_item} ${index} menu_item"
     :tooltip tooltip
     (box
       :orientation "h"

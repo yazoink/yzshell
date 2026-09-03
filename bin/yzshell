@@ -75,7 +75,7 @@ function toggle_dnd() {
     else
         makoctl mode -a do-not-disturb
     fi
-    eww poll dnd_icon
+    bash "${YZSHELL_EWW_SCRIPT_DIR}/dnd_icon.sh" &
 }
 
 function toggle_idle() {
@@ -84,11 +84,11 @@ function toggle_idle() {
     if pgrep --quiet hypridle; then
         killall hypridle
     else
-        exec hypridle &
+        exec hypridle >/dev/null 2>&1 &
         disown
         b="disabled"
     fi
-    eww poll idle_icon
+    bash "${YZSHELL_EWW_SCRIPT_DIR}/idle_icon.sh" &
     echo "${a} ${b}"
     notify-send "${a}" "${b^}"
 }
@@ -141,6 +141,7 @@ function help() {
 
 function main() {
     case "$1" in
+        "") launch_yzshell ;;
         "kill")
             case "${2}" in
                 "bar") killall waybar ;;
@@ -192,7 +193,7 @@ function main() {
                 "bar") launch_waybar ;;
                 "widgets") launch_widgets ;;
                 "osd") launch_osd ;;
-                "wallpaper") launch_walpaper ;;
+                "wallpaper") launch_wallpaper ;;
                 *) launch_yzshell ;;
             esac
             ;;

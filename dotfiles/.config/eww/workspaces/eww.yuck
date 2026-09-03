@@ -5,7 +5,7 @@
     :interval "3s" 
     :initial "[]" 
     :run-while workspaces_visible
-    "workspaces/scripts/workspaces.py"
+    "$YZSHELL_EWW_SCRIPT_DIR/workspaces.py"
 )
 (defvar active_workspace 0)
 

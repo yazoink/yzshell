@@ -3,49 +3,25 @@
 import argparse
 import json
 import subprocess
-from os import listdir, makedirs, path, remove, unlink
-from shutil import copyfile, rmtree
+from os import listdir, makedirs, path, environ
+from shutil import copyfile
 from sys import argv, exit
-
 import chevron
+from sys import path as sys_path
 
-DATA_DIR = path.expanduser("~/.local/share/yzshell")
-COLOURS_DIR = path.join(DATA_DIR, "colourschemes")
-STOW_DIR = path.expanduser("~/.dotfiles")
+sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
+from configutils import get_config, set_config_option, write_config, get_mustache_data
+from miscutils import delete_if_exists
+from tuiutils import announce, print_err, confirm, choose
+
+
 ZEN_DIR = path.expanduser("~/.config/zen")
-TEMPLATES_DIR = path.join(DATA_DIR, "templates")
 POLICIES_DIR = "/opt/zen-browser-bin/distribution"
 POLICIES_FILE = path.join(POLICIES_DIR, "policies.json")
 USERCHROME_FILES = {
     "userChrome.css": "zen_userchrome.css.mustache",
     "userContent.css": "zen_usercontent.css.mustache",
 }
-
-
-def announce(s):
-    cmd = f'gum style --foreground 212 "{s}"'
-    subprocess.run(cmd, shell=True)
-
-
-def print_err(msg):
-    cmd = f"gum log --structured --level='fatal' '{msg}'"
-    subprocess.run(cmd, shell=True)
-
-
-def answer_yes(question):
-    a = subprocess.run(f'gum confirm "{question}"', shell=True)
-    if a.returncode == 0:
-        return True
-    return False
-
-
-def select_option(x, opts):
-    cmd = f"gum choose --header 'Select {x}...'"
-    for o in opts:
-        cmd += f" '{o}'"
-    return subprocess.run(
-        cmd, shell=True, text=True, stdout=subprocess.PIPE
-    ).stdout.strip()
 
 
 def get_profiles():
@@ -62,43 +38,22 @@ def get_profiles():
     return profiles
 
 
-def select_profile(profiles):
-    o = select_option("profile", profiles)
+def select_profile(profiles, config):
+    o = choose("profile", profiles)
     profile_dir = path.join(ZEN_DIR, o)
-    subprocess.run(f"yzconf set zen_profile_dir '{profile_dir}'", shell=True)
+    write_config(set_config_option(config, "zen_profile_dir", profile_dir))
     return profile_dir
 
 
-def delete_if_exists(p):
-    if path.isdir(p) == True:
-        rmtree(p)
-    elif path.isfile(p) == True:
-        remove(p)
-    elif path.islink(p) == True:
-        unlink(p)
-
-
-def write_userchrome(profile_dir):
-    scheme = subprocess.run(
-        ["yzconf", "get", "colourscheme"],
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    ).stdout.strip()
-    data = json.loads(
-        subprocess.run(
-            ["yzconf", "dump_mustache_data"],
-            text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        ).stdout.strip()
-    )
+def write_userchrome(profile_dir, config):
+    scheme = config["colourscheme"]
+    data = get_mustache_data(cfg=config)
     chrome_dir = path.join(profile_dir, "chrome")
     delete_if_exists(chrome_dir)
     makedirs(chrome_dir)
     for c in USERCHROME_FILES:
         buf = None
-        with open(path.join(TEMPLATES_DIR, USERCHROME_FILES[c]), "r") as f:
+        with open(path.join(environ["YZSHELL_TEMPLATES_DIR"], USERCHROME_FILES[c]), "r") as f:
             buf = chevron.render(f, data)
         with open(path.join(chrome_dir, c), "w") as f:
             f.write(buf)
@@ -108,7 +63,7 @@ def write_userchrome(profile_dir):
 def write_user_js(profile_dir):
     dest = path.join(profile_dir, "user.js")
     delete_if_exists(dest)
-    copyfile(path.join(DATA_DIR, "misc/zen/user.js"), dest)
+    copyfile(path.join(environ["YZSHELL_DATA_DIR"], "misc/zen/user.js"), dest)
     announce(f"Copied 'user.js'")
 
 
@@ -138,12 +93,12 @@ def configure_policies():
         "enhanced-h264ify": "{9a41dee2-b924-4161-a971-7fb35c053a4a}",
     }
 
-    src = path.join(DATA_DIR, "misc/zen/policies.json")
+    src = path.join(environ["YZSHELL_DATA_DIR"], "misc/zen/policies.json")
     policies = None
     with open(src, "r") as f:
         policies = json.load(f)
     for a in addons:
-        if answer_yes(f"Install addon '{a}'?") == True:
+        if confirm(f"Install addon '{a}'?") == True:
             policies["policies"]["ExtensionSettings"][a] = {
                 "installation_mode": "force_installed",
                 "install_url": f"https://addons.mozilla.org/firefox/downloads/latest/{addons[a]}/latest.xpi",
@@ -180,13 +135,15 @@ if __name__ == "__main__":
     parser.add_argument("-d", "--profile-dir", default=None)
     args = parser.parse_args(argv[1:])
 
+    config = get_config()
+
     r = subprocess.run(["yay", "-Qi", "zen-browser-bin"], capture_output=True)
     # ENSURE ZEN INSTALLED
     if r.returncode != 0:
         if args.unattended == True:
             print_err("Zen not installed, cannot configure.")
             exit(1)
-        if answer_yes("Install Zen Browser?") == True:
+        if confirm("Install Zen Browser?") == True:
             remove_policies()
             subprocess.run(
                 "yay -S --needed --norebuild --noredownload --noconfirm zen-browser-bin",
@@ -211,20 +168,15 @@ if __name__ == "__main__":
                 print_err("Cannot select profile in unattended mode.")
                 exit(1)
             profiles = get_profiles()
-            profile_dir = select_profile(profiles)
+            profile_dir = select_profile(profiles, config)
         elif args.profile_dir != None:
             profile_dir = args.profile_dir
         else:
-            profile_dir = subprocess.run(
-                ["yzconf", "get", "zen_profile_dir"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-            ).stdout.strip()
+            profile_dir = config["zen_profile_dir"]
 
         announce("Generating configuration files...")
         if args.no_userchrome == False:
-            write_userchrome(profile_dir)
+            write_userchrome(profile_dir, config)
         if args.no_userjs == False:
             write_user_js(profile_dir)
     if args.no_policies == False:

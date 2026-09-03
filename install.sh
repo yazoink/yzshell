@@ -23,6 +23,8 @@ DIRECTORIES=(
     "dotfiles"
     "templates"
     "misc"
+    "scripts"
+    "lib"
 )
 
 function exit_if_failed() {
@@ -47,6 +49,42 @@ function enable_chaotic_aur() {
 Include = /etc/pacman.d/chaotic-mirrorlist
         " | sudo tee -a /etc/pacman.conf
     sudo pacman -Syu --noconfirm
+}
+
+function configure_env_vars() {
+    env_file="/etc/environment"
+    data_dir="${HOME}/.local/share/yzshell"
+    script_dir="${data_dir}/scripts"
+    conf_dir="${HOME}/.config/yzshell"
+    cache_dir="${HOME}/.cache/yzshell"
+    lib_dir="${data_dir}/lib"
+    declare -A env_vars=(
+        ["YZSHELL_DATA_DIR"]="${data_dir}"
+        ["YZSHELL_LIB_DIR"]="${lib_dir}"
+        ["YZSHELL_PYTHON_LIB_DIR"]="${lib_dir}/python"
+        ["YZSHELL_BASH_LIB_DIR"]="${lib_dir}/bash"
+        ["YZSHELL_STOW_DIR"]="${HOME}/.dotfiles"
+        ["YZSHELL_CONF_DIR"]="${conf_dir}"
+        ["YZSHELL_CONF_FILE"]="${conf_dir}/config.json"
+        ["YZSHELL_DEFAULT_CONF_FILE"]="${data_dir}/misc/default-config.json"
+        ["YZSHELL_EWW_DIR"]="${HOME}/.config/eww"
+        ["YZSHELL_SCRIPT_DIR"]="${script_dir}"
+        ["YZSHELL_EWW_SCRIPT_DIR"]="${script_dir}/eww"
+        ["YZSHELL_COLOURS_DIR"]="${data_dir}/colourschemes"
+        ["YZSHELL_TEMPLATES_DIR"]="${data_dir}/templates"
+        ["YZSHELL_CACHE_DIR"]="${cache_dir}"
+        ["YZSHELL_TEMPLATE_CACHE_DIR"]="${cache_dir}/built_templates"
+        ["YZSHELL_WALLPAPER_CACHE_DIR"]="${cache_dir}/wallpapers"
+        ["YZSHELL_WALLPAPER_LOCKFILE"]="${cache_dir}/wallpapers.lock"
+    )
+    for v in "${!env_vars[@]}"; do
+        export "${v}=${env_vars[$v]}"
+        if grep "${v}" "${env_file}"; then
+            sudo gawk -i inplace "!/${v}/" "${env_file}"
+        fi
+        echo "${v}=${env_vars[$v]}" \
+            | sudo tee -a "${env_file}" >/dev/null 2>&1
+    done
 }
 
 function install_yay() {
@@ -171,6 +209,8 @@ function main() {
             exit_if_failed $? "Could not clone repo."
         fi
     fi
+    # ENV VARS
+    configure_env_vars >/dev/null 2>&1
     # INSTALL ESSENTIAL DEPS
     source "${SRC_DIR}/install/pkgutils.sh"
     ! pkg_installed "git" &&
@@ -261,6 +301,8 @@ function main() {
     if [ "${SHELL}" != "${zsh}" ]; then
         gum confirm "Set Zsh as default shell?" && chsh -s "${zsh}"
     fi
+    pgrep --quiet Hyprland && yzshell reload >/dev/null 2>&1
+    #exit 0
     gum style "" # the output gets garbled if i don't put this here, idk why
     notes="A reboot is recommended after the initial installation.
 

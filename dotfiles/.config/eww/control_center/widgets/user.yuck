@@ -1,7 +1,7 @@
-(defpoll username :run-while false :interval "24h" `whoami`)
-(defpoll hostname :run-while false :interval "24h" `cat /etc/hostname`)
-(defpoll os_version :run-while false :interval "24h" "control_center/scripts/get_os_version.sh")
-(defpoll profile_image_path :run-while false :interval "24h" "yzconf get profile_image")
+(defvar username "")
+(defvar hostname "")
+(defvar os_version "")
+(defvar profile_image "")
 
 (defwidget user []
   (box
@@ -16,7 +16,7 @@
       :class "profile-image"
       :vexpand false 
       :hexpand false 
-      :style "background-image: url('${profile_image_path}');"
+      :style "background-image: url('${profile_image}');"
     )
     (box
       :class "username-hostname-os"

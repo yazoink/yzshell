@@ -2,130 +2,23 @@
 
 import json
 import subprocess
-from os import listdir, makedirs, path, remove, unlink
-from shutil import rmtree
+from os import listdir, makedirs, path, environ
 from sys import argv, exit, stderr
+from sys import path as sys_path
 
-CONFIG_DIR = path.expanduser("~/.config")
-STOW_DIR = path.expanduser("~/.dotfiles")
-YZSHELL_CONFIG_DIR = path.join(CONFIG_DIR, "yzshell")
-CONFIG_FILE = path.join(YZSHELL_CONFIG_DIR, "config.json")
-DATA_DIR = path.expanduser("~/.local/share/yzshell")
-COLOURS_DIR = path.join(DATA_DIR, "colourschemes")
-BUILT_TEMPLATE_DIR = path.expanduser("~/.cache/yzshell/built_templates")
-TEMPLATES_DIR = path.join(DATA_DIR, "templates")
-EWW_DIR = path.expanduser("~/.config/eww")
+sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
+from configutils import get_config, set_config_option, write_config, get_colourscheme, get_mustache_data
+from miscutils import delete_if_exists
 
-def get_default_config():
-    with open(path.join(DATA_DIR, "misc/default-config.json"), "r") as f:
-        return json.load(f)
-    # NOTE:
-    # Commenting here instead of the file since json doesn't support comments 
-    # lol
-    #
-    # Other good mono fonts aside from default
-    # - M+1Code Nerd Font Mono (ttf-mplus-nerd)
-    # - Monofur Nerd Font (ttf-monofur-nerd)
-
-def get_config():
-    current = get_default_config()
-    if path.isfile(CONFIG_FILE):
-        buf = None
-        with open(CONFIG_FILE, "r") as f:
-            buf = f.read()
-        try:
-            user_config = json.loads(buf)
-            for c in user_config:
-                current[c] = user_config[c]
-        except json.JSONDecodeError as e:
-            print("Warning: could not parse yzshell config, please check for errors. Falling back to default...", e)
-    return current
-
-
-def get_colourscheme(name):
-    def hex_to_rgb(hex_colour):
-        return tuple(int(hex_colour[i : i + 2], 16) for i in (0, 2, 4))
-
-    def rgb_to_hex(rgb):
-        return "{:02X}{:02X}{:02X}".format(int(rgb[0]), int(rgb[1]), int(rgb[2]))
-        
-    def overlay_colour(base, overlay, amount):
-        base = hex_to_rgb(base)
-        overlay = hex_to_rgb(overlay)
-        r = base[0] + (overlay[0] - base[0]) * amount
-        g = base[1] + (overlay[1] - base[1]) * amount
-        b = base[2] + (overlay[2] - base[2]) * amount
-        return rgb_to_hex((r, g, b))
-
-    #schemes = listdir(COLOURS_DIR)
-    cols = [
-        "background",
-        "foreground",
-        "surface1",
-        "surface2",
-        "surface3",
-        "surface4",
-        "red",
-        "orange",
-        "yellow",
-        "green",
-        "cyan",
-        "blue",
-        "purple",
-        "brown",
-        "accent"
-    ]
-    scheme_file = path.join(COLOURS_DIR, f"{name}.json")
-    scheme = None
-    buf = None
-    window_buttons = ["red", "yellow", "green"]
-    accent = "blue"
-
-    if path.isfile(scheme_file) == False:
-        print(f"Error: colourscheme '{name}' not found", file=stderr)
-        exit(1)
-
-    with open(scheme_file, "r") as f:
-        buf = f.read()
-    try:
-        scheme = json.loads(buf)
-    except json.JSONDecodeError as e:
-        print(f"Error: could not load colourscheme at '{scheme_file}'", file=stderr)
-        exit(1)
-
-    for i in range(1, 5):
-        scheme[f"surface{i}"] = overlay_colour(scheme["background"], scheme["foreground"], i / 10)
-
-    if "window_buttons" in scheme:
-        window_buttons = scheme["window_buttons"]
-    else:
-        window_buttons = ["red", "yellow", "green"]
-    if "accent" in scheme:
-        accent = scheme["accent"]
-    scheme["window_button1"] = scheme[window_buttons[0]]
-    scheme["window_button2"] = scheme[window_buttons[1]]
-    scheme["window_button3"] = scheme[window_buttons[2]]
-    scheme["accent"] = scheme[accent]
-
-    for c in cols:
-        d = scheme[c]
-        rgb = hex_to_rgb(d)
-        scheme[f"{c}-rgb-r"] = rgb[0]
-        scheme[f"{c}-rgb-g"] = rgb[1]
-        scheme[f"{c}-rgb-b"] = rgb[2]
-        scheme[f"{c}-hex"] = f"#{d}"
-        scheme[f"{c}-bgr-hex"] = f"{d[4]}{d[5]}{d[2]}{d[3]}{d[0]}{d[1]}"
-    return scheme
 
 def copy_built_templates(scheme_dir, templates):
     from os import remove
     from shutil import copyfile
     def copy_template(src_file, dest_file):
-        dest = path.join(STOW_DIR, dest_file)
-        d = path.split(dest)[0] # directory
-        if path.isfile(dest):
-            remove(dest)
-        elif path.exists(d) == False:
+        dest = path.join(environ["YZSHELL_STOW_DIR"], dest_file)
+        d = path.dirname(dest) # directory
+        delete_if_exists(dest)
+        if path.exists(d) == False:
             makedirs(d)      
         copyfile(path.join(scheme_dir, src_file), dest) # ~/.dotfiles/<config>
     for t in templates:
@@ -136,23 +29,8 @@ def copy_built_templates(scheme_dir, templates):
             copy_template(t, templates[t])
 
 
-def merge_data(cfg, sch):
-    data = cfg | sch
-    data["prefer_dark_theme"] = "false"
-    data["icon_theme"] = "Papirus"
-    data["cursor_theme"] = "BreezeX"
-    if sch["polarity"] == "dark":
-        data["prefer_dark_theme"] = "true"
-        data["icon_theme"] += "-Dark"
-        data["cursor_theme"] += "-Dark"
-    elif sch["polarity"] == "light":
-        data["icon_theme"] += "-Light"
-        data["cursor_theme"] += "-Light"
-    return data
-
-
 def get_templates():
-    with open(path.join(TEMPLATES_DIR, "templates.json"), "r") as f:
+    with open(path.join(environ["YZSHELL_TEMPLATES_DIR"], "templates.json"), "r") as f:
         return json.load(f)
 
 
@@ -162,58 +40,35 @@ def make_templates(data, sch_dir, templates):
         makedirs(sch_dir)
         buf = None
         for t in templates:
-            with open(path.join(TEMPLATES_DIR, t), "r") as f:
+            with open(path.join(environ["YZSHELL_TEMPLATES_DIR"], t), "r") as f:
                 buf = chevron.render(f, data)
             with open(path.join(sch_dir, t), "w") as f:
                 f.write(buf)
-
-
-def set_option(cfg, opt, val):
-    if opt not in cfg:
-        print(f"Error: invalid configuration option '{opt}'", file=stderr)
-        exit(1)
-    cfg[opt] = val
-    return cfg
-
-def write_config(cfg):
-    if path.exists(YZSHELL_CONFIG_DIR) == False:
-        makedirs(YZSHELL_CONFIG_DIR)
-    with open(CONFIG_FILE, "w") as f:
-        f.write(json.dumps(cfg, indent=4))
-
-
-def delete_if_exists(p):
-    if path.isdir(p) == True:
-        rmtree(p)
-    elif path.isfile(p) == True:
-        remove(p)
-    elif path.islink(p) == True:
-        unlink(p)
 
 
 def deploy_configs(cfg):
     from shutil import copytree
     templates = get_templates()
     sch = get_colourscheme(cfg["colourscheme"])
-    sch_dir = path.join(BUILT_TEMPLATE_DIR, cfg["colourscheme"])
-    data = merge_data(cfg, sch)
+    sch_dir = path.join(environ["YZSHELL_TEMPLATE_CACHE_DIR"], cfg["colourscheme"])
+    data = get_mustache_data(cfg, sch)
     make_templates(data, sch_dir, templates)
-    if path.exists(STOW_DIR) == False:
-        copytree(path.join(DATA_DIR, "dotfiles"), STOW_DIR)
+    if path.exists(environ["YZSHELL_STOW_DIR"]) == False:
+        copytree(path.join(environ["YZSHELL_DATA_DIR"], "dotfiles"), environ["YZSHELL_STOW_DIR"])
     copy_built_templates(sch_dir, templates)
 
     if cfg["configure_vscodium"] == False:
-        delete_if_exists(path.join(STOW_DIR, ".config/Code - OSS"))
+        delete_if_exists(path.join(environ["YZSHELL_STOW_DIR"], ".config/Code - OSS"))
     if cfg["configure_nvim"] == False:
-        delete_if_exists(path.join(STOW_DIR, ".config/nvim"))
+        delete_if_exists(path.join(environ["YZSHELL_STOW_DIR"], ".config/nvim"))
     if cfg["configure_vesktop"] == False:
-        delete_if_exists(path.join(STOW_DIR, ".config/vesktop/settings.json"))
+        delete_if_exists(path.join(environ["YZSHELL_STOW_DIR"], ".config/vesktop/settings.json"))
     if cfg["configure_zsh"] == False:
-        delete_if_exists(path.join(STOW_DIR, ".zshrc"))
-        delete_if_exists(path.join(STOW_DIR, ".oh-my-zsh"))
+        delete_if_exists(path.join(environ["YZSHELL_STOW_DIR"], ".zshrc"))
+        delete_if_exists(path.join(environ["YZSHELL_STOW_DIR"], ".oh-my-zsh"))
 
     r = subprocess.run(
-        f"stow --target='{path.expanduser("~")}' --dir='{STOW_DIR}' -R .",
+        f"stow --target='{path.expanduser("~")}' --dir='{environ["YZSHELL_STOW_DIR"]}' -R .",
         shell=True
     )
     if r.returncode != 0:
@@ -285,15 +140,15 @@ if __name__ == "__main__":
             case "colourscheme":
                 if argc > 2:
                     if argv[2] == "list":
-                        schemes = sorted(listdir(COLOURS_DIR))
+                        schemes = sorted(listdir(environ["YZSHELL_COLOURS_DIR"]))
                         for s in schemes:
                             print(s.replace(".json", ""))
                         exit(0)
-                    file = path.join(COLOURS_DIR, f"{argv[2]}.json")
+                    file = path.join(environ["YZSHELL_COLOURS_DIR"], f"{argv[2]}.json")
                     if path.isfile(file) == False:
                         print(f"Error: colourscheme '{argv[2]}' not found!")
                         exit(1)
-                    cfg = set_option(cfg, "colourscheme", argv[2])
+                    cfg = set_config_option(cfg, "colourscheme", argv[2])
                     write_config(cfg)
                     deploy_configs(cfg)
                     subprocess.run(["yzshell", "reload", "--no-wallpaper"])
@@ -301,22 +156,19 @@ if __name__ == "__main__":
                 if argc > 3:
                     match argv[2]:
                         case "image":
-                            p = None
-                            if "~" in argv[3]:
-                                p = path.expanduser(argv[3])
-                            else:
-                                p = path.abspath(argv[3])
+                            from miscutils import get_full_path
+                            p = get_full_path(argv[3])
                             if path.isfile(p) == False:
                                 print(f"Error: file '{p}' not found!")
                                 exit(1)
                             s = path.split(p)
-                            cfg = set_option(cfg, "wallpaper_dir", s[0])
-                            cfg = set_option(cfg, "wallpaper_image", s[1])
+                            cfg = set_config_option(cfg, "wallpaper_dir", s[0])
+                            cfg = set_config_option(cfg, "wallpaper_image", s[1])
                             write_config(cfg)
                             subprocess.run(
                                 f'''
                                 eww update current_wallpaper='{p}'
-                                python {EWW_DIR}/settings/scripts/schemes_background.py
+                                python {environ["YZSHELL_EWW_DIR"]}/settings/scripts/schemes_background.py
                                 yzwallpaper reload
                                 ''',
                                 shell=True
@@ -324,7 +176,7 @@ if __name__ == "__main__":
                         case "mode":
                             modes = ["stretch", "fit", "fill", "center", "tile"]
                             if argv[3] in modes:
-                                cfg = set_option(cfg, "wallpaper_mode", argv[3])
+                                cfg = set_config_option(cfg, "wallpaper_mode", argv[3])
                                 write_config(cfg)
                                 subprocess.run(
                                 f'''
@@ -339,11 +191,8 @@ if __name__ == "__main__":
             case "deploy_configs":
                 if argc > 2:
                     if argv[2] in ["--refresh", "-r"]:
-                        from shutil import rmtree
-                        if path.exists(STOW_DIR):
-                            rmtree(STOW_DIR)
-                        if path.exists(BUILT_TEMPLATE_DIR):
-                            rmtree(BUILT_TEMPLATE_DIR)
+                        delete_if_exists(environ["YZSHELL_STOW_DIR"])
+                        delete_if_exists(environ["YZSHELL_TEMPLATE_CACHE_DIR"])
                 deploy_configs(cfg)
             case "set":
                 if argc > 3:
@@ -352,7 +201,7 @@ if __name__ == "__main__":
                         val = True
                     elif val.lower() == "false":
                         val = False
-                    cfg = set_option(cfg, argv[2], val)
+                    cfg = set_config_option(cfg, argv[2], val)
                     write_config(cfg)
             case "get":
                 if argc > 2:
@@ -383,13 +232,13 @@ if __name__ == "__main__":
                     sch = get_colourscheme(argv[2])
                     make_templates(cfg, sch)
             case "make_all_schemes":
-                schemes = listdir(COLOURS_DIR)
+                schemes = listdir(environ["YZSHELL_COLOURS_DIR"])
                 for s in schemes:
                     sch = get_colourscheme(s.replace(".json", ""))
                     make_templates(cfg, sch)
             case "dump_mustache_data":
                 sch = get_colourscheme(cfg["colourscheme"])
-                data = merge_data(cfg, sch)
+                data = get_mustache_data(cfg, sch)
                 print(json.dumps(data, indent=4))
             case _:
                 help()
