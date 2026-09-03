@@ -348,6 +348,8 @@ function main() {
         break
     done
     shopt -u dotglob
+
+    # DEPLOY / RELOAD CONFIGS
     (
         yzconf deploy_configs -r
         pgrep --quiet Hyprland && yzshell reload
