@@ -21,20 +21,18 @@ function install_kitty() {
 function other_terminal() {
     cmd=""
     while true; do
-        clear
-        cmd="$(gum input --placeholder 'Enter terminal command...')"
-        gum confirm "Set '${cmd}' as terminal?" && break
+        cmd="$(input 'Enter terminal command...')"
+        confirm "Set '${cmd}' as terminal?" && break
     done
     yzconf set terminal "${cmd}"
 }
 
 function install_terminal() {
-    clear
     which foot >/dev/null 2>&1 && yzconf set "terminal" "foot" && return
     which alacritty >/dev/null 2>&1 && yzconf set "terminal" "alacritty" && return
     which ghostty >/dev/null 2>&1 && yzconf set "terminal" "ghostty" && return
     which kitty >/dev/null 2>&1 && yzconf set "terminal" "kitty" && return
-    term="$(gum choose --header 'Select terminal...' 'Alacritty' 'Foot' 'Ghostty' 'Kitty' 'I already have a terminal')"
+    term="$(choose 'Select terminal...' 'Alacritty' 'Foot' 'Ghostty' 'Kitty' 'I already have a terminal')"
     case "${term}" in
         "Alacritty") install_alacritty ;;
         "Foot") install_foot ;;

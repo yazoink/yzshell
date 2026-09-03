@@ -118,7 +118,8 @@ if it is detected that plugins are not installed. To run this manually:
 
 Prerequisites:
 
-- Base Arch install (I do not recommend installing on a system with any existing configs, it will just override some stuff, and also stow will complain)
+- Base Arch install (I do not recommend installing on a system with any existing 
+  configs, the installer will backup and override any conflicting files)
 - NetworkManager
 - Pipewire
 - `gum`

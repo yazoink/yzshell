@@ -15,4 +15,5 @@ function install_aur_pkgs() {
 
 function install_pkgs() {
     sudo pacman -S -y --needed --noconfirm "${@}"
+    exit_if_failed $? "Failed to install packages"
 }

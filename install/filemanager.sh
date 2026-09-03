@@ -19,9 +19,8 @@ function install_thunar() {
 function other_file_manager() {
     cmd=""
     while true; do
-        clear
-        cmd="$(gum input --placeholder 'Enter file manager command...')"
-        gum confirm "Set '${cmd}' as file manager?" && break
+        cmd="$(input 'Enter file manager command...')"
+        confirm "Set '${cmd}' as file manager?" && break
     done
     yzconf set file_manager "${cmd}"
 }
@@ -29,8 +28,7 @@ function other_file_manager() {
 function install_file_manager() {
     which thunar >/dev/null 2>&1 && yzconf set "file_manager" "thunar" && return
     which pcmanfm >/dev/null 2>&1 && yzconf set "file_manager" "pcmanfm" && return
-    clear
-    fm="$(gum choose --header 'Select file manager...' 'PCManFM' 'Thunar' 'I already have a file manager')"
+    fm="$(choose 'Select file manager...' 'PCManFM' 'Thunar' 'I already have a file manager')"
     case "$fm" in
         "PCManFM") install_pcmanfm ;;
         "Thunar") install_thunar ;;

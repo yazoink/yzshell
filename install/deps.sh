@@ -1,4 +1,5 @@
 DEPS=(
+    "figlet"
     "base-devel"
     "stow"
     "freetype2"
@@ -99,7 +100,7 @@ function install_oh_my_zsh() {
     # oh-my-zsh
     if [ ! -d ~/.oh-my-zsh ]; then
         clear
-        if ! gum confirm "Install and configure Zsh with yzshell?"; then
+        if ! confirm "Install and configure Zsh with yzshell?"; then
             yzconf set "configure_zsh" "false"
             return 1
         fi
@@ -145,4 +146,5 @@ function install_mpd() {
     install_aur_pkgs "${aur_pkgs[@]}"
     systemctl --user --now enable mpd
     systemctl --user --now enable mpdris2-rs.service
+    announce "MPD / ncmpcpp / Ario installed!"
 }
