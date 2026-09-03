@@ -4,6 +4,8 @@
     :spacing 8
     :space-evenly false
     :valign "center"
+    :vexpand true
+    :class "yes-no"
     (label :text action :class "action")
     (box
       :orientation "h"
@@ -11,8 +13,20 @@
       :space-evenly false
       :valign "center"
       :halign "center"
-      (button :onclick "${cmd}" :timeout "800ms" :class "icon yes green" "")
-      (button :onclick "yzwidgets close all &" :class "icon no red" "")
+      (icon_button
+        :icon ""
+        :tooltip "${action}"
+        :size "small"
+        :colour "green"
+        :command "${cmd}"
+      )
+      (icon_button
+        :icon ""
+        :tooltip "Cancel"
+        :size "small"
+        :colour "red"
+        :command "yzwidgets close all &"
+      )
     )
   )
 )
@@ -22,11 +36,12 @@
     :orientation "h"
     :space-evenly false
     :class "power-button"
+    :valign "fill"
     (button
       :class "${class} ${power_selected == index ? "selected" : ""}"
       :onclick "$YZSHELL_EWW_SCRIPT_DIR/slide.py ${power_selected} ${index} power_selected"
       :tooltip desc
-      (label :text icon :class "icon")
+      (label :text icon :class "icon power-button-icon")
     )
     (revealer
       :transition "slideright"

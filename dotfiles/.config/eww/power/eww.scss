@@ -17,27 +17,15 @@
     background-color: $surface;
     border-radius: $inner-radius;
     font-weight: bold;
-    .icon {
+    .power-button-icon {
       min-width: 75px;
       min-height: 75px;
       font-size: 40pt;
     }
-    .yes, .no {
+    .yes-no {
       margin: $padding;
-      margin-top: 0;
-      font-family: "Font Awesome 7 Free";
-      label {
-        min-width: 40px;
-        min-height: 40px;
-        font-size: 16pt;
-      }
     }
-    .yes {
-      margin-right: 0;
-    }
-    .no {
-      margin-left: 0;
-    }
+  
     .lock .icon {
       color: $blue;
     }
@@ -75,7 +63,5 @@
   }
   .action {
     font-size: 13pt;
-    padding: $padding;
-    padding-bottom: 0;
   }
 }
