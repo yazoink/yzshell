@@ -133,9 +133,6 @@
         background: $surface2;
       }
       &.selected {
-        &:hover {
-          background: transparent;
-        }
         background-color: $accent;
         color: $bg;
         border-radius: $inner-radius;
