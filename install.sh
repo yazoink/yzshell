@@ -378,8 +378,7 @@ Make sure Pipewire is installed and NetworkManager is in use!
 
 Hyprland is configured to start on TTY login from '~/.zprofile'; if you are not using Zsh, it will need to be launched manually with 'exec dbus-run-session start-hyprland', or from a display manager."
     gum style \
-        --border-foreground 212 \
-        --foreground 212 \
+        --foreground 99 \
         --padding "2 4" \
         "$(figlet "yzshell")"
     gum format '{{ Bold "Notes:" }}' -t template
