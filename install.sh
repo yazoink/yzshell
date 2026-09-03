@@ -288,7 +288,10 @@ function main() {
     fi
     rm -rf ~/.config/hypr/hyprland.lua
     rm -rf ~/.zshrc
-    yzconf deploy_configs -r
+    (
+        yzconf deploy_configs -r
+        pgrep --quiet Hyprland && yzshell reload
+    ) >/dev/null 2>&1 & disown
     # REMOVE SOURCE IF GIT INSTALL
     if [ $install_local -ne 0 ]; then
         clear
@@ -298,10 +301,9 @@ function main() {
         fi
     fi
     zsh="$(which zsh)"
-    if [ "${SHELL}" != "${zsh}" ]; then
+    if [ "${SHELL}" != "${zsh}" ] && [ "$(yzconf get configure_zsh)" == "true" ]; then
         gum confirm "Set Zsh as default shell?" && chsh -s "${zsh}"
     fi
-    pgrep --quiet Hyprland && yzshell reload >/dev/null 2>&1
     #exit 0
     gum style "" # the output gets garbled if i don't put this here, idk why
     notes="A reboot is recommended after the initial installation.
@@ -311,7 +313,6 @@ To configure Zen Browser: once there is at least one profile in '~/.config/zen',
 Make sure Pipewire is installed and NetworkManager is in use!
 
 Hyprland is configured to start on TTY login from '~/.zprofile'; if you are not using Zsh, it will need to be launched manually with 'exec dbus-run-session start-hyprland', or from a display manager."
-    reset
     gum style \
         --foreground 212 \
         --border-foreground 212 \
