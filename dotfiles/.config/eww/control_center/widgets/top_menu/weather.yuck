@@ -13,7 +13,7 @@
       :hexpand true
       :spacing 8
       (label
-        :class "icon ${weather_data.colour}"
+        :class "weather-icon ${weather_data.colour}"
         :text {weather_data.icon}
       )
       ;(image 

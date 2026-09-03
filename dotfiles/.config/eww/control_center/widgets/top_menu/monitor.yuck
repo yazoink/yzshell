@@ -1,8 +1,8 @@
 (defwidget monitor_usage [name colour icon tooltip value]
   (box
-    :class "monitor-item ${name} ${colour}"
+    :class "monitor-item ${name}"
     :tooltip tooltip
-    (label :text icon :class "icon")
+    (label :text icon :class "monitor-icon ${colour}")
     (label :text value :class "usage")
   )
 )

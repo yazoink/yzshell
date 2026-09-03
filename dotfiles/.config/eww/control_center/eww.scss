@@ -244,11 +244,24 @@
       color: $fg;
       padding: $padding;
     }
-    .icon {
+    .monitor-icon {
+      font-family: "Font Awesome 7 Free";
       border-top-left-radius: $inner-radius;
       border-bottom-left-radius: $inner-radius;
       color: $bg;
       font-size: 24pt;
+      font-weight: bold;
+      padding: $padding;
+      &.red { background-color: $red; }
+      &.orange { background-color: $orange; }
+      &.yellow { background-color: $yellow; }
+      &.green { background-color: $green; }
+      &.cyan { background-color: $cyan; }
+      &.blue { background-color: $blue; }
+      &.purple { background-color: $purple; }
+      &.brown { background-color: $brown; }
+      &.foreground { background-color: $foreground; }
+      &.accent { background-color: $accent; }
     }
   }
 }
@@ -258,7 +271,9 @@
   border-radius: $inner-radius;
   background: $surface1;
   padding: $padding;
-  .icon {
+  .weather-icon {
+    font-family: "Font Awesome 7 Free";
+    font-weight: bold;
     font-size: 70px;
     padding: 0;
   }
