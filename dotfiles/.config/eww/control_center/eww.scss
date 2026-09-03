@@ -95,11 +95,8 @@
     background-color: $surface;
     border-radius: $inner-radius;
     padding: $padding;
-    .icon {
-    }
-    .launcher-button {
+    button {
       background-color: $surface2;
-      border-radius: $inner-radius;
       &:hover {
         background-image: linear-gradient($surface3);
       }
@@ -284,13 +281,7 @@
       }
     }
     .controls button {
-      padding: $padding;
       background-color: $surface2;
-      font-weight: bold;
-      font-size: 10pt;
-      min-width: 15px;
-      min-height: 15px;
-      border-radius: $inner-radius;
       &:hover {
         background-image: linear-gradient($surface3);
       }

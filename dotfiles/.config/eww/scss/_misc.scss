@@ -10,11 +10,6 @@ $inner-radius: 8px;
   font-size: 11pt;
 }
 
-.hline {
-  border-bottom: 1px solid $fg;
-  opacity: 0.2;
-}
-
 .icon {
   font-family: "Font Awesome 7 Free";
   font-weight: bold;
@@ -24,6 +19,43 @@ $inner-radius: 8px;
   padding: $padding;
 }
 
+.icon-button {
+  background-color: $surface1;
+  border-radius: $inner-radius;
+  &:hover {
+    background-color: $surface2;
+  }
+  label {
+    font-family: "Font Awesome 7 Free";
+    font-weight: bold;
+    padding: $padding;
+  }
+}
+
+.icon-button-extra-small label {
+  font-size: 10pt;
+  min-width: 15px;
+  min-height: 15px;
+}
+
+.icon-button-small label {
+  font-size: 12pt;
+  min-width: 20px;
+  min-height: 20px;
+}
+
+.icon-button-medium label {
+  font-size: 18pt;
+  min-width: 30px;
+  min-height: 30px;
+}
+
+.icon-button-large label {
+  font-size: 24pt;
+  min-width: 50px;
+  min-height: 50px;
+}
+
 tooltip {
   padding: $padding;
   border-radius: $inner-radius;
@@ -31,6 +63,9 @@ tooltip {
   border: 1px solid $border;
 }
 
+.accent .icon {
+  background-color: $accent;
+}
 .blue .icon {
   background-color: $blue;
 }
@@ -49,19 +84,22 @@ tooltip {
 .cyan .icon {
   background-color: $cyan;
 }
+.orange .icon {
+  background-color: $cyan;
+}
 
+.accent, .accent label {
+  color: $blue;
+}
 .blue, .blue label {
   color: $blue;
 }
-
 .green, .green label {
   color: $green;
 }
-
 .yellow, .yellow label {
   color: $yellow;
 }
-
 .red, .red label {
   color: $red;
 }
@@ -70,6 +108,9 @@ tooltip {
 }
 .cyan, .cyan label {
   color: $cyan;
+}
+.orange, .orange label {
+  color: $orange;
 }
 
 .vertical-separator label {

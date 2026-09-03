@@ -38,19 +38,14 @@
         :halign "fill"
         :hexpand true
       )
-      (button
-        :onclick `
+      (icon_button
+        :icon ""
+        :tooltip "Reload wallpapers"
+        :size "small"
+        :colour "accent"
+        :command `
           $YZSHELL_EWW_SCRIPT_DIR/wallpapers.py -r -d '${wallpaper_dir}' & 
           $YZSHELL_EWW_SCRIPT_DIR/schemes_background.py &`
-        :tooltip "Reload wallpapers"
-        (label 
-          :text "" 
-          :class "blue" 
-          :style `
-            font-weight: bold; 
-            font-family: 'Font Awesome 7 Free';
-            margin: 2px;`
-        )
       )
     )
     (scroll

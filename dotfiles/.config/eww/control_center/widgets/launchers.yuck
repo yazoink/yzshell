@@ -1,12 +1,3 @@
-(defwidget launcher_button [name command tooltip icon]
-  (button
-    :class "launcher-button ${name}"
-    :tooltip tooltip
-    :onclick command
-    (label :text icon :class "icon")
-  )
-)
-
 (defwidget launchers []
   (box
     :orientation "v"
@@ -18,29 +9,33 @@
       :spacing 8
       :space-evenly false
       :vexpand true
-      (launcher_button
-        :name "settings"
-        :tooltip "Change appearance"
-        :command "yzwidgets close control_center & yzwidgets open settings &"
+      (icon_button
         :icon ""
+        :tooltip "Change appearance"
+        :size "medium"
+        :colour "cyan"
+        :command "yzwidgets close control_center & yzwidgets open settings &"
       )
-      (launcher_button
-        :name "idle"
-        :tooltip "Toggle idle inhibitor"
-        :command "yzshell cmd toggle_idle_inhib &"
+      (icon_button
         :icon idle_icon
+        :tooltip "Toggle idle inhibitor"
+        :size "medium"
+        :colour "green"
+        :command "yzshell cmd toggle_idle_inhib &"
       )
-      (launcher_button
-        :name "shot"
-        :tooltip "Take screenshot"
-        :command "yzwidgets close control_center & yzwidgets open screenshot &"
+      (icon_button
         :icon ""
+        :tooltip "Take a screenshot"
+        :size "medium"
+        :colour "yellow"
+        :command "yzwidgets close control_center & yzwidgets open screenshot &"
       )
-      (launcher_button
-        :name "dnd"
-        :tooltip "Toggle do-not-disturb"
-        :command "yzshell cmd toggle_dnd &"
+      (icon_button
         :icon dnd_icon
+        :tooltip "Toggle do-not-disturb"
+        :size "medium"
+        :colour "orange"
+        :command "yzshell cmd toggle_dnd &"
       )
     )
     (box
@@ -49,11 +44,12 @@
       :spacing 8
       :space-evenly true
       :vexpand true
-      (launcher_button
-        :name "shutdown"
-        :tooltip "Open power menu"
-        :command "yzwidgets close control_center & yzwidgets open power &"
+      (icon_button
         :icon ""
+        :tooltip "Open power menu"
+        :size "medium"
+        :colour "red"
+        :command "yzwidgets close control_center & yzwidgets open power &"
       )
     )
   )

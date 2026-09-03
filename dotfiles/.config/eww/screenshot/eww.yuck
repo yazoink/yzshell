@@ -26,15 +26,19 @@
       :vexpand false
       :valign "end"
       :spacing 8
-      (button
-        :onclick "yzwidgets close all & yzshot -m 'full' -o '${screenshot_output}' -s 0.5 &"
+      (icon_button
+        :icon ""
         :tooltip "Take a fullscreen screenshot"
-        (label :text "" :class "icon screenshot-full")
+        :size "small"
+        :colour "accent"
+        :command "yzwidgets close all & yzshot -m 'full' -o '${screenshot_output}' -s 0.5 &"
       )
-      (button
-        :onclick "yzwidgets close all & yzshot -m 'select' -o '${screenshot_output}' -s 0.5 &"
+      (icon_button
+        :icon ""
         :tooltip "Take a selective screenshot"
-        (label :text "" :class "icon screenshot-select")
+        :size "small"
+        :colour "accent"
+        :command "yzwidgets close all & yzshot -m 'select' -o '${screenshot_output}' -s 0.5 &"
       )
     )
   )

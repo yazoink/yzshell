@@ -11,24 +11,8 @@
   }
   button {
     background-color: $surface;
-    border-radius: $inner-radius;
-    font-size: 13pt;
-    min-width: unset;
-    min-height: unset;
     &:hover {
       background-image: linear-gradient($surface2);
-    }
-    .screenshot-full {
-      color: $accent;
-      font-size: 13pt;
-      min-width: 20px;
-      min-height: 20px;
-    }
-    .screenshot-select {
-      color: $accent;
-      font-size: 13pt;
-      min-width: 20px;
-      min-height: 20px;
     }
     //label {
       //font-family: "Font Awesome 7 Free";
