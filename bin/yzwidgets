@@ -66,7 +66,6 @@ def close_control_center():
         f"""
         eww close control_center
         eww update control_center_visible=false
-        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "apps.py")} &
         """,
         shell=True,
         stdout=subprocess.DEVNULL,
@@ -210,7 +209,7 @@ def close_calendar():
 
 def close_all_widgets():
     subprocess.run(
-        """
+        f"""
         eww close-all
         hyprctl dispatch 'hl.dsp.submap(\"reset\")'
         eww update control_center_visible=false
@@ -218,8 +217,7 @@ def close_all_widgets():
         eww update settings_visible=false
         eww update screenshot_visible=false
         eww update workspaces_visible=false
-        eww poll search_results
-        eww poll screenshot_output
+        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "apps.py")} &
         """,
         shell=True,
         stdout=subprocess.DEVNULL,
