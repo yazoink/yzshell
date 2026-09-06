@@ -1,5 +1,6 @@
 hl.window_rule({ match = { title = "^(File Operation Progress)$" }, float = true })
 hl.window_rule({ match = { title = "^(Rename)(.*)$" }, float = true })
+hl.window_rule({ match = { title = "^(udiskie)(.*)$" }, float = true })
 hl.window_rule({ match = { title = "^(org.kde.kruler)$" }, float = true })
 hl.window_rule({ match = { title = "^(galculator)$" }, float = true })
 hl.window_rule({ match = { title = "^(Open File)(.*)$" }, float = true })
@@ -11,12 +12,12 @@ hl.window_rule({ match = { title = "^(Picture-in-Picture)$" }, pin = true })
 hl.window_rule({ match = { title = "^(Authentication Required)$" }, float = true })
 hl.window_rule({ match = { title = "^(Authentication Required)$" }, float = true })
 
-hl.layer_rule({match = { namespace = "search_input" }, no_anim = true})
+hl.layer_rule({ match = { namespace = "search_input" }, no_anim = true })
 
 hl.window_rule({
-  name = "",
-  match = {
-    workspace = "name:special:special"
-  },
-  float = true
+	name = "",
+	match = {
+		workspace = "name:special:special",
+	},
+	float = true,
 })
