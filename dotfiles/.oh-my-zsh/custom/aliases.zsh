@@ -1,3 +1,4 @@
+alias solitaire="ttysolitaire -p 999999 --no-background-color --four-color-deck"
 alias webcam="ffplay -fast /dev/video0"
 alias vim="nvim"
 alias ff="fastfetch"
