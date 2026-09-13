@@ -1,4 +1,5 @@
 DEPS=(
+    "fzf"
     "figlet"
     "base-devel"
     "stow"
