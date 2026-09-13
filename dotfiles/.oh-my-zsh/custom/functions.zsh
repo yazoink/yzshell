@@ -54,20 +54,16 @@ function y() {
 
 function add() {
 	sudo pacman -S --needed "$@"
-	yzwidgets ctl control_center_update_all_apps
 }
 
 function auradd() {
 	yay -S --needed "$@"
-	yzwidgets ctl control_center_update_all_apps
 }
 
 function del() {
 	sudo pacman -Rns "$@"
-	yzwidgets ctl control_center_update_all_apps
 }
 
 function aurdel() {
 	yay -Rns "$@"
-	yzwidgets ctl control_center_update_all_apps
 }
