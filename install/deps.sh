@@ -50,6 +50,7 @@ DEPS=(
     "hypridle"
     "brightnessctl"
     "hyprlock"
+    "hyprpm"
     #"network-manager-applet"
     #"nm-connection-editor"
     #"pavucontrol"
