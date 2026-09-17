@@ -17,5 +17,5 @@ hl.monitor({
 	output = "desc:BOE 0x0868",
 	mode = "preferred",
 	position = "auto",
-	scale = 1,
+	scale = 1.33,
 })
