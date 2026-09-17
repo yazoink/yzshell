@@ -7,6 +7,7 @@ hl.env("XCURSOR_THEME", cursor_theme)
 hl.env("HYPRCURSOR_THEME", cursor_theme)
 hl.env("HYPRCURSOR_SIZE", "32")
 hl.env("GTK_THEME", "adw-gtk3")
+hl.env("GDK_SCALE", 1)
 
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
