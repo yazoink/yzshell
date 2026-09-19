@@ -188,13 +188,13 @@ def enable_chaotic_aur():
             chaotic_key, 
             "--keyserver", 
             "keyserver.ubuntu.com"
-        ], stdin=subprocess.PIPE)
+        ])
         subprocess.run([
             "sudo", 
             "pacman-key", 
             "--lsign-key", 
             chaotic_key
-        ], stdin=subprocess.PIPE)
+        ])
         for p in chaotic_pkgs:
             subprocess.run(["sudo", "pacman", "-U", p])
         subprocess.run("""
@@ -202,7 +202,7 @@ def enable_chaotic_aur():
 [chaotic-aur]
 Include = /etc/pacman.d/chaotic-mirrorlist
             " | sudo tee -a /etc/pacman.conf
-        """, shell=True, stdin=subprocess.PIPE)
+        """, shell=True)
         update_pacman()
         announce("chaotic-aur repo enabled!")
 
