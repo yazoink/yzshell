@@ -9,8 +9,8 @@ from shutil import rmtree, copytree, copyfile
 import json
 
 
-COL_1="212" # primary gum text colour
-COL_2="99" # secondary gum text colour
+COL_1 = "212" # primary gum text colour
+COL_2 = "99" # secondary gum text colour
 OMZ_DIR = path.expanduser("~/.oh-my-zsh")
 # executables to be installed
 EXES = [
