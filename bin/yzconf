@@ -2,12 +2,14 @@
 
 import json
 import subprocess
-from os import listdir, makedirs, path, environ
-from sys import argv, exit, stderr
+from os import environ, listdir, makedirs, path
+from sys import argv, exit
 from sys import path as sys_path
+from sys import stderr
 
 sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
-from configutils import get_config, get_default_config, set_config_option, write_config, get_colourscheme, get_mustache_data
+from configutils import (get_colourscheme, get_config, get_default_config,
+                         get_mustache_data, set_config_option, write_config)
 from miscutils import delete_if_exists
 
 
@@ -151,7 +153,14 @@ if __name__ == "__main__":
                     cfg = set_config_option(cfg, "colourscheme", argv[2])
                     write_config(cfg)
                     deploy_configs(cfg)
-                    subprocess.run(["yzshell", "reload", "--no-wallpaper"])
+                    subprocess.run(
+                        """
+                        yzshell reload widgets &
+                        yzshell reload bar &
+                        yzshell reload osd &
+                        """,
+                        shell=True,
+                    )
             case "wallpaper":
                 if argc > 3:
                     match argv[2]:
