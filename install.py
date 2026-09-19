@@ -357,7 +357,7 @@ def install_yay():
     delete_if_exists(tmp_dir)
     git_clone("https://aur.archlinux.org/yay.git", tmp_dir)
     r = subprocess.run(
-        f"cd '{tmp_dir}' && makepkg -si",
+        f"(cd '{tmp_dir}' && makepkg -si)",
         shell=True
     )
     rmtree(tmp_dir)
