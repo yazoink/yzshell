@@ -140,7 +140,9 @@ cd yzshell
 
 ### With curl
 
-Run the install command again.
+If there is a yzshell repo at `/tmp/yzshell`, either run `git pull` on it or
+delete it, and then run the install command again. If there is no repo, just
+run the install command again.
 
 ### With git
 
