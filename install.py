@@ -659,7 +659,7 @@ if __name__ == "__main__":
     title_text("yzshell")
     print("""a reboot is required after the initial installation!
 
-to configure zen Browser: once there is at least one profile in '~/.config/zen', run 'zenconf --select-profile' to ensure its configuration.
+to configure zen browser: once there is at least one profile in '~/.config/zen', run 'zenconf --select-profile' to ensure its configuration.
 
 make sure pipewire is installed and networkmanager is in use!
 
