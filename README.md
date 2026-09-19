@@ -122,6 +122,7 @@ Prerequisites:
   configs, the installer will backup and override any conflicting files)
 - NetworkManager
 - Pipewire
+- No AUR helper, or Yay
 - Packages `gum`, `figlet`, `git`, and `python`
 
 ### With curl

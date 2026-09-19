@@ -657,11 +657,11 @@ if __name__ == "__main__":
     )
 
     title_text("yzshell")
-    print("""A reboot is required after the initial installation!
+    print("""a reboot is required after the initial installation!
 
-To configure Zen Browser: once there is at least one profile in '~/.config/zen', run 'zenconf --select-profile' to ensure its configuration.
+to configure zen Browser: once there is at least one profile in '~/.config/zen', run 'zenconf --select-profile' to ensure its configuration.
 
-Make sure Pipewire is installed and NetworkManager is in use!
+make sure pipewire is installed and networkManager is in use!
 
-Hyprland is configured to start on TTY login from '~/.zprofile'; if you are not using Zsh, it will need to be launched manually with 'exec dbus-run-session start-hyprland', or from a display manager."
+hyprland is configured to start on tty login from '~/.zprofile'; if you are not using zsh, it will need to be launched manually with 'exec dbus-run-session start-hyprland', or from a display manager."
     """)
