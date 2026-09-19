@@ -187,7 +187,7 @@ def enable_chaotic_aur():
             stderr=subprocess.PIPE) as proc:
             print(proc.stdout.read())
             print(proc.stderr.read())
-        with subprocess.run([
+        with subprocess.Popen([
             "sudo", 
             "pacman-key", 
             "--recv-key", 
@@ -199,7 +199,7 @@ def enable_chaotic_aur():
             stderr=subprocess.PIPE) as proc:
             print(proc.stdout.read())
             print(proc.stderr.read())
-        with subprocess.run([
+        with subprocess.Popen([
             "sudo", 
             "pacman-key", 
             "--lsign-key", 
@@ -210,7 +210,7 @@ def enable_chaotic_aur():
             print(proc.stdout.read())
             print(proc.stderr.read())
         for p in chaotic_pkgs:
-            with subprocess.run(
+            with subprocess.Popen(
                 ["sudo", "pacman", "-U", p], 
                 stdin=subprocess.PIPE, stdout=subprocess.PIPE
             ) as proc:
