@@ -189,7 +189,7 @@ def enable_chaotic_aur():
             "--keyserver", 
             "keyserver.ubuntu.com"
         ])
-        subprocess.Popen([
+        subprocess.run([
             "sudo", 
             "pacman-key", 
             "--lsign-key", 
