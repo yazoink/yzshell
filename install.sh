@@ -84,8 +84,8 @@ function configure_env_vars() {
         if grep "${v}" "${env_file}"; then
             sudo gawk -i inplace "!/${v}/" "${env_file}"
         fi
-        echo "${v}=${env_vars[$v]}" \
-            | sudo tee -a "${env_file}" >/dev/null 2>&1
+        echo "${v}=${env_vars[$v]}" |
+        sudo tee -a "${env_file}" >/dev/null 2>&1
     done
 }
 
@@ -294,6 +294,7 @@ function main() {
         sudo sh -c 'systemctl enable --now bluetooth.service >/dev/null 2>&1'
         if confirm "Configure Zsh with yzshell?"; then
             install_oh_my_zsh
+            chsh -s "$(which zsh)"
             yzconf set "configure_zsh" "true"
         else
             yzconf set "configure_zsh" "false"
@@ -333,16 +334,19 @@ function main() {
     fi
 
     # BACK UP CONFLICTING DOTFILES
+    backup_file "${HOME}/.zshrc"
+    backup_file "${HOME}/.zprofile"
+    backup_file "${HOME}/.oh-my-zsh/custom/"*
     shopt -s dotglob
-    for file in "${SRC_DIR}/dotfiles"/*; do
-        f="$(basename "${file}")"
-        t="${HOME}/${f}"
-        if [ -d "${t}" ]; then
-            backup_dots_dir "${SRC_DIR}/dotfiles/${f}"
-        elif [ -f "${t}" ]; then
-            backup_file "${t}"
-        fi
-    done
+    # for file in "${SRC_DIR}/dotfiles"/*; do
+    #     f="$(basename "${file}")"
+    #     t="${HOME}/${f}"
+    #     if [ -d "${t}" ]; then
+    #         backup_dots_dir "${SRC_DIR}/dotfiles/${f}"
+    #     elif [ -f "${t}" ]; then
+    #         backup_file "${t}"
+    #     fi
+    # done
     for f in $(cat "${SRC_DIR}/templates/templates.json" | jq -r -c '.[]'); do
         backup_file "${HOME}/${f}"
         break
@@ -353,7 +357,8 @@ function main() {
     (
         yzconf deploy_configs -r
         pgrep --quiet Hyprland && yzshell reload
-    ) >/dev/null 2>&1 & disown
+    ) >/dev/null 2>&1 &
+    disown
 
     # REMOVE SOURCE IF GIT INSTALL
     if [ $install_local -ne 0 ]; then
@@ -370,7 +375,7 @@ function main() {
     fi
 
     # END NOTES
-    notes="A reboot is required after the initial installation.
+    notes="A reboot is required after the initial installation!
 
 To configure Zen Browser: once there is at least one profile in '~/.config/zen', run 'zenconf --select-profile' to ensure its configuration.
 
