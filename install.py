@@ -175,23 +175,34 @@ def delete_if_exists(p):
 
 def enable_chaotic_aur():
     if confirm("enable chaotic-aur repo? (recommended)") == True:
-        p = subprocess.run(
-            """
-            sudo pacman-key --init
-            sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
-            sudo pacman-key --lsign-key 3056513887B78AEB
-            sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
-            sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-            echo "
+        chaotic_pkgs = [
+            "https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst",
+            "https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst"
+        ]
+        chaotic_key = "3056513887B78AEB"
+        subprocess.run(["sudo", "pacman-key", "--init"], stdin=subprocess.PIPE)
+        subprocess.run([
+            "sudo", 
+            "pacman-key", 
+            "--recv-key", 
+            chaotic_key, 
+            "--keyserver", 
+            "keyserver.ubuntu.com"
+        ], stdin=subprocess.PIPE)
+        subprocess.run([
+            "sudo", 
+            "pacman-key", 
+            "--lsign-key", 
+            chaotic_key
+        ], stdin=subprocess.PIPE)
+        for p in chaotic_pkgs:
+            subprocess.run(["sudo", "pacman", "-U", p])
+        subprocess.run("""
+        echo "
 [chaotic-aur]
 Include = /etc/pacman.d/chaotic-mirrorlist
             " | sudo tee -a /etc/pacman.conf
-            """,
-            shell=True,
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
+        """, shell=True, stdin=subprocess.PIPE)
         update_pacman()
         announce("chaotic-aur repo enabled!")
 
