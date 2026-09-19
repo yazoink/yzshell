@@ -123,7 +123,7 @@ Prerequisites:
 - NetworkManager
 - Pipewire
 - No AUR helper, or Yay
-- Packages `gum`, `figlet`, `git`, and `python`
+- Packages `gum`, `figlet`, `git`, `which`, and `python`
 
 ### With curl
 

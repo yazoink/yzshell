@@ -271,6 +271,7 @@ def get_install_dir(arg_directory):
             install_dir = path.join(install_dir, "yzshell")
             if dir_valid == False:
                 install_dir = "/tmp/yzshell"
+                dir_valid = validate_install_dir(install_dir)
 
     if dir_valid == True: # dir valid
         announce("installing from repo: " + install_dir)
