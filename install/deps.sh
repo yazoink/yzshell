@@ -101,7 +101,6 @@ function deps_import_gpg_keys() {
 function install_oh_my_zsh() {
     # oh-my-zsh
     if [ ! -d ~/.oh-my-zsh ]; then
-        clear
         if ! confirm "Install and configure Zsh with yzshell?"; then
             yzconf set "configure_zsh" "false"
             return 1
