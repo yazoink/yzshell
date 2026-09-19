@@ -175,6 +175,7 @@ def delete_if_exists(p):
 
 def enable_chaotic_aur():
     if confirm("enable chaotic-aur repo? (recommended)") == True:
+        # needs fixing
         chaotic_pkgs = [
             "https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst",
             "https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst"
@@ -370,6 +371,7 @@ def install_yay():
     install_pkgs(["base-devel", "go"])
     delete_if_exists(tmp_dir)
     git_clone("https://aur.archlinux.org/yay.git", tmp_dir)
+    # needs fixing
     r = subprocess.run(
         f"(cd '{tmp_dir}' && makepkg -si)",
         shell=True
