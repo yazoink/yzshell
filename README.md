@@ -122,7 +122,7 @@ Prerequisites:
   configs, the installer will backup and override any conflicting files)
 - NetworkManager
 - Pipewire
-- `gum`, `figlet`, `git`, `python`
+- Packages `gum`, `figlet`, `git`, and `python`
 
 ### With curl
 
