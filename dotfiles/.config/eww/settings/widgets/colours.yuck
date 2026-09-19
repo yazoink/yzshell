@@ -115,9 +115,8 @@
         (button
           :onclick `
             (
-              yzconf colourscheme '${scheme["id"]}' \
-                && ${EWW_CMD} update settings_menu_item=1 && \
-                yzwidgets open settings
+              yzwidgets close all
+              yzconf colourscheme '${scheme["id"]}'
             ) &`
           :css ` 
             button {
