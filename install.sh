@@ -294,7 +294,8 @@ function main() {
         sudo sh -c 'systemctl enable --now bluetooth.service >/dev/null 2>&1'
         if confirm "Configure Zsh with yzshell?"; then
             install_oh_my_zsh
-            chsh -s "$(which zsh)"
+            zsh="$(which zsh)"
+            [ "${SHELL}" != "${zsh}" ] && chsh -s "${zsh}"
             yzconf set "configure_zsh" "true"
         else
             yzconf set "configure_zsh" "false"
