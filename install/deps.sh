@@ -115,7 +115,6 @@ function install_oh_my_zsh() {
             sh -c \
             "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" \
             "" --unattended
-        exit_if_failed $? "Failed to install oh-my-zsh"
         # autosuggestions
         [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions" ] &&
         gum spin \
@@ -123,7 +122,6 @@ function install_oh_my_zsh() {
             --title "Installing autosuggestions for Zsh..." -- \
             git clone https://github.com/zsh-users/zsh-autosuggestions \
             "${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions"
-        exit_if_failed $? "Failed to download zsh-autosuggestions"
         # syntax highlighting
         [ ! -d "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting" ] &&
         gum spin \
@@ -131,7 +129,6 @@ function install_oh_my_zsh() {
             --title "Installing syntax highlighting for Zsh..." -- \
             git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
             "${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
-        exit_if_failed $? "Failed to download zsh-syntax-highlighting"
         announce "Zsh installed!"
     fi
 }
