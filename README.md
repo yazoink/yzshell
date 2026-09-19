@@ -126,7 +126,7 @@ Prerequisites:
 
 ### With curl
 
-`bash -c "$(curl -Ss https://raw.githubusercontent.com/yazoink/yzshell/refs/heads/main/install.py)" "" --optional-dependencies`
+`curl -s 'https://raw.githubusercontent.com/yazoink/yzshell/refs/heads/main/install.py' | python - --optional-dependencies`
 
 ### With git
 
