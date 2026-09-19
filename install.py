@@ -180,42 +180,28 @@ def enable_chaotic_aur():
             "https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst"
         ]
         chaotic_key = "3056513887B78AEB"
-        with subprocess.Popen([
-            "sudo", "pacman-key", "--init"], 
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE) as proc:
-            print(proc.stdout.read())
-            print(proc.stderr.read())
-        with subprocess.Popen([
+        subprocess.run(["sudo", "pacman-key", "--init"])
+        subprocess.run([
             "sudo", 
             "pacman-key", 
             "--recv-key", 
             chaotic_key, 
             "--keyserver", 
             "keyserver.ubuntu.com"
-        ], stdin=subprocess.PIPE, 
-            stdout=subprocess.PIPE, 
-            stderr=subprocess.PIPE) as proc:
-            print(proc.stdout.read())
-            print(proc.stderr.read())
-        with subprocess.Popen([
+        ])
+        subprocess.Popen([
             "sudo", 
             "pacman-key", 
             "--lsign-key", 
             chaotic_key
-        ], stdin=subprocess.PIPE, 
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE) as proc:
-            print(proc.stdout.read())
-            print(proc.stderr.read())
+        ])
         for p in chaotic_pkgs:
-            with subprocess.Popen(
+            subprocess.Popen(
                 ["sudo", "pacman", "-U", p], 
-                stdin=subprocess.PIPE, stdout=subprocess.PIPE
-            ) as proc:
-                print(proc.stdout.read())
-                print(proc.stderr.read())
+                stdin=subprocess.PIPE, 
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
         subprocess.run("""
         echo "
 [chaotic-aur]
