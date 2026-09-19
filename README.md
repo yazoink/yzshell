@@ -194,11 +194,11 @@ stuff.
 To apply any changes, run:
 
 ```bash
-./install.sh --local --no-deps
+./install.sh --skip-dependencies
 yzshell reload
 ```
 
-from the root directory. This will re-copy all the necessary files.
+from the repo directory. This will re-copy all the necessary files.
 
 ### Colourschemes
 

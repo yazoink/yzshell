@@ -153,14 +153,7 @@ if __name__ == "__main__":
                     cfg = set_config_option(cfg, "colourscheme", argv[2])
                     write_config(cfg)
                     deploy_configs(cfg)
-                    subprocess.run(
-                        """
-                        yzshell reload widgets &
-                        yzshell reload bar &
-                        yzshell reload osd &
-                        """,
-                        shell=True,
-                    )
+                    subprocess.run(["yzshell", "reload", "--no-wallpaper"])
             case "wallpaper":
                 if argc > 3:
                     match argv[2]:
