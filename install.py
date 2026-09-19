@@ -175,7 +175,7 @@ def delete_if_exists(p):
 
 def enable_chaotic_aur():
     if confirm("enable chaotic-aur repo? (recommended)") == True:
-        subprocess.run(
+        p = subprocess.Popen(
             """
             sudo pacman-key --init
             sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
@@ -192,6 +192,8 @@ Include = /etc/pacman.d/chaotic-mirrorlist
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
+        stdout, stderr = p.communicate()
+        stdout.splitlines() 
         update_pacman()
         announce("chaotic-aur repo enabled!")
 
