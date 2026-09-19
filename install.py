@@ -196,12 +196,7 @@ def enable_chaotic_aur():
             chaotic_key
         ])
         for p in chaotic_pkgs:
-            subprocess.Popen(
-                ["sudo", "pacman", "-U", p], 
-                stdin=subprocess.PIPE, 
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE
-            )
+            subprocess.run(["sudo", "pacman", "--noconfirm", "-U", p])
         subprocess.run("""
         echo "
 [chaotic-aur]
