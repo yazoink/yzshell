@@ -661,7 +661,7 @@ if __name__ == "__main__":
 
 to configure zen Browser: once there is at least one profile in '~/.config/zen', run 'zenconf --select-profile' to ensure its configuration.
 
-make sure pipewire is installed and networkManager is in use!
+make sure pipewire is installed and networkmanager is in use!
 
 hyprland is configured to start on tty login from '~/.zprofile'; if you are not using zsh, it will need to be launched manually with 'exec dbus-run-session start-hyprland', or from a display manager."
     """)
