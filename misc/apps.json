@@ -1,0 +1,55 @@
+{
+    "web_browser": {
+        "title": "web browser",
+        "apps": {
+            "zen-browser": {
+                "aur_deps": [
+                    "zen-browser-bin"
+                ]
+            }
+        }
+    },
+    "file_manager": {
+        "title": "file manager",
+        "apps": {
+            "thunar": {
+                "deps": [
+                    "thunar",
+                    "thunar-archive-plugin",
+                    "thunar-media-tags-plugin",
+                    "thunar-shares-plugin"
+                ]
+            },
+            "pcmanfm": {
+                "deps": [
+                    "pcmanfm"
+                ]
+            }
+        }
+    },
+    "terminal": {
+        "title": "terminal",
+        "apps": {
+            "alacritty": {
+                "deps": [
+                    "alacritty"
+                ]
+            },
+            "ghostty": {
+                "deps": [
+                    "ghostty"
+                ]
+            },
+            "foot": {
+                "deps": [
+                    "foot"
+                ]
+            },
+            "kitty": {
+                "deps": [
+                    "kitty"
+                ]
+            }
+        }
+    }
+}

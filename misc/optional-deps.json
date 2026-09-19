@@ -1,0 +1,19 @@
+{
+    "pacman": [
+        "android-tools",
+        "cryptsetup",
+        "fastfetch",
+        "galculator",
+        "gimp",
+        "keepassxc",
+        "kruler",
+        "libreoffice-still",
+        "nicotine+",
+        "pluma",
+        "prismlauncher",
+        "qbittorrent",
+        "tree",
+        "yt-dlp"
+    ],
+    "yay": []
+}

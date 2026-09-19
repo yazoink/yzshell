@@ -122,19 +122,18 @@ Prerequisites:
   configs, the installer will backup and override any conflicting files)
 - NetworkManager
 - Pipewire
-- `gum`
-- `git` or `curl`
+- `gum`, `figlet`, `git`, `python`
 
 ### With curl
 
-`bash -c "$(curl -Ss https://raw.githubusercontent.com/yazoink/yzshell/refs/heads/main/install.sh)" "" --optional-deps`
+`bash -c "$(curl -Ss https://raw.githubusercontent.com/yazoink/yzshell/refs/heads/main/install.py)" "" --optional-dependencies`
 
 ### With git
 
 ```bash
 git clone https://github.com/yazoink/yzshell
 cd yzshell
-./install.sh --local --optional-deps
+./install.py --optional-dependencies
 ```
 
 ## Updating
