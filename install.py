@@ -353,7 +353,7 @@ def install_pkgs(pkgs, aur=False):
 def install_yay():
     print("installing yay...")
     tmp_dir = "/tmp/yay"
-    install_pkgs(["base-devel"])
+    install_pkgs(["base-devel", "go"])
     delete_if_exists(tmp_dir)
     git_clone("https://aur.archlinux.org/yay.git", tmp_dir)
     r = subprocess.run(
