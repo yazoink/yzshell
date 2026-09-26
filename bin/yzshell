@@ -16,7 +16,7 @@ function ensure_hyprland_plugins() {
         echo ">> Installing Hyprland plugins..."
         terminal="$(yzconf get terminal)"
         (
-            sleep 6
+            sleep 5
             exec $terminal -e yzshell-install-hyprland-plugins
         ) &
         disown
