@@ -1,18 +1,25 @@
 #!/usr/bin/env python
 
 import argparse
+import json
 import signal
 import subprocess
 from math import floor
-from os import makedirs, path, environ
+from os import environ, makedirs, path
 from sys import argv
+from sys import path as sys_path
 from threading import Thread
 from time import sleep
-from sys import path as sys_path
 
 sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
 from configutils import get_config
 from miscutils import get_full_path
+
+
+def get_screen(monitors):
+    for m in monitors:
+        if m["focused"] == True:
+            return str(m["id"] + 1)
 
 
 def update_timer(i):
@@ -24,10 +31,7 @@ def update_timer(i):
         mins = f"0{mins}"
     if len(secs) == 1:
         secs = f"0{secs}"
-    subprocess.run(
-        f"eww update mins='{mins}'; eww update secs='{secs}'",
-        shell=True
-    )
+    subprocess.run(f"eww update mins='{mins}'; eww update secs='{secs}'", shell=True)
 
 
 def recorder(audio, display, fmt, directory, select):
@@ -37,31 +41,34 @@ def recorder(audio, display, fmt, directory, select):
     if path.exists(directory) == False:
         makedirs(directory)
     date = subprocess.run(
-        "date +%Y%m%d_%H:%M:%S",
-        shell=True,
-        capture_output=True,
-        text=True
+        "date +%Y%m%d_%H:%M:%S", shell=True, capture_output=True, text=True
     ).stdout.strip()
     output = f"{directory}/recording-{date}.{fmt}"
-    cmd = '''
+    monitors = json.loads(
+        subprocess.run(
+            "hyprctl monitors -j", shell=True, text=True, capture_output=True
+        ).stdout.strip()
+    )
+    monitor = None
+    if len(monitors) > 1:
+        monitor = get_screen(monitors)
+    recorder_cmd = "wf-recorder"
+    if monitor is not None:
+        recorder_cmd = f"echo {monitor} | {recorder_cmd}"
+    cmd = f"""
     eww update mins='00' 
     eww update secs='00'
     eww update recorder_selected=0
-    wf-recorder'''
+    {recorder_cmd}"""
     if audio == "true":
         cmd += " -a"
     if select == "true":
-        r = subprocess.run(
-            "slurp",
-            capture_output=True,
-            shell=True,
-            text=True
-        )
+        r = subprocess.run("slurp", capture_output=True, shell=True, text=True)
         geometry = r.stdout.strip()
-        #print(geometry)
+        # print(geometry)
         if "selection cancelled" in geometry or geometry == "":
             exit(1)
-        cmd += f" -g \"{geometry}\""
+        cmd += f' -g "{geometry}"'
     elif display != "":
         cmd += f" -o {display}"
     cmd += f" -f {output}"
@@ -84,8 +91,9 @@ def recorder(audio, display, fmt, directory, select):
         eww update recorder_selected=1
         notify-send 'Recording saved' '{output}'
         """,
-        shell=True
+        shell=True,
     )
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -100,5 +108,5 @@ if __name__ == "__main__":
         directory=args.directory,
         fmt=args.format,
         select=args.select,
-        display=args.display
+        display=args.display,
     )
