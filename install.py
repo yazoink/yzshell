@@ -569,7 +569,7 @@ def install_vscode():
 
 def backup_dotfiles():
     backup_file(path.expanduser("~/.zshrc"))
-    backup_file(path.expanduser("~/.zprofile"))
+    # backup_file(path.expanduser("~/.zprofile"))
     omz_custom = path.join(OMZ_DIR, "custom")
     if path.exists(omz_custom):
         files = listdir(omz_custom)
