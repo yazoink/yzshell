@@ -378,10 +378,10 @@ def install_yay():
 
 def install_zsh():
     if confirm("install and configure zsh with yzshell?"):
-        omz_plugins = {
-            "zsh-autosuggestions": "https://github.com/zsh-users/zsh-autosuggestions",
-            "zsh-syntax-highlighting": "https://github.com/zsh-users/zsh-syntax-highlighting.git"
-        }
+        # omz_plugins = {
+        #     "zsh-autosuggestions": "https://github.com/zsh-users/zsh-autosuggestions",
+        #     "zsh-syntax-highlighting": "https://github.com/zsh-users/zsh-syntax-highlighting.git"
+        # }
         install_pkgs(["zsh", "zsh-completions"])
         backup_dir(OMZ_DIR)
         subprocess.run(
@@ -392,9 +392,9 @@ def install_zsh():
             """,
             shell=True
         )
-        for p in omz_plugins:
-            announce("installing zsh plugin: "+ p)
-            git_clone(omz_plugins[p], path.join(OMZ_DIR, "plugins", p))
+        # for p in omz_plugins:
+        #     announce("installing zsh plugin: "+ p)
+        #     git_clone(omz_plugins[p], path.join(OMZ_DIR, "plugins", p))
         announce("zsh installed!")
 
         if confirm("set zsh as default shell?"):
