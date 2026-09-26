@@ -1,7 +1,7 @@
 hl.on("hyprland.start", function()
 	hl.exec_cmd("dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
 	--hl.exec_cmd("sleep 1 && hyprpm reload")
-	hl.exec_cmd("hyprlock")
+	hl.exec_cmd("hyprlock; yzshell")
 	hl.exec_cmd("yzshell")
 	hl.exec_cmd("nm-applet")
 	hl.exec_cmd("poweralertd")
