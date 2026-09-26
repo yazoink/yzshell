@@ -54,8 +54,6 @@ function launch_yzshell() {
     launch_waybar
     launch_widgets
     launch_osd
-    hyprctl reload &
-    makoctl reload &
     ensure_hyprland_plugins
 }
 
@@ -180,6 +178,8 @@ function main() {
                     fi
                     kill_yzshell "${arg}"
                     launch_yzshell "${arg}"
+                    hyprctl reload &
+                    makoctl reload &
                     ;;
             esac
             ;;
