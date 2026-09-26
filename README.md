@@ -87,8 +87,6 @@ My very messy dotfiles.
 
 #### Workspace switcher
 
-- \[Left|Right|Up|Down]: switch to next/prev workspace
-- \[1-9]: switch to workspace and close
 - \[Esc|Tab|Return]: close
 
 ## Screenshots

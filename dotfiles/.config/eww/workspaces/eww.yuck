@@ -16,8 +16,7 @@
                     :height 125
                     :onclick 
                         `eww poll workspaces
-                        hyprctl dispatch 'hl.dsp.focus({workspace = ${w["id"]}})' & 
-                        yzwidgets close all &`
+                        hyprctl dispatch 'hl.dsp.focus({workspace = ${w["id"]}})' &`
                     "${w["name"]}"
                 )
             )
