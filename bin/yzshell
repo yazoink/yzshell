@@ -20,9 +20,10 @@ function ensure_hyprland_plugins() {
             exec $terminal -e yzshell-install-hyprland-plugins
         ) &
         disown
+    else
+        hyprpm enable hyprbars
+        hyprpm reload
     fi
-    hyprpm enable hyprbars
-    hyprpm reload
 }
 
 function launch_waybar() {
