@@ -413,6 +413,9 @@ def install_greetd():
     )
     subprocess.run(f"""
     echo "
+[terminal]
+vt = 1
+
 [default_session]
 command = \\"agreety --cmd start-hyprland\\"
 user = \\"greeter\\"
