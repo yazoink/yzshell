@@ -178,6 +178,7 @@ menuitem:hover {
 }
 
 #battery.percentage,
+#backlight,
 #wireplumber.volume {
   margin-left: 8px;
 }
