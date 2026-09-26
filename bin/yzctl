@@ -206,11 +206,11 @@ function configure_bar() {
     bat_enabled=false
     light_enabled=false
     enabled=","
-    if [ "$(yzconf get bar_show_battery)" == "True" ]; then
+    if [ "$(yzconf get bar_show_battery)" == "true" ]; then
         enabled+="Show battery module,"
         bat_enabled=true
     fi
-    if [ "$(yzconf get bar_show_backlight)" == "True" ]; then
+    if [ "$(yzconf get bar_show_backlight)" == "true" ]; then
         enabled+="Show backlight module,"
         light_enabled=true
     fi
