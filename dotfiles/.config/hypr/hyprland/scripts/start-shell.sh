@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 hyprlock
-yzshell &
+yzshell
+nm-applet &
 poweralertd &
 udiskie &
 hypridle &
