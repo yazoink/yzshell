@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import json
 import subprocess
 from os import environ, path
 from sys import argv, exit
@@ -37,12 +38,14 @@ def init_widgets(config):
 
 
 def get_screen():
-    return subprocess.run(
-        "hyprctl monitors -j | jq '.[] | .id'",
-        shell=True,
-        text=True,
-        capture_output=True,
-    ).stdout.strip()
+    monitors = json.loads(
+        subprocess.run(
+            "hyprctl monitors -j", shell=True, text=True, capture_output=True
+        ).stdout.strip()
+    )
+    for m in monitors:
+        if m["focused"] == True:
+            return str(m["id"])
 
 
 def open_control_center(screen, config):

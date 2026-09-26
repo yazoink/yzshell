@@ -25,18 +25,6 @@ menuitem {
   font-family: "Font Awesome 7 Free", "Symbols Nerd Font Mono";
 }
 
-#network,
-#bluetooth {
-  font-family: "Symbols Nerd Font Mono";
-  font-weight: bold;
-  padding-right: 18px;
-  /* padding-right: 9px; */
-}
-
-#bluetooth {
-  padding-right: 11px;
-}
-
 window#waybar {
   color: @fg;
   background-color: @bg;
@@ -189,10 +177,8 @@ menuitem:hover {
   background-color: @bg2;
 }
 
-#bluetooth,
 #battery.percentage,
-#wireplumber.volume,
-#backlight {
+#wireplumber.volume {
   margin-left: 8px;
 }
 

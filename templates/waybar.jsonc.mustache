@@ -59,7 +59,6 @@
   "group/quick-access": {
     "orientation": "inherit",
     "modules": [
-      "network",
       "group/volume-expander"
       {{#bar_show_battery}}
       ,"group/battery-expander"
@@ -119,29 +118,6 @@
     "on-click-right": "amixer -D pipewire set Master toggle",
     "format": "{volume}%",
     "format-muted": "{volume}%"
-  },
-  "network": {
-    "format-wifi": "<span font='13' rise='3000'>{icon}</span>",
-    "format-ethernet": "",
-    "format-linked": "󱘖",
-    "format-disconnected": "󰤣",
-    "format-disabled": "󰤮",
-    "on-click": "source ~/.config/newtcols; {{terminal}} -e nmtui",
-    "on-click-right": "source ~/.config/newtcols; {{terminal}} -e nmtui",
-    "on-scroll-up": "nmcli radio wifi on",
-    "on-scroll-down": "nmcli radio wifi off",
-    "tooltip-format-disconnected": "No Connection",
-    "tooltip-format-disabled": "Wi-Fi is OFF",
-    "tooltip-format-wifi": "󱄙  {essid} ({signalStrength}%)\n\n󰐻  Freq: {frequency}GHz\n  {bandwidthDownBytes}   {bandwidthUpBytes}",
-    "tooltip-format-ethernet": "󰈀  {ifname} (Connected)\n  {bandwidthDownBytes}   {bandwidthUpBytes}",
-    "tooltip-format-linked": "󱘖 {ifname}: No IP Address",
-    "format-icons": [
-      "󰤯",
-      "󰤟",
-      "󰤢",
-      "󰤥",
-      "󰤨"
-    ]
   },
   "bluetooth": {
     "format": "<span font='13' rise='3000'>󰂯</span>",
