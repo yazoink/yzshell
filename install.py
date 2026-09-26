@@ -397,7 +397,35 @@ def install_zsh():
     announce("zsh installed!")
     subprocess.run("chsh -s $(which zsh)", shell=True)
     announce("default shell set to zsh!")
-    
+
+
+def install_greetd():
+    user = subprocess.run(
+        "whoami",
+        shell=True,
+        capture_output=True,
+        text=True
+    ).stdout.strip()
+    install_pkgs(["greetd"])
+    subprocess.run(
+        "sudo mv /etc/greetd/config.toml /etc/greetd/config.toml.bak",
+        shell=True
+    )
+    subprocess.run(f"""
+    echo "
+[default_session]
+command = \\"agreety --cmd start-hyprland\\"
+user = \\"greeter\\"
+
+[initial_session]
+command = \\"start-hyprland\\"
+user = \\"{user}\\"
+        " | sudo tee /etc/greetd/config.toml
+    """, shell=True)
+    subprocess.run(
+        "sudo systemctl enable greetd",
+        shell=True
+    )
 
 
 def parse_json_file(path):
@@ -627,6 +655,9 @@ if __name__ == "__main__":
 
         # vscode
         install_vscode()
+
+        # greetd
+        install_greetd()
 
         # misc
         subprocess.run(
