@@ -109,14 +109,15 @@ These dots are heavily centered around my preferences, but anyone can use them.
 A lot of options can be toggled during the installation progress, and more can
 be configured with the `yzctl` TUI, or manually with `yzconf`.
 
-Note: upon first launching Hyprland, a terminal window will open, which will
+After running the install script, and rebooting, Hyprland will automatically
+launch with yzshell. Upon first launching Hyprland, a terminal window will open, which will
 install plugins. This will automatically launch every time Hyprland is reloaded
 if it is detected that plugins are not installed. To run this manually:
 `yzshell-install-hyprland-plugins`.
 
 Prerequisites:
 
-- Base Arch install (I do not recommend installing on a system with any existing
+- Fresh Arch install (I do not recommend installing on a system with any existing
   configs, the installer will backup and override any conflicting files)
 - NetworkManager
 - Pipewire
