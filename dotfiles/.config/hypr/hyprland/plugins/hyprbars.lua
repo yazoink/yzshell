@@ -54,4 +54,11 @@ if hl.plugin.hyprbars ~= nil then
 		icon = "",
 		action = "hyprctl dispatch 'hl.dsp.window.fullscreen({action=\"toggle\"})'",
 	})
+
+	-- hl.window_rule({
+	-- 	match = {
+	-- 		class = "^(wofi)$",
+	-- 	},
+	-- 	["hyprbars:no_bar"] = true,
+	-- })
 end
