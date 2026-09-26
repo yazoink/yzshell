@@ -118,7 +118,7 @@ if it is detected that plugins are not installed. To run this manually:
 
 Prerequisites:
 
-- Base Arch install (I do not recommend installing on a system with any existing 
+- Base Arch install (I do not recommend installing on a system with any existing
   configs, the installer will backup and override any conflicting files)
 - NetworkManager
 - Pipewire
@@ -157,6 +157,9 @@ a TUI. The `yzconf` command can also be used for manual configuration
 need to run `yzconf deploy_configs --refresh`, and then reload the shell
 (`yzshell reload` or Ctrl+Shift+R) to apply any changes; otherwise bugs may
 occur.
+
+Extra Hyprland configurations (i.e. monitors) can be placed in
+`~/.config/yzshell/hyprland-extra.lua`.
 
 ### Default terminal / file manager / web browser
 

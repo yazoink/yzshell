@@ -3,26 +3,34 @@
 import json
 import subprocess
 from os import environ, listdir, makedirs, path
+from shutil import copyfile
 from sys import argv, exit
 from sys import path as sys_path
 from sys import stderr
 
 sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
-from configutils import (get_colourscheme, get_config, get_default_config,
-                         get_mustache_data, set_config_option, write_config)
+from configutils import (
+    get_colourscheme,
+    get_config,
+    get_default_config,
+    get_mustache_data,
+    set_config_option,
+    write_config,
+)
 from miscutils import delete_if_exists
 
 
 def copy_built_templates(scheme_dir, templates):
     from os import remove
-    from shutil import copyfile
+
     def copy_template(src_file, dest_file):
         dest = path.join(environ["YZSHELL_STOW_DIR"], dest_file)
-        d = path.dirname(dest) # directory
+        d = path.dirname(dest)  # directory
         delete_if_exists(dest)
         if path.exists(d) == False:
-            makedirs(d)      
-        copyfile(path.join(scheme_dir, src_file), dest) # ~/.dotfiles/<config>
+            makedirs(d)
+        copyfile(path.join(scheme_dir, src_file), dest)  # ~/.dotfiles/<config>
+
     for t in templates:
         if type(templates[t]) == list:
             for i in templates[t]:
@@ -38,6 +46,7 @@ def get_templates():
 
 def make_templates(data, sch_dir, templates):
     import chevron
+
     if path.exists(sch_dir) == False:
         makedirs(sch_dir)
         buf = None
@@ -50,35 +59,48 @@ def make_templates(data, sch_dir, templates):
 
 def deploy_configs(cfg):
     from shutil import copytree
+
     templates = get_templates()
     sch = get_colourscheme(cfg["colourscheme"])
     sch_dir = path.join(environ["YZSHELL_TEMPLATE_CACHE_DIR"], cfg["colourscheme"])
     data = get_mustache_data(cfg, sch)
     make_templates(data, sch_dir, templates)
     if path.exists(environ["YZSHELL_STOW_DIR"]) == False:
-        copytree(path.join(environ["YZSHELL_DATA_DIR"], "dotfiles"), environ["YZSHELL_STOW_DIR"])
+        copytree(
+            path.join(environ["YZSHELL_DATA_DIR"], "dotfiles"),
+            environ["YZSHELL_STOW_DIR"],
+        )
     copy_built_templates(sch_dir, templates)
+
+    hypr_extra_conf_file = path.join(environ["YZSHELL_CONF_DIR"], "hyprland-extra.lua")
+    if path.isfile(hypr_extra_conf_file):
+        copyfile(
+            hypr_extra_conf_file,
+            path.join(environ["YZSHELL_STOW_DIR"], ".config/hypr/hyprland/extra.lua"),
+        )
 
     if cfg["configure_vscodium"] == False:
         delete_if_exists(path.join(environ["YZSHELL_STOW_DIR"], ".config/Code - OSS"))
     if cfg["configure_nvim"] == False:
         delete_if_exists(path.join(environ["YZSHELL_STOW_DIR"], ".config/nvim"))
     if cfg["configure_vesktop"] == False:
-        delete_if_exists(path.join(environ["YZSHELL_STOW_DIR"], ".config/vesktop/settings.json"))
+        delete_if_exists(
+            path.join(environ["YZSHELL_STOW_DIR"], ".config/vesktop/settings.json")
+        )
     if cfg["configure_zsh"] == False:
         delete_if_exists(path.join(environ["YZSHELL_STOW_DIR"], ".zshrc"))
         delete_if_exists(path.join(environ["YZSHELL_STOW_DIR"], ".oh-my-zsh"))
 
     r = subprocess.run(
         f"stow --target='{environ["HOME"]}' --dir='{environ["YZSHELL_STOW_DIR"]}' -R .",
-        shell=True
+        shell=True,
     )
     if r.returncode != 0:
         print("Error: could not stow dotfiles, please fix any conflicts.")
         exit(1)
 
     subprocess.Popen(
-        f'''    
+        f"""    
         gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3
         gsettings set org.gnome.desktop.interface font-name "sans 11"
         gsettings set org.gnome.desktop.interface color-scheme prefer-{data["polarity"]}
@@ -86,26 +108,27 @@ def deploy_configs(cfg):
         papirus-folders -C {data["papirus_folders_colour"]} --theme {data["icon_theme"]}
         gsettings set org.gnome.desktop.interface icon-theme {data["icon_theme"]}
         hyprctl setcursor {data["cursor_theme"]} 32
-        ''',
+        """,
         shell=True,
         stdout=subprocess.DEVNULL,
-        stderr=subprocess.STDOUT
+        stderr=subprocess.STDOUT,
     )
     if cfg["web_browser"] == "zen-browser":
         subprocess.Popen(
-            f'''
+            f"""
             zenconf \
                 --unattended \
                 --no-policies \
                 --profile-dir '{cfg["zen_profile_dir"]}'
-            ''', 
+            """,
             shell=True,
             stdout=subprocess.DEVNULL,
-            stderr=subprocess.STDOUT
+            stderr=subprocess.STDOUT,
         )
 
+
 def help(exitcode=0):
-    print('''usage: yzconf <OPTION> ...
+    print("""usage: yzconf <OPTION> ...
     Options:
         colourscheme <ACTION|SCHEME>: set the colourscheme
             Actions:
@@ -131,8 +154,9 @@ def help(exitcode=0):
         make_scheme <SCHEME>: creates and caches configs for colourscheme
         make_all_schemes: creates and caches configs for all colourschemes
         dump_mustache_data: dump data used to build configs
-    ''')
+    """)
     exit(exitcode)
+
 
 if __name__ == "__main__":
     argc = len(argv)
@@ -159,6 +183,7 @@ if __name__ == "__main__":
                     match argv[2]:
                         case "image":
                             from miscutils import get_full_path
+
                             p = get_full_path(argv[3])
                             if path.isfile(p) == False:
                                 print(f"Error: file '{p}' not found!")
@@ -168,12 +193,12 @@ if __name__ == "__main__":
                             cfg = set_config_option(cfg, "wallpaper_image", s[1])
                             write_config(cfg)
                             subprocess.run(
-                                f'''
+                                f"""
                                 eww update current_wallpaper='{p}'
                                 python {environ["YZSHELL_EWW_DIR"]}/settings/scripts/schemes_background.py
                                 yzwallpaper reload
-                                ''',
-                                shell=True
+                                """,
+                                shell=True,
                             )
                         case "mode":
                             modes = ["stretch", "fit", "fill", "center", "tile"]
@@ -181,13 +206,13 @@ if __name__ == "__main__":
                                 cfg = set_config_option(cfg, "wallpaper_mode", argv[3])
                                 write_config(cfg)
                                 subprocess.run(
-                                f'''
+                                    f"""
                                 eww update wallpaper_mode='{argv[3]}'
                                 yzwallpaper kill
                                 yzwallpaper
-                                ''',
-                                shell=True
-                            )
+                                """,
+                                    shell=True,
+                                )
                             else:
                                 print(f"Error: invalid mode '{argv[3]}'", file=stderr)
             case "deploy_configs":
@@ -218,7 +243,10 @@ if __name__ == "__main__":
                                     val = str(val).lower()
                                 print(val)
                             else:
-                                print(f"Error: invalid config option '{argv[2]}'", file=stderr)
+                                print(
+                                    f"Error: invalid config option '{argv[2]}'",
+                                    file=stderr,
+                                )
                     else:
                         if argv[2] in cfg:
                             val = cfg[argv[2]]
@@ -226,7 +254,9 @@ if __name__ == "__main__":
                                 val = str(val).lower()
                             print(val)
                         else:
-                            print(f"Error: invalid config option '{argv[2]}'", file=stderr)
+                            print(
+                                f"Error: invalid config option '{argv[2]}'", file=stderr
+                            )
                 else:
                     print(json.dumps(cfg, indent=4))
             case "make_scheme":

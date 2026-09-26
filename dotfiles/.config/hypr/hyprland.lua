@@ -14,6 +14,13 @@ else
     print("failed to load 'vars' module, its error message was:", value)
 end
 
+local status, value = pcall(require, "hyprland.extra")
+if status then
+    print("successfully loaded 'extra' module, it returned:", value)
+else
+    print("failed to load 'extra' module, its error message was:", value)
+end
+
 require("hyprland.env")
 require("hyprland.monitors")
 require("hyprland.input")
