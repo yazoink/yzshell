@@ -3,26 +3,18 @@
 import json
 import subprocess
 from os import environ, listdir, makedirs, path
-from shutil import copyfile
+from shutil import copyfile, rmtree
 from sys import argv, exit
 from sys import path as sys_path
 from sys import stderr
 
 sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
-from configutils import (
-    get_colourscheme,
-    get_config,
-    get_default_config,
-    get_mustache_data,
-    set_config_option,
-    write_config,
-)
+from configutils import (get_colourscheme, get_config, get_default_config,
+                         get_mustache_data, set_config_option, write_config)
 from miscutils import delete_if_exists
 
 
 def copy_built_templates(scheme_dir, templates):
-    from os import remove
-
     def copy_template(src_file, dest_file):
         dest = path.join(environ["YZSHELL_STOW_DIR"], dest_file)
         d = path.dirname(dest)  # directory
@@ -64,6 +56,10 @@ def deploy_configs(cfg):
         "hyprland-extra.lua": ".config/hypr/hyprland/extra.lua",
         "nvim-extra.lua": ".config/nvim/extra.lua",
     }
+    ensure = [
+        path.expanduser("~/.config"),
+        path.expanduser("~/.oh-my-zsh/custom"),
+    ]
     templates = get_templates()
     sch = get_colourscheme(cfg["colourscheme"])
     sch_dir = path.join(environ["YZSHELL_TEMPLATE_CACHE_DIR"], cfg["colourscheme"])
@@ -75,6 +71,13 @@ def deploy_configs(cfg):
             environ["YZSHELL_STOW_DIR"],
         )
     copy_built_templates(sch_dir, templates)
+
+    # ensure dirs are not symlinks
+    for d in ensure:
+        if path.islink(d):
+            unlink(d)
+        if path.exists(d) == False:
+            makedirs(d)
 
     for c in extra_conf_files:
         src = path.join(environ["YZSHELL_CONF_DIR"], c)
