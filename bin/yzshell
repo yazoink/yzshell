@@ -21,6 +21,8 @@ function ensure_hyprland_plugins() {
         ) &
         disown
     fi
+    hyprpm enable hyprbars
+    hyprpm reload
 }
 
 function launch_waybar() {
