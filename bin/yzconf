@@ -60,6 +60,10 @@ def make_templates(data, sch_dir, templates):
 def deploy_configs(cfg):
     from shutil import copytree
 
+    extra_conf_files = {
+        "hyprland-extra.lua": ".config/hypr/hyprland/extra.lua",
+        "nvim-extra.lua": ".config/nvim/extra.lua",
+    }
     templates = get_templates()
     sch = get_colourscheme(cfg["colourscheme"])
     sch_dir = path.join(environ["YZSHELL_TEMPLATE_CACHE_DIR"], cfg["colourscheme"])
@@ -71,6 +75,17 @@ def deploy_configs(cfg):
             environ["YZSHELL_STOW_DIR"],
         )
     copy_built_templates(sch_dir, templates)
+
+    for c in extra_conf_files:
+        src = path.join(environ["YZSHELL_CONF_DIR"], c)
+        if path.isfile(src):
+            try:
+                copyfile(
+                    src,
+                    path.join(environ["YZSHELL_STOW_DIR"], extra_conf_files[c]),
+                )
+            except:
+                pass
 
     hypr_extra_conf_file = path.join(environ["YZSHELL_CONF_DIR"], "hyprland-extra.lua")
     if path.isfile(hypr_extra_conf_file):

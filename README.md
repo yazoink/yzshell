@@ -159,7 +159,8 @@ need to run `yzconf deploy_configs --refresh`, and then reload the shell
 occur.
 
 Extra Hyprland configurations (i.e. monitors) can be placed in
-`~/.config/yzshell/hyprland-extra.lua`.
+`~/.config/yzshell/hyprland-extra.lua`, and extra Neovim configurations can be
+placed in `~/.config/yzshell/nvim-extra.lua`.
 
 ### Default terminal / file manager / web browser
 
