@@ -20,4 +20,5 @@ hl.window_rule({
 		workspace = "name:special:special",
 	},
 	float = true,
+	size = { "(monitor_w*0.43)", "(monitor_h*0.5)" },
 })
