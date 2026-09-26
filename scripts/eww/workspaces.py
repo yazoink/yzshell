@@ -31,7 +31,7 @@ all_wspaces = sorted(
 for w in all_wspaces:
     if w["monitorID"] is not screen:
         continue
-    if "special:special" in w["name"]:
+    if "special" in w["name"]:
         continue
     wspaces.append(w)
 
