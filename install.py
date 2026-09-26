@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 # script deps: figlet, gum, git, python
 
-import subprocess
 import argparse
-from sys import argv, exit
-from os import path, getcwd, remove, unlink, geteuid, environ, listdir
-from shutil import rmtree, copytree, copyfile
 import json
-
+import subprocess
+from os import environ, getcwd, geteuid, listdir, path, remove, unlink
+from shutil import copyfile, copytree, rmtree
+from sys import argv, exit
 
 COL_1 = "212" # primary gum text colour
 COL_2 = "99" # secondary gum text colour
@@ -176,28 +175,23 @@ def delete_if_exists(p):
 def enable_chaotic_aur():
     if confirm("enable chaotic-aur repo? (recommended)") == True:
         # needs fixing
-        chaotic_pkgs = [
-            "https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst",
-            "https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst"
-        ]
-        chaotic_key = "3056513887B78AEB"
-        subprocess.run(["sudo", "pacman-key", "--init"])
-        subprocess.run([
-            "sudo", 
-            "pacman-key", 
-            "--recv-key", 
-            chaotic_key, 
-            "--keyserver", 
-            "keyserver.ubuntu.com"
-        ])
-        subprocess.run([
-            "sudo", 
-            "pacman-key", 
-            "--lsign-key", 
-            chaotic_key
-        ])
-        for p in chaotic_pkgs:
-            subprocess.run(["sudo", "pacman", "--noconfirm", "-U", p])
+        subprocess.run("sudo pacman-key --init", shell=True)
+        subprocess.run(
+            "sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com", 
+            shell=True
+        )
+        subprocess.run(
+            "sudo pacman-key --lsign-key 3056513887B78AEB", 
+            shell=True
+        )
+        subprocess.run(
+            "sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'",
+            shell=True
+        )
+        subprocess.run(
+            "sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'",
+            shell=True
+        )
         subprocess.run("""
         echo "
 [chaotic-aur]
