@@ -377,32 +377,26 @@ def install_yay():
 
 
 def install_zsh():
-    if confirm("install and configure zsh with yzshell?"):
-        # omz_plugins = {
-        #     "zsh-autosuggestions": "https://github.com/zsh-users/zsh-autosuggestions",
-        #     "zsh-syntax-highlighting": "https://github.com/zsh-users/zsh-syntax-highlighting.git"
-        # }
-        install_pkgs(["zsh", "zsh-completions"])
-        backup_dir(OMZ_DIR)
-        subprocess.run(
-            """
-            sh -c \
-                "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" \
-                "" --unattended
-            """,
-            shell=True
-        )
-        # for p in omz_plugins:
-        #     announce("installing zsh plugin: "+ p)
-        #     git_clone(omz_plugins[p], path.join(OMZ_DIR, "plugins", p))
-        announce("zsh installed!")
-
-        if confirm("set zsh as default shell?"):
-            subprocess.run("chsh -s $(which zsh)", shell=True)
-            announce("default shell set to zsh!")
-        update_config("configure_zsh", "true")
-    else:
-        update_config("configure_zsh", "false")
+    # omz_plugins = {
+    #     "zsh-autosuggestions": "https://github.com/zsh-users/zsh-autosuggestions",
+    #     "zsh-syntax-highlighting": "https://github.com/zsh-users/zsh-syntax-highlighting.git"
+    # }
+    install_pkgs(["zsh", "zsh-completions"])
+    backup_dir(OMZ_DIR)
+    subprocess.run(
+        """
+        sh -c \
+            "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" \
+            "" --unattended
+        """,
+        shell=True
+    )
+    # for p in omz_plugins:
+    #     announce("installing zsh plugin: "+ p)
+    #     git_clone(omz_plugins[p], path.join(OMZ_DIR, "plugins", p))
+    announce("zsh installed!")
+    subprocess.run("chsh -s $(which zsh)", shell=True)
+    announce("default shell set to zsh!")
     
 
 
@@ -544,7 +538,7 @@ def install_vscode():
 
 def backup_dotfiles():
     backup_file(path.expanduser("~/.zshrc"))
-    backup_file(path.expanduser("~/.zprofile"))
+    backup_file(path.expanduser("~/.profile"))
     omz_custom = path.join(OMZ_DIR, "custom")
     if path.exists(omz_custom):
         files = listdir(omz_custom)
@@ -672,7 +666,5 @@ if __name__ == "__main__":
 
 to configure zen browser: once there is at least one profile in '~/.config/zen', run 'zenconf --select-profile' to ensure its configuration.
 
-make sure pipewire is installed and networkmanager is in use!
-
-hyprland is configured to start on tty login from '~/.zprofile'; if you are not using zsh, it will need to be launched manually with 'exec dbus-run-session start-hyprland', or from a display manager."
+make sure pipewire is installed, and networkmanager is in use!
     """)

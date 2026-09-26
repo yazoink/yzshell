@@ -100,7 +100,10 @@ setopt HIST_FIND_NO_DUPS         # Don't show duplicates in search
 setopt HIST_REDUCE_BLANKS        # Remove unnecessary blanks
 setopt SHARE_HISTORY     
 
-export EDITOR="nvim"
-export BROWSER="{{web_browser}}"
-
 source ~/.config/newtcols
+
+{{#configure_nvim}}
+export EDITOR="nvim"
+{{/configure_nvim}}
+export BROWSER="{{web_browser}}"
+export TERM="{{terminal}}"
