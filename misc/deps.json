@@ -1,6 +1,7 @@
 {
     "pacman": [
         "adw-gtk-theme",
+        "alsa-utils",
         "bc",
         "blueman",
         "bluez",
