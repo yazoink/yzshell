@@ -62,21 +62,21 @@ def parse_file():
                 continue
             if words[0] == "#":
                 pango += (
-                    f"<span weight='bold' color='{yzshell_data["accent-hex"]}' size='19pt'>"
+                    f"<span weight='bold' color='{yzshell_data["accent-hex"]}' size='19pt'><span size='15pt' font_family='Font Awesome 7 Free'> </span>"
                     + " ".join(words[1:])
                     + "</span>\n"
                 )
                 continue
             if words[0] == "##":
                 pango += (
-                    f"<span weight='bold' color='{yzshell_data["accent-hex"]}' size='17pt'>"
+                    f"<span weight='bold' color='{yzshell_data["accent-hex"]}' size='17pt'><span size='13pt' font_family='Font Awesome 7 Free'> </span>"
                     + " ".join(words[1:])
                     + "</span>\n"
                 )
                 continue
             if words[0] == "###":
                 pango += (
-                    f"<span weight='bold' color='{yzshell_data["accent-hex"]}' size='15pt'>"
+                    f"<span weight='bold' color='{yzshell_data["accent-hex"]}' size='15pt'><span size='11pt' font_family='Font Awesome 7 Free'> </span>"
                     + " ".join(words[1:])
                     + "</span>\n"
                 )
@@ -94,7 +94,7 @@ def parse_file():
                     )
                 else:
                     words[0] = (
-                        f"<span weight='bold' color='{yzshell_data["accent-hex"]}' font_family='Font Awesome 7 Free'> </span>"
+                        f"<span weight='bold' color='{yzshell_data["accent-hex"]}' font_family='Font Awesome 7 Free'>- </span>"
                     )
             line = " ".join(words)
             line = parse_line(line, 2)
