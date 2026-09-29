@@ -346,6 +346,27 @@
   }
 }
 
+.notes-box {
+  margin-bottom: $padding;
+  border-radius: $inner-radius;
+  background: $surface1;
+  padding: $padding;
+  .notes-body {
+    margin: $padding;
+  }
+  .edit-icon {
+    padding: $padding;
+    font-family: "Font Awesome 7 Free";
+    font-weight: bold;
+    font-size: 13pt;
+    background: $surface2;
+    border-radius: $inner-radius;
+    &:hover {
+      background: $surface3;
+    }
+  }
+}
+
 .search-bar {
   background-color: $surface;
   border-radius: $inner-radius;

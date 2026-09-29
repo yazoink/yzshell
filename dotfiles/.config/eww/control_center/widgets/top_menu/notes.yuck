@@ -1,0 +1,34 @@
+(defwidget notes []
+    (box
+        :class "notes-box"
+        :halign "fill"
+        (overlay
+            (scroll
+                :height 140
+                :hscroll false
+                :vscroll true
+                (box
+                    (label
+                        :class "notes-body"
+                        :valign "start"
+                        :halign "start"
+                        :xalign 0
+                        :wrap true
+                        :markup notes
+                    )
+                )
+            )
+            (button
+                :valign "end"
+                :vexpand true
+                :halign "end"
+                :hexpand true
+                :class "edit-icon"
+                :onclick "yzwidgets close all & ${editor_cmd} ~/.notes.md & disown"
+                :tooltip "Make some notes"
+                ""
+            )
+        )
+    )
+)
+

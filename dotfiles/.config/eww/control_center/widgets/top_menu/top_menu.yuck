@@ -2,6 +2,7 @@
 (include "control_center/widgets/top_menu/weather.yuck")
 (include "control_center/widgets/top_menu/music.yuck")
 (include "control_center/widgets/top_menu/recorder.yuck")
+(include "control_center/widgets/top_menu/notes.yuck")
 
 (defwidget control_center_menu []
   (box
@@ -18,6 +19,7 @@
       (monitor)
       (weather)
       (recorder)
+      (notes)
     )
     (box
       :class "menu-box"
@@ -62,6 +64,15 @@
           :colour "green"
           :icon ""
           :index 3
+          :curr_selected control_center_menu_item
+          :menu_var "control_center_menu_item"
+        )
+        (menu_button
+          :name "Notes"
+          :tooltip "Notes"
+          :colour "cyan"
+          :icon ""
+          :index 4
           :curr_selected control_center_menu_item
           :menu_var "control_center_menu_item"
         )

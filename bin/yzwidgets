@@ -32,6 +32,7 @@ def init_widgets(config):
         eww update current_wallpaper='{wallpaper_path}'
         eww update wallpaper_mode='{config["wallpaper_mode"]}'
         eww update wallpaper_dir='{config["wallpaper_dir"]}'
+        eww update editor_cmd='{config["editor_cmd"]}'
         """,
         shell=True,
     )

@@ -42,6 +42,12 @@
 (defvar profile_image "")
 (defvar dnd_icon "")
 (defvar idle_icon "")
+(defvar editor_cmd "")
+(defpoll notes
+  :run-while {control_center_menu_item == 4 && control_center_visible} 
+  :interval "5s" 
+  "$YZSHELL_EWW_SCRIPT_DIR/notes.py"
+)
 (defpoll cpu 
   :run-while {control_center_menu_item == 1 && control_center_visible} 
   :interval "3s" 
