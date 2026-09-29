@@ -119,16 +119,6 @@
     "format": "{volume}%",
     "format-muted": "{volume}%"
   },
-  "bluetooth": {
-    "format": "<span font='13' rise='3000'>󰂯</span>",
-    "format-connected": "<span font='13' rise='3000'>󰂱</span>",
-    "format-disabled": "<span font='13' rise='3000'>󰂲</span>",
-    "tooltip-format": "{controller_alias} {status}",
-    "tooltip-format-connected": "󰐻  {num_connections} Connected:\n{device_enumerate}",
-    "tooltip-format-enumerate-connected-battery": "󰂱  {device_alias} (󰠠  {device_battery_percentage}%)",
-    "on-click": "blueman-manager",
-    "on-click-right": "rfkill toggle bluetooth"
-  },
   "group/battery-expander": {
     "orientation": "inherit",
     "drawer": {
@@ -184,7 +174,6 @@
     "tooltip-format": "Backlight (scroll to adjust)"
   },
   "backlight": {
-    "device": "intel_backlight",
     "format": "{percent}%",
     "tooltip": true,
     "tooltip-format": "Backlight (scroll to adjust)"
