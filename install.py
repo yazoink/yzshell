@@ -652,8 +652,11 @@ if __name__ == "__main__":
                 "mago-bin",
             ], aur=True)
             update_config("configure_nvim", "true")
+            update_config("editor_cmd", "$TERM -e nvim")
             announce("installed nvim!")
         else:
+            install_pkgs(["pluma"])
+            update_config("editor_cmd", "pluma")
             update_config("configure_nvim", "false")
 
         # vscode
