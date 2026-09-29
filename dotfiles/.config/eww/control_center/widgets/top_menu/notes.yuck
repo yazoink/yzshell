@@ -18,15 +18,18 @@
                     )
                 )
             )
-            (button
+            (box
                 :valign "end"
                 :vexpand true
                 :halign "end"
                 :hexpand true
-                :class "edit-icon"
-                :onclick "yzwidgets close all & ${editor_cmd} ~/.notes.md & disown"
-                :tooltip "Make some notes"
-                ""
+                (icon_button
+                    :icon ""
+                    :tooltip "Make some notes"
+                    :size "small"
+                    :colour "accent"
+                    :command "yzwidgets close all & ${editor_cmd} ~/.notes.md & disown"
+                )
             )
         )
     )

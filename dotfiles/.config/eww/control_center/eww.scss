@@ -219,8 +219,12 @@
     }
     .controls button {
       background-color: $surface2;
+      font-family: "Font Awesome 7 Free";
+      font-weight: bold;
+      font-size: 13pt;
+      padding: $padding;
       &:hover {
-        background-image: linear-gradient($surface3);
+        background: $surface3;
       }
     }
   }
@@ -354,13 +358,8 @@
   .notes-body {
     margin: $padding;
   }
-  .edit-icon {
-    padding: $padding;
-    font-family: "Font Awesome 7 Free";
-    font-weight: bold;
-    font-size: 13pt;
+  .icon-button {
     background: $surface2;
-    border-radius: $inner-radius;
     &:hover {
       background: $surface3;
     }
