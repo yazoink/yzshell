@@ -1,0 +1,15 @@
+{
+    "scheme": "Iceberg",
+    "author": "https://github.com/cocopon/iceberg.vim",
+    "polarity": "dark",
+    "background": "161821",
+    "foreground": "c6c8d1",
+    "red": "e27878",
+    "orange": "e2a478",
+    "yellow": "e2a478",
+    "green": "b4be82",
+    "cyan": "89b8c2",
+    "blue": "84a0c6",
+    "purple": "a093c7",
+    "brown": "e27878"
+}
