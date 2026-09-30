@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-from shutil import copytree
+from shutil import copytree, rmtree
 import json
 import subprocess
-from os import environ, listdir, makedirs, path, unlink, remove
+from os import environ, listdir, makedirs, path, remove
 from shutil import copyfile, copytree
 from sys import argv, exit
 from sys import path as sys_path
@@ -21,40 +21,32 @@ from configutils import (
 from miscutils import delete_if_exists
 
 
-def copy_built_templates(scheme_dir, templates):
-    def copy_template(src_file, dest_file):
-        dest = path.join(environ["YZSHELL_STOW_DIR"], dest_file)
-        d = path.dirname(dest)  # directory
-        delete_if_exists(dest)
-        if path.exists(d) == False:
-            makedirs(d)
-        copyfile(path.join(scheme_dir, src_file), dest)  # ~/.dotfiles/<config>
-
-    for t in templates:
-        if type(templates[t]) == list:
-            for i in templates[t]:
-                copy_template(t, i)
-        else:
-            copy_template(t, templates[t])
-
-
-def get_templates(cfg):
-    with open(path.join(environ["YZSHELL_TEMPLATES_DIR"], "templates.json"), "r") as f:
+def parse_json_file(p):
+    with open(p, "r") as f:
         return json.load(f)
 
 
-def deploy_templates(data, sch_dir, templates):
+def write_json_file(content, p):
+    with open(p, "w") as f:
+        f.write(json.dumps(content, indent=4))
+
+
+def backup(f):
+    if path.exists(f) == True:
+        if path.isdir(f):
+            copytree(f, f + "-old")
+        else:
+            if path.islink(f) == False:
+                copyfile(f, f + ".bak")
+    subprocess.run(f"rm -rf '{f}'", shell=True)
+
+
+def deploy_templates(data, sch_dir):
     import chevron
 
     def delete_existing(dest):
         home_dest = path.join(environ["HOME"], dest)
-        if path.exists(home_dest) == True:
-            if path.isdir(home_dest):
-                copytree(home_dest, home_dest + "-old")
-            else:
-                if path.islink(home_dest) == False:
-                    copyfile(home_dest, home_dest + ".bak")
-        subprocess.run(f"rm -rf '{home_dest}'", shell=True)
+        backup(home_dest)
 
     def copy_template(dest, b):
         with open(dest, "w") as f:
@@ -63,6 +55,9 @@ def deploy_templates(data, sch_dir, templates):
     def ensure_dir(dir):
         if path.exists(dir) == False:
             makedirs(dir)
+
+    templates_file = path.join(environ["YZSHELL_TEMPLATES_DIR"], "templates.json")
+    templates = parse_json_file(templates_file)
 
     if path.exists(sch_dir) == False:
         makedirs(sch_dir)
@@ -139,22 +134,11 @@ def deploy_configs(cfg, copy_static=True):
         path.expanduser("~/.config"),
         path.expanduser("~/.oh-my-zsh/custom"),
     ]
-    templates = get_templates(cfg)
-
-    if cfg["configure_vscodium"] == False:
-        templates.pop("vscode.json.mustache")
-        delete_if_exists(path.join(environ["YZSHELL_DATA_DIR"], "dotfiles/.config/Code - OSS"))
-    if cfg["configure_nvim"] == False:
-        templates.pop("nvim.lua.mustache")
-        delete_if_exists(path.join(environ["YZSHELL_DATA_DIR"], "dotfiles/.config/nvim"))
-    if cfg["configure_vesktop"] == False:
-        delete_if_exists(path.join(sch_dir, ".config/vesktop"))
-        templates.pop("discord.css.mustache")
 
     sch = get_colourscheme(cfg["colourscheme"])
     sch_dir = path.join(environ["YZSHELL_TEMPLATE_CACHE_DIR"], cfg["colourscheme"])
     data = get_mustache_data(cfg, sch)
-    deploy_templates(data, sch_dir, templates)
+    deploy_templates(data, sch_dir)
 
     # ensure dirs are not symlinks
     for d in ensure:
@@ -205,6 +189,68 @@ def deploy_configs(cfg, copy_static=True):
             stdout=subprocess.DEVNULL,
             stderr=subprocess.STDOUT,
         )
+
+
+def toggle_dotfiles_off(app):
+    # templates
+    if "templates" in app:
+        templates_file = path.join(environ["YZSHELL_TEMPLATES_DIR"], "templates.json")
+        all_templates = parse_json_file(templates_file)
+        for t in app["templates"]:
+            all_templates.pop(t)
+            target = path.join(
+                environ["HOME"], 
+                app["templates"][t]
+            )
+            target_dir = path.dirname(target)
+            remove(target)
+        write_json_file(all_templates, templates_file)
+
+    # static
+    if "static_configs" in app:
+        for c in app["static_configs"]:
+            target = path.join(
+                environ["HOME"], 
+                app["static_configs"][c]
+            )
+        delete_if_exists(target)
+
+
+def toggle_dotfiles_on(app):
+    # static
+    if "static_configs" in app:
+        for c in app["static_configs"]:
+            src = path.join(
+                environ["YZSHELL_DATA_DIR"], 
+                "misc/optional-dotfiles",
+                c
+            )
+            target = path.join(
+                environ["HOME"], 
+                app["static_configs"][c]
+            )
+
+            backup(target)
+
+            dir = path.dirname(target)
+            if path.exists(dir) == False:
+                makedirs(dir)
+
+            if path.isdir(target) == True:
+                copytree(src, target)
+            else:
+                copyfile(src, target)
+
+    # templates
+    if "templates" in app:
+        templates_file = path.join(environ["YZSHELL_TEMPLATES_DIR"], "templates.json")
+        all_templates = parse_json_file(templates_file)
+
+        for t in app["templates"]:
+            all_templates[t] = app["templates"][t]
+
+        write_json_file(all_templates, templates_file)
+
 
 
 def help(exitcode=0):
@@ -258,7 +304,10 @@ if __name__ == "__main__":
                     cfg = set_config_option(cfg, "colourscheme", argv[2])
                     write_config(cfg)
                     deploy_configs(cfg, copy_static=False)
-                    subprocess.run(["yzshell", "reload", "--no-wallpaper"])
+                    _ = subprocess.run(
+                        ["yzshell", "reload", "--no-wallpaper"],
+                        capture_output=True
+                    )
             case "wallpaper":
                 if argc > 3:
                     match argv[2]:
@@ -307,12 +356,54 @@ if __name__ == "__main__":
                 deploy_configs(cfg, copy_static)
             case "set":
                 if argc > 3:
+                    opt = argv[2]
                     val = argv[3]
+                    toggleable_dotfiles = [
+                        {
+                            "option": "configure_vscodium",
+                            "templates": {
+                                "vscode.json.mustache": ".config/Code - OSS/User/settings.json"
+                            }
+                        },
+                        {
+                            "option": "configure_nvim",
+                            "static_configs": {
+                                "nvim": ".config/nvim"
+                            },
+                            "templates": {
+                                "nvim.lua.mustache": ".config/nvim/plugin/colourscheme.lua"
+                            }
+                        },
+                        {
+                            "option": "configure_vesktop",
+                            "static_configs": {
+                                "vesktop": ".config/vesktop/settings.json"
+                            },
+                            "templates": {
+                                "discord.css.mustache": ".config/vesktop/themes/yzshell.theme.css"
+                            }
+                        },
+                    ]
+
                     if val.lower() == "true":
                         val = True
                     elif val.lower() == "false":
                         val = False
-                    cfg = set_config_option(cfg, argv[2], val)
+
+                    if cfg[opt] == val:
+                        exit(0)
+
+                    for t in toggleable_dotfiles:
+                        if opt == t["option"]:
+                            if val == True:
+                                toggle_dotfiles_on(t)
+                            elif val == False:
+                                toggle_dotfiles_off(t)
+                            else:
+                                print("Error: invalid value")
+                                exit(1)
+
+                    cfg = set_config_option(cfg, opt, val)
                     write_config(cfg)
             case "get":
                 if argc > 2:
