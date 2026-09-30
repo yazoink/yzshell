@@ -114,8 +114,13 @@ def copy_static_dots():
 
     for file in files:
         dir = path.dirname(file)
+        print(dir)
         if path.exists(dir) == False:
+            print("not found")
             makedirs(dir)
+        else:
+            print("found")
+
         src = file
         dest = path.expanduser(file.replace(src_dir, "~"))
         delete_if_exists(dest)

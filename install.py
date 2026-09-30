@@ -167,6 +167,7 @@ def delete_if_exists(p):
         remove(p)
     elif path.islink(p) == True:
         unlink(p)
+        remove(p)
 
 
 def enable_chaotic_aur():
