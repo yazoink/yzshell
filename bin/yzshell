@@ -21,7 +21,6 @@ function ensure_hyprland_plugins() {
         ) &
         disown
     else
-        #hyprpm enable hyprbars
         hyprpm reload
     fi
 }
