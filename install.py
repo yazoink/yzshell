@@ -4,13 +4,15 @@
 import argparse
 import json
 import subprocess
-from os import environ, getcwd, geteuid, listdir, path, remove, unlink
+from os import environ, getcwd, geteuid, listdir, path, remove, unlink, makedirs
 from shutil import copyfile, copytree, rmtree
 from sys import argv, exit
 
 COL_1 = "212" # primary gum text colour
 COL_2 = "99" # secondary gum text colour
 OMZ_DIR = path.expanduser("~/.oh-my-zsh")
+DATA_DIR = path.expanduser("~/.local/share/yzshell")
+ENV_FILE = path.join(DATA_DIR, "env")
 # executables to be installed
 EXES = [
     "yzconf",
@@ -21,7 +23,6 @@ EXES = [
     "yzrecorder",
     "yzshot",
     "yzctl",
-    "iconfetch",
     "zenconf",
     "yzshell-install-hyprland-plugins",
     "base16-to-yzshell-scheme",
@@ -35,7 +36,7 @@ DIRS = [
     "templates",
     "misc",
     "scripts",
-    "lib"
+    "lib",
 ]
 
 
@@ -84,72 +85,68 @@ def backup_dir(p):
 
 
 def copy_files(install_dir):
-    target_dir = environ["YZSHELL_DATA_DIR"]
-    delete_if_exists(target_dir)
+    delete_if_exists(DATA_DIR)
     for d in DIRS:
         c = path.join(install_dir, d)
-        v = path.join(target_dir, d)
+        v = path.join(DATA_DIR, d)
         copytree(c, v)
         announce(f"copied directory: {c} => {v}")
+    bin_dir = path.join(DATA_DIR, "bin")
+    makedirs(bin_dir)
     for e in EXES:
-        c = path.join(install_dir, "bin", e)
-        v = path.join("/usr/bin", e)
-        subprocess.run(
-            f"sudo install -Dm755 '{c}' '{v}'",
-            shell=True
-        )
-        announce(f"installed binary: {c} => {v}")
-
-
-def set_env_vars(env_vars):
-    env_file = "/etc/environment"
-    tmp_file = "/tmp/yzshell_env"
-    lines = []
-
-    if path.isfile(env_file) == False:
-        subprocess.run(["sudo", "touch", env_file])
-
-    for v in env_vars:
-        environ[v] = env_vars[v]
+        tmp_file = path.join("/tmp/", e)
+        target = path.join("/usr/bin", e)
+        content = f"""#!/usr/bin/env bash
+        source '{ENV_FILE}'
+        {DATA_DIR}/bin/{e} "$@"
+        """
+        with open(tmp_file, "w") as f:
+            f.write(content)
         subprocess.run(
             f"""
-            if grep "{v}" "{env_file}"; then
-                sudo gawk -i inplace "!/{v}/" "{env_file}"
-            fi
-            echo "{v}={env_vars[v]}" \
-                | sudo tee -a "{env_file}"
-            """,
-            shell=True,
-            capture_output=True
+            install -Dm755 '{path.join(install_dir, "bin", e)}' '{path.join(bin_dir, e)}'
+            chmod u+x '{tmp_file}'
+            sudo install -Dm755 '{tmp_file}' '{target}'
+            """, shell=True
         )
+        announce(f"installed binary: {target}")
 
 
 def configure_yzshell_env_vars():
-    data_dir = path.expanduser("~/.local/share/yzshell")
-    script_dir = path.join(data_dir, "scripts")
-    lib_dir = path.join(data_dir, "lib")
+    script_dir = path.join(DATA_DIR, "scripts")
+    lib_dir = path.join(DATA_DIR, "lib")
     conf_dir = path.expanduser("~/.config/yzshell")
     cache_dir = path.expanduser("~/.cache/yzshell")
     env_vars = {
-        "YZSHELL_DATA_DIR": data_dir,
+        "YZSHELL_DATA_DIR": DATA_DIR,
         "YZSHELL_LIB_DIR": lib_dir,
         "YZSHELL_PYTHON_LIB_DIR": path.join(lib_dir, "python"),
         "YZSHELL_BASH_LIB_DIR": path.join(lib_dir, "bash"),
         "YZSHELL_STOW_DIR": path.expanduser("~/.dotfiles"),
         "YZSHELL_CONF_DIR": conf_dir,
         "YZSHELL_CONF_FILE": path.join(conf_dir, "config.json"),
-        "YZSHELL_DEFAULT_CONF_FILE": path.join(data_dir, "misc/default-config.json"),
+        "YZSHELL_DEFAULT_CONF_FILE": path.join(DATA_DIR, "misc/default-config.json"),
         "YZSHELL_EWW_DIR": path.expanduser("~/.config/eww"),
         "YZSHELL_SCRIPT_DIR": script_dir,
         "YZSHELL_EWW_SCRIPT_DIR": path.join(script_dir, "eww"),
-        "YZSHELL_COLOURS_DIR": path.join(data_dir, "colourschemes"),
-        "YZSHELL_TEMPLATES_DIR": path.join(data_dir, "templates"),
+        "YZSHELL_COLOURS_DIR": path.join(DATA_DIR, "colourschemes"),
+        "YZSHELL_TEMPLATES_DIR": path.join(DATA_DIR, "templates"),
         "YZSHELL_CACHE_DIR": cache_dir,
         "YZSHELL_TEMPLATE_CACHE_DIR": path.join(cache_dir, "built_templates"),
         "YZSHELL_WALLPAPER_CACHE_DIR": path.join(cache_dir, "wallpapers"),
         "YZSHELL_WALLPAPER_LOCKFILE": path.join(cache_dir, "wallpapers.lock"),
     }
-    set_env_vars(env_vars)
+
+    dir = path.dirname(ENV_FILE)
+    if path.exists(dir) == False:
+        makedirs(dir)
+
+    content = ""
+    for v in env_vars:
+        environ[v] = env_vars[v]
+        content += f"export {v}={env_vars[v]}\n"
+    with open(ENV_FILE, "w") as f:
+        f.write(content)
     announce("yzshell environment variables configured!")
 
 
@@ -249,21 +246,21 @@ def get_install_dir(arg_directory):
         for d in DIRS:
             p = path.join(install_dir, d)
             if path.exists(p) == False:
-                #print_err(
-                #    "required directory not found: " + p, 
-                #    level="warn", 
-                #    exit_script=False
-                #)
+                print_err(
+                    "required directory not found: " + p, 
+                    level="warn", 
+                    exit_script=False
+                )
                 return False
         # ensure executables
         for e in EXES:
             p = path.join(install_dir, "bin", e)
             if path.isfile(p) == False:
-                #print_err(
-                #    "require file not found: " + p, 
-                #    level="warn", 
-                #    exit_script=False
-                #)
+                print_err(
+                    "require file not found: " + p, 
+                    level="warn", 
+                    exit_script=False
+                )
                 return False
         return True
 
@@ -471,6 +468,29 @@ def update_config(opt, val):
     subprocess.run(["yzconf", "set", opt, val])
 
 
+def set_env_vars(env_vars):
+    env_file = "/etc/environment"
+    tmp_file = "/tmp/yzshell_env"
+    lines = []
+
+    if path.isfile(env_file) == False:
+        subprocess.run(["sudo", "touch", env_file])
+
+    for v in env_vars:
+        environ[v] = env_vars[v]
+        subprocess.run(
+            f"""
+            if grep "{v}" "{env_file}"; then
+                sudo gawk -i inplace "!/{v}/" "{env_file}"
+            fi
+            echo "{v}={env_vars[v]}" \
+                | sudo tee -a "{env_file}"
+            """,
+            shell=True,
+            capture_output=True
+        )
+
+
 def configure_default_apps():
     apps = parse_json_file(path.join(install_dir, "misc/apps.json"))
     for category in apps:
@@ -567,25 +587,6 @@ def install_vscode():
         update_config("configure_vscodium", "false")
 
 
-def backup_dotfiles():
-    backup_file(path.expanduser("~/.zshrc"))
-    # backup_file(path.expanduser("~/.zprofile"))
-    omz_custom = path.join(OMZ_DIR, "custom")
-    if path.exists(omz_custom):
-        files = listdir(omz_custom)
-        for f in files:
-            if f.endswith("-backup") == False:
-                backup_file(path.join(omz_custom, f))
-
-    templates = parse_json_file(
-        path.join(
-            environ["YZSHELL_DATA_DIR"], 
-            "templates/templates.json"
-        )
-    )
-    for t in templates:
-        backup_file(path.join(path.expanduser("~"), str(templates[t])))
-
 if __name__ == "__main__":
     if geteuid() == 0:
         print_err("please do not run as root!")
@@ -593,8 +594,8 @@ if __name__ == "__main__":
     args = get_args()
     install_dir = get_install_dir(args.directory)
 
-    configure_yzshell_env_vars()
     copy_files(install_dir)
+    configure_yzshell_env_vars()
 
     # install deps
     if args.skip_dependencies == False:
@@ -687,7 +688,6 @@ if __name__ == "__main__":
         install_pkgs(deps["yay"], aur=True)
         announce("installed optional dependencies!")
 
-    backup_dotfiles()
     subprocess.Popen(
         """
         yzconf deploy_configs -r
@@ -695,7 +695,7 @@ if __name__ == "__main__":
         """,
         shell=True,
         stdout=subprocess.DEVNULL,
-        stderr=subprocess.STDOUT
+        stderr=subprocess.DEVNULL
     )
 
     title_text("yzshell")

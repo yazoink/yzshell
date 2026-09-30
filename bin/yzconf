@@ -130,22 +130,11 @@ def deploy_configs(cfg, copy_static=True):
         "hyprland-extra.lua": ".config/hypr/hyprland/extra.lua",
         "nvim-extra.lua": ".config/nvim/extra.lua",
     }
-    ensure = [
-        path.expanduser("~/.config"),
-        path.expanduser("~/.oh-my-zsh/custom"),
-    ]
 
     sch = get_colourscheme(cfg["colourscheme"])
     sch_dir = path.join(environ["YZSHELL_TEMPLATE_CACHE_DIR"], cfg["colourscheme"])
     data = get_mustache_data(cfg, sch)
     deploy_templates(data, sch_dir)
-
-    # ensure dirs are not symlinks
-    for d in ensure:
-        if path.islink(d):
-            subprocess.run(f"rm -f {d}", shell=True)
-        if path.exists(d) == False:
-            makedirs(d)
 
     if copy_static == True:
         copy_static_dots()

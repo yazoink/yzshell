@@ -47,7 +47,7 @@ function notice() {
 
 function reconf() {
     (
-        yzconf deploy_configs -r >/dev/null 2>&1
+        yzconf deploy_configs -r -s >/dev/null 2>&1
         yzshell reload --no-wallpaper >/dev/null 2>&1
         if [ "${1}" == "fonts" ]; then
             fc-cache -fv >/dev/null 2>&1

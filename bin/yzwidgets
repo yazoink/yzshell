@@ -348,10 +348,22 @@ if __name__ == "__main__":
                                 screen = get_screen()
                                 open_workspaces(screen, argv[3:])
             case "state":
-                if argc > 1:
+                if argc > 2:
                     if is_open(argv[2]):
                         print("open")
                     else:
                         print("closed")
+            case "ctl":
+                if argc > 2:
+                    match argv[2]:
+                        case "search_selected":
+                            if argc > 3:
+                                subprocess.run([
+                                    path.join(
+                                        environ["YZSHELL_EWW_SCRIPT_DIR"], 
+                                        "search_selected.py",
+                                    ),
+                                    argv[3]
+                                ])
             case _:
                 help()
