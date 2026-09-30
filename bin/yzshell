@@ -55,6 +55,7 @@ function launch_yzshell() {
     launch_widgets
     launch_osd
     ensure_hyprland_plugins
+    makoctl reload
 }
 
 function get_logs() {
