@@ -1,15 +1,14 @@
 #!/usr/bin/env python
 
-from os import path, remove, unlink
+from os import path, remove
 from shutil import rmtree
+import subprocess
 
 def delete_if_exists(p):
-    if path.isdir(p) == True:
-        rmtree(p)
-    elif path.isfile(p) == True:
-        remove(p)
-    elif path.islink(p) == True:
-        unlink(p)
+    subprocess.run(
+        f"rm -rf '{p}'",
+        shell=True
+    )
 
 
 def get_full_path(p):

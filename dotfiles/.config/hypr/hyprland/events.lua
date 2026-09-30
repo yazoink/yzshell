@@ -30,6 +30,10 @@ hl.on("window.fullscreen", function()
 	})
 end)
 
+hl.on("monitor.added", function(w)
+	hl.exec_cmd("yzshell reload widgets")
+end)
+
 -- reset submap on reload
 hl.on("config.reloaded", function()
 	hl.dsp.submap("reset")

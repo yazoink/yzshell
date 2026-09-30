@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
+from shutil import copytree
 import json
 import subprocess
-from os import environ, listdir, makedirs, path
-from shutil import copyfile, rmtree
+from os import environ, listdir, makedirs, path, unlink, remove
+from shutil import copyfile, copytree
 from sys import argv, exit
 from sys import path as sys_path
 from sys import stderr
@@ -37,13 +38,31 @@ def copy_built_templates(scheme_dir, templates):
             copy_template(t, templates[t])
 
 
-def get_templates():
+def get_templates(cfg):
     with open(path.join(environ["YZSHELL_TEMPLATES_DIR"], "templates.json"), "r") as f:
         return json.load(f)
 
 
-def make_templates(data, sch_dir, templates):
+def deploy_templates(data, sch_dir, templates):
     import chevron
+
+    def delete_existing(dest):
+        home_dest = path.join(environ["HOME"], dest)
+        if path.exists(home_dest) == True:
+            if path.isdir(home_dest):
+                copytree(home_dest, home_dest + "-old")
+            else:
+                if path.islink(home_dest) == False:
+                    copyfile(home_dest, home_dest + ".bak")
+        subprocess.run(f"rm -rf '{home_dest}'", shell=True)
+
+    def copy_template(dest, b):
+        with open(dest, "w") as f:
+            f.write(b)
+
+    def ensure_dir(dir):
+        if path.exists(dir) == False:
+            makedirs(dir)
 
     if path.exists(sch_dir) == False:
         makedirs(sch_dir)
@@ -51,11 +70,65 @@ def make_templates(data, sch_dir, templates):
         for t in templates:
             with open(path.join(environ["YZSHELL_TEMPLATES_DIR"], t), "r") as f:
                 buf = chevron.render(f, data)
-            with open(path.join(sch_dir, t), "w") as f:
-                f.write(buf)
+            if type(templates[t]) == list:
+                for d in templates[t]:
+                    dest = path.join(sch_dir, d)
+                    delete_existing(d)
+                    ensure_dir(path.dirname(dest))
+                    copy_template(dest, buf)
+            else:
+                dest = path.join(sch_dir, templates[t])
+                delete_existing(templates[t])
+                ensure_dir(path.dirname(dest))
+                copy_template(dest, buf)
+    else:
+        for t in templates:
+            if type(templates[t]) == list:
+                for d in templates[t]:
+                    delete_existing(d)
+            else:
+                delete_existing(templates[t])
+    r = subprocess.run(
+        f"""
+        stow \
+            --no-folding \
+            --target='{environ["HOME"]}' \
+            --dir='{sch_dir}' \
+            -R .
+        """,
+        shell=True,
+    )
+    if r.returncode != 0:
+        print("Error: could not stow dotfiles, please fix any conflicts.")
+        exit(1)
+
+def copy_static_dots():
+    def get_dirs(dir):
+        files = []
+        dir_list = listdir(dir)
+        for d in dir_list:
+            full_path = path.join(dir, d)
+            if path.isfile(full_path):
+                files.append(full_path)
+            else:
+                files = files + get_dirs(full_path)
+        return files
+
+    src_dir = path.join(environ["YZSHELL_DATA_DIR"], "dotfiles")
+    files = get_dirs(src_dir)
+
+    for file in files:
+        dir = path.dirname(file)
+        if path.exists(dir) == False:
+            makedirs(dir)
+        src = file
+        dest = path.expanduser(file.replace(src_dir, "~"))
+        delete_if_exists(dest)
+        copyfile(src, dest)
 
 
-def deploy_configs(cfg):
+
+def deploy_configs(cfg, copy_static=True):
     from shutil import copytree
 
     extra_conf_files = {
@@ -66,59 +139,45 @@ def deploy_configs(cfg):
         path.expanduser("~/.config"),
         path.expanduser("~/.oh-my-zsh/custom"),
     ]
-    templates = get_templates()
+    templates = get_templates(cfg)
+
+    if cfg["configure_vscodium"] == False:
+        templates.pop("vscode.json.mustache")
+        delete_if_exists(path.join(environ["YZSHELL_DATA_DIR"], "dotfiles/.config/Code - OSS"))
+    if cfg["configure_nvim"] == False:
+        templates.pop("nvim.lua.mustache")
+        delete_if_exists(path.join(environ["YZSHELL_DATA_DIR"], "dotfiles/.config/nvim"))
+    if cfg["configure_vesktop"] == False:
+        delete_if_exists(path.join(sch_dir, ".config/vesktop"))
+        templates.pop("discord.css.mustache")
+
     sch = get_colourscheme(cfg["colourscheme"])
     sch_dir = path.join(environ["YZSHELL_TEMPLATE_CACHE_DIR"], cfg["colourscheme"])
     data = get_mustache_data(cfg, sch)
-    make_templates(data, sch_dir, templates)
-    if path.exists(environ["YZSHELL_STOW_DIR"]) == False:
-        copytree(
-            path.join(environ["YZSHELL_DATA_DIR"], "dotfiles"),
-            environ["YZSHELL_STOW_DIR"],
-        )
-    copy_built_templates(sch_dir, templates)
+    deploy_templates(data, sch_dir, templates)
 
     # ensure dirs are not symlinks
     for d in ensure:
         if path.islink(d):
-            unlink(d)
+            subprocess.run(f"rm -f {d}", shell=True)
         if path.exists(d) == False:
             makedirs(d)
 
+    if copy_static == True:
+        copy_static_dots()
+
     for c in extra_conf_files:
         src = path.join(environ["YZSHELL_CONF_DIR"], c)
+        dest = path.join(environ["HOME"], extra_conf_files[c])
+        delete_if_exists(dest)
         if path.isfile(src):
             try:
                 copyfile(
                     src,
-                    path.join(environ["YZSHELL_STOW_DIR"], extra_conf_files[c]),
+                    dest,
                 )
             except:
                 pass
-
-    hypr_extra_conf_file = path.join(environ["YZSHELL_CONF_DIR"], "hyprland-extra.lua")
-    if path.isfile(hypr_extra_conf_file):
-        copyfile(
-            hypr_extra_conf_file,
-            path.join(environ["YZSHELL_STOW_DIR"], ".config/hypr/hyprland/extra.lua"),
-        )
-
-    if cfg["configure_vscodium"] == False:
-        delete_if_exists(path.join(environ["YZSHELL_STOW_DIR"], ".config/Code - OSS"))
-    if cfg["configure_nvim"] == False:
-        delete_if_exists(path.join(environ["YZSHELL_STOW_DIR"], ".config/nvim"))
-    if cfg["configure_vesktop"] == False:
-        delete_if_exists(
-            path.join(environ["YZSHELL_STOW_DIR"], ".config/vesktop/settings.json")
-        )
-
-    r = subprocess.run(
-        f"stow --target='{environ["HOME"]}' --dir='{environ["YZSHELL_STOW_DIR"]}' -R .",
-        shell=True,
-    )
-    if r.returncode != 0:
-        print("Error: could not stow dotfiles, please fix any conflicts.")
-        exit(1)
 
     subprocess.Popen(
         f"""    
@@ -167,6 +226,7 @@ def help(exitcode=0):
         deploy_configs [FLAGS]: generates and copies dotfiles
             Flags:
                 --refresh | -r: removes and re-creates all configs
+                --skip-static | -s: skips copying of static configs
         set <OPTION> <VALUE>: sets yzshell config option
         get [defaults] [OPTION]: 
             Sets yzshell config value -- 'yzshell get defaults' will get
@@ -197,7 +257,7 @@ if __name__ == "__main__":
                         exit(1)
                     cfg = set_config_option(cfg, "colourscheme", argv[2])
                     write_config(cfg)
-                    deploy_configs(cfg)
+                    deploy_configs(cfg, copy_static=False)
                     subprocess.run(["yzshell", "reload", "--no-wallpaper"])
             case "wallpaper":
                 if argc > 3:
@@ -237,11 +297,14 @@ if __name__ == "__main__":
                             else:
                                 print(f"Error: invalid mode '{argv[3]}'", file=stderr)
             case "deploy_configs":
+                copy_static = True
                 if argc > 2:
-                    if argv[2] in ["--refresh", "-r"]:
+                    if "--refresh" in argv or "-r" in argv:
                         delete_if_exists(environ["YZSHELL_STOW_DIR"])
                         delete_if_exists(environ["YZSHELL_TEMPLATE_CACHE_DIR"])
-                deploy_configs(cfg)
+                    if "--skip-static" in argv or "-s" in argv:
+                        copy_static = False
+                deploy_configs(cfg, copy_static)
             case "set":
                 if argc > 3:
                     val = argv[3]
