@@ -130,18 +130,6 @@ cd yzshell
 ./install.py --optional-deps
 ```
 
-## Updating
-
-### With curl
-
-If there is a yzshell repo at `/tmp/yzshell`, either run `git pull` on it or
-delete it, and then run the install command again. If there is no repo, just
-run the install command again.
-
-### With git
-
-Run `git pull` on the repo and run the install command again.
-
 ## Configuration
 
 yzshell is generally configured with the `yzctl` command, which provides
