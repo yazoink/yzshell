@@ -122,7 +122,6 @@ Prerequisites:
 - NetworkManager
 - Pipewire
 - No AUR helper, or Yay
-- Packages `gum`, `figlet`, `git`, `which`, and `python`
 
 ```bash
 git clone https://github.com/yazoink/yzshell
