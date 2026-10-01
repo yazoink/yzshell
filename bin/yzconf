@@ -227,10 +227,8 @@ def toggle_dotfiles_on(app):
                 makedirs(dir)
 
             if path.isdir(src) == True:
-                print(f"copying dir: {src} => {target}")
                 copytree(src, target)
             else:
-                print(f"copying file: {src} => {target}")
                 copyfile(src, target)
 
     # templates
