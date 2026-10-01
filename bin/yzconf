@@ -226,9 +226,11 @@ def toggle_dotfiles_on(app):
             if path.exists(dir) == False:
                 makedirs(dir)
 
-            if path.isdir(target) == True:
+            if path.isdir(src) == True:
+                print(f"copying dir: {src} => {target}")
                 copytree(src, target)
             else:
+                print(f"copying file: {src} => {target}")
                 copyfile(src, target)
 
     # templates
@@ -367,7 +369,7 @@ if __name__ == "__main__":
                         {
                             "option": "configure_vesktop",
                             "static_configs": {
-                                "vesktop": ".config/vesktop/settings.json"
+                                "vesktop/settings/settings.json": ".config/vesktop/settings/settings.json"
                             },
                             "templates": {
                                 "discord.css.mustache": ".config/vesktop/themes/yzshell.theme.css"
