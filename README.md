@@ -179,7 +179,7 @@ stuff.
 To apply any changes, run:
 
 ```bash
-./install.sh --skip-dependencies
+./install.sh --skip-deps
 yzshell reload
 ```
 
