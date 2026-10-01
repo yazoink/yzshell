@@ -124,16 +124,10 @@ Prerequisites:
 - No AUR helper, or Yay
 - Packages `gum`, `figlet`, `git`, `which`, and `python`
 
-### With curl
-
-`curl -s 'https://raw.githubusercontent.com/yazoink/yzshell/refs/heads/main/install.py' | python - --optional-dependencies`
-
-### With git
-
 ```bash
 git clone https://github.com/yazoink/yzshell
 cd yzshell
-./install.py --optional-dependencies
+./install.py --optional-deps
 ```
 
 ## Updating
