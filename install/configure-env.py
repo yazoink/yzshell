@@ -33,7 +33,6 @@ if path.exists(dir) == False:
 
 content = ""
 for v in env_vars:
-    environ[v] = env_vars[v]
     content += f"export {v}={env_vars[v]}\n"
 with open(environ["ENV_FILE"], "w") as f:
     f.write(content)

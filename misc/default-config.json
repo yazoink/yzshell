@@ -21,9 +21,6 @@
     "touchpad_scroll_factor": 0.15,
     "oh_my_zsh_theme": "robbyrussell",
     "papirus_folders_colour": "palebrown",
-    "configure_vscodium": false,
-    "configure_nvim": false,
-    "configure_vesktop": false,
     "weather_unit": "celsius",
     "weather_location": "default",
     "editor_cmd": "$TERM -e nvim"

@@ -89,7 +89,19 @@
         "xdg-utils",
         "xorg-xwayland",
         "xz",
-        "yazi"
+        "yazi",
+        "neovim",
+        "python-isort",
+        "python-black",
+        "prettier",
+        "shfmt",
+        "yamllint",
+        "yamlfmt",
+        "uncrustify",
+        "typstyle",
+        "stylua",
+        "code",
+        "greetd"
     ],
     "yay": [
         "python-chevron",
@@ -99,6 +111,7 @@
         "ttf-gabarito-git",
         "ttf-aporetic",
         "breezex-cursor-theme",
-        "wayland-pipewire-idle-inhibit"
+        "wayland-pipewire-idle-inhibit",
+        "vesktop-bin"
     ]
 }

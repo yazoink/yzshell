@@ -28,6 +28,7 @@ dirs = [
     "misc",
     "scripts",
     "lib",
+    "install"
 ]
 data_dir = environ["TARGET_DIR"]
 source_dir = environ["REPO_DIR"]

@@ -181,68 +181,6 @@ def deploy_configs(cfg, copy_static=True):
         )
 
 
-def toggle_dotfiles_off(app):
-    # templates
-    if "templates" in app:
-        templates_file = path.join(environ["YZSHELL_TEMPLATES_DIR"], "templates.json")
-        all_templates = parse_json_file(templates_file)
-        for t in app["templates"]:
-            all_templates.pop(t)
-            target = path.join(
-                environ["HOME"], 
-                app["templates"][t]
-            )
-            target_dir = path.dirname(target)
-            remove(target)
-        write_json_file(all_templates, templates_file)
-
-    # static
-    if "static_configs" in app:
-        for c in app["static_configs"]:
-            target = path.join(
-                environ["HOME"], 
-                app["static_configs"][c]
-            )
-        delete_if_exists(target)
-
-
-def toggle_dotfiles_on(app):
-    # static
-    if "static_configs" in app:
-        for c in app["static_configs"]:
-            src = path.join(
-                environ["YZSHELL_DATA_DIR"], 
-                "misc/optional-dotfiles",
-                c
-            )
-            target = path.join(
-                environ["HOME"], 
-                app["static_configs"][c]
-            )
-
-            backup(target)
-
-            dir = path.dirname(target)
-            if path.exists(dir) == False:
-                makedirs(dir)
-
-            if path.isdir(src) == True:
-                copytree(src, target)
-            else:
-                copyfile(src, target)
-
-    # templates
-    if "templates" in app:
-        templates_file = path.join(environ["YZSHELL_TEMPLATES_DIR"], "templates.json")
-        all_templates = parse_json_file(templates_file)
-
-        for t in app["templates"]:
-            all_templates[t] = app["templates"][t]
-
-        write_json_file(all_templates, templates_file)
-
-
-
 def help(exitcode=0):
     print("""usage: yzconf <OPTION> ...
     Options:
@@ -348,32 +286,6 @@ if __name__ == "__main__":
                 if argc > 3:
                     opt = argv[2]
                     val = argv[3]
-                    toggleable_dotfiles = [
-                        {
-                            "option": "configure_vscodium",
-                            "templates": {
-                                "vscode.json.mustache": ".config/Code - OSS/User/settings.json"
-                            }
-                        },
-                        {
-                            "option": "configure_nvim",
-                            "static_configs": {
-                                "nvim": ".config/nvim"
-                            },
-                            "templates": {
-                                "nvim.lua.mustache": ".config/nvim/plugin/colourscheme.lua"
-                            }
-                        },
-                        {
-                            "option": "configure_vesktop",
-                            "static_configs": {
-                                "vesktop/settings/settings.json": ".config/vesktop/settings/settings.json"
-                            },
-                            "templates": {
-                                "discord.css.mustache": ".config/vesktop/themes/yzshell.theme.css"
-                            }
-                        },
-                    ]
 
                     if val.lower() == "true":
                         val = True
@@ -382,16 +294,6 @@ if __name__ == "__main__":
 
                     if cfg[opt] == val:
                         exit(0)
-
-                    for t in toggleable_dotfiles:
-                        if opt == t["option"]:
-                            if val == True:
-                                toggle_dotfiles_on(t)
-                            elif val == False:
-                                toggle_dotfiles_off(t)
-                            else:
-                                print("Error: invalid value")
-                                exit(1)
 
                     cfg = set_config_option(cfg, opt, val)
                     write_config(cfg)

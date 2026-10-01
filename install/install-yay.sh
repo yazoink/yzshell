@@ -2,6 +2,8 @@
 
 tmp_dir=/tmp/yay
 
+install_pkgs base-devel go
+
 if [ ! -n "${tmp_dir}" ]; then
     rm -rf "${tmp_dir}"
 fi

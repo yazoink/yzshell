@@ -561,31 +561,27 @@ def configure_gpu_drivers():
 
 
 def install_vscode():
-    if confirm("install and configure vscodium with yzshell?"):
-        extensions = [
-            "pkief.material-icon-theme",
-            "pkief.material-product-icons",
-            "meta.pyrefly",
-            "ms-python.python",
-            "pinage404.bash-extension-pack",
-            "eww-yuck.yuck",
-            "devsense.phptools-vscode",
-            "redhat.vscode-yaml",
-            "redhat.vscode-xml",
-            "ecmel.vscode-html-css",
-            "yzhang.markdown-all-in-one",
-            "tamasfe.even-better-toml",
-            "sumneko.lua"
-        ]
-        announce("installing vscodium...")
-        install_pkgs(["code"])
-        announce("installing vscodium extensions...")
-        for e in extensions:
-            subprocess.run(["code", "--install-extension", e])
-        update_config("configure_vscodium", "true")
-        announce("installed vscodium!")
-    else:
-        update_config("configure_vscodium", "false")
+    extensions = [
+        "pkief.material-icon-theme",
+        "pkief.material-product-icons",
+        "meta.pyrefly",
+        "ms-python.python",
+        "pinage404.bash-extension-pack",
+        "eww-yuck.yuck",
+        "devsense.phptools-vscode",
+        "redhat.vscode-yaml",
+        "redhat.vscode-xml",
+        "ecmel.vscode-html-css",
+        "yzhang.markdown-all-in-one",
+        "tamasfe.even-better-toml",
+        "sumneko.lua"
+    ]
+    announce("installing vscodium...")
+    install_pkgs(["code"])
+    announce("installing vscodium extensions...")
+    for e in extensions:
+        subprocess.run(["code", "--install-extension", e])
+    announce("installed vscodium!")
 
 
 if __name__ == "__main__":
@@ -623,43 +619,6 @@ if __name__ == "__main__":
         # zsh
         if environ["SHELL"].endswith("/zsh") == False:
             install_zsh()
-
-        # vesktop
-        if confirm("install and configure vesktop with yzshell?"):
-            announce("installing vesktop...")
-            install_pkgs(["vesktop-bin"], aur=True)
-            update_config("configure_vesktop", "true")
-            announce("installed vesktop!")
-        else:
-            update_config("configure_vesktop", "false")
-
-        # nvim
-        if confirm("install and configure nvim with yzshell?"):
-            announce("installing nvim...")
-            install_pkgs([
-                "neovim",
-                "python-isort",
-                "python-black",
-                "prettier",
-                "shfmt",
-                "yamllint",
-                "yamlfmt",
-                "uncrustify",
-                "typstyle",
-                "stylua",
-            ])
-            install_pkgs([
-                #"alejandra",
-                "beautysh",
-                "mago-bin",
-            ], aur=True)
-            update_config("configure_nvim", "true")
-            update_config("editor_cmd", "$TERM -e nvim")
-            announce("installed nvim!")
-        else:
-            install_pkgs(["pluma"])
-            update_config("editor_cmd", "pluma")
-            update_config("configure_nvim", "false")
 
         # vscode
         install_vscode()
