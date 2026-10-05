@@ -101,7 +101,9 @@
         "typstyle",
         "stylua",
         "code",
-        "greetd"
+        "greetd",
+        "noto-fonts-emoji",
+        "noto-fonts-extra"
     ],
     "yay": [
         "python-chevron",
