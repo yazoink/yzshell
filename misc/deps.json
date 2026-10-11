@@ -103,7 +103,8 @@
         "code",
         "greetd",
         "noto-fonts-emoji",
-        "noto-fonts-extra"
+        "noto-fonts-extra",
+        "wf-recorder"
     ],
     "yay": [
         "python-chevron",
