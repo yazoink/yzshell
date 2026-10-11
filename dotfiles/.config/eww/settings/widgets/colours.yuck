@@ -173,15 +173,19 @@
     (button
       :class "polarity-button ${schemes_selected == 0 ? "selected" : ""}"
       :onclick `
-        $YZSHELL_EWW_SCRIPT_DIR/schemes.py --polarity=dark --page=0 --query='${scheme_query}'
-        ${EWW_CMD} update schemes_selected=0`
+        (
+            $YZSHELL_EWW_SCRIPT_DIR/schemes.py --polarity=dark --page=0 --query='${scheme_query}'
+            ${EWW_CMD} update schemes_selected=0
+        ) &`
       (label :text "Dark")
     )
     (button
       :class "polarity-button ${schemes_selected == 1 ? "selected" : ""}"
       :onclick `
-        $YZSHELL_EWW_SCRIPT_DIR/schemes.py --polarity=light --page=0 --query='${scheme_query}'
-        ${EWW_CMD} update schemes_selected=1`
+        (
+            $YZSHELL_EWW_SCRIPT_DIR/schemes.py --polarity=light --page=0 --query='${scheme_query}'
+            ${EWW_CMD} update schemes_selected=1
+        ) &`
       (label :text "Light")
     )
   )
@@ -199,7 +203,7 @@
     (icon_button
       :icon ""
       :tooltip "Previous"
-      :command "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=prev --query='${scheme_query}' --polarity=${schemes_selected == 0 ? "dark" : "light"}"
+      :command "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=prev --query='${scheme_query}' --polarity=${schemes_selected == 0 ? "dark" : "light"} &"
       :size "small"
       :colour "accent"
     )
@@ -210,7 +214,7 @@
     (icon_button
       :icon ""
       :tooltip "Previous"
-      :command "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=next --query='${scheme_query}' --polarity=${schemes_selected == 0 ? "dark" : "light"}"
+      :command "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=next --query='${scheme_query}' --polarity=${schemes_selected == 0 ? "dark" : "light"} &"
       :size "small"
       :colour "accent"
     )
