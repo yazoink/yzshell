@@ -121,6 +121,7 @@ Prerequisites:
   configs, the installer will backup and override any conflicting files)
 - NetworkManager
 - Pipewire
+- Git
 - No AUR helper, or Yay
 
 ```bash
