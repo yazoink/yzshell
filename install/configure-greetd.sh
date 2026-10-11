@@ -13,3 +13,5 @@ user = \"greeter\"
 [initial_session]
 command = \"start-hyprland\"
 user = \"$(whoami)\"" | sudo tee /etc/greetd/config.toml
+
+sudo systemctl enable greetd

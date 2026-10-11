@@ -14,7 +14,8 @@ def refresh_vars(config):
     wallpaper_path = path.join(config["wallpaper_dir"], config["wallpaper_image"])
     subprocess.run(
         f"""
-        rm {environ["YZSHELL_WALLPAPER_LOCKFILE"]}
+        [ ! -z "{environ["YZSHELL_WALLPAPER_LOCKFILE"]}" ] \
+            && rm -rf {environ["YZSHELL_WALLPAPER_LOCKFILE"]}
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "apps.py")} &
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes.py")} &
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "wallpapers.py")} &
