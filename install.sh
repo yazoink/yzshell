@@ -36,6 +36,15 @@ function main() {
         source "${REPO_DIR}/install/install-yay.sh"
         announce "Installed yay!"
     fi
+    omz_dir=~/.oh-my-zsh
+    if [ ! -n "${omz_dir}" ]; then
+        install_pkgs zsh zsh-completions
+        sh -c \
+            "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" \
+            "" --unattended
+        chsh -s "$(which zsh)"
+        announce "Zsh installed"
+    fi
     bash -c "${REPO_DIR}/install/copy-files.py"
     announce "Files copied!"
     bash -c "${REPO_DIR}/install/configure-env.py"
@@ -64,16 +73,6 @@ function main() {
         announce "Installing optional dependencies..."
         bash -c "${REPO_DIR}/install/install-deps.py ${REPO_DIR}/misc/optional-deps.json"
         announce "Installed optional dependencies!"
-    fi
-
-    omz_dir=~/.oh-my-zsh
-    if [ ! -n "${omz_dir}" ]; then
-        install_pkgs zsh zsh-completions
-        sh -c \
-            "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" \
-            "" --unattended
-        sudo chsh -s "$(which zsh)"
-        announce "Zsh installed"
     fi
 
     if ! yzconf deploy_configs -r; then
