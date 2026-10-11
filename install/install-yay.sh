@@ -9,4 +9,4 @@ if [ ! -n "${tmp_dir}" ]; then
 fi
 
 git clone "https://aur.archlinux.org/yay.git" "${tmp_dir}"
-(cd '{tmp_dir}' && makepkg -si)
+(cd "${tmp_dir}" && makepkg -si)

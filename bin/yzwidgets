@@ -10,12 +10,11 @@ sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
 from configutils import get_config
 
 
-def init_widgets(config):
+def refresh_vars(config):
     wallpaper_path = path.join(config["wallpaper_dir"], config["wallpaper_image"])
     subprocess.run(
         f"""
         rm {environ["YZSHELL_WALLPAPER_LOCKFILE"]}
-        eww daemon
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "apps.py")} &
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes.py")} &
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "wallpapers.py")} &
@@ -36,6 +35,17 @@ def init_widgets(config):
         """,
         shell=True,
     )
+
+
+def refresh_widgets(config):
+    subprocess.run(["eww", "reload"])
+    refresh_vars(config)
+
+
+def init_widgets(config):
+    wallpaper_path = path.join(config["wallpaper_dir"], config["wallpaper_image"])
+    subprocess.run(["eww", "daemon"])
+    refresh_vars(config)
 
 
 def get_screen():
@@ -245,6 +255,7 @@ def help(exitcode=0):
     Options:
         init: start daemon and initialise widgets
         open <WIDGET>: opens widget 
+        refresh: refreshes widgets
         close <all|WIDGET>: closes widget
         toggle <WIDGET>: toggles widget
         state <WIDGET>: get open/close state of widget
@@ -269,6 +280,9 @@ if __name__ == "__main__":
             case "init":
                 config = get_config()
                 init_widgets(config)
+            case "refresh":
+                config = get_config()
+                refresh_widgets(config)
             case "open":
                 screen = get_screen()
                 if argc > 2:
