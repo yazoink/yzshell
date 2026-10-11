@@ -114,6 +114,7 @@
         "ttf-aporetic",
         "breezex-cursor-theme",
         "wayland-pipewire-idle-inhibit",
-        "vesktop-bin"
+        "vesktop-bin",
+        "ttf-twemoji-color"
     ]
 }

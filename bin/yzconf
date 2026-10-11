@@ -233,7 +233,14 @@ if __name__ == "__main__":
                     write_config(cfg)
                     deploy_configs(cfg, copy_static=False)
                     _ = subprocess.run(
-                        ["yzshell", "reload", "--no-wallpaper"],
+                        """
+                        yzshell reload osd &
+                        yzshell reload bar &
+                        makoctl reload &
+                        hyprctl reload &
+                        yzshell reload widgets
+                        """,
+                        shell=True,
                         capture_output=True
                     )
             case "wallpaper":
