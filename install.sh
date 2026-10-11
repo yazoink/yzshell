@@ -36,8 +36,7 @@ function main() {
         source "${REPO_DIR}/install/install-yay.sh"
         announce "Installed yay!"
     fi
-    omz_dir=~/.oh-my-zsh
-    if [ ! -n "${omz_dir}" ]; then
+    if ! which omz; then
         install_pkgs zsh zsh-completions
         sh -c \
             "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" \
