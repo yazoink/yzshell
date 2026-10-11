@@ -17,9 +17,10 @@ def refresh_vars(config):
         [ ! -z "{environ["YZSHELL_WALLPAPER_LOCKFILE"]}" ] \
             && rm -rf {environ["YZSHELL_WALLPAPER_LOCKFILE"]}
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "apps.py")} &
-        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes.py")} &
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "wallpapers.py")} &
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes_background.py")} &
+        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes.py")} --page=0 --polarity=dark &
+        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes.py")} --page=0 --polarity=light &
         bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "dnd_icon.sh")}
         bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "idle_icon.sh")}
         bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "get_os_version.sh")}

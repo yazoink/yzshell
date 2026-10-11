@@ -120,3 +120,17 @@ menuitem {
     background-color: $surface1;
   }
 }
+
+scrollbar {
+  min-width: 8px;
+  trough {
+    //background-color: $surface2;
+  }
+
+  slider {
+    background-color: $surface3;
+    border-radius: $inner-radius;
+    margin: $padding / 2;
+    min-width: 8px;
+  }
+}

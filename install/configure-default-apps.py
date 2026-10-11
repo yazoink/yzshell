@@ -3,7 +3,6 @@
 from os import path
 from os import environ
 import json
-import subprocess
 from utils import install_pkgs, choose, confirm, get_input, update_config
 
 

@@ -41,11 +41,13 @@
       background-color: $surface1;
       background-repeat: repeat;
       background-size: auto;
+      border: 1px solid $surface1;
     }
     .colours-scroller {
       min-height: 300px;
       .colours-box {
         padding: $padding * 2;
+        margin-bottom: 32px;
       }
       .no-schemes-found {
         // padding: $padding;
@@ -59,8 +61,9 @@
       }
       .scheme-preview {
         //border: 1px solid $surface3;
+        margin-left: 46px;
+        margin-right: 46px;
         border-radius: $outer-radius;
-        min-width: 300px;
         box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
         .header {
           label {
@@ -76,13 +79,22 @@
         }
         .body {
           padding: $padding * 1.5;
+          .info-box {
+            padding: $padding * 2;
+            border-radius: $inner-radius;
+            label {
+              font-family: monospace;
+              font-weight: 500;
+              font-size: 12pt;
+            }
+          }
           .selected-text {
             font-style: italic;
             padding: $padding;
           }
           .title {
             font-weight: bold;
-            font-size: 15pt;
+            font-size: 13pt;
           }
           .author-name {
             font-weight: normal;
@@ -92,13 +104,23 @@
           }
           .scheme-colours {
             //border-radius: $inner-radius;
-            margin-top: $padding / 2;
-            margin-bottom: $padding / 2;
             //padding: $padding;
             .colour {
+              border-radius: 0px;
               background-image: none;
             }
           }
+        }
+      }
+    }
+    .next-prev-buttons {
+      padding: $padding;
+      button {
+        box-shadow: $image-shadow;
+        border: 1px solid $surface2;
+        label {
+          padding: 0;
+          margin: 0;
         }
       }
     }

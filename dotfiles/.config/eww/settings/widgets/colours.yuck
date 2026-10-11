@@ -1,36 +1,12 @@
-(defwidget colour [hex border]
+(defwidget colour [hex]
   (button
     :onclick "wl-copy '${hex}'; notify-send '${hex}' 'Copied to clipboard.'"
     :class "colour"
-    :style "background-color: ${hex}; border: 1px solid ${border};"
+    :style "background-color: ${hex}"
     :tooltip "${hex} (click to copy)"
     (box
-      :width 35
-      :height 35
-    )
-  )
-)
-
-(defwidget scheme_preview_heading [text text_col star_col]
-  (box
-    :orientation "h"
-    :space-evenly false
-    :spacing 8
-    (label
-      :class "title"
-      :style "color: ${star_col}; font-family: 'Font Awesome 7 Free';"
-      :valign "center"
-      :halign "start"
-      :text ""
-    )
-    (label 
-      :class "title" 
-      :style "color: ${text_col}; font-size: 17pt;" 
-      :valign "start"
-      :halign "start"
-      :vexpand true
-      :hexpand true
-      :text text
+      :width 24
+      :height 24
     )
   )
 )
@@ -40,9 +16,14 @@
     :class "scheme-preview"
     :space-evenly false
     :orientation "v"
+    :halign "center"
+    :hexpand true
+    :width 300
     :style `
       background-color: #${scheme["background"]}; 
-      border: 1px solid transparentize(#${scheme["foreground"]}, 0.9);`
+      border: 1px solid transparentize(#${scheme["foreground"]}, 0.9);
+      margin-left: ${scheme["offset-x"]}px;
+      margin-top: ${scheme["offset-y"]}px;`
     (overlay
       :class "header"
       :halign "fill"
@@ -70,42 +51,49 @@
       :space-evenly false
       :valign "start"
       :halign "fill"
-      :vexpand true
-      :hexpand true
-      (scheme_preview_heading
-        :text "Author(s)"
-        :text_col "#${scheme["foreground"]}"
-        :star_col "#${scheme[scheme.accent]}"
-      )
-      (label 
-        :class "author-name" 
-        :style "color: #${scheme["foreground"]}; margin-bottom: 12px;" 
-        :valign "start"
-        :halign "start"
-        :vexpand true
-        :hexpand true
-        :truncate true
-        :text {scheme.author}
-      )
-      (scheme_preview_heading
-        :text "Palette"
-        :text_col "#${scheme["foreground"]}"
-        :star_col "#${scheme[scheme.accent]}"
-      )
       (box
-        :class "scheme-colours"
+        :class "info-box"
+        :orientation "v"
         :halign "fill"
-        :style "margin-bottom: 12px;"
-        ;:style "background-color: transparentize(#${scheme["foreground"]}, 0.9);"
-        (box
-          :spacing 8
-          :orientation "h"
-          :halign "center"
+        :space-evenly false
+        :spacing 3
+        :style `background-color: transparentize(#${scheme["foreground"]}, 0.9);`
+        (label
+          :halign "start"
           :hexpand true
-          (for c in scheme_cols
-            (colour
-              :hex "#${scheme[c]}"
-              :border {c == "background" ? "#${scheme["foreground"]}" : "rgba(0, 0, 0, 0)"}
+          :style "color: #${scheme[scheme.accent]}; font-weight: bold;"
+          :text "Author(s)"
+        )
+        (label
+          :halign "start"
+          :hexpand true
+          :text {scheme.author}
+          :style "color: #${scheme["foreground"]}; "
+          :wrap-mode "char"
+          :limit-width 40
+          :lines 10
+          :wrap true
+          :truncate true
+        )
+        (label
+          :halign "start"
+          :hexpand true
+          :style "color: #${scheme[scheme.accent]}; font-weight: bold;"
+          :text "Palette"
+        )
+        (box
+          :class "scheme-colours"
+          :halign "start"
+          :hexpand false
+          :style "margin-bottom: 12px;"
+          ;:style "background-color: transparentize(#${scheme["foreground"]}, 0.9);"
+          (box
+            :spacing 8
+            :orientation "h"
+            :halign "center"
+            :hexpand true
+            (for c in scheme_cols
+              (colour :hex "#${scheme[c]}")
             )
           )
         )
@@ -118,7 +106,7 @@
               yzwidgets close all
               yzconf colourscheme '${scheme["id"]}'
               ${EWW_CMD} update settings_menu_item=1
-              yzwidgets open settings
+              #yzwidgets open settings
             ) &`
           :css ` 
             button {
@@ -128,7 +116,7 @@
               }
             }`
           (label 
-            :text "Select scheme" 
+            :text "Apply scheme" 
             :style "color: #${scheme["foreground"]};"
           )
         )
@@ -144,30 +132,33 @@
   )  
 )
 
-(defwidget scheme_box [colourschemes polarity empty]
+(defwidget scheme_box [colourschemes polarity]
   (box 
     :class "colours-box-outer ${polarity}"
     ;:style "background-image: url('${current_wallpaper}');"
     :style "background-image: url('${colourschemes_bg_image}');"
     :width 530
-    (scroll
-      :hscroll false
-      :vscroll true
-      :class "colours-scroller"
-      (box
-        :class "colours-box"
-        :orientation "v"
-        :space-evenly false
-        :spacing 8
+    (overlay
+      (scroll
+        :hscroll false
+        :vscroll true
+        :class "colours-scroller"
         (box
-            :class "no-schemes-found"
-            :visible empty
-            (label :text "No schemes found...")
-        )
-        (for scheme in colourschemes
-          (scheme_preview :scheme scheme)
+          :class "colours-box"
+          :orientation "v"
+          :space-evenly false
+          :spacing 8
+          (box
+              :class "no-schemes-found"
+              :visible no_schemes_found
+              (label :text "No schemes found...")
+          )
+          (for scheme in colourschemes
+            (scheme_preview :scheme scheme)
+          )
         )
       )
+      (next_prev_buttons)
     )
   )
 )
@@ -181,13 +172,47 @@
     :hexpand true
     (button
       :class "polarity-button ${schemes_selected == 0 ? "selected" : ""}"
-      :onclick "${EWW_CMD} update schemes_selected=0"
+      :onclick `
+        $YZSHELL_EWW_SCRIPT_DIR/schemes.py --polarity=dark --page=0 --query='${scheme_query}'
+        ${EWW_CMD} update schemes_selected=0`
       (label :text "Dark")
     )
     (button
       :class "polarity-button ${schemes_selected == 1 ? "selected" : ""}"
-      :onclick "${EWW_CMD} update schemes_selected=1"
+      :onclick `
+        $YZSHELL_EWW_SCRIPT_DIR/schemes.py --polarity=light --page=0 --query='${scheme_query}'
+        ${EWW_CMD} update schemes_selected=1`
       (label :text "Light")
+    )
+  )
+)
+
+(defwidget next_prev_buttons []
+  (box
+    :class "next-prev-buttons"
+    :orientation "h"
+    :space-evenly false
+    :spacing 8
+    :height 30
+    :valign "end"
+    :vexpand true
+    (icon_button
+      :icon ""
+      :tooltip "Previous"
+      :command "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=prev --query='${scheme_query}' --polarity=${schemes_selected == 0 ? "dark" : "light"}"
+      :size "small"
+      :colour "accent"
+    )
+    (box
+      :halign "center"
+      :hexpand true
+    )
+    (icon_button
+      :icon ""
+      :tooltip "Previous"
+      :command "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=next --query='${scheme_query}' --polarity=${schemes_selected == 0 ? "dark" : "light"}"
+      :size "small"
+      :colour "accent"
     )
   )
 )
@@ -205,8 +230,8 @@
         :value scheme_query
         :halign "fill"
         :onchange `
-          ${EWW_CMD} update scheme_query='{}'; 
-          $YZSHELL_EWW_SCRIPT_DIR/schemes.py '{}' &`
+          ${EWW_CMD} update scheme_query='{}'
+          $YZSHELL_EWW_SCRIPT_DIR/schemes.py --query='{}' --page=0 &`
       )
       (label 
         :text "Filter... " 
@@ -227,7 +252,6 @@
           dark_colourschemes == '{"window_buttons": ["red", "yellow", "green"]}' 
           ? false : true
         }
-        :empty no_dark_schemes_found
       )
       (scheme_box
         :colourschemes light_colourschemes
@@ -236,7 +260,6 @@
           light_colourschemes == `{"window_buttons": ["red", "yellow", "green"]}` 
           ? false : true
         }
-        :empty no_light_schemes_found
       )
     )
     (scheme_polarity_buttons)

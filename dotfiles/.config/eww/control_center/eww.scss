@@ -303,12 +303,16 @@
   // border-radius: $outer-radius;
   // padding: $padding;
   // border: 1px solid $border;
-  .search-results {
+  .inner-box {
+  }
+  .search-results-scroll {
     min-width: 300px;
     min-height: 305px;
     background-color: $surface;
     border-radius: $inner-radius;
-    padding: $padding;
+    .search-results-box {
+      padding: $padding;
+    }
     .no-results {
       //font-size: 16pt;
       padding: $padding;
@@ -327,9 +331,12 @@
       .name {
         font-weight: bold;
       }
-      .desc,
+      .desc {
+        opacity: 0.4;
+      }
       .arrow {
         opacity: 0.4;
+        margin-left: $padding - ($padding * 2);
       }
       &:hover {
         background-image: linear-gradient($surface2, $surface2);
@@ -354,12 +361,12 @@
   margin-bottom: $padding;
   border-radius: $inner-radius;
   background: $surface1;
-  padding: $padding;
   .notes-body {
-    margin: $padding;
+    padding: $padding * 2;
   }
   .icon-button {
     background: $surface2;
+    margin: $padding;
     &:hover {
       background: $surface3;
     }
