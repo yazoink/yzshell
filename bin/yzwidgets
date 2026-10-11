@@ -52,6 +52,7 @@ def get_screen():
 def open_control_center(screen, config):
     subprocess.run(
         f"""
+        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "apps.py")} &
         bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "dnd_icon.sh")} &
         bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "idle_icon.sh")} &
         eww update control_center_visible=true

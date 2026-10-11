@@ -7,11 +7,12 @@ import subprocess
 from sys import argv
 from sys import path as sys_path
 
-sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
-from configutils import get_config
+#sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
+#from configutils import get_config
 
 REPLACE = {
-    "vesktop": "vesktop --enable-features=UseOzonePlatform --ozone-platform=wayland"
+    "Vesktop": "vesktop --enable-features=UseOzonePlatform --ozone-platform=wayland",
+    "Audacity": "env GDK_BACKEND=x11 UBUNTU_MENUPROXY=0 audacity"
 }
 
 
@@ -23,7 +24,7 @@ def update_app_cache(cache_file, all_apps):
         json.dump(all_apps, f)
 
 
-def get_desktop_entries(app_info, index, terminal):
+def get_desktop_entries(app_info, index):
     # desc
     app_name = app_info.get_name()
     app_desc = app_info.get_description()
@@ -33,9 +34,12 @@ def get_desktop_entries(app_info, index, terminal):
     app_binary = app_info.get_executable()
     # cmd
     app_cmd = ""
-    if app_info.get_boolean("Terminal"):
-        app_cmd = f"{terminal} -e "
-    app_cmd += app_binary
+    if app_name in REPLACE:
+        app_cmd = REPLACE[app_name]
+    else:
+        if app_info.get_boolean("Terminal"):
+            app_cmd = f"{environ["TERM"]} -e "
+        app_cmd += app_binary
     #icon
     app_icon = "unknown"
     icon_obj = app_info.get_icon()
@@ -46,10 +50,7 @@ def get_desktop_entries(app_info, index, terminal):
         "desc": app_desc,
         "cmd": app_cmd, # launch command
         "icon": app_icon,
-        "bin": 
-            REPLACE[app_binary] 
-            if app_binary in REPLACE 
-            else app_binary, # base binary file
+        "bin": app_binary,
         "index": index,
     }
 
@@ -58,16 +59,16 @@ def get_cached_apps(cache_file, refresh=False):
         with open(cache_file, "r") as f:
             try:
                 return json.load(f)
-            except json.JSONDecodeError:
+            except:
                 pass
+
     all_apps = []
-    terminal = get_config()["terminal"]
     app_info = Gio.AppInfo
     i = 0
     for app_info in app_info.get_all():
         if not app_info.should_show():
             continue
-        all_apps.append(get_desktop_entries(app_info, i, terminal))
+        all_apps.append(get_desktop_entries(app_info, i))
         i += 1
     #all_apps = sorted(all_apps, key=lambda x: x["name"])
     #i = 0
@@ -117,13 +118,19 @@ if __name__ == "__main__":
     if argc > 1:
         query = argv[1]
     cache_file = path.join(environ["YZSHELL_CACHE_DIR"], "apps.json")
-    if query.strip() != "":
-        update_eww("search_selected", 0)
-        apps = filter_top(filter_entries(get_cached_apps(cache_file), query), 10)
+    if query.strip() == "":
+        update_eww("search_selected", -1)
+        apps = get_cached_apps(cache_file, refresh=True)
         update_eww("search_results", json.dumps(apps), True)
         #print(json.dumps(apps))
     else:
-        update_eww("search_selected", -1)
-        apps = get_cached_apps(cache_file, refresh=True)
+        update_eww("search_selected", 0)
+        apps = filter_top(
+            filter_entries(
+                get_cached_apps(cache_file), 
+                query
+            ), 
+            10
+        )
         update_eww("search_results", json.dumps(apps), True)
         #print(json.dumps(apps))
