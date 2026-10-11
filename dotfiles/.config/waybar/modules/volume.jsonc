@@ -1,0 +1,36 @@
+{
+    "group/volume-expander": {
+        "orientation": "inherit",
+        "drawer": {
+        "transition-duration": 600,
+        "children-class": "tray-group-item"
+        },
+        "modules": [
+            "wireplumber#icon",
+            "wireplumber#volume"
+        ]
+    },
+    "wireplumber#icon": {
+        "format": "{icon}",
+        "format-muted": "",
+        "on-click": "{{terminal}} -e alsamixer",
+        "on-click-right": "amixer -D pipewire set Master toggle",
+        "tooltip-format": "Volume\n- Right click to mute\n- Click to open settings\n- Scroll to adjust",
+        "format-icons": {
+            "headphone": "󰋋",
+            "headset": "󰋋",
+            "hands-free": "󰋋",
+            "default": [
+                "",
+                "",
+                ""
+            ]
+        }
+    },
+    "wireplumber#volume": {
+        "on-click": "{{terminal}} -e alsamixer",
+        "on-click-right": "amixer -D pipewire set Master toggle",
+        "format": "{volume}%",
+        "format-muted": "{volume}%"
+    }
+}

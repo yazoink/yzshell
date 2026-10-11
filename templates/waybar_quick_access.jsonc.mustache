@@ -1,0 +1,27 @@
+{
+    "group/quick-access": {
+        "orientation": "inherit",
+        "modules": [
+        "group/volume-expander"
+        {{#bar_show_battery}}
+        ,"group/battery-expander"
+        {{/bar_show_battery}}
+        {{#bar_show_backlight}}
+        ,"group/backlight-expander"
+        {{/bar_show_backlight}}
+        ]
+    },
+    "group/quick-access-slider": {
+        "orientation": "inherit",
+        "drawer": {
+        "click-to-reveal": true,
+        "transition-duration": 1000,
+        "children-class": "tray-group-item"
+        },
+        "modules": [
+            "custom/left-arrow",
+            "group/quick-access",
+            "tray"
+        ]
+    }
+}

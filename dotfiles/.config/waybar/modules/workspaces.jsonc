@@ -1,0 +1,27 @@
+{
+    "ext/workspaces": {
+        "on-click": "activate",
+        "sort-by-name": true,
+        "active-only": true,
+        "tooltip": true,
+        "tooltip-format": "Mod + 1-5, or scroll to switch workspaces",
+        "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"-1\" })'",
+        "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"+1\" })'",
+        "format": "Workspace {name}"
+    },
+    "custom/workspaces": {
+        "tooltip": true,
+        "tooltip-format": "Switch workspaces",
+        "format": "",
+        "on-click": "yzwidgets open workspaces",
+        "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"-1\" })'",
+        "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"+1\" })'"
+    },
+    "group/workspaces-group": {
+        "orientation": "inherit",
+        "modules": [
+        "custom/workspaces",
+        "ext/workspaces"
+        ]
+    }
+}
