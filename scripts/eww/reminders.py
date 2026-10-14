@@ -175,9 +175,9 @@ if __name__ == "__main__":
                 year = argv[4]
                 date = datetime.strptime(f"{day} {month} {year}", "%d %m %Y")
                 month = date.strftime("%B")
-                update_eww("reminder_year", str(year), string=True)
+                update_eww("reminder_year", year, string=True)
                 update_eww("reminder_day", str(day), string=True)
-                update_eww("reminder_month", str(month), string=True)
+                update_eww("reminder_month", month, string=True)
                 update_eww("edit_reminder", "true")
             case "updatedays":
                 month = eww_get("reminder_month")
