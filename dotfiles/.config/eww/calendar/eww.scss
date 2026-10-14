@@ -49,8 +49,11 @@
   border-radius: $outer-radius;
   background: $background;
   border: 1px solid $border;
-  .icon-button {
+  .new-reminder {
     margin: $padding;
+  }
+  .icon-button {
+    margin: $padding / 2;
   }
   .edit-reminder {
     border-radius: $inner-radius;

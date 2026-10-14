@@ -70,6 +70,7 @@
                 :hexpand true
                 :valign "center"
                 :vexpand true
+                :class "new-reminder"
                 (icon_button
                     :tooltip {edit_reminder ? "Discard" : "New reminder"}
                     :icon {edit_reminder ? "" : ""}
