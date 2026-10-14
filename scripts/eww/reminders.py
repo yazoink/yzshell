@@ -74,36 +74,26 @@ def set_years(current_year):
     update_eww("reminder_years", json.dumps(years).strip(), string=True)
 
 
-def set_days(current_month, current_year=None):
+def set_days(current_month, current_year):
     days_30 = [
         "September",
         "April",
         "June",
         "November"
     ]
-    days_31 = [
-        "January",
-        "March",
-        "May",
-        "June",
-        "July",
-        "August",
-        "October",
-        "December"
-    ]
-    days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,
-        16,17,18,19,20,21,22,23,24,25,26,27,28]
+    days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]
     inc = 0
-    if current_month in days_30:
-        inc = 2
-    elif current_month in days_31:
-        inc = 3
+    if current_month == "February":
+        if current_year % 4 == 0 and (current_year % 100 != 0 or current_year % 400 == 0):
+            days.append(29)
     else:
-        if current_year != None:
-            if current_year % 4 == 0 and (current_year % 100 != 0 or current_year % 400 == 0):
-                inc = 1
-    for i in range(29, 29 + inc):
-        days.append(i)
+        if current_month in days_30:
+            inc = 2
+        else:
+            inc = 3
+        for i in range(29, 29 + inc):
+            days.append(i)
+        
     update_eww("reminder_days", json.dumps(days).strip(), string=True)
 
 
@@ -189,3 +179,7 @@ if __name__ == "__main__":
                 update_eww("reminder_day", str(day), string=True)
                 update_eww("reminder_month", str(month), string=True)
                 update_eww("edit_reminder", "true")
+            case "updatedays":
+                month = eww_get("reminder_month")
+                year = int(eww_get("reminder_year"))
+                set_days(month, year)

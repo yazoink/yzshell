@@ -145,8 +145,8 @@
                         )
                         (combo-box-text
                             :class "combo-box"
-                            :items `[January,Febuary,March,April,May,June,July,August,September,October,November,December]`
-                            :onchange "${EWW_CMD} update reminder_month='{}'"
+                            :items `[January,February,March,April,May,June,July,August,September,October,November,December]`
+                            :onchange "${EWW_CMD} update reminder_month='{}'; $YZSHELL_EWW_SCRIPT_DIR/reminders.py updatedays &"
                         )
                     )
                     (overlay
