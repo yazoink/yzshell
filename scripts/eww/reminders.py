@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
+import json
+import subprocess
 from datetime import datetime
 from os import environ
-import json
-from sys import exit, argv
-import subprocess
+from sys import argv, exit
 
 
 def sort_data(data):
@@ -25,6 +25,8 @@ def get_data():
         with open(environ["YZSHELL_REMINDERS_FILE"], "r") as f:
             data = json.load(f)
     except:
+        with open(environ["YZSHELL_REMINDERS_FILE"], "w") as f:
+            f.write("[]")
         print("[]")
         exit(0)
 
