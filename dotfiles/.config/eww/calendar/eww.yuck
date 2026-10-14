@@ -1,4 +1,5 @@
 (include "./calendar/widgets/clock.yuck")
+(include "./calendar/widgets/reminders.yuck")
 
 (defwindow calendar
   :monitor 0
@@ -9,16 +10,29 @@
   )
   :stacking "fg"
   :exclusive false
-  :focusable false
+  :focusable "ondemand"
   (box
-    :orientation "vertical"
+    :orientation "h"
     :space-evenly false
-    :class "calendar-box"
-    :spacing 8
-    :halign "fill"
-    (calendar_clock)
-    (box :class "calendar" :orientation "v"
-      (calendar :class "cal" :halign "center")
+    :class "calendar-container"
+    :spacing 4
+    (calendar_reminders)
+    (box
+      :orientation "vertical"
+      :space-evenly false
+      :class "calendar-box"
+      :spacing 8
+      :halign "fill"
+      :valign "end"
+      :vexpand true
+      (calendar_clock)
+      (box :class "calendar" :orientation "v" :valign "end" :vexpand true
+        (calendar 
+          :class "cal" 
+          :halign "center"
+          :onclick "$YZSHELL_EWW_SCRIPT_DIR/reminders.py dateclicked {0} {1} {2}"
+        )
+      )
     )
   )
 )

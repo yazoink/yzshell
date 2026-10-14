@@ -25,6 +25,7 @@ env_vars = {
     "YZSHELL_TEMPLATE_CACHE_DIR": path.join(cache_dir, "built_templates"),
     "YZSHELL_WALLPAPER_CACHE_DIR": path.join(cache_dir, "wallpapers"),
     "YZSHELL_WALLPAPER_LOCKFILE": path.join(cache_dir, "wallpapers.lock"),
+    "YZSHELL_REMINDERS_FILE": path.join(conf_dir, "reminders.json"),
 }
 
 dir = path.dirname(environ["ENV_FILE"])

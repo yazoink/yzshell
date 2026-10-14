@@ -201,6 +201,8 @@ def close_power():
 def open_calendar(screen):
     subprocess.run(
         f"""
+        eww update edit_reminder=false
+        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "reminders.py")} update
         eww open closer --no-daemonize --screen {screen}
         eww open calendar --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"calendar\")'

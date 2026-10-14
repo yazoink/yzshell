@@ -1,0 +1,223 @@
+(defwidget reminder [r]
+    (overlay
+        (button
+            :class "reminder"
+            :onclick "$YZSHELL_EWW_SCRIPT_DIR/reminders.py edit ${r["index"]} &"
+            :tooltip "Edit reminder"
+            (box
+                :orientation "v"
+                :halign "fill"
+                (label
+                    :text {r.date}
+                    :halign "start"
+                    :hexpand true
+                    :class "reminder-date"
+                )
+                (label
+                    :text {r.time}
+                    :halign "start"
+                    :hexpand true
+                    :class "reminder-time"
+                )
+                (label
+                    :text {r.content}
+                    :halign "start"
+                    :hexpand true
+                    :wrap true
+                    :limit-width 100
+                    :lines 100
+                    :wrap-mode "char"
+                    :class "reminder-content"
+                )
+            )
+        )
+        (box
+            :halign "end"
+            :valign "end"
+            :hexpand true
+            :vexpand true
+            (icon_button
+                :tooltip "Delete reminder"
+                :icon ""
+                :colour "red"
+                :command "$YZSHELL_EWW_SCRIPT_DIR/reminders.py del ${r["index"]} &"
+                :size "extra-small"
+            )
+        )
+    )
+)
+
+
+(defwidget calendar_reminders []
+    (box
+        :orientation "vertical"
+        :space-evenly false
+        :class "reminders-box"
+        :spacing 8
+        :halign "fill"
+        :valign "end"
+        (box
+            :orientation "h"
+            :space-evenly false
+            (label
+                :class "reminders-label"
+                :text "Reminders"
+                :halign "start"
+                :hexpand true
+            )
+            (box
+                :halign "end"
+                :hexpand true
+                :valign "center"
+                :vexpand true
+                (icon_button
+                    :tooltip {edit_reminder ? "Discard" : "New reminder"}
+                    :icon {edit_reminder ? "" : ""}
+                    :colour {edit_reminder ? "red" : "accent"}
+                    :command `${
+                        edit_reminder 
+                            ? "${EWW_CMD} update edit_reminder=false; $YZSHELL_EWW_SCRIPT_DIR/reminders.py update &" 
+                            : "${EWW_CMD} update edit_reminder=true"
+                    }`
+                    :size "extra-small"
+                )
+            )
+        )
+        (stack
+            :selected {edit_reminder ? 0 : 1}
+            :transition {edit_reminder ? "slideup" : "slidedown"}
+            (box
+                :class "edit-reminder"
+                :orientation "v"
+                :spacing 8
+                :space-evenly false
+                (box
+                    :orientation "h"
+                    :spacing 8
+                    :space-evenly false
+                    :halign "fill"
+                    (label :text "Time:")
+                    (overlay
+                        (box
+                            :class "combo-box-format"
+                            (label :text "${reminder_hour}  ")
+                        )
+                        (combo-box-text
+                            :class "combo-box"
+                            :items `[0,1,2,3,4,5,6,7,8,9,10,11,12,14,15,16,17,18,19,20,21,22,23]`
+                            :onchange "${EWW_CMD} update reminder_hour='{}'"
+                        )
+                    )
+                    ;(label :text ":")
+                    (overlay
+                        (box
+                            :class "combo-box-format"
+                            (label :text "${reminder_min}  ")
+                        )
+                        (combo-box-text
+                            :class "combo-box"
+                            :items `[00,05,10,15,20,25,30,35,40,45,50,55]`
+                            :onchange "${EWW_CMD} update reminder_min='{}'"
+                        )
+                    )
+                )
+                (box
+                    :orientation "h"
+                    :spacing 8
+                    :space-evenly false
+                    :halign "fill"
+                    (label :text "Date:")
+                    (overlay
+                        (box
+                            :class "combo-box-format"
+                            (label :text "${reminder_day}  ")
+                        )
+                        (combo-box-text
+                            :class "combo-box"
+                            :items reminder_days
+                            :onchange "${EWW_CMD} update reminder_day='{}'"
+                        )
+                    )
+                    (overlay
+                        (box
+                            :class "combo-box-format"
+                            (label :text "${reminder_month}  ")
+                        )
+                        (combo-box-text
+                            :class "combo-box"
+                            :items `[January,Febuary,March,April,May,June,July,August,September,October,November,December]`
+                            :onchange "${EWW_CMD} update reminder_month='{}'"
+                        )
+                    )
+                    (overlay
+                        (box
+                            :class "combo-box-format"
+                            (label :text "${reminder_year}  ")
+                        )
+                        (combo-box-text
+                            :class "combo-box"
+                            :items reminder_years
+                            :onchange "${EWW_CMD} update reminder_year='{}'"
+                        )
+                    )
+                )
+                (box
+                    :orientation "h"
+                    :spacing 8
+                    :space-evenly false
+                    :halign "fill"
+                    (label :text "Content:")
+                    (input
+                        :value reminder_content
+                        :onchange "${EWW_CMD} update reminder_content='{}'"
+                        :width 250
+                    )
+                    (box
+                        :valign "center"
+                        :vexpand true
+                        :halign "end"
+                        :hexpand true
+                        (icon_button
+                            :tooltip "Confirm"
+                            :icon ""
+                            :colour "green"
+                            :command {
+                                reminder_content == "" 
+                                ? "" 
+                                : "$YZSHELL_EWW_SCRIPT_DIR/reminders.py add &"
+                            }
+                            :size "extra-small"
+                        )
+                    )
+                )
+            )
+            (scroll
+                :hscroll false
+                :vscroll true
+                :halign "fill"
+                :height 200
+                :width 300
+                :class "reminders-scroll"
+                (stack
+                    :selected {reminders == "[]" ? 0 : 1}
+                    (box
+                        :class "reminders"
+                        (label
+                            :style "font-style: italic; opacity: 0.4;"
+                            :text "Nothing here..."
+                        )
+                    )
+                    (box
+                        :class "reminders"
+                        :orientation "v"
+                        :space-evenly false
+                        :spacing 8
+                        (for r in reminders
+                            (reminder :r r)
+                        )
+                    )
+                )
+            )
+        )
+    )
+)

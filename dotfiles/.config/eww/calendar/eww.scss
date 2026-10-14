@@ -4,7 +4,7 @@
 .calendar-box {
   padding: $padding;
   border-radius: $outer-radius;
-  background: $bg;
+  background: $background;
   border: 1px solid $border;
   .pretty-time {
     padding-top: $padding;
@@ -23,7 +23,7 @@
     }
   }
   .calendar {
-    background-color: $surface;
+    background-color: $surface1;
     border-radius: $inner-radius;
     padding: $padding;
   }
@@ -32,7 +32,7 @@
   }
   calendar.header {
     margin-bottom: 4px;
-    border-bottom: 1px solid $surface;
+    border-bottom: 1px solid $surface1;
   }
   calendar.day-number,
   calendar.week-number {
@@ -41,6 +41,89 @@
   calendar:selected {
     color: $accent;
     border-radius: 4px;
-    background-color: $surface;
+    background-color: $surface1;
+  }
+}
+.reminders-box {
+  padding: $padding;
+  border-radius: $outer-radius;
+  background: $background;
+  border: 1px solid $border;
+  .icon-button {
+    margin: $padding;
+  }
+  .edit-reminder {
+    border-radius: $inner-radius;
+    background-color: $surface1;
+    padding: $padding;
+    .icon-button {
+      margin: 0;
+    }
+    button, entry {
+      background-color: $surface2;
+      padding: $padding;
+      border-radius: $inner-radius;
+    }
+    button:hover {
+      background-color: $surface3;
+    }
+    .combo-box, .combo-box button, .combo-box label {
+      color: transparent;
+      background-color: transparent;
+      background-image: none;
+    }
+    .combo-box-format {
+      background-color: $surface2;
+      border-radius: $inner-radius;
+      padding: $padding;
+      &:hover {
+        background-color: $surface3;
+      }
+    }
+    combobox * {
+      color: transparent;
+    }
+    menu, menu * {
+      color: $foreground;
+      background-color: $surface2;
+      border: none;
+      border-radius: $inner-radius;
+    }
+  }
+  .reminders-label {
+    font-size: 19pt;
+    font-weight: bold;
+    padding: $padding;
+  }
+  .reminders-scroll {
+    border-radius: $inner-radius;
+    background-color: $surface1;
+    .icon-button {
+      background-color: $surface2;
+      &:hover {
+        background-color: $surface3;
+      }
+    }
+    .reminders {
+      padding: $padding;
+      .reminder {
+        margin-top: $padding / 2;
+        margin-bottom: $padding / 2;
+        border-radius: $inner-radius;
+        padding: $padding;
+        &:hover {
+          background-color: $surface2;
+        }
+        .reminder-date {
+          font-size: 13pt;
+          font-weight: bold;
+          color: $accent;
+        }
+        .reminder-time {
+          font-style: italic;
+          opacity: 0.4;
+        }
+      }
+    }
   }
 }

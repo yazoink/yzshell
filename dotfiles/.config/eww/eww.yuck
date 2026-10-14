@@ -29,6 +29,17 @@
   :interval "30s" 
   `date '+%A %B %d %Y'`
 )
+(defvar reminders "[]")
+(defvar edit_reminder false)
+(defvar reminder_month "January")
+(defvar reminder_days `[1,2,3]`)
+(defvar reminder_years `[2026,2027,2028]`)
+(defvar reminder_day "1")
+(defvar reminder_year "2026")
+(defvar reminder_hour "12")
+(defvar reminder_min "00")
+(defvar reminder_content "")
+(defvar reminder_editing -1)
 
 ; control center
 (defvar control_center_visible false)
