@@ -69,7 +69,7 @@ def eww_get(var):
 
 def set_years(current_year):
     years = [current_year]
-    for i in range(current_year, current_year + 8):
+    for i in range(current_year + 1, current_year + 8):
         years.append(i)
     update_eww("reminder_years", json.dumps(years).strip(), string=True)
 
