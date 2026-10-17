@@ -64,6 +64,10 @@ install plugins. This will automatically launch every time Hyprland is reloaded
 if it is detected that plugins are not installed. To run this manually:
 `yzshell-install-hyprland-plugins`.
 
+To deploy the Zen browser config, open and close the browser to ensure at least one
+profile exists, and then run `zenconf --select-profile`. After this, Zen will
+automatically be configured with yzshell.
+
 ## Configuration
 
 yzshell is generally configured with the `yzctl` command, which provides
