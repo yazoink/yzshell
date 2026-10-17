@@ -312,7 +312,7 @@
     .entry {
       min-height: 70px;
       border-radius: $inner-radius;
-      padding: 0 $padding;
+      padding: 0 $padding / 2;
       .app-icon {
         margin: 0;
         padding: 0;
@@ -325,7 +325,7 @@
       }
       .arrow {
         opacity: 0.4;
-        margin-left: $padding - ($padding * 2);
+        margin-right: $padding / 2;
       }
       &:hover {
         background-image: linear-gradient($surface2, $surface2);
@@ -367,6 +367,10 @@
 .search-bar {
   background-color: $surface;
   border-radius: $inner-radius;
+  entry {
+    //font-size: 13pt;
+    padding: $padding / 2;
+  }
   .search-icon {
     font-family: "Font Awesome 7 Free";
     font-weight: bold;
