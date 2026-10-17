@@ -2,6 +2,12 @@
 
 My very messy dotfiles.
 
+These dots are heavily centered around my preferences, but anyone can use them.
+A lot of options can be toggled during the installation progress, and more can
+be configured with the `yzctl` TUI, or manually with `yzconf`.
+
+Run `yzbinds`, or press Mod+B to view the keybinds.
+
 ## Screenshots
 
 <img width="1366" height="768" alt="20260807_22:46:23" src="https://github.com/user-attachments/assets/21aed7b9-3430-4573-9449-1fcf0bd9a67c" />
@@ -35,49 +41,7 @@ My very messy dotfiles.
 - A bunch of CLI utilities: `yzshell`, `yzctl`, `yzbinds`, `yzconf`, `yzpicker`, `yzrecorder`, `yzshot`, `yzwallpaper`, `yzwidgets`, `base16-to-yzshell-scheme`, `base16-to-yzshell-template`, and `zenconf` (run `-h` on them for details)
 - Really bad code, but at least it's not vibe-coded
 
-### Widgets
-
-#### Start menu
-
-- \[Up|Down]: select app
-- Return: open selected app, or close if none selected
-- Esc: close
-
-#### Calendar
-
-- Esc: close
-
-#### Power Menu
-
-- L: lock screen
-- S: shut down
-- R: reboot
-- E: exit desktop
-- Esc: close
-
-#### Screenshot
-
-- Esc: close
-
-#### Appearance settings
-
-- Esc: close
-
-#### Workspace switcher
-
-- \[Esc|Tab|Return]: close
-
 ## Installation
-
-These dots are heavily centered around my preferences, but anyone can use them.
-A lot of options can be toggled during the installation progress, and more can
-be configured with the `yzctl` TUI, or manually with `yzconf`.
-
-After running the install script, and rebooting, Hyprland will automatically
-launch with yzshell. Upon first launching Hyprland, a terminal window will open, which will
-install plugins. This will automatically launch every time Hyprland is reloaded
-if it is detected that plugins are not installed. To run this manually:
-`yzshell-install-hyprland-plugins`.
 
 Prerequisites:
 
@@ -93,6 +57,12 @@ git clone https://github.com/yazoink/yzshell
 cd yzshell
 ./install.py --optional-deps
 ```
+
+After running the install script, and rebooting, Hyprland will automatically
+launch with yzshell. Upon first launching Hyprland, a terminal window will open, which will
+install plugins. This will automatically launch every time Hyprland is reloaded
+if it is detected that plugins are not installed. To run this manually:
+`yzshell-install-hyprland-plugins`.
 
 ## Configuration
 
