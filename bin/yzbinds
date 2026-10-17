@@ -25,13 +25,13 @@ def get_binds():
             continue
         bind = ""
         if b["modmask"]:
-            bind += modmask_code_to_string(binds_json[i]["modmask"])
+            bind += modmask_code_to_string(b["modmask"])
         if b["key"] != "":
             if b["modmask"]:
                 bind += " + "
             bind += b["key"]
         elif b["keycode"]:
-            bind += "keycode:" + str(binds_json[i]["keycode"])
+            bind += "keycode:" + str(b["keycode"])
         r.append({"bind": bind, "desc": b["description"]})
 
     return r
@@ -79,4 +79,4 @@ if __name__ == "__main__":
         for i in range(0, m):
             s += " "
         s += b["desc"] + "\n"
-    subprocess.run(f'printf "{s}" | zsh -c fzf', shell=True)
+    subprocess.run(f'printf "{s}" | fzf', shell=True)
