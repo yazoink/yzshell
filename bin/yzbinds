@@ -79,4 +79,11 @@ if __name__ == "__main__":
         for i in range(0, m):
             s += " "
         s += b["desc"] + "\n"
-    subprocess.run(f'printf "{s}" | fzf', shell=True)
+    subprocess.run(
+        f"""
+        source ~/.zshrc
+        printf "{s}" | fzf
+        """, 
+        shell=True, 
+        executable='/usr/bin/zsh'
+    )
