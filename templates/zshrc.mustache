@@ -107,3 +107,7 @@ export EDITOR="nvim"
 {{/configure_nvim}}
 export BROWSER="{{web_browser}}"
 export TERM="{{terminal}}"
+export FZF_DEFAULT_OPTS='
+	--color fg:#{{foreground}},bg:#{{background}},hl:#{{accent}},fg+:#{{foreground}},bg+:#{{surface1}},hl+:#{{accent}}
+	--color info:#{{yellow}},prompt:#{{green}},spinner:#{{accent}},pointer:#{{accent}},marker:#{{accent}},border:#{{surface2}},header:#{{accent}}
+'

@@ -1,0 +1,82 @@
+#!/usr/bin/env python
+
+import json
+import subprocess
+
+
+def get_binds_json():
+    output = subprocess.check_output(["hyprctl", "binds", "-j"], text=True)
+    try:
+        binds = json.loads(output)
+    except ValueError:
+        print("Error: could not parse hyprctl output.")
+        sys.exit(1)
+    return binds
+
+
+def get_binds():
+    r = []
+    binds_json = get_binds_json()
+    n = len(binds_json)
+
+    i = 0
+    for b in binds_json:
+        if b["has_description"] == False:
+            continue
+        bind = ""
+        if b["modmask"]:
+            bind += modmask_code_to_string(binds_json[i]["modmask"])
+        if b["key"] != "":
+            if b["modmask"]:
+                bind += " + "
+            bind += b["key"]
+        elif b["keycode"]:
+            bind += "keycode:" + str(binds_json[i]["keycode"])
+        r.append({"bind": bind, "desc": b["description"]})
+
+    return r
+
+
+def modmask_code_to_string(code, string=""):
+    modmasks = [
+        {"name": "Mod5", "code": 128},
+        {"name": "Super", "code": 64},
+        {"name": "Mod3", "code": 32},
+        {"name": "Mod2", "code": 16},
+        {"name": "Alt", "code": 8},
+        {"name": "Ctrl", "code": 4},
+        {"name": "Lock", "code": 2},
+        {"name": "Shift", "code": 1},
+    ]
+
+    remainder = code
+
+    for m in modmasks:
+        if code >= m["code"]:
+            remainder -= m["code"]
+            string += m["name"]
+            break
+
+    if remainder != 0:
+        string += " + "
+        return modmask_code_to_string(remainder, string)
+
+    return string
+
+
+if __name__ == "__main__":
+    binds = get_binds()
+    s = ""
+    l = 0
+    for b in binds:
+        m = len(b["bind"])
+        if m > l:
+            l = m
+    l += 4
+    for b in binds:
+        m = l - len(b["bind"])
+        s += b["bind"] + ":"
+        for i in range(0, m):
+            s += " "
+        s += b["desc"] + "\n"
+    subprocess.run(f'printf "{s}" | fzf', shell=True)

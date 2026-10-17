@@ -14,6 +14,7 @@ exes = [
     "yzrecorder",
     "yzshot",
     "yzctl",
+    "yzbinds",
     "zenconf",
     "yzshell-install-hyprland-plugins",
     "base16-to-yzshell-scheme",
