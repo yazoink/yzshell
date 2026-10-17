@@ -35,43 +35,6 @@ My very messy dotfiles.
 - A bunch of CLI utilities: `yzshell`, `yzctl`, `yzbinds`, `yzconf`, `yzpicker`, `yzrecorder`, `yzshot`, `yzwallpaper`, `yzwidgets`, `base16-to-yzshell-scheme`, `base16-to-yzshell-template`, and `zenconf` (run `-h` on them for details)
 - Really bad code, but at least it's not vibe-coded
 
-## Keybinds
-
-- Mod + Return: open terminal
-- Mod + W: open browser
-- Mod + E: open file manager
-- Mod + Shift + L: lock screen
-- Mod + R: open run launcher
-- Mod + R: view keybinds
-- Mod + P: open start menu
-- Mod + Shift + C: toggle calendar widget
-- Mod + Shift + Q: toggle power menu
-- Mod + Shift + A: toggle shell appearance settings
-- Mod + Tab: toggle workspace switcher
-- Mod + Shift + R: reload shell
-- Mod + Shift + B: reload bar
-- Mod + Shift + E: reload widgets
-- Mod + C: pick colour
-- Mod + Shift + D: toggle do-not-disturb
-- Mod + Shift + I: toggle idle inhibitor
-- Mod + Alt + S: toggle screenshot widget
-- Mod + S: take selective screenshot
-- Mod + Ctrl + S: take full screenshot
-- Mod + Q: close active window
-- Mod + Ctrl + Q: kill active window
-- Mod + X: pin window
-- Mod + M: toggle maximise active window
-- Mod + Shift + M: toggle fullscreen active window
-- Mod + F: toggle float active window
-- Mod + \[1-9]: switch to workspace
-- Mod + Shift + \[1-9]: move active window to workspace
-- Mod + Shift + S: toggle special workspace
-- Mod + Ctrl + Up: move active window to special workspace
-- Mod + \[Left|Right|Up|Down]: focus in direction
-- Mod + Shift + \[Left|Right|Up|Down]: move active window in direction
-- Mod + \[-|=]: increase/decrease split ratio
-- Mod + K: swap split
-
 ### Widgets
 
 #### Start menu
