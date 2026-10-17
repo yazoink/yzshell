@@ -175,7 +175,7 @@
                     (input
                         :value reminder_content
                         :onchange "${EWW_CMD} update reminder_content='{}'"
-                        :width 290
+                        :width 280
                     )
                 )
             )
