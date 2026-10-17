@@ -25,3 +25,17 @@
     )
   )
 )
+
+(defwidget dropdown [label onchange items]
+  (overlay
+    (box
+        :class "combo-box-format"
+        (label :text "${label}  ")
+    )
+    (combo-box-text
+        :class "combo-box"
+        :items items
+        :onchange onchange
+    )
+  )
+)
