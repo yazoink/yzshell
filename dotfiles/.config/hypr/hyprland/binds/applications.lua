@@ -1,7 +1,7 @@
 hl.bind("SUPER + Return", hl.dsp.exec_cmd(terminal), { description = "Open terminal" })
 hl.bind("SUPER + W", hl.dsp.exec_cmd(web_browser), { description = "Open browser" })
 hl.bind("SUPER + E", hl.dsp.exec_cmd(file_manager), { description = "Open file manager" })
-hl.bind("SUPER + R", hl.dsp.exec_cmd(run_launcher), { description = "Open run launcher" })
+hl.bind("SUPER + R", hl.dsp.exec_cmd("wofi --show run"), { description = "Open run launcher" })
 hl.bind("SUPER + SHIFT + L", hl.dsp.exec_cmd("hyprlock"), { description = "Lock screen", submap_universal = true })
 
 -- yzshell

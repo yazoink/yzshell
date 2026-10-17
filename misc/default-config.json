@@ -17,7 +17,6 @@
     "file_manager": "pcmanfm",
     "web_browser": "zen-browser",
     "terminal": "foot",
-    "run_launcher": "wofi --show run",
     "touchpad_scroll_factor": 0.15,
     "oh_my_zsh_theme": "robbyrussell",
     "papirus_folders_colour": "palebrown",
