@@ -19,13 +19,14 @@
       :onchange "${EWW_CMD} update screenshot_output='{}'"
       :tooltip "Save to"
     )
+    (vertical_separator)
     (box
       :orientation "h"
       :class "screenshot-buttons-box"
       :space-evenly false
       :vexpand false
       :valign "end"
-      :spacing 8
+      :spacing 4
       (icon_button
         :icon ""
         :tooltip "Take a fullscreen screenshot"
