@@ -82,8 +82,8 @@
                       :hexpand true
                       :text {app["desc"]}
                       ;:truncate true 
-                      :show-truncated false 
-                      :limit-width 28
+                      :show-truncated true
+                      :limit-width 22
                     )
                   )
                   (label :text "" :halign "end" :hexpand true :class "arrow")
