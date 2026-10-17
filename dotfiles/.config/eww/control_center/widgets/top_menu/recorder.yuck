@@ -74,6 +74,7 @@
           --select true & disown`
         "Record region"
       )
+      (vertical_separator)
       (button 
         :class "recorder-button"
         :onclick `yzrecorder \

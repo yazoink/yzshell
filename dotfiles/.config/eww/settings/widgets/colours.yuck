@@ -167,7 +167,7 @@
   (box
     :orientation "h"
     :space-evenly false
-    :spacing 8
+    :spacing 4
     :halign "center"
     :hexpand true
     (button

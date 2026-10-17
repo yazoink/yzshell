@@ -150,8 +150,6 @@
 
   .combo-box-format {
     background-color: $surface2;
-    border-radius: $inner-radius;
-    padding: $padding;
     &:hover {
       background-color: $surface3;
     }
@@ -159,24 +157,12 @@
 
   menu {
     background-color: $surface2;
-    //border: 1px solid $surface3;
-    margin-top: -2px;
-    border: none;
-    border-radius: $inner-radius;
   }
 
   menuitem {
     &:hover {
       background-color: $surface3;
     }
-  }
-
-  combobox * {
-    color: transparent;
-  }
-
-  menu * {
-    color: $foreground;
   }
 }
 
@@ -215,6 +201,9 @@
       }
       .artist {
         opacity: 0.4;
+      }
+      &:hover {
+        background: transparent;
       }
     }
     .controls button {

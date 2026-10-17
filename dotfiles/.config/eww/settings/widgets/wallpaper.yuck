@@ -9,7 +9,7 @@
 (defwidget fill_buttons []
   (box
     :space-evenly false
-    :spacing 8
+    :spacing 4
     :orientation "h"
     :halign "center"
     :hexpand true
@@ -38,6 +38,7 @@
         :halign "fill"
         :hexpand true
       )
+      (vertical_separator)
       (icon_button
         :icon ""
         :tooltip "Reload wallpapers"

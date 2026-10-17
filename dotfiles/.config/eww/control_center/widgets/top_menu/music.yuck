@@ -28,8 +28,8 @@
       :tooltip "Open music player"
       (button
         :onclick "yzwidgets close all & $(yzconf get terminal) -e ncmpcpp & disown"
+        :class "music-info"
         (box
-          :class "music-info"
           :orientation "v"
           :halign "center"
           :valign "center"

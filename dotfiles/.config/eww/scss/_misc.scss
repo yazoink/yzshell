@@ -10,6 +10,18 @@ $inner-radius: 8px;
   font-size: 11pt;
 }
 
+button, entry {
+  background-color: $surface1;
+  border-radius: $inner-radius;
+  &:hover {
+    background-color: $surface2;
+  }
+}
+
+entry {
+  padding: $padding;
+}
+
 .red, .red label { color: $red; }
 .orange, .orange label { color: $orange; }
 .yellow, .yellow label { color: $yellow; }
@@ -133,4 +145,35 @@ scrollbar {
     margin: $padding / 2;
     min-width: 8px;
   }
+}
+
+.combo-box-format {
+  background-color: $surface1;
+  border-radius: $inner-radius;
+  padding: $padding;
+  &:hover {
+    background-color: $surface2;
+  }
+}
+
+menu {
+  background-color: $surface1;
+  //border: 1px solid $surface3;
+  margin-top: -2px;
+  border: none;
+  border-radius: $inner-radius;
+}
+
+menuitem {
+  &:hover {
+    background-color: $surface2;
+  }
+}
+
+combobox * {
+  color: transparent;
+}
+
+menu * {
+  color: $foreground;
 }
