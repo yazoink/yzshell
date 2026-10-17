@@ -39,53 +39,55 @@
       :valign "end"
       (scroll
         :class "search-results-scroll"
-        (box 
-          :class "search-results-box"
-          :orientation "v"
-          :valign "start"
-          :vexpand true
-          :spacing 8
+        (stack
+          :selected {search_results == "[]" ? 0 : 1}
           (label 
             :class "no-results" 
             :text "No results found..." 
-            :visible {search_results == "[]" ? true : false}
           )
-          (for app in search_results
-            (button
-              :class "entry${search_selected == app["index"] ? " selected" : ""}"
-              :onclick `
-                eww update search_selected=${app["index"]} \
-                && $YZSHELL_EWW_SCRIPT_DIR/search_confirm.sh &`
-              :tooltip {app["cmd"]}
-              (box
-                :orientation "h"
-                :space-evenly false
-                :spacing 8
-                (image :icon {app["icon"]} :icon-size "dialog" :class "app-icon")
+          (box 
+            :class "search-results-box"
+            :orientation "v"
+            :valign "start"
+            :vexpand true
+            :spacing 8
+            (for app in search_results
+              (button
+                :class "entry${search_selected == app["index"] ? " selected" : ""}"
+                :onclick `
+                  eww update search_selected=${app["index"]} \
+                  && $YZSHELL_EWW_SCRIPT_DIR/search_confirm.sh &`
+                :tooltip {app["cmd"]}
                 (box
-                  :orientation "v"
+                  :orientation "h"
                   :space-evenly false
-                  :valign "center"
-                  (label 
-                    :class "name" 
-                    :halign "start"
-                    :hexpand true
-                    :text {app["name"]} 
-                    ;:truncate true 
-                    :show-truncated false 
-                    :limit-width 28
+                  :spacing 8
+                  (image :icon {app["icon"]} :icon-size "dialog" :class "app-icon")
+                  (box
+                    :orientation "v"
+                    :space-evenly false
+                    :valign "center"
+                    (label 
+                      :class "name" 
+                      :halign "start"
+                      :hexpand true
+                      :text {app["name"]} 
+                      ;:truncate true 
+                      :show-truncated false 
+                      :limit-width 28
+                    )
+                    (label 
+                      :class "desc" 
+                      :halign "start"
+                      :hexpand true
+                      :text {app["desc"]}
+                      ;:truncate true 
+                      :show-truncated false 
+                      :limit-width 28
+                    )
                   )
-                  (label 
-                    :class "desc" 
-                    :halign "start"
-                    :hexpand true
-                    :text {app["desc"]}
-                    ;:truncate true 
-                    :show-truncated false 
-                    :limit-width 28
-                  )
+                  (label :text "" :halign "end" :hexpand true :class "arrow")
                 )
-                (label :text "" :halign "end" :hexpand true :class "arrow")
               )
             )
           )
