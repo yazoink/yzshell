@@ -6,7 +6,7 @@ These dots are heavily centered around my preferences, but anyone can use them.
 A lot of options can be toggled during the installation progress, and more can
 be configured with the `yzctl` TUI, or manually with `yzconf`.
 
-Run `yzbinds`, or press Mod+B to view the keybinds.
+Run `yzbinds`, or press Super+B to view the keybinds.
 
 ## Screenshots
 
