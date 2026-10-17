@@ -135,15 +135,16 @@ menuitem {
 
 scrollbar {
   min-width: 8px;
+  border-radius: $inner-radius;
   trough {
     //background-color: $surface2;
   }
 
   slider {
+    margin: 6px 2px;
     background-color: $surface3;
     border-radius: $inner-radius;
-    margin: $padding / 2;
-    min-width: 8px;
+    min-width: 4px;
   }
 }
 

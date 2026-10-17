@@ -52,9 +52,6 @@
   .new-reminder {
     margin: $padding;
   }
-  .icon-button {
-    margin: $padding / 2;
-  }
   .edit-reminder {
     border-radius: $inner-radius;
     background-color: $surface1;
@@ -114,10 +111,9 @@
       }
     }
     .reminders {
-      padding: $padding;
+      padding: $padding / 2;
       .reminder {
-        margin-top: $padding / 2;
-        margin-bottom: $padding / 2;
+        margin: $padding / 2;
         border-radius: $inner-radius;
         padding: $padding;
         &:hover {

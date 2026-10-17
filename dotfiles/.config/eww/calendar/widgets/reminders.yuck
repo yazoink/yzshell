@@ -36,6 +36,7 @@
             :valign "end"
             :hexpand true
             :vexpand true
+            :style "margin: 8px;"
             (icon_button
                 :tooltip "Delete reminder"
                 :icon ""
@@ -118,9 +119,14 @@
                 :vexpand true
                 :class "new-reminder"
                 :space-evenly false
+                :spacing 4
                 (box
-                :style "margin-right: -4px;"
                     :visible {edit_reminder ? true : false}
+                    :style {
+                        reminder_content == "" 
+                        ? "opacity: 0.4;" 
+                        : ""
+                    }
                     (icon_button
                         :tooltip "Confirm"
                         :icon ""
@@ -130,7 +136,7 @@
                             ? "" 
                             : "$YZSHELL_EWW_SCRIPT_DIR/reminders.py add &"
                         }
-                        :size "extra-small"
+                        :size "small"
                     )
                 )
                 (box
@@ -143,7 +149,7 @@
                                 ? "${EWW_CMD} update edit_reminder=false; $YZSHELL_EWW_SCRIPT_DIR/reminders.py update &" 
                                 : "${EWW_CMD} update edit_reminder=true"
                         }`
-                        :size "extra-small"
+                        :size "small"
                     )
                 )
             )
@@ -199,7 +205,6 @@
                         :class "reminders"
                         :orientation "v"
                         :space-evenly false
-                        :spacing 8
                         (for r in reminders
                             (reminder :r r)
                         )
