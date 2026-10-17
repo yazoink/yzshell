@@ -1,12 +1,12 @@
-(defwidget vertical_separator []
+(defwidget vertical_separator [ size ]
     (box
         :orientation "vertical"
         :space-evenly "true"
         :valign "center"
-        :spacing 4
+        :spacing { size == "small" ? 2 : 4 }
         :class "vertical-separator"
-        (label :text "" :class "red")
-        (label :text "" :class "green")
-        (label :text "" :class "blue")
+        (label :text "" :class "red" :style "font-size: ${size == "small" ? "3" : "5"}pt;")
+        (label :text "" :class "green" :style "font-size: ${size == "small" ? "3" : "5"}pt;")
+        (label :text "" :class "blue" :style "font-size: ${size == "small" ? "3" : "5"}pt;")
     )
 )
