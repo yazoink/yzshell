@@ -7,7 +7,7 @@
     :halign "start"
     :valign "end"
     :vexpand true
-    :class "search-bar"
+    :class "app-search-bar"
     ;:visible control_center_visible
     :spacing 8
     :height 50

@@ -1,0 +1,56 @@
+(defwidget bar_settings []
+    (box
+        :orientation "v"
+        :spacing 8
+        :space-evenly false
+        :class "bar-settings"
+        :halign "fill"
+        :valign "end"
+        :vexpand true
+        :width 350
+        (heading :size "large" :text "Bar Modules")
+        ;(box
+        ;    :orientation "h"
+        ;    :space-evenly false
+        ;    :valign "fill"
+        ;    (heading :size "large" :text "Bar")
+        ;    (icon_button
+        ;        :icon ""
+        ;        :tooltip "Reload bar"
+        ;        :size "small"
+        ;        :colour "accent"
+        ;        :command `
+        ;            $YZSHELL_EWW_SCRIPT_DIR/wallpapers.py -r -d '${wallpaper_dir}' & 
+        ;            $YZSHELL_EWW_SCRIPT_DIR/schemes_background.py &`
+        ;    )
+        ;)
+        (box
+            :class "bar-settings-box"
+            :orientation "v"
+            :spacing 8
+            :space-evenly false
+            (box
+                :orientation "h"
+                :spacing 8
+                :space-evenly false
+                (checkbox 
+                    :checked bar_show_battery
+                    :onchecked "$YZSHELL_EWW_SCRIPT_DIR/bar_settings.sh battery true &"
+                    :onunchecked "$YZSHELL_EWW_SCRIPT_DIR/bar_settings.sh battery false &"
+                )
+                (label :text "Enable battery module")
+            )
+            (box
+                :orientation "h"
+                :spacing 8
+                :space-evenly false
+                (checkbox 
+                    :checked bar_show_backlight
+                    :onchecked "$YZSHELL_EWW_SCRIPT_DIR/bar_settings.sh backlight true &"
+                    :onunchecked "$YZSHELL_EWW_SCRIPT_DIR/bar_settings.sh backlight false &"
+                )
+                (label :text "Enable backlight module")
+            )
+        )
+    )
+)

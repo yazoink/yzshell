@@ -1,0 +1,127 @@
+(defwidget font_picker []
+    (box
+        :class "font-picker"
+        :spacing 8
+        :space-evenly false
+        :orientation "v"
+        (overlay
+            (scroll
+                :class "font-scroller"
+                :hscroll false
+                :vscroll true
+                :height 300
+                (stack
+                    :selected {fonts == "[]" ? 0 : 1}
+                    (label :class "not-found" :text "No results found...")
+                    (box
+                        :class "font-list"
+                        :spacing 8
+                        :space-evenly true
+                        :orientation "v"
+                        :valign "start"
+                        :vexpand true
+                        (for f in fonts
+                            (button
+                                :onclick "$YZSHELL_EWW_SCRIPT_DIR/switch_font.sh '${fonts_selected}' '${f}' &"
+                                :class "font-button ${current_font == f ? "selected" : ""}"
+                                :tooltip "Set ${fonts_selected} font to ${f}"
+                                (label
+                                    :style "font-family: '${f}';"
+                                    ;:class {fonts_selected == "mono" ? "mono" : ""}
+                                    :text f
+                                    :halign "start"
+                                    :hexpand true
+                                )
+                            )
+                        )
+                    
+                    )
+                )
+            )
+            (next_prev_buttons
+                :next_cmd "$YZSHELL_EWW_SCRIPT_DIR/get_fonts.py --page='next'"
+                :prev_cmd "$YZSHELL_EWW_SCRIPT_DIR/get_fonts.py --page='prev'"
+            )
+        )
+    )
+)
+
+(defwidget font_settings []
+    (box
+        :orientation "v"
+        :spacing 8
+        :space-evenly false
+        :class "font-settings"
+        :halign "fill"
+        :valign "end"
+        :vexpand false
+        ;:width 400
+        (box
+            :orientation "h"
+            :space-evenly false
+            (heading :size "large" :text "Font Selection")
+            (box
+                :class "font-settings-selectors"
+                :orientation "h"
+                :space-evenly false
+                :spacing 4
+                :halign "end"
+                :hexpand true
+                :valign "center"
+                :vexpand true
+                (search_bar
+                    :halign "center"
+                    :valign "start"
+                    :value fonts_query
+                    :icon ""
+                    :width 150
+                    :placeholder "Search..."
+                    :onchange `
+                        ${EWW_CMD} update fonts_query='{}'
+                        $YZSHELL_EWW_SCRIPT_DIR/get_fonts.py --query='{}' --page=0 &`
+                    :onaccept ""
+                )
+            )
+        )
+        (font_picker)
+        (box
+            :orientation "h"
+            :space-evenly false
+            :spacing 4
+            :halign "fill"
+            :valign "center"
+            :vexpand true
+            (label
+                :style "opacity: 0.4; font-style: italic;"
+                :limit-width 30
+                :show-truncated true
+                :text "Current: ${current_font}"
+                :tooltip current_font
+            )
+            (box
+                :orientation "h"
+                :space-evenly false
+                :spacing 4
+                :halign "end"
+                :hexpand true
+                :valign "center"
+                :vexpand true
+                (button
+                    :class {fonts_selected == "sans" ? "selected" : ""}
+                    :onclick "${EWW_CMD} update fonts_selected='sans'; $YZSHELL_EWW_SCRIPT_DIR/get_current_font.sh sans"
+                    "Sans"
+                )
+                (button
+                    :class {fonts_selected == "serif" ? "selected" : ""}
+                    :onclick "${EWW_CMD} update fonts_selected='serif'; $YZSHELL_EWW_SCRIPT_DIR/get_current_font.sh serif"
+                    "Serif"
+                )
+                (button
+                    :class {fonts_selected == "mono" ? "selected" : ""}
+                    :onclick "${EWW_CMD} update fonts_selected='mono'; $YZSHELL_EWW_SCRIPT_DIR/get_current_font.sh mono"
+                    "Monospace"
+                )
+            )
+        )
+    )
+)

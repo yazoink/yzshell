@@ -119,21 +119,6 @@
   button:hover {
     background-color: $surface3;
   }
-  checkbutton {
-    border-radius: $inner-radius;
-    border: 2px solid $surface3;
-    background-color: $surface2;
-    margin: 7px 0;
-  }
-
-  checkbutton:checked {
-    border: 2px solid $accent;
-    background-color: $accent;
-    check {
-      color: $background;
-    }
-  }
-
   .vertical-separator label {
     font-size: 5pt;
   }
@@ -357,7 +342,7 @@
 
 
 
-.search-bar {
+.app-search-bar {
   background-color: $surface;
   border-radius: $inner-radius;
   entry {

@@ -21,6 +21,7 @@ def refresh_vars(config):
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes_background.py")} &
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes.py")} --page=0 --polarity=dark &
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes.py")} --page=0 --polarity=light &
+        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "get_fonts.py")} --page=0 --query='' &
         bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "dnd_icon.sh")}
         bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "idle_icon.sh")}
         bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "get_os_version.sh")}
@@ -123,12 +124,16 @@ def open_settings(screen, config):
         f"""
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "wallpapers.py")} &
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes_background.py")} &
+        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "get_fonts.py")} --page=0 --query='' &
         eww open closer --no-daemonize --screen {screen}
         eww open settings --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"settings\")'
+        bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "get_current_font.sh")} "sans" &
         eww update current_wallpaper='{wallpaper_path}'
         eww update wallpaper_mode='{config["wallpaper_mode"]}'
         eww update current_scheme='{config["colourscheme"]}'
+        eww update bar_show_battery={str(config["bar_show_battery"]).lower()}
+        eww update bar_show_backlight={str(config["bar_show_backlight"]).lower()}
         """,
         shell=True,
         stdout=subprocess.DEVNULL,

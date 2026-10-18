@@ -1,8 +1,8 @@
 .settings-box {
-  padding: $padding;
-  border-radius: $outer-radius;
-  background: $bg;
-  border: 1px solid $border;
+  //padding: $padding;
+  //border-radius: $outer-radius;
+  //background: $bg;
+  //border: 1px solid $border;
   button {
     background-color: $surface1;
     border-radius: $inner-radius;
@@ -13,19 +13,33 @@
       background: $surface2;
     }
   }
-  entry {
-    background-color: $surface;
-    border-radius: $inner-radius;
-    padding: $padding;
-  }
   .settings-menu {
-    border-radius: $inner-radius;
+    padding: $padding;
+    border-radius: $outer-radius;
+    background: $bg;
+    border: 1px solid $border;
+    .icon-button {
+      padding: 0;
+    }
+  }
+  .scheme-polarity-buttons, .wallpaper-search-bar {
+    padding: 0 $padding;
+  }
+  .fill-buttons {
+    //margin: $padding;
+    button {
+      //background-color: $surface2;
+    }
   }
   .colourschemes {
-    .filter-label {
+    padding: $padding;
+    border-radius: $outer-radius;
+    background: $bg;
+    border: 1px solid $border;
+    .search-bar {
       margin: $padding;
-      font-style: italic;
-      opacity: 0.4;
+      border: 1px solid $surface2;
+      box-shadow: $image-shadow;
     }
     .polarity-button {
       &.selected {
@@ -41,13 +55,14 @@
       background-color: $surface1;
       background-repeat: repeat;
       background-size: auto;
-      border: 1px solid $surface1;
+      border: 1px solid $surface2;
     }
     .colours-scroller {
-      min-height: 300px;
+      min-height: 450px;
       .colours-box {
         padding: $padding * 2;
         margin-bottom: 32px;
+        margin-top: 42px;
       }
       .not-found {
         text-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
@@ -76,11 +91,6 @@
           .info-box {
             padding: $padding * 2;
             border-radius: $inner-radius;
-            label {
-              font-family: monospace;
-              font-weight: 500;
-              font-size: 12pt;
-            }
           }
           .selected-text {
             font-style: italic;
@@ -122,11 +132,11 @@
 
   .wp-scroller {
     min-height: 300px;
-    min-width: 530px;
-    background-color: $surface;
+    background-color: $surface1;
     border-radius: $inner-radius;
     .wp-button-box {
       padding: $padding;
+      margin-bottom: 46px;
       button {
         label {
           padding-top: 0;
@@ -138,6 +148,10 @@
     }
   }
   .wp-box {
+    padding: $padding;
+    border-radius: $outer-radius;
+    background: $bg;
+    border: 1px solid $border;
     button {
       padding: 0;
       &:hover {
@@ -151,6 +165,62 @@
           color: $bg;
         }
       }
+    }
+  }
+}
+.bar-settings {
+  padding: $padding;
+  border-radius: $outer-radius;
+  background: $background;
+  border: 1px solid $border;
+  /*button {
+    padding: 0;
+  }
+  .icon-button {
+    margin: $padding;
+  }*/
+  .bar-settings-box {
+    padding: $padding;
+    border-radius: $inner-radius;
+    background: $surface1;
+  }
+}
+
+.font-settings {
+  padding: $padding;
+  border-radius: $outer-radius;
+  background: $background;
+  border: 1px solid $border;
+  .icon-button {
+    padding: 0;
+  }
+  .next-prev-buttons .icon-button {
+    background-color: $surface2;
+    margin: $padding;
+    &:hover {
+      background-color: $surface3;
+    }
+  }
+  .font-settings-selectors {
+    margin: $padding;
+  }
+  .font-scroller {
+    border-radius: $inner-radius;
+    background: $surface1;
+    .font-list {
+      padding: $padding;
+      margin-bottom: 44px;
+    }
+  }
+  .combo-box, .combo-box button, .combo-box label {
+    color: transparent;
+    background-color: transparent;
+    background-image: none;
+  }
+  .selected, .selected:hover {
+    background-color: $accent;
+    label {
+      color: $background;
     }
   }
 }

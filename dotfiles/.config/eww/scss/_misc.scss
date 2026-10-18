@@ -22,15 +22,125 @@ entry {
   padding: $padding;
 }
 
-.red, .red label { color: $red; }
-.orange, .orange label { color: $orange; }
-.yellow, .yellow label { color: $yellow; }
-.green, .green label { color: $green; }
-.cyan, .cyan label { color: $cyan; }
-.blue, .blue label { color: $blue; }
-.purple, .purple label { color: $purple; }
-.brown, .brown label { color: $brown; }
-.accent, .accent label { color: $accent; }
+checkbutton {
+  border-radius: $inner-radius;
+  border: 2px solid $surface3;
+  background-color: $surface2;
+  margin: 7px 0;
+}
+
+checkbutton:checked {
+  border: 2px solid $accent;
+  background-color: $accent;
+  check {
+    color: $background;
+  }
+}
+
+.heading {
+  font-weight: bold;
+  padding: $padding;
+  &.heading-small {
+    font-size: 13pt;
+  }
+  &.heading-medium {
+    font-size: 15pt;
+  }
+  &.heading-large {
+    font-size: 19pt;
+  }
+}
+
+.red, .red label { 
+  color: $red;
+  .selected, &.selected, .selected:hover, &.selected:hover {
+    background-color: $red;
+    color: $background;
+    label {
+      color: $background;
+    }
+  }
+}
+.orange, .orange label { 
+  color: $orange; 
+  .selected, &.selected, .selected:hover, &.selected:hover {
+    background-color: $orange;
+    color: $background;
+    label {
+      color: $background;
+    }
+  }
+}
+.yellow, .yellow label { 
+  color: $yellow; 
+  .selected, &.selected, .selected:hover, &.selected:hover {
+    background-color: $yellow;
+    color: $background;
+    label {
+      color: $background;
+    }
+  }
+}
+.green, .green label { 
+  color: $green;
+  .selected, &.selected, .selected:hover, &.selected:hover {
+    background-color: $green;
+    color: $background;
+    label {
+      color: $background;
+    }
+  } 
+}
+.cyan, .cyan label { 
+  color: $cyan; 
+  .selected, &.selected, .selected:hover, &.selected:hover {
+    background-color: $cyan;
+    color: $background;
+    label {
+      color: $background;
+    }
+  }
+}
+.blue, .blue label { 
+  color: $blue; 
+  .selected, &.selected, .selected:hover, &.selected:hover {
+    background-color: $blue;
+    color: $background;
+    label {
+      color: $background;
+    }
+  }
+}
+.purple, .purple label { 
+  color: $purple; 
+  .selected, &.selected, .selected:hover, &.selected:hover {
+    background-color: $purple;
+    color: $background;
+    label {
+      color: $background;
+    }
+  }
+}
+.brown, .brown label { 
+  color: $brown; 
+  .selected, &.selected, .selected:hover, &.selected:hover {
+    background-color: $brown;
+    color: $background;
+    label {
+      color: $background;
+    }
+  }
+}
+.accent, .accent label { 
+  color: $accent; 
+  .selected, &.selected, .selected:hover, &.selected:hover {
+    background-color: $accent;
+    color: $background;
+    label {
+      color: $background;
+    }
+  }
+}
 
 .vertical-separator label {
   font-weight: bold;
@@ -181,4 +291,33 @@ menu * {
 .not-found {
   font-style: italic;
   opacity: 0.4;
+}
+
+.search-bar {
+  border-radius: $inner-radius;
+  .icon {
+    background-color: $accent;
+    color: $background;
+    border-radius: 0;
+    border-top-left-radius: $inner-radius;
+    border-bottom-left-radius: $inner-radius;
+    min-width: 20px;
+    min-height: 20px;
+    font-size: 12pt;
+  }
+  entry {
+    padding: $padding;
+    border-radius: 0;
+    border-top-right-radius: $inner-radius;
+    border-bottom-right-radius: $inner-radius;
+  }
+  .not-found {
+    padding: $padding;
+  }
+}
+
+.mono {
+  font-family: "monospace";
+  font-size: $mono-font-size;
+  font-weight: 500;
 }

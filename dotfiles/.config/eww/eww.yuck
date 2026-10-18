@@ -168,6 +168,16 @@
 (defvar wallpapers "[]")
 (defvar current_wallpaper "")
 (defvar wallpapers_loading true)
+(defvar bar_show_battery false)
+(defvar bar_show_backlight false)
+(defvar fonts "[]")
+(defvar fonts_selected "sans")
+(defvar fonts_query "")
+(defvar fonts_page "0")
+(defvar current_font "")
+;(defvar sans_fonts "[]")
+;(defvar serif_fonts "[]")
+;(defvar mono_fonts "[]")
 
 ; workspaces
 (defvar workspaces_visible false)

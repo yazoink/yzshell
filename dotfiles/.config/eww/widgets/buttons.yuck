@@ -1,9 +1,9 @@
 ; size: "extra-small", "small", "medium", "large"
-(defwidget icon_button [icon tooltip command size colour]
+(defwidget icon_button [icon tooltip command size colour ?class]
     (button
         :onclick command
         :tooltip tooltip
-        :class "icon icon-button icon-button-${size} ${colour}"
+        :class "icon icon-button icon-button-${size} ${colour} ${class}"
         icon
     )
 )

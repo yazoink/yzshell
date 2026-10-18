@@ -16,8 +16,8 @@ def main():
     wp_img = config["wallpaper_image"]
     wp_path = path.join(wp_dir, wp_img)
     target_path = path.join(cache_dir, f"cropped_{wp_img}")
-    target_w = 530
-    target_h = 300
+    target_w = 680
+    target_h = 600
 
     if not path.exists(cache_dir):
         makedirs(cache_dir)

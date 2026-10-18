@@ -8,16 +8,51 @@
 
 (defwidget fill_buttons []
   (box
+    :class "fill-buttons"
     :space-evenly false
     :spacing 4
-    :orientation "h"
-    :halign "center"
+    :halign "end"
     :hexpand true
+    :valign "end"
+    :vexpand true
+    :orientation "h"
     (fill_button :text "Stretch" :mode "stretch")
     (fill_button :text "Fit" :mode "fit")
     (fill_button :text "Fill" :mode "fill")
     (fill_button :text "Center" :mode "center")
     (fill_button :text "Tile" :mode "tile")
+  )
+)
+
+(defwidget wallpaper_search_bar []
+  (box
+    :halign "end"
+    :hexpand true
+    :valign "center"
+    :vexpand true
+    :orientation "h"
+    :spacing 4
+    :space-evenly false
+    :class "wallpaper-search-bar"
+    (search_bar
+      :halign "center"
+      :valign "end"
+      :value wallpaper_dir
+      :icon ""
+      :width 150
+      :placeholder "Enter a directory..."
+      :onchange ""
+      :onaccept "$YZSHELL_EWW_SCRIPT_DIR/wallpapers.py -d '{}' &"
+    )
+    (icon_button
+      :icon ""
+      :tooltip "Reload wallpapers"
+      :size "small"
+      :colour "accent"
+      :command `
+        $YZSHELL_EWW_SCRIPT_DIR/wallpapers.py -r -d '${wallpaper_dir}' & 
+        $YZSHELL_EWW_SCRIPT_DIR/schemes_background.py &`
+    )
   )
 )
 
@@ -27,50 +62,38 @@
     :orientation "v"
     :space-evenly false
     :spacing 8
+    :valign "end"
+    :vexpand true
     (box
-      :space-evenly false
-      :spacing 8
       :orientation "h"
-      (label :text "Directory:")
-      (input 
-        :value wallpaper_dir 
-        :onaccept "$YZSHELL_EWW_SCRIPT_DIR/wallpapers.py -d '{}' &"
-        :halign "fill"
-        :hexpand true
-      )
-      (vertical_separator :size "small")
-      (icon_button
-        :icon ""
-        :tooltip "Reload wallpapers"
-        :size "small"
-        :colour "accent"
-        :command `
-          $YZSHELL_EWW_SCRIPT_DIR/wallpapers.py -r -d '${wallpaper_dir}' & 
-          $YZSHELL_EWW_SCRIPT_DIR/schemes_background.py &`
-      )
+      :space-evenly false
+      (heading :size "large" :text "Wallpaper")
+      (wallpaper_search_bar)
     )
-    (scroll
-      :vscroll true
-      :hscroll false
-      :class "wp-scroller"
-      (stack
-        :selected {wallpapers == "[]" ? 0 : 1}
-        (label
-          :class "not-found" 
-          :text {wallpapers_loading ? "Loading..." : "No images found..."}
-        )
-        (box
-          :class "wp-button-box"
-          :orientation "v"
-          :spacing 8
-          :space-evenly false
-          (for row in wallpapers
-            (box
-              :orientation "h"
-              :spacing 8
-              :halign "center"
-              :hexpand true
-              (for wallpaper in row
+    (overlay
+      (scroll
+        :vscroll true
+        :hscroll false
+        :class "wp-scroller"
+        :width 550
+        (stack
+          :selected {wallpapers == "[]" ? 0 : 1}
+          (label
+            :class "not-found" 
+            :text {wallpapers_loading ? "Loading..." : "No images found..."}
+          )
+          (box
+            :class "wp-button-box"
+            :orientation "v"
+            :spacing 8
+            :space-evenly false
+            (for row in wallpapers
+              (box
+                :orientation "h"
+                :spacing 8
+                :halign "center"
+                :hexpand true
+                (for wallpaper in row
                   (button
                     :onclick "yzconf wallpaper image '${wallpaper_dir}/${wallpaper}' &"
                     :class "wallpaper-button${current_wallpaper == "${wallpaper_dir}/${wallpaper}" ? " selected" : ""}"
@@ -91,12 +114,28 @@
                       )
                     )
                   )
+                )
               )
             )
           )
         )
       )
     )
-    (fill_buttons)
+    (box
+      :orientation "h"
+      :space-evenly false
+      :spacing 4
+      :halign "fill"
+      :valign "center"
+      :vexpand true
+      (label
+          :style "opacity: 0.4; font-style: italic;"
+          :text "Current: ${current_wallpaper}"
+          :limit-width 30
+          :show-truncated true
+          :tooltip current_wallpaper
+      )
+      (fill_buttons)
+    )
   )
 )

@@ -1,5 +1,7 @@
 (include "settings/widgets/wallpaper.yuck")
 (include "settings/widgets/colours.yuck")
+(include "settings/widgets/bar.yuck")
+(include "settings/widgets/fonts.yuck")
 
 (defwidget settings_menu_button [index icon tooltip text class]
     (button
@@ -24,56 +26,65 @@
   :geometry (geometry
     :x 4
     :y 4
-    :anchor "bottom center"
+    :anchor "bottom left"
   )
   :stacking "fg"
   :exclusive false
   :focusable "ondemand"
   (box
     ;:visible settings_visible
-    :orientation "v"
+    :orientation "h"
     :class "settings-box"
     :space-evenly false
     :vexpand false
     :spacing 8
     (box
       :class "settings-menu"
-      :orientation "h"
-      :halign "fill"
-      :space-evenly true
-      :hexpand true
-      (box
-        :orientation "h"
-        :halign "center"
-        :space-evenly false
-        :spacing 8
-        (menu_button
-          :name "Wallpaper"
-          :tooltip "Wallpaper settings"
-          :colour "red"
-          :icon ""
-          :index 0
-          :curr_selected settings_menu_item
-          :menu_var "settings_menu_item"
-        )
-        (menu_button
-          :name "Colourscheme"
-          :tooltip "Colourscheme settings"
-          :colour "orange"
-          :icon ""
-          :index 1
-          :curr_selected settings_menu_item
-          :menu_var "settings_menu_item"
-        )
+      :orientation "v"
+      :halign "start"
+      :valign "end"
+      :vexpand true
+      :space-evenly false
+      :spacing 8
+      (icon_button
+        :icon ""
+        :tooltip "Wallpaper settings"
+        :size "medium"
+        :colour "red"
+        :command "${EWW_CMD} update settings_menu_item=0"
+        :class {settings_menu_item == 0 ? "selected" : ""}
+      )
+      (icon_button
+        :icon ""
+        :tooltip "Colourscheme"
+        :size "medium"
+        :colour "yellow"
+        :command "${EWW_CMD} update settings_menu_item=1"
+        :class {settings_menu_item == 1 ? "selected" : ""}
+      )
+      (icon_button
+        :icon ""
+        :tooltip "Misc."
+        :size "medium"
+        :colour "green"
+        :command "${EWW_CMD} update settings_menu_item=2"
+        :class {settings_menu_item == 2 ? "selected" : ""}
       )
     )
     (stack
       :selected settings_menu_item
       :class "settings-content"
-      :same-size true
-      :transition {settings_menu_item == 0 ? "slideleft" : "slideright"}
+      :same-size false
+      :transition stack_transition
       (wallpaper)
       (colourschemes)
+      (box
+        :spacing 4
+        :space-evenly false
+        :orientation "v"
+        (bar_settings)
+        (font_settings)
+      )
     )
   )
 )

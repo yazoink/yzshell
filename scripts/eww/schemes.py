@@ -173,7 +173,7 @@ if __name__ == "__main__":
         offset_max_r = 64
         for i in range(0, len(arrs[polarity])):
             arrs[polarity][i]["offset-x"] = str(offset_x)
-            arrs[polarity][i]["offset-y"] = str(randint(-32, 8))
+            arrs[polarity][i]["offset-y"] = str(randint(-48, 8))
             #arrs[a][i]["offset-y"] = "-32"
 
             if offset_direction == "l":

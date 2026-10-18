@@ -260,8 +260,8 @@ if __name__ == "__main__":
                             subprocess.run(
                                 f"""
                                 eww update current_wallpaper='{p}'
-                                python {environ["YZSHELL_EWW_DIR"]}/settings/scripts/schemes_background.py
-                                yzwallpaper reload
+                                python {environ["YZSHELL_EWW_SCRIPT_DIR"]}/schemes_background.py &
+                                yzshell reload wallpaper
                                 """,
                                 shell=True,
                             )
@@ -272,10 +272,9 @@ if __name__ == "__main__":
                                 write_config(cfg)
                                 subprocess.run(
                                     f"""
-                                eww update wallpaper_mode='{argv[3]}'
-                                yzwallpaper kill
-                                yzwallpaper
-                                """,
+                                    eww update wallpaper_mode='{argv[3]}'
+                                    yzshell reload wallpaper
+                                    """,
                                     shell=True,
                                 )
                             else:

@@ -1,2 +1,2 @@
-(include "widgets/separators.yuck")
 (include "widgets/buttons.yuck")
+(include "widgets/misc.yuck")

@@ -1,0 +1,86 @@
+(defwidget vertical_separator [ size ]
+    (box
+        :orientation "vertical"
+        :space-evenly "true"
+        :valign "center"
+        :spacing { size == "small" ? 2 : 4 }
+        :class "vertical-separator"
+        (label :text "" :class "red" :style "font-size: ${size == "small" ? "3" : "5"}pt;")
+        (label :text "" :class "green" :style "font-size: ${size == "small" ? "3" : "5"}pt;")
+        (label :text "" :class "blue" :style "font-size: ${size == "small" ? "3" : "5"}pt;")
+    )
+)
+
+; size should be "small", "medium", or "large"
+(defwidget heading [size text]
+    (label
+        :class "heading heading-${size}"
+        :halign "start"
+        :hexpand true
+        :text text
+    )
+)
+
+(defwidget search_bar [width icon value onchange onaccept halign valign placeholder]
+    (box
+        :orientation "h"
+        :space-evenly "false"
+        :class "search-bar"
+        :width width
+        :halign halign
+        :hexpand true
+        :valign valign
+        :vexpand true
+        (label
+            :text icon
+            :class "icon"
+        )
+        (overlay
+            (input
+                :value value
+                :width width
+                :halign halign
+                :hexpand true
+                :onchange onchange
+                :onaccept onaccept
+            )
+            (label
+                :class "not-found"
+                :text placeholder
+                :visible {value == "" ? true : false}
+                :halign "start"
+                :hexpand true
+            )
+        )
+    )
+)
+
+(defwidget next_prev_buttons [next_cmd prev_cmd]
+  (box
+    :class "next-prev-buttons"
+    :orientation "h"
+    :space-evenly false
+    :spacing 8
+    :height 30
+    :valign "end"
+    :vexpand true
+    (icon_button
+      :icon ""
+      :tooltip "Previous"
+      :command prev_cmd
+      :size "small"
+      :colour "accent"
+    )
+    (box
+      :halign "center"
+      :hexpand true
+    )
+    (icon_button
+      :icon ""
+      :tooltip "Previous"
+      :command next_cmd
+      :size "small"
+      :colour "accent"
+    )
+  )
+)
