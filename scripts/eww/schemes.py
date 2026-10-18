@@ -106,7 +106,7 @@ def get_polarity():
         capture_output=True,
         text=True
     ).stdout.strip()
-    if r == 1:
+    if r == "1":
         return "light"
     else:
         return "dark"
@@ -128,6 +128,7 @@ if __name__ == "__main__":
             polarity = get_polarity()
     else:
         polarity = get_polarity()
+    #print(polarity)
 
     refresh = False
     if qry == "":
@@ -159,6 +160,7 @@ if __name__ == "__main__":
                 target_page = max_pages - 1
             elif target_page < 0:
                 target_page = 0
+        #print(f"eww update {polarity}_colourschemes_page='{str(target_page)}'")
         subprocess.run(
             f"eww update {polarity}_colourschemes_page='{str(target_page)}'",
             shell=True

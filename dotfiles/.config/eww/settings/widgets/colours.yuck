@@ -264,8 +264,8 @@
         )
       )
       (next_prev_buttons
-        :next_cmd "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=next --query='${scheme_query}' --polarity='${schemes_selected == 0 ? "dark" : "light"}' &"
-        :prev_cmd "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=prev --query='${scheme_query}' --polarity='${schemes_selected == 0 ? "dark" : "light"}' &"
+        :next_cmd "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=next --query='${scheme_query}' &"
+        :prev_cmd "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=prev --query='${scheme_query}' &"
       )
     )
     (box
