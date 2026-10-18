@@ -98,7 +98,7 @@
 
 (defwidget calendar_reminders []
     (box
-        :orientation "vertical"
+        :orientation "v"
         :space-evenly false
         :class "reminders-box"
         :halign "fill"
@@ -169,7 +169,7 @@
                     :halign "center"
                     :hexpand true
                     (edit_time)
-                    (vertical_separator)
+                    (vertical_separator :size "small")
                     (edit_date)
                 )
                 (box

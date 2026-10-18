@@ -38,7 +38,7 @@
         :halign "fill"
         :hexpand true
       )
-      (vertical_separator)
+      (vertical_separator :size "small")
       (icon_button
         :icon ""
         :tooltip "Reload wallpapers"

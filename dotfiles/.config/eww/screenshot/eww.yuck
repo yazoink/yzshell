@@ -19,7 +19,7 @@
       :onchange "${EWW_CMD} update screenshot_output='{}'"
       :tooltip "Save to"
     )
-    (vertical_separator)
+    (vertical_separator :size "small")
     (box
       :orientation "h"
       :class "screenshot-buttons-box"

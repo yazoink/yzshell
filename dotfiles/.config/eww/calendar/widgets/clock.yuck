@@ -11,7 +11,7 @@
       :halign "center"
       :class "clock"
       (label :text "${hour}")
-      (vertical_separator)
+      (vertical_separator :size "large")
       (label :text "${minute}")
     )
     (label :text "${date}" :class "date")
