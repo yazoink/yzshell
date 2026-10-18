@@ -16,14 +16,13 @@ Run `yzbinds`, or press Super+B to view the keybinds.
 <img width="1366" height="768" alt="20260815_19:01:23" src="https://github.com/user-attachments/assets/ce07f2ef-582b-4d08-98e9-ab6a6c3a74e1" />
 <img width="2560" height="1440" alt="20260926_18:27:37-cropped" src="https://github.com/user-attachments/assets/4492cb58-ca4e-40ad-82de-48728153206d" />
 <img width="2560" height="1440" alt="20260818_23:52:05" src="https://github.com/user-attachments/assets/0c4a99de-13ac-46ae-9b3e-d90a079aa4f2" />
-<img width="582" height="478" alt="20261011_23:30:08" src="https://github.com/user-attachments/assets/c694b818-5691-4bec-95f4-d310bb87a555" />
 <img width="450" height="65" alt="20261017_22:34:26" src="https://github.com/user-attachments/assets/aabdb2be-fdc0-4a0f-87a1-2d6f6bac7849" />
 <img width="616" height="350" alt="20261014_22:05:58" src="https://github.com/user-attachments/assets/c8f01c0d-9ab7-4f5a-b95e-0eb97be7b463" />
 <img width="641" height="568" alt="20260902_23:30:32" src="https://github.com/user-attachments/assets/b3f80f9d-6d56-4c54-8cec-9e6d1cd6dea3" />
-<img width="582" height="478" alt="20261011_23:30:08" src="https://github.com/user-attachments/assets/c694b818-5691-4bec-95f4-d310bb87a555" />
-<img width="450" height="65" alt="20261017_22:34:26" src="https://github.com/user-attachments/assets/aabdb2be-fdc0-4a0f-87a1-2d6f6bac7849" />
-<img width="616" height="350" alt="20261014_22:05:58" src="https://github.com/user-attachments/assets/c8f01c0d-9ab7-4f5a-b95e-0eb97be7b463" />
-<img width="641" height="568" alt="20260902_23:30:32" src="https://github.com/user-attachments/assets/b3f80f9d-6d56-4c54-8cec-9e6d1cd6dea3" />
+<img width="655" height="644" alt="20261019_00:23:44" src="https://github.com/user-attachments/assets/cee34935-fd4e-424e-9c6c-dee5f7c61403" />
+<img width="663" height="495" alt="20261019_00:23:55" src="https://github.com/user-attachments/assets/1f0f24f8-e9a2-49a7-9ffe-4b6e15d6aa5b" />
+<img width="525" height="663" alt="20261019_00:24:06" src="https://github.com/user-attachments/assets/692d6642-67c6-4c6a-a216-1477a7f5a82a" />
+
 
 ## Software
 
