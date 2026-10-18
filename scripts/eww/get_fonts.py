@@ -45,27 +45,27 @@ def get_all():
 
 
 def filter_fonts(fonts, qry):
-    print(qry)
+    #print(qry)
     r = []
     for f in fonts:
         g = f.lower()
         if qry in g:
-            print(qry + " in " + g)
+            #print(qry + " in " + g)
             if qry.startswith(g):
                 r.insert(0, f)
-                print("inserting: " + f)
+                #print("inserting: " + f)
             else:
                 r.append(f)
-                print("appending: " + f)
+                #print("appending: " + f)
     return r
 
 
 def get_page(index, font_num, fonts):
     start_index = MAX_PER_PAGE * index
     end_index = start_index + MAX_PER_PAGE
-    print("start_index: " + str(start_index))
-    print("end_index: " + str(end_index))
-    print("font_num: " + str(font_num))
+    #print("start_index: " + str(start_index))
+    #print("end_index: " + str(end_index))
+    #print("font_num: " + str(font_num))
     if end_index >= font_num:
         end_index = font_num
     return fonts[start_index:end_index]
@@ -81,7 +81,7 @@ def get_current_page():
 
 if __name__ == "__main__":
     fonts = get_all()
-    
+
     parser = ArgumentParser()
     parser.add_argument("-i", "--page", default=None)
     parser.add_argument("-q", "--query", default=None)
@@ -134,4 +134,4 @@ if __name__ == "__main__":
         """,
         shell=True
     )
-    print(json.dumps(fonts))
+    #print(json.dumps(fonts))

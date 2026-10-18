@@ -235,7 +235,18 @@
       :orientation "h"
       :space-evenly false
       (heading :size "large" :text "Colourscheme")
-      (scheme_polarity_buttons)
+      (search_bar
+        :halign "end"
+        :valign "center"
+        :value scheme_query
+        :icon ""
+        :width 150
+        :placeholder "Search..."
+        :onchange `
+            ${EWW_CMD} update scheme_query='{}'
+            $YZSHELL_EWW_SCRIPT_DIR/schemes.py --query='{}' --page=0 &`
+        :onaccept ""
+      )
     )
     (overlay
       (stack
@@ -245,45 +256,30 @@
         (scheme_box
           :colourschemes dark_colourschemes
           :polarity "dark"
-          :visible {
-            dark_colourschemes == '{"window_buttons": ["red", "yellow", "green"]}' 
-            ? false : true
-          }
         )
         (scheme_box
           :colourschemes light_colourschemes
           :polarity "light"
-          :visible {
-            light_colourschemes == `{"window_buttons": ["red", "yellow", "green"]}` 
-            ? false : true
-          }
         )
       )
       (next_prev_buttons
-        :next_cmd "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=next --query='${scheme_query}' --polarity=${schemes_selected == 0 ? "dark" : "light"} &"
-        :prev_cmd "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=prev --query='${scheme_query}' --polarity=${schemes_selected == 0 ? "dark" : "light"} &"
-      )
-      (search_bar
-        :halign "center"
-        :valign "start"
-        :value scheme_query
-        :icon ""
-        :width 420
-        :placeholder "Search..."
-        :onchange `
-            ${EWW_CMD} update scheme_query='{}'
-            $YZSHELL_EWW_SCRIPT_DIR/schemes.py --query='{}' --page=0 &`
-        :onaccept ""
+        :next_cmd "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=next --query='${scheme_query}' --polarity='${schemes_selected == 0 ? "dark" : "light"}' &"
+        :prev_cmd "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=prev --query='${scheme_query}' --polarity='${schemes_selected == 0 ? "dark" : "light"}' &"
       )
     )
-    (label
-      :style "opacity: 0.4; font-style: italic;"
-      :limit-width 60
-      :show-truncated true
-      :halign "start"
-      :hexpand true
-      :text "Current: ${current_scheme}"
-      :tooltip current_scheme
+    (box
+      :orientation "h"
+      :space-evenly false
+      (label
+        :style "opacity: 0.4; font-style: italic;"
+        :limit-width 60
+        :show-truncated true
+        :halign "start"
+        :hexpand true
+        :text "Current: ${current_scheme}"
+        :tooltip current_scheme
+      )
+      (scheme_polarity_buttons)
     )
   )
 )

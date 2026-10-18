@@ -36,11 +36,11 @@
     border-radius: $outer-radius;
     background: $bg;
     border: 1px solid $border;
-    .search-bar {
+    /*.search-bar {
       margin: $padding;
       border: 1px solid $surface2;
       box-shadow: $image-shadow;
-    }
+    }*/
     .polarity-button {
       &.selected {
         background-color: $accent;
@@ -58,11 +58,10 @@
       border: 1px solid $surface2;
     }
     .colours-scroller {
-      min-height: 450px;
       .colours-box {
         padding: $padding * 2;
         margin-bottom: 32px;
-        margin-top: 42px;
+        //margin-top: 8px;
       }
       .not-found {
         text-shadow: 0 0 4px rgba(0, 0, 0, 0.4);

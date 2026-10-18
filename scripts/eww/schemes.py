@@ -16,6 +16,7 @@ def update_eww(a, polarity):
     empty = "true"
     if len(a) > 0:
         empty = "false"
+    #print(json.dumps(a, indent=4))
     subprocess.run(
         f"""
         eww update {polarity}_colourschemes="{json.dumps(a).replace("\"", "\\\"")}"
@@ -62,7 +63,7 @@ def filter_arr(qry, a):
     for sch in a:
         name = sch["scheme"].lower()
         if qry in sch["id"] or qry in name:
-            print(name)
+            #print(name)
             if sch["id"].startswith(qry) or name.startswith(qry):
                 r.insert(0, sch)
             else:
@@ -162,6 +163,7 @@ if __name__ == "__main__":
             f"eww update {polarity}_colourschemes_page='{str(target_page)}'",
             shell=True
         )
+        #print(polarity)
                 
     if len(arrs[polarity]) > 0:
         p = get_current_page_index(polarity)
