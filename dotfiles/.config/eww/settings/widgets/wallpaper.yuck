@@ -53,50 +53,45 @@
       :vscroll true
       :hscroll false
       :class "wp-scroller"
-      (box
-        :class "wp-button-box"
-        :orientation "v"
-        :spacing 8
-        :space-evenly false
-        (stack
-          :visible {wallpapers == "[]" ? true : false}
-          :selected {wallpapers_loading ? 1 : 0}
-          (label
-            :class "loading" 
-            :text "No images found..." 
-          )
-          (label
-            :class "loading" 
-            :text "Loading..." 
-          )
+      (stack
+        :selected {wallpapers == "[]" ? 0 : 1}
+        (label
+          :class "loading" 
+          :text {wallpapers_loading ? "Loading..." : "No images found..."}
         )
-        (for row in wallpapers
-          (box
-            :orientation "h"
-            :spacing 8
-            :halign "center"
-            :hexpand true
-            (for wallpaper in row
-                (button
-                  :onclick "yzconf wallpaper image '${wallpaper_dir}/${wallpaper}' &"
-                  :class "wallpaper-button${current_wallpaper == "${wallpaper_dir}/${wallpaper}" ? " selected" : ""}"
-                  :tooltip wallpaper
-                  (box
-                    :orientation "v"
-                    :valign "center"
-                    :spacing 8
-                    :space-evenly false
-                    (image 
-                        :path "${get_env("YZSHELL_WALLPAPER_CACHE_DIR")}/${wallpaper}" 
-                        :image-width 150
-                    )
-                    (label
-                      :text wallpaper 
-                      ;:truncate true 
-                      :limit-width 10
+        (box
+          :class "wp-button-box"
+          :orientation "v"
+          :spacing 8
+          :space-evenly false
+          (for row in wallpapers
+            (box
+              :orientation "h"
+              :spacing 8
+              :halign "center"
+              :hexpand true
+              (for wallpaper in row
+                  (button
+                    :onclick "yzconf wallpaper image '${wallpaper_dir}/${wallpaper}' &"
+                    :class "wallpaper-button${current_wallpaper == "${wallpaper_dir}/${wallpaper}" ? " selected" : ""}"
+                    :tooltip wallpaper
+                    (box
+                      :orientation "v"
+                      :valign "center"
+                      :spacing 8
+                      :space-evenly false
+                      (image 
+                          :path "${get_env("YZSHELL_WALLPAPER_CACHE_DIR")}/${wallpaper}" 
+                          :image-width 150
+                      )
+                      (label
+                        :text wallpaper 
+                        ;:truncate true 
+                        :limit-width 10
+                      )
                     )
                   )
-                )
+              )
             )
           )
         )
