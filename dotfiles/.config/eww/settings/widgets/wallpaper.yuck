@@ -56,7 +56,7 @@
       (stack
         :selected {wallpapers == "[]" ? 0 : 1}
         (label
-          :class "loading" 
+          :class "not-found" 
           :text {wallpapers_loading ? "Loading..." : "No images found..."}
         )
         (box

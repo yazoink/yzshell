@@ -42,7 +42,7 @@
         (stack
           :selected {search_results == "[]" ? 0 : 1}
           (label 
-            :class "no-results" 
+            :class "not-found" 
             :text "No results found..." 
           )
           (box 

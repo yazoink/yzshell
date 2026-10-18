@@ -177,3 +177,8 @@ combobox * {
 menu * {
   color: $foreground;
 }
+
+.not-found {
+  font-style: italic;
+  opacity: 0.4;
+}

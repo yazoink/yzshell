@@ -197,7 +197,7 @@
                     (box
                         :class "reminders"
                         (label
-                            :style "font-style: italic; opacity: 0.4;"
+                            :class "not-found"
                             :text "Nothing here..."
                         )
                     )

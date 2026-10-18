@@ -143,18 +143,17 @@
         :hscroll false
         :vscroll true
         :class "colours-scroller"
-        (box
-          :class "colours-box"
-          :orientation "v"
-          :space-evenly false
-          :spacing 8
+        (stack
+          :selected {no_schemes_found ? 0 : 1}
+          (label :text "No results found..." :class "not-found")
           (box
-              :class "no-schemes-found"
-              :visible no_schemes_found
-              (label :text "No schemes found...")
-          )
-          (for scheme in colourschemes
-            (scheme_preview :scheme scheme)
+            :class "colours-box"
+            :orientation "v"
+            :space-evenly false
+            :spacing 8
+            (for scheme in colourschemes
+              (scheme_preview :scheme scheme)
+            )
           )
         )
       )

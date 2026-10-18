@@ -57,6 +57,7 @@
 (defpoll notes
   :run-while {control_center_menu_item == 4 && control_center_visible} 
   :interval "5s" 
+  :initial ""
   "$YZSHELL_EWW_SCRIPT_DIR/notes.py"
 )
 (defpoll cpu 

@@ -106,7 +106,8 @@ def parse_file():
 
 if __name__ == "__main__":
     if path.isfile(NOTES_FILE) == False:
-        print('<span fgalpha="40%"><i>Nothing here...</i></span>')
+        #print('<span fgalpha="40%"><i>Nothing here...</i></span>')
+        print("")
         exit(0)
 
     pango = parse_file()

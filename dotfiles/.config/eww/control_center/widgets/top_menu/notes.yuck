@@ -8,13 +8,20 @@
                 :hscroll false
                 :vscroll true
                 (box
-                    (label
-                        :class "notes-body"
-                        :valign "start"
-                        :halign "start"
-                        :xalign 0
-                        :wrap true
-                        :markup notes
+                    (stack
+                        :selected {notes == "" ? 0 : 1}
+                        (label
+                            :class "not-found"
+                            :text "Make some notes..."
+                        )
+                        (label
+                            :class "notes-body"
+                            :valign "start"
+                            :halign "start"
+                            :xalign 0
+                            :wrap true
+                            :markup notes
+                        )
                     )
                 )
             )
