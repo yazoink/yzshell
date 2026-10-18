@@ -162,42 +162,24 @@
     :class "colours-box-outer ${polarity}"
     ;:style "background-image: url('${current_wallpaper}');"
     :style "background-image: url('${colourschemes_bg_image}');"
-    (overlay
-      (scroll
-        :hscroll false
-        :vscroll true
-        :class "colours-scroller"
-        :width 530
-        :height 450
-        (stack
-          :selected {no_schemes_found ? 0 : 1}
-          (label :text "No results found..." :class "not-found")
-          (box
-            :class "colours-box"
-            :orientation "v"
-            :space-evenly false
-            :spacing 8
-            (for scheme in colourschemes
-              (scheme_preview :scheme scheme)
-            )
+    (scroll
+      :hscroll false
+      :vscroll true
+      :class "colours-scroller"
+      :width 530
+      :height 450
+      (stack
+        :selected {no_schemes_found ? 0 : 1}
+        (label :text "No results found..." :class "not-found")
+        (box
+          :class "colours-box"
+          :orientation "v"
+          :space-evenly false
+          :spacing 8
+          (for scheme in colourschemes
+            (scheme_preview :scheme scheme)
           )
         )
-      )
-      (next_prev_buttons
-        :next_cmd "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=next --query='${scheme_query}' --polarity=${schemes_selected == 0 ? "dark" : "light"} &"
-        :prev_cmd "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=prev --query='${scheme_query}' --polarity=${schemes_selected == 0 ? "dark" : "light"} &"
-      )
-      (search_bar
-        :halign "center"
-        :valign "start"
-        :value scheme_query
-        :icon ""
-        :width 420
-        :placeholder "Search..."
-        :onchange `
-            ${EWW_CMD} update scheme_query='{}'
-            $YZSHELL_EWW_SCRIPT_DIR/schemes.py --query='{}' --page=0 &`
-        :onaccept ""
       )
     )
   )
@@ -215,20 +197,26 @@
     :class "scheme-polarity-buttons"
     (button
       :class "polarity-button ${schemes_selected == 0 ? "selected" : ""}"
-      :onclick `
-        (
+      :onclick {
+        schemes_selected == 0
+        ? ""
+        : `(
             $YZSHELL_EWW_SCRIPT_DIR/schemes.py --polarity=dark --page=0 --query='${scheme_query}'
             ${EWW_CMD} update schemes_selected=0
         ) &`
+      }
       (label :text "Dark")
     )
     (button
       :class "polarity-button ${schemes_selected == 1 ? "selected" : ""}"
-      :onclick `
-        (
+      :onclick {
+        schemes_selected == 1
+        ? ""
+        : `(
             $YZSHELL_EWW_SCRIPT_DIR/schemes.py --polarity=light --page=0 --query='${scheme_query}'
             ${EWW_CMD} update schemes_selected=1
         ) &`
+      }
       (label :text "Light")
     )
   )
@@ -249,25 +237,43 @@
       (heading :size "large" :text "Colourscheme")
       (scheme_polarity_buttons)
     )
-    (stack
-      :selected schemes_selected
-      :transition {schemes_selected == 0 ? "slideleft" : "slideright"}
-      :same-size true
-      (scheme_box
-        :colourschemes dark_colourschemes
-        :polarity "dark"
-        :visible {
-          dark_colourschemes == '{"window_buttons": ["red", "yellow", "green"]}' 
-          ? false : true
-        }
+    (overlay
+      (stack
+        :selected schemes_selected
+        :transition {schemes_selected == 0 ? "slideleft" : "slideright"}
+        :same-size true
+        (scheme_box
+          :colourschemes dark_colourschemes
+          :polarity "dark"
+          :visible {
+            dark_colourschemes == '{"window_buttons": ["red", "yellow", "green"]}' 
+            ? false : true
+          }
+        )
+        (scheme_box
+          :colourschemes light_colourschemes
+          :polarity "light"
+          :visible {
+            light_colourschemes == `{"window_buttons": ["red", "yellow", "green"]}` 
+            ? false : true
+          }
+        )
       )
-      (scheme_box
-        :colourschemes light_colourschemes
-        :polarity "light"
-        :visible {
-          light_colourschemes == `{"window_buttons": ["red", "yellow", "green"]}` 
-          ? false : true
-        }
+      (next_prev_buttons
+        :next_cmd "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=next --query='${scheme_query}' --polarity=${schemes_selected == 0 ? "dark" : "light"} &"
+        :prev_cmd "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=prev --query='${scheme_query}' --polarity=${schemes_selected == 0 ? "dark" : "light"} &"
+      )
+      (search_bar
+        :halign "center"
+        :valign "start"
+        :value scheme_query
+        :icon ""
+        :width 420
+        :placeholder "Search..."
+        :onchange `
+            ${EWW_CMD} update scheme_query='{}'
+            $YZSHELL_EWW_SCRIPT_DIR/schemes.py --query='{}' --page=0 &`
+        :onaccept ""
       )
     )
     (label
