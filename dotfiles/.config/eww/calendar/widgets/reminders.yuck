@@ -106,12 +106,9 @@
         (box
             :orientation "h"
             :space-evenly false
-            (label
-                :class "reminders-label"
-                :text "Reminders"
-                :halign "start"
-                :hexpand true
-            )
+            :valign "center"
+            :vexpand true
+            (heading :size "large" :text "Reminders")
             (box
                 :halign "end"
                 :hexpand true
