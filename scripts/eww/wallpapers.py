@@ -105,8 +105,8 @@ if __name__ == "__main__":
     subprocess.run(
         f"""
         eww update wallpaper_dir='{directory}'
-        eww update wallpapers_loading=true
         eww update wallpapers="[]"
+        eww update wallpapers_loading=true
         """,
         shell=True,
     )
@@ -118,8 +118,8 @@ if __name__ == "__main__":
 
     subprocess.run(
         f"""
-        eww update wallpapers_loading=false
         eww update wallpapers=\'{json.dumps(wallpaper_data)}\'
+        eww update wallpapers_loading=false
         """,
         shell=True,
     )
