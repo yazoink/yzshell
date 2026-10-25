@@ -55,7 +55,7 @@
         :halign "fill"
         :valign "end"
         :vexpand false
-        ;:width 400
+        :width 450
         (box
             :orientation "h"
             :space-evenly false
@@ -74,7 +74,7 @@
                     :valign "start"
                     :value fonts_query
                     :icon ""
-                    :width 150
+                    :width 50
                     :placeholder "Search..."
                     :onchange `
                         ${EWW_CMD} update fonts_query='{}'

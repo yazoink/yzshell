@@ -75,7 +75,8 @@
       :selected settings_menu_item
       :class "settings-content"
       :same-size false
-      :transition stack_transition
+      :transition "slidedown"
+      :duration 800
       (wallpaper)
       (colourschemes)
       (box
