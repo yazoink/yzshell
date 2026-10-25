@@ -10,7 +10,7 @@
     (button
       :tooltip "Change profile image"
       :onclick `(
-        ${EWW_CMD} update settings_menu_item=3
+        ${EWW_CMD} update settings_menu_item=4
         yzwidgets close control_center 
         yzwidgets open settings
       ) &`
