@@ -45,7 +45,7 @@
       :hexpand true
       :spacing 8
       (label :text "Save to:")
-      (input :value recording_output)
+      (input :value recording_dir)
       (label :text "Format:")
       (overlay
         (box
@@ -69,7 +69,7 @@
         :class "recorder-button"
         :onclick `yzrecorder \
           --audio ${record_audio} \
-          --directory ${recording_output} \
+          --directory ${recording_dir} \
           --format ${recording_format} \
           --select true & disown`
         "Record region"
@@ -79,7 +79,7 @@
         :class "recorder-button"
         :onclick `yzrecorder \
           --audio ${record_audio} \
-          --directory ${recording_output} \
+          --directory ${recording_dir} \
           --format ${recording_format} & disown`
         "Record screen"
       )

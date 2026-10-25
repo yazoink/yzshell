@@ -37,6 +37,9 @@ def refresh_vars(config):
         eww update editor_cmd='{config["editor_cmd"]}'
         eww update weather_location='{config["weather_location"]}'
         eww update weather_unit='{config["weather_unit"]}'
+        eww update music_dir='{config["music_dir"]}'
+        eww update screenshot_dir='{config["screenshot_dir"]}'
+        eww update recording_dir='{config["recording_dir"]}'
         """,
         shell=True,
     )
@@ -69,6 +72,7 @@ def open_control_center(screen, config):
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "apps.py")} &
         bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "dnd_icon.sh")} &
         bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "idle_icon.sh")} &
+        eww update recording_dir='{config["recording_dir"]}'
         eww update control_center_visible=true
         eww open closer --no-daemonize --screen {screen}
         eww open control_center --no-daemonize --screen {screen} \\
@@ -129,6 +133,7 @@ def open_settings(screen, config):
         eww open settings --no-daemonize --screen {screen} \\
             && hyprctl dispatch 'hl.dsp.submap(\"settings\")'
         bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "get_current_font.sh")} "sans" &
+        eww update recording_dir='{config["recording_dir"]}'
         eww update current_wallpaper='{wallpaper_path}'
         eww update wallpaper_mode='{config["wallpaper_mode"]}'
         eww update current_scheme='{config["colourscheme"]}'

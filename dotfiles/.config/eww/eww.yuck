@@ -90,7 +90,6 @@
   :interval "3s"  
   "$YZSHELL_EWW_SCRIPT_DIR/music_info.sh --cover"
 )
-(defvar recording_output "")
 (defvar recording_format "mp4")
 (defvar record_audio false)
 (defpoll recorder_updater
@@ -179,6 +178,9 @@
 (defvar weather_location "")
 (defvar weather_unit "")
 (defvar setting_weather false)
+(defvar music_dir "")
+(defvar screenshot_dir "")
+(defvar recording_dir "")
 
 ; workspaces
 (defvar workspaces_visible false)

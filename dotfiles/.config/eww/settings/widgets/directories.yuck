@@ -1,0 +1,69 @@
+(defwidget dir_setting [ value variable heading ]
+    (box
+        :orientation "h"
+        :spacing 8
+        :space-evenly false
+        (label :text "${heading}:")
+        (box
+            :orientation "h"
+            :spacing 4
+            :space-evenly false
+            :halign "end"
+            :hexpand true
+            (input
+                :value value
+                ;:width 250
+                :onchange "${EWW_CMD} update ${variable}='{}'"
+                :onconfirm `(
+                    ${EWW_CMD} update ${variable}="{}"
+                    yzconf set ${variable} "{}"
+                ) &`
+            )
+            (icon_button
+                :icon ""
+                :tooltip "Confirm"
+                :size "small"
+                :colour "green"
+                :command `(
+                    ${EWW_CMD} ${variable}="${value}"
+                    yzconf set ${variable} "${value}"
+                ) &`
+            )
+        )
+    )
+)
+
+(defwidget directories []
+    (box
+        :orientation "v"
+        :spacing 8
+        :space-evenly false
+        :class "dir-settings"
+        :halign "fill"
+        :valign "end"
+        :vexpand true
+        :width 400
+        (heading :size "large" :text "Directories")
+        (box
+            :class "dir-settings-box"
+            :orientation "v"
+            :spacing 8
+            :space-evenly false
+            (dir_setting
+                :heading "Music library"
+                :value music_dir
+                :variable "music_dir"
+            )
+            (dir_setting
+                :heading "Screenshots"
+                :value screenshot_dir
+                :variable "screenshot_dir"
+            )
+            (dir_setting
+                :heading "Screen recordings"
+                :value recording_dir
+                :variable "recording_dir"
+            )
+        )
+    )
+)

@@ -4,6 +4,7 @@
 (include "settings/widgets/fonts.yuck")
 (include "settings/widgets/profile_image.yuck")
 (include "settings/widgets/weather.yuck")
+(include "settings/widgets/directories.yuck")
 
 (defwidget settings_menu_button [index icon tooltip text class]
     (button
@@ -102,6 +103,7 @@
         :spacing 4
         :space-evenly false
         :orientation "v"
+        (directories)
         (bar_settings)
         (pfp_settings)
       )
