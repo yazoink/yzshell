@@ -1,0 +1,76 @@
+(defwidget weather_settings []
+    (box
+        :orientation "v"
+        :spacing 8
+        :space-evenly false
+        :class "weather-settings"
+        :halign "fill"
+        :valign "end"
+        :vexpand true
+        :width 400
+        (heading :size "large" :text "Weather")
+        (box
+            :class "weather-settings-box"
+            :orientation "v"
+            :spacing 8
+            :space-evenly false
+            (box
+                :orientation "h"
+                :space-evenly false
+                :halign "start"
+                :valign "start"
+                :hexpand true
+                :vexpand true
+                :spacing 4
+                (label :text "Unit: ")
+                (dropdown
+                    :label weather_unit
+                    :items "[celsius,farenheit]"
+                    :style {setting_weather ? "opacity: 0.4;" : ""}
+                    :onchange `(
+                        ${EWW_CMD} update setting_weather=true
+                        ${EWW_CMD} update weather_unit="{}"
+                        yzconf set weather_unit "{}"
+                        ${EWW_CMD} poll weather_data
+                        ${EWW_CMD} update setting_weather=false
+                    ) &`
+                )
+            )
+            (box
+                :orientation "h"
+                :space-evenly false
+                :halign "start"
+                :valign "start"
+                :hexpand true
+                :vexpand true
+                :spacing 4
+                (label :text "Location: ")
+                (overlay
+                    :style {setting_weather ? "opacity: 0.4;" : ""}
+                    (input
+                        :value weather_location
+                        :active {setting_weather ? false : true}
+                        :onchange "eww update weather_location='{}'"
+                        :onaccept "$YZSHELL_EWW_SCRIPT_DIR/weather_location.py '{}' &"
+                    )
+                    (label
+                        :halign "start"
+                        :hexpand true
+                        :class "placeholder"
+                        :visible {weather_location == "" ? true : false}
+                        :text "default"
+                    )
+                )
+                (icon_button
+                    :icon ""
+                    :tooltip "Confirm"
+                    :size "small"
+                    :colour "green"
+                    :style {setting_weather ? "opacity: 0.4;" : ""}
+                    :active {setting_weather ? false : true}
+                    :command "$YZSHELL_EWW_SCRIPT_DIR/weather_location.py '${weather_location}' &"
+                )
+            )
+        )
+    )
+)

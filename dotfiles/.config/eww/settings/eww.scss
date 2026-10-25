@@ -227,6 +227,53 @@
   }
 }
 
+.weather-settings {
+  padding: $padding;
+  border-radius: $outer-radius;
+  background: $background;
+  border: 1px solid $border;
+  button {
+    padding: 0;
+    background-color: $surface2;
+    &:hover { 
+      background-color: $surface3; 
+    }
+  }
+  .weather-settings-box {
+    padding: $padding;
+    border-radius: $inner-radius;
+    background: $surface1;
+  }
+  entry {
+    background-color: $surface2;
+    border-radius: $inner-radius;
+  }
+  .placeholder {
+    font-style: italic;
+    opacity: 0.4;
+    padding: $padding;
+  }
+  .combo-box, .combo-box button, .combo-box label {
+    color: transparent;
+    background-color: transparent;
+    background-image: none;
+  }
+  .combo-box-format {
+    background-color: $surface2;
+    &:hover {
+      background-color: $surface3;
+    }
+  }
+  menu {
+    background-color: $surface2;
+  }
+  menuitem {
+    &:hover {
+      background-color: $surface3;
+    }
+  }
+}
+
 .font-settings {
   padding: $padding;
   border-radius: $outer-radius;

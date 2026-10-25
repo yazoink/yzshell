@@ -176,9 +176,9 @@
 (defvar fonts_query "")
 (defvar fonts_page "0")
 (defvar current_font "")
-;(defvar sans_fonts "[]")
-;(defvar serif_fonts "[]")
-;(defvar mono_fonts "[]")
+(defvar weather_location "")
+(defvar weather_unit "")
+(defvar setting_weather false)
 
 ; workspaces
 (defvar workspaces_visible false)

@@ -1,8 +1,9 @@
 ; size: "extra-small", "small", "medium", "large"
-(defwidget icon_button [icon tooltip command size colour ?class]
+(defwidget icon_button [icon tooltip command size colour ?class ?style]
     (button
         :onclick command
         :tooltip tooltip
+        :style style
         :class "icon icon-button icon-button-${size} ${colour} ${class}"
         icon
     )
@@ -26,8 +27,9 @@
   )
 )
 
-(defwidget dropdown [label onchange items]
+(defwidget dropdown [label onchange items ?style]
   (overlay
+    :style style
     (box
         :class "combo-box-format"
         (label :text "${label}  ")

@@ -3,6 +3,7 @@
 (include "settings/widgets/bar.yuck")
 (include "settings/widgets/fonts.yuck")
 (include "settings/widgets/profile_image.yuck")
+(include "settings/widgets/weather.yuck")
 
 (defwidget settings_menu_button [index icon tooltip text class]
     (button
@@ -85,7 +86,6 @@
       :class "settings-content"
       :same-size false
       :transition "slidedown"
-      :duration 800
       (wallpaper)
       (colourschemes)
       (font_settings)
@@ -95,6 +95,7 @@
         :orientation "v"
         (bar_settings)
         (pfp_settings)
+        (weather_settings)
       )
     )
   )

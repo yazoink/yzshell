@@ -1,4 +1,4 @@
-(defwidget vertical_separator [ size ]
+(defwidget vertical_separator [ ?size ]
     (box
         :orientation "vertical"
         :space-evenly "true"

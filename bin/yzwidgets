@@ -35,6 +35,8 @@ def refresh_vars(config):
         eww update wallpaper_mode='{config["wallpaper_mode"]}'
         eww update wallpaper_dir='{config["wallpaper_dir"]}'
         eww update editor_cmd='{config["editor_cmd"]}'
+        eww update weather_location='{config["weather_location"]}'
+        eww update weather_unit='{config["weather_unit"]}'
         """,
         shell=True,
     )
