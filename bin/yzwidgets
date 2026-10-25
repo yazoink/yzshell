@@ -17,7 +17,7 @@ def refresh_vars(config):
         [ ! -z "{environ["YZSHELL_WALLPAPER_LOCKFILE"]}" ] \
             && rm -rf {environ["YZSHELL_WALLPAPER_LOCKFILE"]}
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "apps.py")} &
-        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "wallpapers.py")} &
+        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "wallpapers.py")} --page=0 --directory='{config["wallpaper_dir"]}' &
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes_background.py")} &
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes.py")} --page=0 --polarity=dark &
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes.py")} --page=0 --polarity=light &
@@ -46,7 +46,6 @@ def refresh_widgets(config):
 
 
 def init_widgets(config):
-    wallpaper_path = path.join(config["wallpaper_dir"], config["wallpaper_image"])
     subprocess.run(["eww", "daemon"])
     refresh_vars(config)
 
@@ -122,7 +121,6 @@ def open_settings(screen, config):
     wallpaper_path = path.join(config["wallpaper_dir"], config["wallpaper_image"])
     subprocess.run(
         f"""
-        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "wallpapers.py")} &
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes_background.py")} &
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "get_fonts.py")} --page=0 --query='' &
         eww open closer --no-daemonize --screen {screen}

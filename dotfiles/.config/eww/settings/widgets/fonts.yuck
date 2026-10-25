@@ -39,8 +39,8 @@
                 )
             )
             (next_prev_buttons
-                :next_cmd "$YZSHELL_EWW_SCRIPT_DIR/get_fonts.py --page='next'"
-                :prev_cmd "$YZSHELL_EWW_SCRIPT_DIR/get_fonts.py --page='prev'"
+                :next_cmd "$YZSHELL_EWW_SCRIPT_DIR/get_fonts.py --page='next' &"
+                :prev_cmd "$YZSHELL_EWW_SCRIPT_DIR/get_fonts.py --page='prev' &"
             )
         )
     )

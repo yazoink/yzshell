@@ -167,6 +167,7 @@
 (defvar wallpaper_mode "")
 (defvar wallpapers "[]")
 (defvar current_wallpaper "")
+(defvar wallpapers_page "0")
 (defvar wallpapers_loading true)
 (defvar bar_show_battery false)
 (defvar bar_show_backlight false)

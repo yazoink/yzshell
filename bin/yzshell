@@ -118,6 +118,7 @@ function help() {
             Commands:
                 toggle_dnd: toggle do-not-disturb
                 toggle_idle_inhib: toggle idle inhibitor
+        env: print yzshell environment variables
         launch [COMPONENT] (default): launch shell
             Components:
                 bar
@@ -144,6 +145,7 @@ function help() {
 function main() {
     case "$1" in
         "") launch_yzshell ;;
+        "env") cat $YZSHELL_ENV_FILE ;;
         "kill")
             case "${2}" in
                 "bar") killall waybar ;;

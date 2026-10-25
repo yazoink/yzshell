@@ -133,6 +133,7 @@
     min-height: 300px;
     background-color: $surface1;
     border-radius: $inner-radius;
+    
     .wp-button-box {
       padding: $padding;
       margin-bottom: 46px;
@@ -162,6 +163,18 @@
         border-radius: $inner-radius;
         label {
           color: $bg;
+        }
+      }
+    }
+    .next-prev-buttons {
+      padding: $padding;
+      button {
+        padding: $padding;
+        box-shadow: $image-shadow;
+        border: 1px solid $surface2;
+        label {
+          padding: 0;
+          margin: 0;
         }
       }
     }

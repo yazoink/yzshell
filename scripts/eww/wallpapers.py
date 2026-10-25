@@ -16,6 +16,8 @@ sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
 from configutils import get_config
 from miscutils import get_full_path
 
+MAX_PER_PAGE = 4 # max items per page
+
 
 def get_image_files(directory):
     files = listdir(directory)
@@ -43,6 +45,14 @@ def get_wallpaper_data(image_files, cols):
                     break
             a.append(r)
     return a
+
+
+def get_page(wallpapers, wp_num, index):
+    start_index = MAX_PER_PAGE * index
+    end_index = start_index + MAX_PER_PAGE
+    if end_index >= wp_num:
+        end_index = wp_num
+    return wallpapers[start_index:end_index]
 
 
 def update_thumbs(refresh=False, directory=None):
@@ -79,17 +89,26 @@ def update_thumbs(refresh=False, directory=None):
     return True
 
 
-if __name__ == "__main__":
-    lockfile = environ["YZSHELL_WALLPAPER_LOCKFILE"]
+def get_current_page():
+    return int(subprocess.run(
+        ["eww", "get", "wallpapers_page"],
+        text=True,
+        capture_output=True
+    ).stdout.strip())
 
-    if path.isfile(lockfile) == True:
-        exit(1)
-    with open(lockfile, "w") as f:
-        f.write("")
+
+if __name__ == "__main__":
+    #lockfile = environ["YZSHELL_WALLPAPER_LOCKFILE"]
+
+    #if path.isfile(lockfile) == True:
+        #exit(1)
+    #with open(lockfile, "w") as f:
+        #f.write("")
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--directory", default=None)
     parser.add_argument("-c", "--columns", default=3)
+    parser.add_argument("-p", "--page", default=None)
     parser.add_argument("-r", "--refresh", action="store_true", default=False)
     args = parser.parse_args(argv[1:])
 
@@ -111,17 +130,53 @@ if __name__ == "__main__":
         shell=True,
     )
 
-    update_thumbs(directory=directory, refresh=args.refresh)
+    if args.refresh == True:
+        subprocess.run(
+            "eww update wallpapers_page='0'",
+            shell=True,
+        )
 
+    update_thumbs(directory=directory, refresh=args.refresh)
     image_files = get_image_files(directory)
     wallpaper_data = get_wallpaper_data(image_files, args.columns)
 
+    page = 0
+    wp_num = len(wallpaper_data)
+    page_num = ceil(wp_num / MAX_PER_PAGE)
+
+    if args.page != None:
+        if args.page in ["next", "prev"]:
+            current_page = get_current_page()
+            page = current_page
+            if args.page == "next":
+                if page + 1 >= page_num:
+                    page = 0
+                else:
+                    page += 1
+            else:
+                if page - 1 < 0:
+                    page = page_num - 1
+                else:
+                    page -= 1
+        else:
+            page = int(args.page)
+            if page >= page_num:
+                page = page_num - 1
+            elif page <= page_num:
+                page = 0
+    else:
+        page = get_current_page()
+
+    #print(json.dumps(wallpaper_data, indent=4))
+    wallpaper_data = get_page(wallpaper_data, wp_num, page)
+
     subprocess.run(
         f"""
+        eww update wallpapers_page="{page}"
         eww update wallpapers=\'{json.dumps(wallpaper_data)}\'
         eww update wallpapers_loading=false
         """,
         shell=True,
     )
-    #print(json.dumps(wallpaper_data))
-    remove(lockfile)
+    #print(json.dumps(wallpaper_data, indent=4))
+    #remove(lockfile)

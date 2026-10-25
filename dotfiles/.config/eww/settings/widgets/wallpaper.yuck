@@ -120,6 +120,10 @@
           )
         )
       )
+      (next_prev_buttons
+          :next_cmd "$YZSHELL_EWW_SCRIPT_DIR/wallpapers.py --directory='${wallpaper_dir}' --page='next' &"
+          :prev_cmd "$YZSHELL_EWW_SCRIPT_DIR/wallpapers.py --directory=${wallpaper_dir}'' --page='prev' &"
+      )
     )
     (box
       :orientation "h"
