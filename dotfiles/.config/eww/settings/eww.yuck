@@ -94,8 +94,8 @@
         :space-evenly false
         :orientation "v"
         (bar_settings)
-        (pfp_settings)
         (weather_settings)
+        (pfp_settings)
       )
     )
   )

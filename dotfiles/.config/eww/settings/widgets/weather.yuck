@@ -8,7 +8,7 @@
         :valign "end"
         :vexpand true
         :width 400
-        (heading :size "large" :text "Weather")
+        (heading :size "large" :text "Weather Preferences")
         (box
             :class "weather-settings-box"
             :orientation "v"
