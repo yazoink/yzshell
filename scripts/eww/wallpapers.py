@@ -50,7 +50,7 @@ def update_thumbs(refresh=False, directory=None):
 
     def make_thumb(f):
         with Image.open(path.join(directory, f)) as i:
-            MAX_SIZE = (150, 150)
+            MAX_SIZE = (156, 156)
             i.thumbnail(MAX_SIZE)
             i.save(path.join(cache_dir, f))
 

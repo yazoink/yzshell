@@ -105,7 +105,7 @@
                       :space-evenly false
                       (image 
                           :path "${get_env("YZSHELL_WALLPAPER_CACHE_DIR")}/${wallpaper}" 
-                          :image-width 150
+                          :image-width 156
                       )
                       (label
                         :text wallpaper 

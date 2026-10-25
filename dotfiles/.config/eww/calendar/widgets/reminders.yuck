@@ -20,7 +20,7 @@
                     :class "reminder-time"
                 )
                 (label
-                    :text {r.content}
+                    :text "${r.content}"
                     :halign "start"
                     :hexpand true
                     :wrap true
