@@ -27,7 +27,7 @@
         (box
             :class "bar-settings-box"
             :orientation "v"
-            :spacing 8
+            ;:spacing 8
             :space-evenly false
             (box
                 :orientation "h"

@@ -322,3 +322,7 @@ menu * {
   font-size: $mono-font-size;
   font-weight: 500;
 }
+
+entry selection {
+  background-color: transparentize($accent , 0.6);
+}

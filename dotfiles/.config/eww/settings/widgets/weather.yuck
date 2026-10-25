@@ -7,7 +7,7 @@
         :halign "fill"
         :valign "end"
         :vexpand true
-        :width 400
+        :width 450
         (heading :size "large" :text "Weather Preferences")
         (box
             :class "weather-settings-box"
@@ -21,54 +21,128 @@
                 :valign "start"
                 :hexpand true
                 :vexpand true
-                :spacing 4
-                (label :text "Unit: ")
-                (dropdown
-                    :label weather_unit
-                    :items "[celsius,farenheit]"
-                    :style {setting_weather ? "opacity: 0.4;" : ""}
-                    :onchange `(
-                        ${EWW_CMD} update setting_weather=true
-                        ${EWW_CMD} update weather_unit="{}"
-                        yzconf set weather_unit "{}"
-                        ${EWW_CMD} poll weather_data
-                        ${EWW_CMD} update setting_weather=false
-                    ) &`
+                :spacing 8
+                (label :text "Unit:")
+                (box
+                    :orientation "h"
+                    :space-evenly false
+                    :halign "start"
+                    :valign "start"
+                    :hexpand true
+                    :vexpand true
+                    :spacing 4
+                    (button
+                        :style {setting_weather ? "opacity: 0.4;" : ""}
+                        :class {weather_unit == "celsius" ? "selected" : ""}
+                        :active {setting_weather ? false : true}
+                        :onclick `(
+                            ${EWW_CMD} update setting_weather=true
+                            yzconf set weather_unit "celsius"
+                            ${EWW_CMD} poll weather_data
+                            ${EWW_CMD} update setting_weather=false
+                            ${EWW_CMD} update weather_unit="celsius"
+                        ) &`
+                        "Celsius"
+                    )
+                    (button
+                        :style {setting_weather ? "opacity: 0.4;" : ""}
+                        :class {weather_unit == "farenheit" ? "selected" : ""}
+                        :active {setting_weather ? false : true}
+                        :onclick `(
+                            ${EWW_CMD} update setting_weather=true
+                            yzconf set weather_unit "farenheit"
+                            ${EWW_CMD} poll weather_data
+                            ${EWW_CMD} update setting_weather=false
+                            ${EWW_CMD} update weather_unit="farenheit"
+                        ) &`
+                        "Farenheit"
+                    )
+                )
+                ;(vertical_separator :size "small")
+                (label :text "Location:")
+                (box
+                    :orientation "h"
+                    :space-evenly false
+                    :halign "start"
+                    :valign "start"
+                    :hexpand true
+                    :vexpand true
+                    :spacing 4
+                    (overlay
+                        :style {setting_weather ? "opacity: 0.4;" : ""}
+                        (input
+                            :value weather_location
+                            :active {setting_weather ? false : true}
+                            :onchange "eww update weather_location='{}'"
+                            :onaccept "$YZSHELL_EWW_SCRIPT_DIR/weather_location.py '{}' &"
+                        )
+                        (label
+                            :halign "start"
+                            :hexpand true
+                            :class "placeholder"
+                            :visible {weather_location == "" ? true : false}
+                            :text "default"
+                        )
+                    )
+                    (icon_button
+                        :icon ""
+                        :tooltip "Confirm"
+                        :size "small"
+                        :colour "green"
+                        :style {setting_weather ? "opacity: 0.4;" : ""}
+                        :active {setting_weather ? false : true}
+                        :command "$YZSHELL_EWW_SCRIPT_DIR/weather_location.py '${weather_location}' &"
+                    )
                 )
             )
             (box
-                :orientation "h"
+                :orientation "v"
                 :space-evenly false
-                :halign "start"
-                :valign "start"
-                :hexpand true
-                :vexpand true
-                :spacing 4
-                (label :text "Location: ")
-                (overlay
-                    :style {setting_weather ? "opacity: 0.4;" : ""}
-                    (input
-                        :value weather_location
-                        :active {setting_weather ? false : true}
-                        :onchange "eww update weather_location='{}'"
-                        :onaccept "$YZSHELL_EWW_SCRIPT_DIR/weather_location.py '{}' &"
-                    )
-                    (label
-                        :halign "start"
-                        :hexpand true
-                        :class "placeholder"
-                        :visible {weather_location == "" ? true : false}
-                        :text "default"
-                    )
+                :halign "fill"
+                :class "location-types"
+                (heading :size "medium" :text "Supported location types")
+                ;(label :text "Supported location types:")
+                (box
+                    :orientation "h"
+                    :space-evenly false
+                    (label :text "-  " :class "accent" :style "font-weight: bold; font-family: 'Font Awesomee 7 Free';")
+                    (label :text "City name (e.g. melbourne)")
                 )
-                (icon_button
-                    :icon ""
-                    :tooltip "Confirm"
-                    :size "small"
-                    :colour "green"
-                    :style {setting_weather ? "opacity: 0.4;" : ""}
-                    :active {setting_weather ? false : true}
-                    :command "$YZSHELL_EWW_SCRIPT_DIR/weather_location.py '${weather_location}' &"
+                (box
+                    :orientation "h"
+                    :space-evenly false
+                    (label :text "-  " :class "accent" :style "font-weight: bold; font-family: 'Font Awesomee 7 Free';")
+                    (label :text "Any location, + for spaces (e.g. Eiffel+tower)")
+                )
+                (box
+                    :orientation "h"
+                    :space-evenly false
+                    (label :text "-  " :class "accent" :style "font-weight: bold; font-family: 'Font Awesomee 7 Free';")
+                    (label :text "Unicode name of any location in any language")
+                )
+                (box
+                    :orientation "h"
+                    :space-evenly false
+                    (label :text "-  " :class "accent" :style "font-weight: bold; font-family: 'Font Awesomee 7 Free';")
+                    (label :text "Airport code (e.g. muc)")
+                )
+                (box
+                    :orientation "h"
+                    :space-evenly false
+                    (label :text "-  " :class "accent" :style "font-weight: bold; font-family: 'Font Awesomee 7 Free';")
+                    (label :text "Domain name (e.g. @stackoverflow.com)")
+                )
+                (box
+                    :orientation "h"
+                    :space-evenly false
+                    (label :text "-  " :class "accent" :style "font-weight: bold; font-family: 'Font Awesomee 7 Free';")
+                    (label :text "Area code (e.g. 94107)")
+                )
+                (box
+                    :orientation "h"
+                    :space-evenly false
+                    (label :text "-  " :class "accent" :style "font-weight: bold; font-family: 'Font Awesomee 7 Free';")
+                    (label :text "GPS coordinates (e.g. -78.46,106.79)")
                 )
             )
         )

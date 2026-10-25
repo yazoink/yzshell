@@ -243,6 +243,15 @@
     padding: $padding;
     border-radius: $inner-radius;
     background: $surface1;
+    .heading {
+      padding: 0;
+      padding-bottom: 8px;
+    }
+    .location-types {
+      background-color: $surface2;
+      padding: $padding;
+      border-radius: $inner-radius;
+    }
   }
   entry {
     background-color: $surface2;
@@ -270,6 +279,13 @@
   menuitem {
     &:hover {
       background-color: $surface3;
+    }
+  }
+  .selected, .selected:hover {
+    background-color: $accent;
+    color: $background;
+    label {
+      color: $background;
     }
   }
 }

@@ -73,12 +73,20 @@
         :class {settings_menu_item == 2 ? "selected" : ""}
       )
       (icon_button
-        :icon ""
-        :tooltip "Misc."
+        :icon ""
+        :tooltip "Weather Preferences"
         :size "medium"
         :colour "blue"
         :command "$YZSHELL_EWW_SCRIPT_DIR/slide.py ${settings_menu_item} 3 settings_menu_item"
         :class {settings_menu_item == 3 ? "selected" : ""}
+      )
+      (icon_button
+        :icon ""
+        :tooltip "Misc."
+        :size "medium"
+        :colour "purple"
+        :command "$YZSHELL_EWW_SCRIPT_DIR/slide.py ${settings_menu_item} 4 settings_menu_item"
+        :class {settings_menu_item == 4 ? "selected" : ""}
       )
     )
     (stack
@@ -89,12 +97,12 @@
       (wallpaper)
       (colourschemes)
       (font_settings)
+      (weather_settings)
       (box
         :spacing 4
         :space-evenly false
         :orientation "v"
         (bar_settings)
-        (weather_settings)
         (pfp_settings)
       )
     )
