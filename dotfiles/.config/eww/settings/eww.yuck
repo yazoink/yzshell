@@ -53,7 +53,7 @@
         :tooltip "Wallpaper settings"
         :size "medium"
         :colour "red"
-        :command "${EWW_CMD} update settings_menu_item=0"
+        :command "$YZSHELL_EWW_SCRIPT_DIR/slide.py ${settings_menu_item} 0 settings_menu_item"
         :class {settings_menu_item == 0 ? "selected" : ""}
       )
       (icon_button
@@ -61,7 +61,7 @@
         :tooltip "Colourscheme"
         :size "medium"
         :colour "yellow"
-        :command "${EWW_CMD} update settings_menu_item=1"
+        :command "$YZSHELL_EWW_SCRIPT_DIR/slide.py ${settings_menu_item} 1 settings_menu_item"
         :class {settings_menu_item == 1 ? "selected" : ""}
       )
       (icon_button
@@ -69,7 +69,7 @@
         :tooltip "Fonts"
         :size "medium"
         :colour "green"
-        :command "${EWW_CMD} update settings_menu_item=2"
+        :command "$YZSHELL_EWW_SCRIPT_DIR/slide.py ${settings_menu_item} 2 settings_menu_item"
         :class {settings_menu_item == 2 ? "selected" : ""}
       )
       (icon_button
@@ -77,7 +77,7 @@
         :tooltip "Misc."
         :size "medium"
         :colour "blue"
-        :command "${EWW_CMD} update settings_menu_item=3"
+        :command "$YZSHELL_EWW_SCRIPT_DIR/slide.py ${settings_menu_item} 3 settings_menu_item"
         :class {settings_menu_item == 3 ? "selected" : ""}
       )
     )
@@ -85,7 +85,7 @@
       :selected settings_menu_item
       :class "settings-content"
       :same-size false
-      :transition "slidedown"
+      :transition stack_transition
       (wallpaper)
       (colourschemes)
       (font_settings)
