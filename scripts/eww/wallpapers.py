@@ -98,12 +98,12 @@ def get_current_page():
 
 
 if __name__ == "__main__":
-    #lockfile = environ["YZSHELL_WALLPAPER_LOCKFILE"]
+    lockfile = environ["YZSHELL_WALLPAPER_LOCKFILE"]
 
-    #if path.isfile(lockfile) == True:
-        #exit(1)
-    #with open(lockfile, "w") as f:
-        #f.write("")
+    if path.isfile(lockfile) == True:
+        exit(1)
+    with open(lockfile, "w") as f:
+        f.write("")
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--directory", default=None)
@@ -179,4 +179,4 @@ if __name__ == "__main__":
         shell=True,
     )
     #print(json.dumps(wallpaper_data, indent=4))
-    #remove(lockfile)
+    remove(lockfile)
