@@ -7,7 +7,7 @@
         :halign "fill"
         :valign "end"
         :vexpand true
-        :width 350
+        :width 400
         (heading :size "large" :text "Bar Modules")
         ;(box
         ;    :orientation "h"

@@ -10,8 +10,8 @@
       :space-evenly false
       :vexpand true
       (icon_button
-        :icon ""
-        :tooltip "Change appearance"
+        :icon ""
+        :tooltip "Open yzshell settings"
         :size "medium"
         :colour "cyan"
         :command "yzwidgets close control_center & yzwidgets open settings &"

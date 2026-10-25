@@ -2,6 +2,7 @@
 (include "settings/widgets/colours.yuck")
 (include "settings/widgets/bar.yuck")
 (include "settings/widgets/fonts.yuck")
+(include "settings/widgets/profile_image.yuck")
 
 (defwidget settings_menu_button [index icon tooltip text class]
     (button
@@ -63,12 +64,20 @@
         :class {settings_menu_item == 1 ? "selected" : ""}
       )
       (icon_button
-        :icon ""
-        :tooltip "Misc."
+        :icon ""
+        :tooltip "Fonts"
         :size "medium"
         :colour "green"
         :command "${EWW_CMD} update settings_menu_item=2"
         :class {settings_menu_item == 2 ? "selected" : ""}
+      )
+      (icon_button
+        :icon ""
+        :tooltip "Misc."
+        :size "medium"
+        :colour "blue"
+        :command "${EWW_CMD} update settings_menu_item=3"
+        :class {settings_menu_item == 3 ? "selected" : ""}
       )
     )
     (stack
@@ -79,12 +88,13 @@
       :duration 800
       (wallpaper)
       (colourschemes)
+      (font_settings)
       (box
         :spacing 4
         :space-evenly false
         :orientation "v"
         (bar_settings)
-        (font_settings)
+        (pfp_settings)
       )
     )
   )

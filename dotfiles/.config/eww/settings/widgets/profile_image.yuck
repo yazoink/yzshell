@@ -1,0 +1,46 @@
+(defwidget pfp_settings []
+    (box
+        :orientation "v"
+        :spacing 8
+        :space-evenly false
+        :class "pfp-settings"
+        :halign "fill"
+        :valign "end"
+        :vexpand true
+        :width 400
+        (heading :size "large" :text "Profile Image")
+        (box
+            :class "pfp-settings-box"
+            :orientation "h"
+            :spacing 8
+            :space-evenly false
+            (box
+                :class "profile-image"
+                :vexpand false 
+                :hexpand false 
+                :style "background-image: url('${profile_image}');"
+            )
+            (box
+                :orientation "v"
+                :space-evenly false
+                :valign "center"
+                :halign "start"
+                :vexpand true
+                :hexpand true
+                :spacing 8
+                (label 
+                    :text "Current: ${profile_image}"
+                    :tooltip profile_image 
+                    :style "font-style: italic; opacity: 0.4;"
+                    :limit-width 50
+                    :truncate true
+                    :show-truncated true
+                )
+                (button
+                    :onclick "$YZSHELL_EWW_SCRIPT_DIR/profile_image.py &"
+                    "Choose image"
+                )
+            )
+        )
+    )
+)

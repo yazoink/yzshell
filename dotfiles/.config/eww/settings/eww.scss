@@ -197,6 +197,36 @@
   }
 }
 
+.pfp-settings {
+  padding: $padding;
+  border-radius: $outer-radius;
+  background: $background;
+  border: 1px solid $border;
+  button {
+    background-color: $surface2;
+    &:hover { 
+      background-color: $surface3; 
+    }
+  }
+  .icon-button {
+    margin: $padding;
+  }
+  .pfp-settings-box {
+    padding: $padding;
+    border-radius: $inner-radius;
+    background: $surface1;
+  }
+  .profile-image {
+    background-size: cover;
+    background-position: center;
+    min-height: 70px;
+    box-shadow: $image-shadow;
+    min-width: 70px;
+    border-radius: $inner-radius;
+    border: 1px solid $surface4;
+  }
+}
+
 .font-settings {
   padding: $padding;
   border-radius: $outer-radius;

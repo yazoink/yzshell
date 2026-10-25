@@ -7,11 +7,19 @@
     :space-evenly false
     :halign "fill"
     :hexpand true
-    (box
-      :class "profile-image"
-      :vexpand false 
-      :hexpand false 
-      :style "background-image: url('${profile_image}');"
+    (button
+      :tooltip "Change profile image"
+      :onclick `(
+        ${EWW_CMD} update settings_menu_item=3
+        yzwidgets close control_center 
+        yzwidgets open settings
+      ) &`
+      (box
+        :class "profile-image"
+        :vexpand false 
+        :hexpand false 
+        :style "background-image: url('${profile_image}');"
+      )
     )
     (box
       :class "username-hostname-os"
