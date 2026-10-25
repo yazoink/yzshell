@@ -62,21 +62,21 @@ def parse_file():
                 continue
             if words[0] == "#":
                 pango += (
-                    f"<span weight='bold' color='{yzshell_data["red-hex"]}' size='19pt'>"
+                    f"<span weight='bold' color='{yzshell_data["accent-hex"]}' size='19pt'>"
                     + " ".join(words[1:])
                     + "</span>\n"
                 )
                 continue
             if words[0] == "##":
                 pango += (
-                    f"<span weight='bold' color='{yzshell_data["green-hex"]}' size='17pt'>"
+                    f"<span weight='bold' color='{yzshell_data["accent-hex"]}' size='17pt'>"
                     + " ".join(words[1:])
                     + "</span>\n"
                 )
                 continue
             if words[0] == "###":
                 pango += (
-                    f"<span weight='bold' color='{yzshell_data["blue-hex"]}' size='15pt'>"
+                    f"<span weight='bold' color='{yzshell_data["accent-hex"]}' size='15pt'>"
                     + " ".join(words[1:])
                     + "</span>\n"
                 )

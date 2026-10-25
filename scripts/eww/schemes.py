@@ -117,15 +117,19 @@ if __name__ == "__main__":
     parser.add_argument("-i", "--page", default=None)
     parser.add_argument("-q", "--query", default="")
     parser.add_argument("-p", "--polarity", default=None)
+    parser.add_argument("-nl", "--no-loading", action="store_true", default=False)
     args = parser.parse_args(argv[1:])
 
-    subprocess.run(
-        """
-        eww update schemes_loading=true
-        eww update no_schemes_found=true
-        """,
-        shell=True
-    )
+    if args.no_loading == False:
+        subprocess.run(
+            """
+            eww update dark_colourschemes="[]"
+            eww update light_colourschemes="[]"
+            eww update schemes_loading=true
+            eww update no_schemes_found=true
+            """,
+            shell=True
+        )
 
     qry = args.query.strip()
     polarity = None
@@ -205,10 +209,10 @@ if __name__ == "__main__":
     #print(json.dumps(arrs[polarity], indent=4))
     #print(polarity)
     update_eww(arrs[polarity], polarity)
-    subprocess.run(
-        """
-        eww update no_schemes_found=false
-        eww update schemes_loading=false
-        """,
-        shell=True
-    )
+    if args.no_loading == False:
+        subprocess.run(
+            """
+            eww update schemes_loading=false
+            """,
+            shell=True
+        )

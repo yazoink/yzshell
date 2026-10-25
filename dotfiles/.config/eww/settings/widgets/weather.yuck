@@ -100,7 +100,7 @@
                 :space-evenly false
                 :halign "fill"
                 :class "location-types"
-                (heading :size "medium" :text "Supported location types")
+                (heading :size "medium" :class "accent" :text "Supported location types")
                 ;(label :text "Supported location types:")
                 (box
                     :orientation "h"

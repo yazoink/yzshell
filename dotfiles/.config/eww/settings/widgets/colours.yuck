@@ -201,7 +201,7 @@
         schemes_selected == 0
         ? ""
         : `(
-            $YZSHELL_EWW_SCRIPT_DIR/schemes.py --polarity=dark --page=0 --query='${scheme_query}'
+            $YZSHELL_EWW_SCRIPT_DIR/schemes.py --polarity=dark --page=0 --query='${scheme_query}' --no-loading
             ${EWW_CMD} update schemes_selected=0
         ) &`
       }
@@ -213,7 +213,7 @@
         schemes_selected == 1
         ? ""
         : `(
-            $YZSHELL_EWW_SCRIPT_DIR/schemes.py --polarity=light --page=0 --query='${scheme_query}'
+            $YZSHELL_EWW_SCRIPT_DIR/schemes.py --polarity=light --page=0 --query='${scheme_query}' --no-loading
             ${EWW_CMD} update schemes_selected=1
         ) &`
       }
@@ -245,7 +245,7 @@
         :placeholder "Search..."
         :onchange `
             ${EWW_CMD} update scheme_query='{}'
-            $YZSHELL_EWW_SCRIPT_DIR/schemes.py --query='{}' --page=0 &`
+            $YZSHELL_EWW_SCRIPT_DIR/schemes.py --query='{}' --page=0 --polarity='${schemes_selected == 0 ? "dark" : "light"}' &`
         :onaccept ""
       )
     )
@@ -264,8 +264,8 @@
         )
       )
       (next_prev_buttons
-        :next_cmd "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=next --query='${scheme_query}' &"
-        :prev_cmd "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=prev --query='${scheme_query}' &"
+        :next_cmd "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=next --query='${scheme_query}' --polarity='${schemes_selected == 0 ? "dark" : "light"}' &"
+        :prev_cmd "$YZSHELL_EWW_SCRIPT_DIR/schemes.py --page=prev --query='${scheme_query}' --polarity='${schemes_selected == 0 ? "dark" : "light"}' &"
       )
     )
     (box

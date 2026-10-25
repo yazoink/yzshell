@@ -12,9 +12,9 @@
 )
 
 ; size should be "small", "medium", or "large"
-(defwidget heading [size text]
+(defwidget heading [size text ?class]
     (label
-        :class "heading heading-${size}"
+        :class "heading heading-${size} ${class}"
         :halign "start"
         :hexpand true
         :text text
