@@ -234,7 +234,7 @@
     (box
       :orientation "h"
       :space-evenly false
-      :style "margin-right: 8px;"
+      ;:style "margin-right: 8px;"
       (heading :size "large" :text "Colourscheme")
       (search_bar
         :halign "end"

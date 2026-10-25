@@ -22,9 +22,6 @@
       padding: 0;
     }
   }
-  .wallpaper-search-bar {
-    padding: 0 $padding;
-  }
   .fill-buttons {
     //margin: $padding;
     button {
@@ -169,9 +166,11 @@
     .next-prev-buttons {
       padding: $padding;
       button {
+        background-color: $surface2;
         padding: $padding;
-        box-shadow: $image-shadow;
-        border: 1px solid $surface2;
+        &:hover {
+          background-color: $surface3;
+        }
         label {
           padding: 0;
           margin: 0;
@@ -212,9 +211,6 @@
     &:hover {
       background-color: $surface3;
     }
-  }
-  .font-settings-selectors {
-    margin: $padding;
   }
   .font-scroller {
     border-radius: $inner-radius;

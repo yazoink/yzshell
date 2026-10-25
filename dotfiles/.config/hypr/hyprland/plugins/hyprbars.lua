@@ -55,10 +55,10 @@ if hl.plugin.hyprbars ~= nil then
 		action = "hyprctl dispatch 'hl.dsp.window.fullscreen({action=\"toggle\"})'",
 	})
 
-	-- hl.window_rule({
-	-- 	match = {
-	-- 		class = "^(wofi)$",
-	-- 	},
-	-- 	["hyprbars:no_bar"] = true,
-	-- })
+	hl.window_rule({
+	 	match = {
+	 		title = "^(Choose a file...)$",
+	 	},
+	 	["hyprbars:no_bar"] = true,
+	})
 end

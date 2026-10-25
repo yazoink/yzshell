@@ -60,27 +60,17 @@
             :orientation "h"
             :space-evenly false
             (heading :size "large" :text "Font Selection")
-            (box
-                :class "font-settings-selectors"
-                :orientation "h"
-                :space-evenly false
-                :spacing 4
+            (search_bar
                 :halign "end"
-                :hexpand true
                 :valign "center"
-                :vexpand true
-                (search_bar
-                    :halign "center"
-                    :valign "start"
-                    :value fonts_query
-                    :icon ""
-                    :width 50
-                    :placeholder "Search..."
-                    :onchange `
-                        ${EWW_CMD} update fonts_query='{}'
-                        $YZSHELL_EWW_SCRIPT_DIR/get_fonts.py --query='{}' --page=0 &`
-                    :onaccept ""
-                )
+                :value fonts_query
+                :icon ""
+                :width 50
+                :placeholder "Search..."
+                :onchange `
+                    ${EWW_CMD} update fonts_query='{}'
+                    $YZSHELL_EWW_SCRIPT_DIR/get_fonts.py --query='{}' --page=0 &`
+                :onaccept ""
             )
         )
         (font_picker)

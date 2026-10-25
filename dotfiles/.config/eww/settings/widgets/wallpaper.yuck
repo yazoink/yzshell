@@ -28,7 +28,7 @@
   (box
     :halign "end"
     :hexpand true
-    :valign "center"
+    :valign "end"
     :vexpand true
     :orientation "h"
     :spacing 4
@@ -36,7 +36,7 @@
     :class "wallpaper-search-bar"
     (search_bar
       :halign "center"
-      :valign "end"
+      :valign "fill"
       :value wallpaper_dir
       :icon ""
       :width 150

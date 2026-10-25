@@ -33,7 +33,7 @@
         )
         (box
             :halign "end"
-            :valign "end"
+            :valign "center"
             :hexpand true
             :vexpand true
             :style "margin: 8px;"
@@ -103,6 +103,7 @@
         :class "reminders-box"
         :halign "fill"
         :valign "end"
+        :spacing 8
         (box
             :orientation "h"
             :space-evenly false
@@ -112,7 +113,7 @@
             (box
                 :halign "end"
                 :hexpand true
-                :valign "center"
+                :valign "end"
                 :vexpand true
                 :class "new-reminder"
                 :space-evenly false
