@@ -7,7 +7,7 @@
     "bar_show_battery": true,
     "bar_show_backlight": true,
     "profile_image": "/home/gene/.local/share/yzshell/assets/images/profile_image.jpg",
-    "screenshot_dir": "/home/gene/pic/screenshot",
+    "screenshot_dir": "/home/gene/pic/screenshots",
     "recording_dir": "/home/gene/vid/recordings",
     "music_dir": "/home/gene/mu",
     "wallpaper_dir": "/home/gene/.local/share/yzshell/assets/images/wallpapers",

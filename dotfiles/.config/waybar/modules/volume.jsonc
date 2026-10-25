@@ -13,7 +13,7 @@
     "wireplumber#icon": {
         "format": "{icon}",
         "format-muted": "",
-        "on-click": "{{terminal}} -e alsamixer",
+        "on-click": "$(yzconf get terminal) -e alsamixer",
         "on-click-right": "amixer -D pipewire set Master toggle",
         "tooltip-format": "Volume\n- Right click to mute\n- Click to open settings\n- Scroll to adjust",
         "format-icons": {
@@ -28,7 +28,7 @@
         }
     },
     "wireplumber#volume": {
-        "on-click": "{{terminal}} -e alsamixer",
+        "on-click": "$(yzconf get terminal) -e alsamixer",
         "on-click-right": "amixer -D pipewire set Master toggle",
         "format": "{volume}%",
         "format-muted": "{volume}%"

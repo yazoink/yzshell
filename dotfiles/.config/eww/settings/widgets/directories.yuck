@@ -1,4 +1,4 @@
-(defwidget dir_setting [ value variable heading ]
+(defwidget dir_setting [ value variable heading ?extra_commands ]
     (box
         :orientation "h"
         :spacing 8
@@ -14,9 +14,10 @@
                 :value value
                 ;:width 250
                 :onchange "${EWW_CMD} update ${variable}='{}'"
-                :onconfirm `(
+                :onaccept `(
                     ${EWW_CMD} update ${variable}="{}"
                     yzconf set ${variable} "{}"
+                    ${extra_commands}
                 ) &`
             )
             (icon_button
@@ -25,8 +26,9 @@
                 :size "small"
                 :colour "green"
                 :command `(
-                    ${EWW_CMD} ${variable}="${value}"
+                    ${EWW_CMD} update ${variable}="${value}"
                     yzconf set ${variable} "${value}"
+                    ${extra_commands}
                 ) &`
             )
         )
@@ -53,6 +55,7 @@
                 :heading "Music library"
                 :value music_dir
                 :variable "music_dir"
+                :extra_commands "$YZSHELL_EWW_SCRIPT_DIR/update_music_dir.py '${music_dir}'"
             )
             (dir_setting
                 :heading "Screenshots"
