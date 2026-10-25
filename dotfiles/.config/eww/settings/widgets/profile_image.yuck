@@ -31,7 +31,7 @@
                 (label 
                     :text "Current: ${profile_image}"
                     :tooltip profile_image 
-                    :style "font-style: italic; opacity: 0.4;"
+                    ;:style "font-style: italic; opacity: 0.4;"
                     :limit-width 50
                     :truncate true
                     :show-truncated true

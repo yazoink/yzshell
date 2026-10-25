@@ -87,6 +87,14 @@ if __name__ == "__main__":
     parser.add_argument("-q", "--query", default=None)
     args = parser.parse_args(argv[1:])
 
+    subprocess.run(
+        """
+        eww update fonts_loading=true
+        eww update fonts='[]'
+        """,
+        shell=True
+    )
+
     if args.query == None:
         qry = subprocess.run(
             ["eww", "get", "fonts_query"],
@@ -131,6 +139,7 @@ if __name__ == "__main__":
         f"""
         eww update fonts_page='{str(page)}'
         eww update fonts='{json.dumps(fonts).replace("'", "\\'")}'
+        eww update fonts_loading=false
         """,
         shell=True
     )

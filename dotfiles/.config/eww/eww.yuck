@@ -150,6 +150,7 @@
 (defvar scheme_query "")
 (defvar colourschemes_bg_image "")
 (defvar no_schemes_found false)
+(defvar schemes_loading false)
 (defvar scheme_cols `[
   "background",
   "foreground",
@@ -174,6 +175,7 @@
 (defvar fonts_selected "sans")
 (defvar fonts_query "")
 (defvar fonts_page "0")
+(defvar fonts_loading false)
 (defvar current_font "")
 (defvar weather_location "")
 (defvar weather_unit "")

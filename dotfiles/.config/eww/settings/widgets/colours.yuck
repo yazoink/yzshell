@@ -170,7 +170,7 @@
       :height 450
       (stack
         :selected {no_schemes_found ? 0 : 1}
-        (label :text "No results found..." :class "not-found")
+        (label :text {schemes_loading ? "Loading..." : "No results found..."} :class "not-found")
         (box
           :class "colours-box"
           :orientation "v"

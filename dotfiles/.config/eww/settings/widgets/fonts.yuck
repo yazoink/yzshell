@@ -12,7 +12,7 @@
                 :height 300
                 (stack
                     :selected {fonts == "[]" ? 0 : 1}
-                    (label :class "not-found" :text "No results found...")
+                    (label :class "not-found" :text {fonts_loading ? "Loading..." : "No results found..."})
                     (box
                         :class "font-list"
                         :spacing 8
