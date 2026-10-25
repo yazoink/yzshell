@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import chevron
-from os import environ, path
+from os import environ, path, makedirs
 from sys import argv, exit
 from sys import path as sys_path
 
@@ -14,6 +14,8 @@ if __name__ == "__main__":
         exit(1)
     config = get_config()
     dir = path.expanduser(argv[1])
+    if path.exists(dir) == False:
+        makedirs(dir)
     templates = {
         "mpd.conf.mustache": ".config/mpd/mpd.conf",
         "ncmpcpp.mustache": ".config/ncmpcpp/config"
