@@ -77,11 +77,7 @@ function main() {
         announce "Installed optional dependencies!"
     fi
 
-    if ! yzconf deploy_configs -r; then
-        echo "Error: could not deploy configs!"
-        exit 1
-    fi
-
+    yzconf deploy_configs -r
     touch /tmp/install_plugins
     pgrep --quiet Hyprland && exec yzshell reload >/dev/null 2>&1 &
     disown
