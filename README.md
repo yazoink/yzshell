@@ -25,7 +25,6 @@ https://github.com/user-attachments/assets/a4f55068-4c10-45f9-930e-8e45436ad661
 
 https://github.com/user-attachments/assets/8f12eba6-c3d8-4633-8edc-7b0325386480
 
-
 ### Application Themes
 
 <img width="1366" height="768" alt="gtk" src="https://github.com/user-attachments/assets/66f41eb5-5be3-479d-bbbe-e8f8230890dc" />
@@ -55,7 +54,7 @@ https://github.com/user-attachments/assets/8f12eba6-c3d8-4633-8edc-7b0325386480
 - \>70 colourschemes
 - Inbuilt screenshot and screen recording utilities
 - Unified theming for GTK 2/3/4 and Qt 5/6
-- A bunch of CLI utilities: `yzshell`, `yzctl`, `yzbinds`, `yzconf`, `yzpicker`, `yzrecorder`, `yzshot`, `yzwallpaper`, `yzwidgets`, `base16-to-yzshell-scheme`, `base16-to-yzshell-template`, and `zenconf` (run `-h` on them for details)
+- A bunch of CLI utilities: `yzshell`, `yzctl`, `yzbinds`, `yzconf`, `yzpicker`, `yzrecorder`, `yzshot`, `yzwallpaper`, `yzwidgets`, `base16-to-yzshell-scheme`, and `base16-to-yzshell-template` (run `-h` on them for details)
 - Really bad code, but at least it's not vibe-coded
 
 ## Installation
@@ -72,7 +71,7 @@ Prerequisites:
 ```bash
 git clone https://github.com/yazoink/yzshell
 cd yzshell
-./install.py --optional-deps
+./install.sh --optional-deps
 ```
 
 After running the install script, and rebooting, Hyprland will automatically
@@ -80,10 +79,6 @@ launch with yzshell. Upon first launching Hyprland, a terminal window will open,
 install plugins. This will automatically launch every time Hyprland is reloaded
 if it is detected that plugins are not installed. To run this manually:
 `yzshell-install-hyprland-plugins`.
-
-To deploy the Zen browser config, open and close the browser to ensure at least one
-profile exists, and then run `zenconf --select-profile`. After this, Zen will
-automatically be configured with yzshell.
 
 ## Configuration
 
@@ -232,6 +227,7 @@ Or for multiple destinations:
     ]
 }
 ```
+
 ## Troubleshooting
 
 ### Hyprbars won't work after updating

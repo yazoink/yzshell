@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-from os import path, makedirs, environ
-from shutil import rmtree, copytree
 import subprocess
+from os import environ, makedirs, path
+from shutil import copytree, rmtree
 from sys import argv, exit
 
 exes = [
@@ -15,7 +15,6 @@ exes = [
     "yzshot",
     "yzctl",
     "yzbinds",
-    "zenconf",
     "yzshell-install-hyprland-plugins",
     "base16-to-yzshell-scheme",
     "base16-to-yzshell-template"

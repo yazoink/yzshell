@@ -39,5 +39,7 @@
     "gtkrc.mustache": ".gtkrc-2.0",
     "waybar_quick_access.jsonc.mustache": ".config/waybar/modules/quick-access.jsonc",
     "waybar.jsonc.mustache": ".config/waybar/config.jsonc",
-    "newtcols.mustache": ".config/newtcols"
+    "newtcols.mustache": ".config/newtcols",
+    "zen_userchrome.css.mustache": ".config/zen/yzshell/chrome/userChrome.css",
+    "zen_usercontent.css.mustache": ".config/zen/yzshell/chrome/userContent.css"
 }

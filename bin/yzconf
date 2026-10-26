@@ -160,18 +160,18 @@ def deploy_configs(cfg, copy_static=True):
         stdout=subprocess.DEVNULL,
         stderr=subprocess.STDOUT,
     )
-    if cfg["web_browser"] == "zen-browser":
-        subprocess.Popen(
-            f"""
-            zenconf \
-                --unattended \
-                --no-policies \
-                --profile-dir '{cfg["zen_profile_dir"]}'
-            """,
-            shell=True,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.STDOUT,
-        )
+    # if cfg["web_browser"] == "zen-browser":
+    #     subprocess.Popen(
+    #         f"""
+    #         zenconf \
+    #             --unattended \
+    #             --no-policies \
+    #             --profile-dir '{cfg["zen_profile_dir"]}'
+    #         """,
+    #         shell=True,
+    #         stdout=subprocess.DEVNULL,
+    #         stderr=subprocess.STDOUT,
+    #     )
 
 
 def help(exitcode=0):

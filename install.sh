@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-REPO_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+REPO_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 TARGET_DIR=~/.local/share/yzshell
 ENV_FILE=$TARGET_DIR/env
 COL1=212
@@ -11,11 +11,11 @@ function main() {
     install_opt_deps=false
     for arg in "$@"; do
         case "${arg}" in
-            "-sd" | "--skip-deps") 
-                install_deps=false 
+            "-sd" | "--skip-deps")
+                install_deps=false
                 ;;
-            "-o" | "--optional-deps") 
-                install_opt_deps=true 
+            "-o" | "--optional-deps")
+                install_opt_deps=true
                 ;;
         esac
     done
@@ -58,6 +58,9 @@ function main() {
         announce "Installed Vscodium extensions!"
         source "${REPO_DIR}/install/configure-greetd.sh" >/dev/null 2>&1
         bash -c "${REPO_DIR}/install/configure-default-apps.py"
+        if [ "$(yzconf get web_browser)" == "zen-browser" ]; then
+            source "${REPO_DIR}/install/configure-zen.sh"
+        fi
         bash -c "${REPO_DIR}/install/configure-gpu-drivers.py"
         sudo ln -sf /usr/share/fontconfig/conf.avail/10-nerd-font-symbols.conf \
             /etc/fonts/conf.d/
@@ -88,8 +91,6 @@ function main() {
 
     echo "A reboot is required after the initial installation!
 
-To configure Zen browser: once there is at least one profile in '~/.config/zen', run 'zenconf --select-profile' to ensure its configuration.
-
 Make sure Pipewire is installed, and NetworkManager is in use!"
 }
 
@@ -109,6 +110,10 @@ function confirm() {
 
 function install_pkgs() {
     sudo pacman -S --needed --noconfirm "$@"
+}
+
+function install_aur_pkgs() {
+    yay -S --needed --noconfirm --norebuild --noredownload "$@"
 }
 
 main "$@"
