@@ -28,5 +28,5 @@ hl.window_rule({
 		title = "^(Choose a file...)$",
 	},
 	float = true,
-	size = { "(monitor_w*0.43)", "(monitor_h*0.5)" }
+	size = { "(monitor_w*0.43)", "(monitor_h*0.5)" },
 })
