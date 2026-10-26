@@ -24,8 +24,8 @@ if ! hyprpm list | grep -q hyprbars; then
     for p in "${!plugins[@]}"; do
         if ! hyprpm list | grep -q "$p"; then
             notify-send "Hyprpm" "Adding repo '${plugins[$p]}'..."
-            echo "${plugins[$p]}"
-            echo $p
+            # echo "${plugins[$p]}"
+            # echo $p
             echo y | hyprpm add "${plugins[$p]}"
             r=$?
             if [ $r -ne 0 ]; then
