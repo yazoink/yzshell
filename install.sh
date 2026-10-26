@@ -88,9 +88,8 @@ function main() {
     echo "
 $(figlet yzshell)
 
-A reboot is required after the initial installation!
-
-Make sure Pipewire is installed, and NetworkManager is in use!"
+- A reboot is required after the initial installation!
+- Make sure Pipewire is installed, and NetworkManager is in use!"
 }
 
 function announce() {
