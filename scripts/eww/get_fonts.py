@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-import subprocess
 import json
-from sys import argv
-from os import environ, path, makedirs
+import subprocess
 from argparse import ArgumentParser
 from math import ceil
+from os import environ, makedirs, path
+from sys import argv
 
 CACHE_FILE=path.join(environ["YZSHELL_CACHE_DIR"], "fonts.json")
 MAX_PER_PAGE = 16 # max items per page
