@@ -27,7 +27,7 @@ cmd = (
     + '" '
     + " ".join(extensions)
 )
-print(cmd)
+# print(cmd)
 
 chosen = subprocess.run(
     cmd, 
