@@ -80,17 +80,15 @@ function main() {
     if ! yzconf deploy_configs -r; then
         exit 1
     fi
-    pgrep --quiet Hyprland && yzshell reload >/dev/null 2>&1
+
     touch /tmp/install_plugins
+    pgrep --quiet Hyprland && exec yzshell reload >/dev/null 2>&1 &
+    disown
 
-    reset
+    echo "
+$(figlet yzshell)
 
-    gum style \
-        --foreground="${COL2}" \
-        --padding='2 4' \
-        "$(figlet "yzshell")"
-
-    echo "A reboot is required after the initial installation!
+A reboot is required after the initial installation!
 
 Make sure Pipewire is installed, and NetworkManager is in use!"
 }
