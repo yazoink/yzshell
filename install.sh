@@ -112,8 +112,4 @@ function install_pkgs() {
     sudo pacman -S --needed --noconfirm "$@"
 }
 
-function install_aur_pkgs() {
-    yay -S --needed --noconfirm --norebuild --noredownload "$@"
-}
-
 main "$@"

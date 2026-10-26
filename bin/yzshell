@@ -119,6 +119,7 @@ function help() {
                 toggle_dnd: toggle do-not-disturb
                 toggle_idle_inhib: toggle idle inhibitor
         env: print yzshell environment variables
+        run <COMMAND>: run command with yzshell environment variables
         launch [COMPONENT] (default): launch shell
             Components:
                 bar
@@ -148,7 +149,7 @@ function main() {
         "env") cat $YZSHELL_ENV_FILE ;;
         "run")
             source $YZSHELL_ENV_FILE
-            bash -c "${2}"
+            bash -c "${@:2}"
             ;;
         "kill")
             case "${2}" in
