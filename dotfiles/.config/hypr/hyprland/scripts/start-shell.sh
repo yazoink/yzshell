@@ -13,7 +13,7 @@ if [ ! -z /tmp/install_plugins ]; then
     terminal="$(yzconf get terminal)"
     (
         # sleep 5
-        $terminal -e yzshell-install-hyprland-plugins &
+        exec $terminal -e yzshell-install-hyprland-plugins &
     ) &
     disown
 else
