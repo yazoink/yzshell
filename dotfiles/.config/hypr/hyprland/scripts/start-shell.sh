@@ -14,7 +14,7 @@ if ! hyprpm list | grep -q hyprbars; then
     terminal="$(yzconf get terminal)"
     (
         sleep 5
-        exec $terminal -e "sh -c yzshell-install-hyprland-plugins" &
+        $terminal -e "sh -c yzshell-install-hyprland-plugins" &
     ) &
     disown
 else
