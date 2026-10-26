@@ -78,6 +78,7 @@ function main() {
     fi
 
     if ! yzconf deploy_configs -r; then
+        echo "Error: could not deploy configs!"
         exit 1
     fi
 
