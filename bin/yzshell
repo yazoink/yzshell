@@ -11,20 +11,6 @@ function kill_yzshell() {
     killall eww
 }
 
-function ensure_hyprland_plugins() {
-    if ! hyprpm list | grep -q hyprbars; then
-        echo ">> Installing Hyprland plugins..."
-        terminal="$(yzconf get terminal)"
-        (
-            sleep 5
-            exec $terminal -e yzshell-install-hyprland-plugins
-        ) &
-        disown
-    else
-        hyprpm reload
-    fi
-}
-
 function launch_waybar() {
     exec waybar >$BAR_LOG_FILE 2>&1 &
     disown
@@ -53,7 +39,6 @@ function launch_yzshell() {
     launch_waybar
     launch_widgets
     launch_osd
-    ensure_hyprland_plugins
     makoctl reload
     # python "${YZSHELL_SCRIPT_DIR}/remind.py" &
 }

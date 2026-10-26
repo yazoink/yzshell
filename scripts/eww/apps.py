@@ -16,7 +16,7 @@ config = get_config()
 REPLACE = {
     "Vesktop": "vesktop --enable-features=UseOzonePlatform --ozone-platform=wayland",
     "Audacity": "env GDK_BACKEND=x11 UBUNTU_MENUPROXY=0 audacity",
-    "Zen Browser": f"zen-browser -P \"{config["zen_profile"]}\""
+    "Zen Browser": f"zen-browser -P {config["zen_profile"]}"
 }
 
 
