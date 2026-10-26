@@ -70,6 +70,7 @@ function main() {
         sudo systemctl enable --now swayosd-libinput-backend.service
         sudo systemctl enable --now bluetooth.service
         systemctl --user --now enable mpd
+        touch /tmp/install_plugins
     fi
     if $install_opt_deps; then
         announce "Installing optional dependencies..."
