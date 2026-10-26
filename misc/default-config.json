@@ -13,7 +13,7 @@
     "wallpaper_dir": "/home/gene/.local/share/yzshell/assets/images/wallpapers",
     "wallpaper_image": "dolphins-tile.png",
     "wallpaper_mode": "tile",
-    "zen_profile_dir": "/home/gene/.config/zen/aarx6kc0.Default (release)",
+    "zen_profile": "yzshell",
     "file_manager": "pcmanfm",
     "web_browser": "zen-browser",
     "terminal": "foot",

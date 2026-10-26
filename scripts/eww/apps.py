@@ -1,18 +1,22 @@
 #!/usr/bin/env python
 
-from os import path, environ, makedirs
 import json
-from gi.repository import Gio
 import subprocess
+from os import environ, makedirs, path
 from sys import argv
 from sys import path as sys_path
 
-#sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
-#from configutils import get_config
+from gi.repository import Gio
+
+sys_path.append(environ["YZSHELL_PYTHON_LIB_DIR"])
+from configutils import get_config
+
+config = get_config()
 
 REPLACE = {
     "Vesktop": "vesktop --enable-features=UseOzonePlatform --ozone-platform=wayland",
-    "Audacity": "env GDK_BACKEND=x11 UBUNTU_MENUPROXY=0 audacity"
+    "Audacity": "env GDK_BACKEND=x11 UBUNTU_MENUPROXY=0 audacity",
+    "Zen Browser": f"zen-browser -P \"{config["zen_profile"]}\""
 }
 
 
@@ -76,8 +80,8 @@ def get_cached_apps(cache_file, refresh=False):
     #    a["index"] = i
     #    i += 1
     update_app_cache(cache_file, all_apps)
+    # print(all_apps)
     return all_apps
-
 
 def filter_entries(all_apps, query):
     query = query.lower()
@@ -104,7 +108,7 @@ def filter_top(apps, n):
 
 def update_eww(var, val, string=False):
     if string == True:
-        val=f"\"{val.replace("\"", "\\\"")}\""
+        val=f"'{val.replace("'", "\\'")}'"
     #print(f"eww update {var}={val}")
     subprocess.run(
         f"eww update {var}={val}",
@@ -113,6 +117,7 @@ def update_eww(var, val, string=False):
 
 
 if __name__ == "__main__":
+    apps = None
     argc = len(argv)
     query = ""
     if argc > 1:
@@ -121,8 +126,6 @@ if __name__ == "__main__":
     if query.strip() == "":
         update_eww("search_selected", -1)
         apps = get_cached_apps(cache_file, refresh=True)
-        update_eww("search_results", json.dumps(apps), True)
-        #print(json.dumps(apps))
     else:
         update_eww("search_selected", 0)
         apps = filter_top(
@@ -132,5 +135,8 @@ if __name__ == "__main__":
             ), 
             10
         )
-        update_eww("search_results", json.dumps(apps), True)
-        #print(json.dumps(apps))
+    update_eww(
+        "search_results", 
+        json.dumps(apps), 
+        True
+    )

@@ -146,6 +146,10 @@ function main() {
     case "$1" in
         "") launch_yzshell ;;
         "env") cat $YZSHELL_ENV_FILE ;;
+        "run")
+            source $YZSHELL_ENV_FILE
+            bash -c "${2}"
+            ;;
         "kill")
             case "${2}" in
                 "bar") killall waybar ;;
