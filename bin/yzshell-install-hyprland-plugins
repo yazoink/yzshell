@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
 
+gum style \
+    --foreground 212 \
+    --border-foreground 212 \
+    --margin "1 2" \
+    --padding "2 4" \
+    --border double \
+    "Installing Hyprland plugins..."
+
 if ! hyprpm list | grep -q hyprbars; then
     declare -A plugins
     plugins["hyprbars"]="https://github.com/hyprwm/hyprland-plugins"
     #plugins["hyprexpo"]="https://github.com/sandwichfarm/hyprexpo"
 
-    gum style \
-        --foreground 212 \
-        --border-foreground 212 \
-        --margin "1 2" \
-        --padding "2 4" \
-        --border double \
-        "Installing Hyprland plugins..."
     notify-send "Hyprpm" "Installing plugins, please be patient..."
     hyprpm update
     r=$?
