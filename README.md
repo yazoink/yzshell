@@ -51,7 +51,6 @@ https://github.com/user-attachments/assets/8f12eba6-c3d8-4633-8edc-7b0325386480
 
 - Various application themes/configs (Zen Browser, Neovim, Vscodium, Vesktop, ncmpcpp, etc.)
 - Colourscheme and wallpaper switcher
-- \>70 colourschemes
 - Inbuilt screenshot and screen recording utilities
 - Unified theming for GTK 2/3/4 and Qt 5/6
 - A bunch of CLI utilities: `yzshell`, `yzctl`, `yzbinds`, `yzconf`, `yzpicker`, `yzrecorder`, `yzshot`, `yzwallpaper`, `yzwidgets`, `base16-to-yzshell-scheme`, and `base16-to-yzshell-template` (run `-h` on them for details)
