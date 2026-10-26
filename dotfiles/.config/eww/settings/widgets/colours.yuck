@@ -72,7 +72,7 @@
               (
                 yzwidgets close all
                 yzconf colourscheme '${scheme["id"]}'
-                yzwidgets open settings
+                #yzwidgets open settings
               ) &`
             :css ` 
               button {
