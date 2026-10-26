@@ -8,21 +8,33 @@ be configured with the `yzctl` TUI, or manually with `yzconf`.
 
 Run `yzbinds`, or press Super+B to view the keybinds.
 
-## Screenshots
+## Showcase
 
-<img width="1366" height="768" alt="20260807_22:46:23" src="https://github.com/user-attachments/assets/21aed7b9-3430-4573-9449-1fcf0bd9a67c" />
-<img width="1366" height="768" alt="20260815_11:09:20" src="https://github.com/user-attachments/assets/fb96b68f-5c1d-49d2-ab51-5f64bb32096d" />
-<img width="1366" height="768" alt="20260815_18:58:47" src="https://github.com/user-attachments/assets/dbf5045b-3a65-4b1e-9bab-45ab979ec7d7" />
-<img width="1366" height="768" alt="20260815_19:01:23" src="https://github.com/user-attachments/assets/ce07f2ef-582b-4d08-98e9-ab6a6c3a74e1" />
-<img width="2560" height="1440" alt="20260926_18:27:37-cropped" src="https://github.com/user-attachments/assets/4492cb58-ca4e-40ad-82de-48728153206d" />
-<img width="2560" height="1440" alt="20260818_23:52:05" src="https://github.com/user-attachments/assets/0c4a99de-13ac-46ae-9b3e-d90a079aa4f2" />
-<img width="450" height="65" alt="20261017_22:34:26" src="https://github.com/user-attachments/assets/aabdb2be-fdc0-4a0f-87a1-2d6f6bac7849" />
-<img width="616" height="350" alt="20261014_22:05:58" src="https://github.com/user-attachments/assets/c8f01c0d-9ab7-4f5a-b95e-0eb97be7b463" />
-<img width="641" height="568" alt="20260902_23:30:32" src="https://github.com/user-attachments/assets/b3f80f9d-6d56-4c54-8cec-9e6d1cd6dea3" />
-<img width="655" height="644" alt="20261019_00:23:44" src="https://github.com/user-attachments/assets/cee34935-fd4e-424e-9c6c-dee5f7c61403" />
-<img width="663" height="495" alt="20261019_00:23:55" src="https://github.com/user-attachments/assets/1f0f24f8-e9a2-49a7-9ffe-4b6e15d6aa5b" />
-<img width="525" height="663" alt="20261019_00:24:06" src="https://github.com/user-attachments/assets/692d6642-67c6-4c6a-a216-1477a7f5a82a" />
+<img width="1366" height="768" alt="fetch+startmenu" src="https://github.com/user-attachments/assets/ac840ed3-7dfc-43fa-a76d-ace28d6012ad" />
+<img width="1366" height="768" alt="nvim+htop" src="https://github.com/user-attachments/assets/15f62199-538c-4e8a-b1d7-bcf03db157eb" />
 
+### Start Menu
+
+https://github.com/user-attachments/assets/b0fcd143-e904-4386-93e1-cc85f0444e23
+
+### Settings
+
+https://github.com/user-attachments/assets/a4f55068-4c10-45f9-930e-8e45436ad661
+
+### Calendar
+
+https://github.com/user-attachments/assets/8f12eba6-c3d8-4633-8edc-7b0325386480
+
+
+### Application Themes
+
+<img width="1366" height="768" alt="gtk" src="https://github.com/user-attachments/assets/66f41eb5-5be3-479d-bbbe-e8f8230890dc" />
+<img width="1366" height="768" alt="web" src="https://github.com/user-attachments/assets/142071e2-9229-49dc-80b3-c816957ae1d4" />
+<img width="1366" height="768" alt="qt" src="https://github.com/user-attachments/assets/e7403703-4537-4b40-b329-36252bfc1be3" /><img width="1366" height="768" alt="vscode" src="https://github.com/user-attachments/assets/0b1e96fa-e567-4937-a0ea-7e09a582b877" />
+
+### Lockscreen
+
+<img width="1366" height="768" alt="mpv-shot0001" src="https://github.com/user-attachments/assets/78525d97-3a9d-4514-bfa9-7d8829c2a6b5" />
 
 ## Software
 
