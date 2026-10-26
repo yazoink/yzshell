@@ -24,10 +24,10 @@ cmd = (
     + " --padding='1 1' --no-limit "
     + '--selected="'
     + ",".join(extensions)
-    + '"'
+    + '" '
     + " ".join(extensions)
 )
-# print(cmd)
+print(cmd)
 
 chosen = subprocess.run(
     cmd, 

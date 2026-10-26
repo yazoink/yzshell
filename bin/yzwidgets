@@ -127,6 +127,7 @@ def open_settings(screen, config):
     subprocess.run(
         f"""
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes_background.py")} &
+        eww update fonts_selected='sans'
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "get_fonts.py")} --page=0 --query='' &
         eww open closer --no-daemonize --screen {screen}
         eww open settings --no-daemonize --screen {screen} \\
