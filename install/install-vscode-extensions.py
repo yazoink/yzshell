@@ -15,7 +15,30 @@ extensions = [
     "ecmel.vscode-html-css",
     "yzhang.markdown-all-in-one",
     "tamasfe.even-better-toml",
-    "sumneko.lua"
+    "sumneko.lua",
+    "imgildev.vscode-mustache-snippets"
 ]
-for e in extensions:
+
+cmd = (
+    "gum choose --header 'Select VsCodium extensions'"
+    + " --padding='1 1' --no-limit "
+    + '--selected="'
+    + ",".join(extensions)
+    + '"'
+    + " ".join(extensions)
+)
+# print(cmd)
+
+chosen = subprocess.run(
+    cmd, 
+    shell=True, 
+    text=True, 
+    stdout=subprocess.PIPE
+).stdout.strip().split("\n")
+# print(chosen)
+
+if "" in chosen:
+    chosen.remove("")
+
+for e in chosen:
     subprocess.run(["code", "--install-extension", e])
