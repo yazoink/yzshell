@@ -3,8 +3,6 @@
 import subprocess
 
 extensions = [
-    "pkief.material-icon-theme",
-    "pkief.material-product-icons",
     "meta.pyrefly",
     "ms-python.python",
     "pinage404.bash-extension-pack",
@@ -39,6 +37,9 @@ chosen = subprocess.run(
 
 if "" in chosen:
     chosen.remove("")
+
+chosen.append("pkief.material-icon-theme")
+chosen.append("pkief.material-product-icons")
 
 for e in chosen:
     subprocess.run(["code", "--install-extension", e])
