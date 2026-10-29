@@ -17,5 +17,5 @@ if [ ! -z /tmp/install_plugins ]; then
     ) &
     disown
 else
-    hyprpm reload
+    hyprpm reload &
 fi
