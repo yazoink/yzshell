@@ -43,7 +43,7 @@
           :selected {search_results == "[]" ? 0 : 1}
           (label 
             :class "not-found" 
-            :text "No results found..." 
+            :text {search_loading ? "Loading..." : "No results found..."}
           )
           (box 
             :class "search-results-box"
