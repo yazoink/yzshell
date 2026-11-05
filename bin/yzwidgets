@@ -11,7 +11,6 @@ from configutils import get_config
 
 
 def refresh_vars(config):
-    wallpaper_path = path.join(config["wallpaper_dir"], config["wallpaper_image"])
     subprocess.run(
         f"""
         [ ! -z "{environ["YZSHELL_WALLPAPER_LOCKFILE"]}" ] \
@@ -20,7 +19,6 @@ def refresh_vars(config):
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes_background.py")} &
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes.py")} --page=0 --polarity=dark &
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes.py")} --page=0 --polarity=light &
-        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "get_fonts.py")} --page=0 --query='' &
         bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "get_current_font.sh")} "sans" &
         bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "dnd_icon.sh")}
         bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "idle_icon.sh")}
@@ -30,9 +28,6 @@ def refresh_vars(config):
         eww update username="$(whoami)"
         eww update hostname="$(cat /etc/hostname)"
         eww update profile_image='{config["profile_image"]}'
-        eww update current_scheme='{config["colourscheme"]}'
-        eww update current_wallpaper='{wallpaper_path}'
-        eww update wallpaper_mode='{config["wallpaper_mode"]}'
         eww update wallpaper_dir='{config["wallpaper_dir"]}'
         eww update editor_cmd='{config["editor_cmd"]}'
         eww update weather_location='{config["weather_location"]}'
@@ -249,6 +244,10 @@ def close_all_widgets():
         eww update workspaces_visible=false
         eww update search_loading=true
         eww update search_results="[]"
+        eww update fonts="[]"
+        eww update wallpaper_mode=""
+        eww update current_scheme=""
+        eww update current_wallpaper=""
         """,
         shell=True,
         stdout=subprocess.DEVNULL,
