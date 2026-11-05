@@ -44,7 +44,7 @@ if ! hyprpm list | grep -q hyprbars; then
     done
     notify-send "Hyprpm" "All plugins installed"
     return 0
+else
 
-    hyprpm reload
-    rm /tmp/install_plugins
-fi
+hyprpm reload
+rm /tmp/install_plugins
