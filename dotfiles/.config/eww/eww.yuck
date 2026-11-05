@@ -183,6 +183,7 @@
 (defvar music_dir "")
 (defvar screenshot_dir "")
 (defvar recording_dir "")
+(defvar setting_dirs false)
 
 ; workspaces
 (defvar workspaces_visible false)

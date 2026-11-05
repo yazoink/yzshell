@@ -12,23 +12,31 @@
             :hexpand true
             (input
                 :value value
+                :style {setting_dirs ? "opacity: 0.4" : ""}
                 ;:width 250
+                :active {setting_dirs ? false : true}
                 :onchange "${EWW_CMD} update ${variable}='{}'"
                 :onaccept `(
+                    ${EWW_CMD} update setting_dirs=true
                     ${EWW_CMD} update ${variable}="{}"
                     yzconf set ${variable} "{}"
                     ${extra_commands}
+                    ${EWW_CMD} update setting_dirs=false
                 ) &`
             )
             (icon_button
                 :icon ""
+                :style {setting_dirs ? "opacity: 0.4" : ""}
+                :active {setting_dirs ? false : true}
                 :tooltip "Confirm"
                 :size "small"
                 :colour "green"
                 :command `(
+                    ${EWW_CMD} update setting_dirs=true
                     ${EWW_CMD} update ${variable}="${value}"
                     yzconf set ${variable} "${value}"
                     ${extra_commands}
+                    ${EWW_CMD} update setting_dirs=false
                 ) &`
             )
         )
