@@ -12,7 +12,7 @@
                         :selected {notes == "" ? 0 : 1}
                         (label
                             :class "not-found"
-                            :text "Make some notes..."
+                            :text "Nothing here..."
                         )
                         (label
                             :class "notes-body"
