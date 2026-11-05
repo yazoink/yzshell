@@ -77,7 +77,7 @@
           :tooltip "Next track"
           :size "extra-small"
           :colour "foreground"
-          :command "$YZSHELL_EWW_SCRIPT_DIR/music_info.sh --prev" 
+          :command "$YZSHELL_EWW_SCRIPT_DIR/music_info.sh --next" 
         )
       )
     )

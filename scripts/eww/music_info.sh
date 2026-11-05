@@ -102,10 +102,21 @@ elif [[ "$1" == "--cover" ]]; then
     get_cover
 elif [[ "$1" == "--toggle" ]]; then
     mpc -q toggle
+    eww poll song_status
 elif [[ "$1" == "--next" ]]; then
-    { mpc -q next; get_cover; }
+    mpc -q next
+    get_cover
+    eww poll song_status
+    eww poll song
+    eww poll song_artist
+    eww poll cover_art
 elif [[ "$1" == "--prev" ]]; then
-    { mpc -q prev; get_cover; }
+    mpc -q prev
+    get_cover
+    eww poll song_status
+    eww poll song
+    eww poll song_artist
+    eww poll cover_art
 elif [[ "$1" == "--loop" ]]; then
     mpc -q repeat
 elif [[ "$1" == "--loop_ic" ]]; then
