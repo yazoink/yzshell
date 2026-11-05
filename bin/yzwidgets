@@ -169,7 +169,6 @@ def open_screenshot(screen, config):
         stdout=subprocess.DEVNULL,
         stderr=subprocess.STDOUT,
     )
-    screenshot_set_output()
 
 
 def close_screenshot():
