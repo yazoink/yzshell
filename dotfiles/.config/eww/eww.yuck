@@ -4,7 +4,6 @@
 (include "settings/eww.yuck")
 (include "power/eww.yuck")
 (include "screenshot/eww.yuck")
-(include "workspaces/eww.yuck")
 
 ; VARIABLES
 (defvar stack_transition "slideright")
@@ -185,18 +184,6 @@
 (defvar screenshot_dir "")
 (defvar recording_dir "")
 (defvar setting_dirs false)
-
-; workspaces
-(defvar workspaces_visible false)
-(defvar workspaces_width 225)
-(defvar workspaces_height 125)
-(defpoll workspaces 
-    :interval "3s" 
-    :initial "[]" 
-    :run-while workspaces_visible
-    "$YZSHELL_EWW_SCRIPT_DIR/workspaces.py"
-)
-(defvar active_workspace 0)
 
 (defwindow closer
   :monitor 0

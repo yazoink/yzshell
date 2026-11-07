@@ -70,7 +70,6 @@ window#waybar {
 #clock,
 #quick-access,
 #tray,
-#workspaces-group,
 #custom-menu,
 #custom-power {
   margin-top: 8px;
@@ -84,7 +83,6 @@ window#waybar {
 }
 
 #taskbar button:hover,
-#workspaces-group:hover,
 #custom-menu:hover,
 #clock:hover {
   background-image: linear-gradient(@bg3, @bg3);
@@ -199,6 +197,43 @@ menuitem:hover {
   color: @accent;
 }
 
-#custom-search,
-#custom-power {
+@keyframes expandWorkspace {
+  from {min-width: 12px;}
+  to {min-width: 24px;}
+}
+
+@keyframes contractWorkspace {
+  from {min-width: 24px;}
+  to {min-width: 12px;}
+}
+
+#workspaces {
+  margin: 19px 4px;
+}
+
+#workspaces button {
+  min-height: 12px;
+  min-width: 12px;
+  font-size: 1px;
+  background-color: @surface2;
+  border-radius: 8px;
+  margin-right: 4px;
+  animation-name: contractWorkspace;
+  animation-duration: 0.2s;
+  animation-timing-function: steps(6);
+  animation-direction: alternate;
+}
+
+#workspaces button.empty {
+  opacity: 0.4;
+}
+
+#workspaces button.active {
+  background-color: @accent;
+  min-width: 24px;
+  opacity: 1;
+  animation-name: expandWorkspace;
+  animation-duration: 0.2s;
+  animation-timing-function: steps(6);
+  animation-direction: alternate;
 }

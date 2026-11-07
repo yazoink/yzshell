@@ -90,33 +90,6 @@ def close_control_center():
     )
 
 
-def open_workspaces(screen, args):
-    subprocess.run(
-        f"""
-        eww update workspaces_visible=true
-        eww open closer --no-daemonize --screen {screen}
-        eww open workspaces --no-daemonize \\
-            --screen {screen} \\
-            && hyprctl dispatch 'hl.dsp.submap(\"workspaces\")'
-        """,
-        shell=True,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.STDOUT,
-    )
-
-
-def close_workspaces():
-    subprocess.run(
-        """
-        eww close workspaces
-        eww update workspaces_visible=false
-        """,
-        shell=True,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.STDOUT,
-    )
-
-
 def open_settings(screen, config):
     wallpaper_path = path.join(config["wallpaper_dir"], config["wallpaper_image"])
     subprocess.run(
@@ -236,9 +209,6 @@ def close_all_widgets():
         hyprctl dispatch 'hl.dsp.submap(\"reset\")'
         eww update control_center_visible=false
         eww update calendar_visible=false
-        eww update settings_visible=false
-        eww update screenshot_visible=false
-        eww update workspaces_visible=false
         eww update search_loading=true
         eww update search_results="[]"
         eww update fonts="[]"
@@ -277,10 +247,6 @@ def help(exitcode=0):
         power
         calendar
         screenshot
-        workspaces [FLAGS]
-            Flags:
-                -a | --anchor <ANCHOR>: anchor of widget (i.e. 'left bottom')
-                -o | --orientation <h|v|horizontal|vertical>
     """)
     exit(exitcode)
 
@@ -312,9 +278,6 @@ if __name__ == "__main__":
                             open_power(screen)
                         case "calendar":
                             open_calendar(screen)
-                        case "workspaces":
-                            screen = get_screen()
-                            open_workspaces(screen, argv[3:])
             case "close":
                 if argc > 2:
                     match argv[2]:
@@ -327,8 +290,6 @@ if __name__ == "__main__":
                         case "power":
                             close_power()
                         case "calendar":
-                            close_calendar()
-                        case "workspaces":
                             close_calendar()
                         case "all":
                             close_all_widgets()
@@ -368,12 +329,6 @@ if __name__ == "__main__":
                             else:
                                 screen = get_screen()
                                 open_calendar(screen)
-                        case "workspaces":
-                            if is_open("workspaces") == True:
-                                close_workspaces()
-                            else:
-                                screen = get_screen()
-                                open_workspaces(screen, argv[3:])
             case "state":
                 if argc > 2:
                     if is_open(argv[2]):
