@@ -55,6 +55,7 @@
         :orientation "h"
         :space-evenly false
         :spacing 8
+        :valign "center"
         (label
           :text {scheme.scheme}
           :halign "start"
