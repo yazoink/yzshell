@@ -18,6 +18,7 @@ hl.bind(
 	{ description = "Reload yzshell", submap_universal = true }
 )
 hl.bind("SUPER + P", hl.dsp.exec_cmd("yzwidgets toggle control_center"), { description = "Open start menu" })
+hl.bind("SUPER + Space", hl.dsp.exec_cmd("yzwidgets toggle control_center"), { description = "Open start menu" })
 hl.bind("SUPER + SHIFT + C", hl.dsp.exec_cmd("yzwidgets toggle calendar"), { description = "Open calendar widget" })
 hl.bind("SUPER + SHIFT + Q", hl.dsp.exec_cmd("yzwidgets toggle power"), { description = "Open power menu" })
 hl.bind(

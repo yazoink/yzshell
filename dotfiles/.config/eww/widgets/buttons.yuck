@@ -4,7 +4,7 @@
         :onclick command
         :tooltip tooltip
         :style style
-        :active active
+        :active {active == false ? false : true}
         :class "icon icon-button icon-button-${size} ${colour} ${class}"
         icon
     )

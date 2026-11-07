@@ -185,40 +185,17 @@
   )
 )
 
-(defwidget scheme_polarity_buttons []
-  (box
-    :orientation "h"
-    :space-evenly false
-    :spacing 4
-    :halign "end"
-    :hexpand true
-    :valign "center"
-    :vexpand true
-    :class "scheme-polarity-buttons"
-    (button
-      :class "polarity-button ${schemes_selected == 0 ? "selected" : ""}"
-      :onclick {
-        schemes_selected == 0
-        ? ""
-        : `(
-            $YZSHELL_EWW_SCRIPT_DIR/schemes.py --polarity=dark --page=0 --query='${scheme_query}' --no-loading
-            ${EWW_CMD} update schemes_selected=0
-        ) &`
-      }
-      (label :text "Dark")
-    )
-    (button
-      :class "polarity-button ${schemes_selected == 1 ? "selected" : ""}"
-      :onclick {
-        schemes_selected == 1
-        ? ""
-        : `(
-            $YZSHELL_EWW_SCRIPT_DIR/schemes.py --polarity=light --page=0 --query='${scheme_query}' --no-loading
-            ${EWW_CMD} update schemes_selected=1
-        ) &`
-      }
-      (label :text "Light")
-    )
+(defwidget scheme_polarity_button [type label index]
+  (button
+    :class "polarity-button ${schemes_selected == index ? "selected" : ""}"
+    :onclick `(
+        $YZSHELL_EWW_SCRIPT_DIR/schemes.py \
+          --polarity=${type} --page=${index} \
+          --query="${scheme_query}" \
+          ${schemes_selected != index ? "--no-loading" : ""}
+        ${EWW_CMD} update schemes_selected=${index}
+    ) &`
+    (label :text label)
   )
 )
 
@@ -280,7 +257,26 @@
         :text "Current: ${current_scheme}"
         :tooltip current_scheme
       )
-      (scheme_polarity_buttons)
+      (box
+        :orientation "h"
+        :space-evenly false
+        :spacing 4
+        :halign "end"
+        :hexpand true
+        :valign "center"
+        :vexpand true
+        :class "scheme-polarity-buttons"
+        (scheme_polarity_button
+          :type "dark"
+          :label "Dark"
+          :index 0
+        )
+        (scheme_polarity_button
+          :type "light"
+          :label "Light"
+          :index 1
+        )
+      )
     )
   )
 )
