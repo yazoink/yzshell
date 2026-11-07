@@ -156,7 +156,7 @@ if __name__ == "__main__":
     # get target page index
     page = get_target_page_index(args.page)
                 
-    # set offsets
+    # get page and set offsets
     if len(schemes) > 0:
         schemes = set_offsets(get_page(page, schemes))
 
