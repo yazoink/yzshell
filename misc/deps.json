@@ -116,6 +116,13 @@
         "breezex-cursor-theme",
         "wayland-pipewire-idle-inhibit",
         "vesktop-bin",
-        "ttf-twemoji-color"
+        "ttf-twemoji-color",
+        "ananicy-cpp",
+        "irqbalance",
+        "memavaild",
+        "nohang",
+        "preload",
+        "prelockd",
+        "uresourced"
     ]
 }

@@ -64,12 +64,7 @@ function main() {
         bash -c "${REPO_DIR}/install/configure-gpu-drivers.py"
         sudo ln -sf /usr/share/fontconfig/conf.avail/10-nerd-font-symbols.conf \
             /etc/fonts/conf.d/
-        sudo journalctl --vacuum-time=2weeks
-        sudo systemctl enable --now fstrim.timer
-        sudo systemctl enable --now systemd-oomd
-        sudo systemctl enable --now swayosd-libinput-backend.service
-        sudo systemctl enable --now bluetooth.service
-        systemctl --user --now enable mpd
+        source "${REPO_DIR}/install/services.sh"
     fi
     if $install_opt_deps; then
         announce "Installing optional dependencies..."
