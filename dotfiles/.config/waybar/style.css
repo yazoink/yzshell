@@ -237,3 +237,7 @@ menuitem:hover {
   animation-timing-function: steps(6);
   animation-direction: alternate;
 }
+
+#workspaces button.urgent {
+  background-color: @red;
+}

@@ -2,7 +2,7 @@
     "custom/menu": {
         "format": "",
         "tooltip": true,
-        "tooltip-format": "Open start menu (Mod+P)",
+        "tooltip-format": "Open start menu (Mod+P or Mod+Space)",
         "on-click": "yzwidgets open control_center"
     }
 }
