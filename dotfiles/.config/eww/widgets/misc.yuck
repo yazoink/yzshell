@@ -16,6 +16,7 @@
     (label
         :class "heading heading-${size} ${class}"
         :halign "start"
+        :valign "center"
         :hexpand true
         :text text
     )
