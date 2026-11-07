@@ -141,15 +141,12 @@
 
 ; settings
 (defvar settings_menu_item 0)
-(defvar light_colourschemes `[]`)
-(defvar dark_colourschemes `[]`)
-(defvar dark_colourschemes_page "0")
-(defvar light_colourschemes_page "0")
+(defvar colourschemes `[]`)
+(defvar colourschemes_page "0")
 (defvar schemes_selected 0)
 (defvar current_scheme "")
 (defvar scheme_query "")
 (defvar colourschemes_bg_image "")
-(defvar no_schemes_found false)
 (defvar schemes_loading false)
 (defvar scheme_cols `[
   "background",

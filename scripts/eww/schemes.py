@@ -12,20 +12,6 @@ CACHE_FILE = path.join(environ["YZSHELL_CACHE_DIR"], "schemes.json")
 MAX_PER_PAGE = 8 # max items per page
 
 
-def update_eww(a, polarity):
-    empty = "true"
-    if len(a) > 0:
-        empty = "false"
-    #print(json.dumps(a, indent=4))
-    subprocess.run(
-        f"""
-        eww update {polarity}_colourschemes="{json.dumps(a).replace("\"", "\\\"")}"
-        eww update no_schemes_found={empty}
-        """,
-        shell=True,
-    )
-
-
 def get_all(refresh=False):
     def sort_schemes(schemes):
         return sorted(schemes, key=lambda d: d["scheme"].lower())
@@ -71,15 +57,10 @@ def filter_arr(qry, a):
     return r
 
 
-def get_current_page_index(polarity):
-    cmd = ["eww", "get"]
-    if polarity == "dark":
-        cmd.append("dark_colourschemes_page")
-    else:
-        cmd.append("light_colourschemes_page")
+def get_current_page_index():
     try:
         r = int(subprocess.run(
-            cmd,
+            ["eww", "get", "colourschemes_page"],
             text=True,
             capture_output=True
         ).stdout.strip())
@@ -88,7 +69,7 @@ def get_current_page_index(polarity):
         return 0
 
 
-def get_page(index, a, polarity):
+def get_page(index, a):
     sch_num = len(a)
     start_index = MAX_PER_PAGE * index
     end_index = start_index + MAX_PER_PAGE
@@ -117,45 +98,33 @@ if __name__ == "__main__":
     parser.add_argument("-i", "--page", default=None)
     parser.add_argument("-q", "--query", default="")
     parser.add_argument("-p", "--polarity", default=None)
-    parser.add_argument("-nl", "--no-loading", action="store_true", default=False)
+    parser.add_argument("-r", "--refresh", action="store_true", default=False)
     args = parser.parse_args(argv[1:])
 
-    if args.no_loading == False:
-        subprocess.run(
-            """
-            eww update dark_colourschemes="[]"
-            eww update light_colourschemes="[]"
-            eww update schemes_loading=true
-            eww update no_schemes_found=true
-            """,
-            shell=True
-        )
-
     qry = args.query.strip()
-    polarity = None
-    if args.polarity != None:
-        if args.polarity in ["dark", "light"]:
-            polarity = args.polarity
-        else:
-            polarity = get_polarity()
+    polarity = args.polarity
+    schemes = None
+    arrs = None
+
+    subprocess.run(
+        f"""
+        eww update schemes_loading=true
+        eww update colourschemes="[]"
+        """,
+        shell=True
+    )
+
+    arrs = get_all(refresh=args.refresh)
+
+    # get schemes
+    if qry != "":
+        schemes = filter_arr(args.query, arrs[polarity])
     else:
-        polarity = get_polarity()
-    #print(polarity)
+        schemes = arrs[polarity]
 
-    refresh = False
-    if qry == "":
-        refresh = True
-
-    arrs = get_all(refresh=refresh)
-
-    if qry == "":
-        subprocess.run("eww update scheme_query=''", shell=True)
-    else:
-        arrs[polarity] = filter_arr(args.query, arrs[polarity])
-
+    current_page = get_current_page_index()
     if args.page != None:
-        current_page = get_current_page_index(polarity)
-        sch_num = len(arrs[polarity])
+        sch_num = len(schemes)
         max_pages = ceil(sch_num / MAX_PER_PAGE)
         target_page = args.page
         if args.page == "next":
@@ -172,25 +141,18 @@ if __name__ == "__main__":
                 target_page = max_pages - 1
             elif target_page < 0:
                 target_page = 0
-        #print(f"eww update {polarity}_colourschemes_page='{str(target_page)}'")
-        subprocess.run(
-            f"eww update {polarity}_colourschemes_page='{str(target_page)}'",
-            shell=True
-        )
-        #print(polarity)
+        current_page = target_page
                 
-    if len(arrs[polarity]) > 0:
-        p = get_current_page_index(polarity)
-        arrs[polarity] = get_page(p, arrs[polarity], polarity)
+    if len(schemes) > 0:
+        schemes = get_page(current_page, schemes)
         offset_x = 0
         offset_direction = "r"
         offset_inc = 32
         offset_max_l = -64
         offset_max_r = 64
-        for i in range(0, len(arrs[polarity])):
-            arrs[polarity][i]["offset-x"] = str(offset_x)
-            arrs[polarity][i]["offset-y"] = str(randint(-48, 8))
-            #arrs[a][i]["offset-y"] = "-32"
+        for i in range(0, len(schemes)):
+            schemes[i]["offset-x"] = str(offset_x)
+            schemes[i]["offset-y"] = str(randint(-48, 8))
 
             if offset_direction == "l":
                 if offset_x == offset_max_l:
@@ -204,15 +166,14 @@ if __name__ == "__main__":
                     offset_x -= offset_inc
                 else:
                     offset_x += offset_inc
-        arrs[polarity][0]["offset-y"] = str(randint(0, 8))
+        schemes[0]["offset-y"] = str(randint(0, 8))
 
     #print(json.dumps(arrs[polarity], indent=4))
-    #print(polarity)
-    update_eww(arrs[polarity], polarity)
-    if args.no_loading == False:
-        subprocess.run(
-            """
-            eww update schemes_loading=false
-            """,
-            shell=True
-        )
+    subprocess.run(
+        f"""
+        eww update colourschemes="{json.dumps(schemes).replace("\"", "\\\"")}"
+        eww update colourschemes_page='{str(current_page)}'
+        eww update schemes_loading=false
+        """,
+        shell=True
+    )

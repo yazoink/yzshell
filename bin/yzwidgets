@@ -17,8 +17,7 @@ def refresh_vars(config):
             && rm -rf {environ["YZSHELL_WALLPAPER_LOCKFILE"]}
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "wallpapers.py")} --page=0 --directory='{config["wallpaper_dir"]}' &
         python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes_background.py")} &
-        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes.py")} --page=0 --polarity=dark &
-        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes.py")} --page=0 --polarity=light &
+        python {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "schemes.py")} --page=0 --polarity=dark --refresh &
         bash {path.join(environ["YZSHELL_EWW_SCRIPT_DIR"], "get_os_version.sh")}
         eww poll weather_data
         eww update username="$(whoami)"
