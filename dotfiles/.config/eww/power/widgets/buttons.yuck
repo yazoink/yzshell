@@ -54,7 +54,7 @@
 (defwidget power_buttons []
   (box
     :orientation "h"
-    :class "power-buttons-box"
+    :class "outer-box power-buttons-box"
     :space-evenly false
     :vexpand false
     :valign "end"

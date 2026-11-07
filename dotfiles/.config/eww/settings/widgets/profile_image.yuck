@@ -3,7 +3,7 @@
         :orientation "v"
         :spacing 8
         :space-evenly false
-        :class "pfp-settings"
+        :class "outer-box pfp-settings"
         :halign "fill"
         :valign "end"
         :vexpand true

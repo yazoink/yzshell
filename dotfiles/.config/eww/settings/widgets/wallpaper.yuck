@@ -28,7 +28,7 @@
   (box
     :halign "end"
     :hexpand true
-    :valign "end"
+    :valign "fill"
     :vexpand true
     :orientation "h"
     :spacing 4
@@ -58,7 +58,7 @@
 
 (defwidget wallpaper []
   (box
-    :class "wp-box"
+    :class "outer-box wp-box"
     :orientation "v"
     :space-evenly false
     :spacing 8

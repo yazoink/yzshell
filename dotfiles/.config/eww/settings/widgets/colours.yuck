@@ -54,18 +54,18 @@
       (box
         :orientation "h"
         :space-evenly false
+        :spacing 8
         (label
           :text {scheme.scheme}
           :halign "start"
           :hexpand true
-          :style "color: #${scheme["foreground"]}; font-weight: bold; font-size: 15pt; margin: 8px;"
+          :style "color: #${scheme["foreground"]}; font-weight: bold; font-size: 15pt; margin-left: 8px;"
         )
         (stack 
           :halign "end"
           :hexpand true
           :valign "center"
           :hexpand true
-          :style "margin-right: 8px;"
           :selected {current_scheme == "${scheme["id"]}" ? 1 : 0}
           (button
             :onclick `
@@ -140,7 +140,7 @@
           :class "scheme-colours"
           :halign "start"
           :hexpand false
-          :style "margin-bottom: 12px;"
+          :style "margin-bottom: 4px;"
           ;:style "background-color: transparentize(#${scheme["foreground"]}, 0.9);"
           (box
             :spacing 8
@@ -207,7 +207,7 @@
 
 (defwidget colourschemes []
   (box
-    :class "colourschemes"
+    :class "colourschemes outer-box"
     :orientation "v"
     :space-evenly false
     :spacing 8
@@ -221,7 +221,7 @@
       (heading :size "large" :text "Colourscheme")
       (search_bar
         :halign "end"
-        :valign "center"
+        :valign "fill"
         :value scheme_query
         :icon ""
         :width 150

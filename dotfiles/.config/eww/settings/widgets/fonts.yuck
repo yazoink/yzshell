@@ -51,7 +51,7 @@
         :orientation "v"
         :spacing 8
         :space-evenly false
-        :class "font-settings"
+        :class "outer-box font-settings"
         :halign "fill"
         :valign "end"
         :vexpand false

@@ -10,7 +10,7 @@
   :focusable "ondemand"
   (box
     :orientation "h"
-    :class "screenshot-box"
+    :class "outer-box screenshot-box"
     :space-evenly false
     :vexpand false
     :spacing 8

@@ -2,10 +2,6 @@
 @import "../scss/misc";
 
 .calendar-box {
-  padding: $padding;
-  border-radius: $outer-radius;
-  background: $background;
-  border: 1px solid $border;
   .pretty-time {
     padding-top: $padding;
     padding-bottom: $padding;
@@ -21,11 +17,6 @@
     .vertical-separator label {
       font-size: 5pt;
     }
-  }
-  .calendar {
-    background-color: $surface1;
-    border-radius: $inner-radius;
-    padding: $padding;
   }
   calendar:indeterminate {
     color: $disabled;
@@ -45,22 +36,11 @@
   }
 }
 .reminders-box {
-  padding: $padding;
-  border-radius: $outer-radius;
-  background: $background;
-  border: 1px solid $border;
   .edit-reminder {
-    border-radius: $inner-radius;
-    background-color: $surface1;
     padding: $padding;
     .icon-button {
       margin-top: 0;
       margin-bottom: 0;
-    }
-    button, entry {
-      background-color: $surface2;
-      padding: $padding;
-      border-radius: $inner-radius;
     }
     button:hover {
       background-color: $surface3;
@@ -93,32 +73,34 @@
       background-color: $surface3;
     }
   }
-  .reminders-scroll {
-    border-radius: $inner-radius;
-    background-color: $surface1;
-    .icon-button {
-      background-color: $surface2;
-      &:hover {
-        background-color: $surface3;
-      }
-    }
-    .reminders {
-      padding: $padding / 2;
-      .reminder {
-        margin: $padding / 2;
-        border-radius: $inner-radius;
-        padding: $padding;
+  .reminders-content {
+    padding: 0;
+    .reminders-scroll {
+      padding: 0;
+      .icon-button {
+        background-color: transparent;
         &:hover {
           background-color: $surface2;
         }
-        .reminder-date {
-          font-size: 13pt;
-          font-weight: bold;
-          color: $accent;
-        }
-        .reminder-time {
-          font-style: italic;
-          opacity: 0.4;
+      }
+      .reminders {
+        padding: $padding;
+        .reminder {
+          background-color: transparent;
+          border-radius: $inner-radius;
+          padding: $padding;
+          &:hover {
+            background-color: $surface2;
+          }
+          .reminder-date {
+            font-size: 13pt;
+            font-weight: bold;
+            color: $accent;
+          }
+          .reminder-time {
+            font-style: italic;
+            opacity: 0.4;
+          }
         }
       }
     }

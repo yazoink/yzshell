@@ -39,8 +39,7 @@ checkbutton:checked {
 
 .heading {
   font-weight: bold;
-  padding: $padding;
-  padding-bottom: 0;
+  padding: $padding / 4 $padding;
   &.heading-small {
     font-size: 13pt;
   }
@@ -325,4 +324,24 @@ menu * {
 
 entry selection {
   background-color: transparentize($accent , 0.6);
+}
+
+.outer-box {
+  padding: $padding;
+  border-radius: $outer-radius;
+  background: $background;
+  border: 1px solid $border;
+}
+
+.inner-box {
+  padding: $padding;
+  border-radius: $inner-radius;
+  background: $surface1;
+
+  button, entry, .icon-button {
+    background-color: $surface2;
+    &:hover {
+      background-color: $surface3;
+    }
+  }
 }

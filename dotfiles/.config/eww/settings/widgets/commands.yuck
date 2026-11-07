@@ -44,7 +44,7 @@
         :orientation "v"
         :spacing 8
         :space-evenly false
-        :class "dir-settings"
+        :class "outer-box dir-settings"
         :halign "fill"
         :valign "end"
         :vexpand true

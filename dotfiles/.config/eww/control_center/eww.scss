@@ -1,8 +1,4 @@
 .control-center-box {
-  padding: $padding;
-  border-radius: $outer-radius;
-  background: $bg;
-  border: 1px solid $border;
   .user-box {
     .reveal-button {
       padding-right: 27px;
@@ -38,7 +34,7 @@
   }
 
   .apps-box {
-    background: $surface;
+    background: $surface1;
     border-radius: $inner-radius;
     padding: $padding;
     min-width: 250px;
@@ -64,13 +60,13 @@
         opacity: 0.4;
       }
       &:hover {
-        background: $surface;
+        background: $surface1;
       }
     }
   }
 
   .launchers-box {
-    background-color: $surface;
+    background-color: $surface1;
     border-radius: $inner-radius;
     padding: $padding;
     button {
@@ -82,15 +78,7 @@
   }
 }
 
-.menu-container {
-  border-radius: $outer-radius;
-  background: $bg;
-  border: 1px solid $border;
-  padding: $padding;
-}
-
-.menu-box {
-  border-radius: $inner-radius;
+.top-menu-buttons {
   button {
     background-color: $surface1;
     label {
@@ -103,10 +91,6 @@
 }
 
 .recorder-box {
-  margin-bottom: $padding;
-  border-radius: $inner-radius;
-  background: $surface;
-  padding: $padding;
   .timer {
     font-weight: bold;
     font-size: 40pt;
@@ -152,9 +136,6 @@
 }
 
 .music-box {
-  margin-bottom: $padding;
-  border-radius: $inner-radius;
-  background: $surface;
   .album-cover {
     background-color: $surface2;
     border-radius: $inner-radius;
@@ -162,7 +143,6 @@
     background-position: center;
     min-height: 125px;
     min-width: 125px;
-    margin: $padding;
     margin-right: 0;
     border-radius: $inner-radius;
     box-shadow: $image-shadow;
@@ -180,6 +160,7 @@
     margin: $padding;
     .music-info {
       margin: $padding;
+      background-color: transparent;
       .song {
         font-weight: bold;
         font-size: 14pt;
@@ -205,12 +186,6 @@
 }
 
 .monitor-box {
-  // border-radius: $inner-radius;
-  // background-color: $surface;
-  margin-bottom: $padding;
-  border-radius: $inner-radius;
-  background: $surface;
-  padding: $padding;
   .monitor-item {
     background-color: $surface2;
     border-radius: $inner-radius;
@@ -245,10 +220,6 @@
 }
 
 .weather-box {
-  margin-bottom: $padding;
-  border-radius: $inner-radius;
-  background: $surface1;
-  padding: $padding;
   .weather-icon {
     font-size: 70px;
     padding: 0;
@@ -271,19 +242,22 @@
   }
 }
 
-.outer-box {
+.notes-box {
+  .notes-body {
+    padding: $padding * 2;
+  }
+}
+
+.search-outer {
   all: unset;
   // background-color: $bg;
   // border-radius: $outer-radius;
   // padding: $padding;
   // border: 1px solid $border;
-  .inner-box {
-  }
   .search-results-scroll {
+    padding: 0;
     min-width: 300px;
     min-height: 305px;
-    background-color: $surface;
-    border-radius: $inner-radius;
     .search-results-box {
       padding: $padding;
     }
@@ -291,6 +265,7 @@
       min-height: 70px;
       border-radius: $inner-radius;
       padding: 0 $padding / 2;
+      background-color: transparent;
       .app-icon {
         margin: 0;
         padding: 0;
@@ -306,12 +281,9 @@
         margin-right: $padding / 2;
       }
       &:hover {
-        background-image: linear-gradient($surface2, $surface2);
+        background: $surface2;
       }
       &.selected {
-        &:hover {
-          background-image: none;
-        }
         background-color: $accent;
         label {
           color: $bg;
@@ -323,24 +295,6 @@
     }
   }
 }
-
-.notes-box {
-  margin-bottom: $padding;
-  border-radius: $inner-radius;
-  background: $surface1;
-  .notes-body {
-    padding: $padding * 2;
-  }
-  .icon-button {
-    background: $surface2;
-    margin: $padding;
-    &:hover {
-      background: $surface3;
-    }
-  }
-}
-
-
 
 .app-search-bar {
   background-color: $surface;

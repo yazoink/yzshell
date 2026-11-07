@@ -4,20 +4,11 @@
   //background: $bg;
   //border: 1px solid $border;
   button {
-    background-color: $surface1;
-    border-radius: $inner-radius;
     label, image {
       padding: $padding;
     }
-    &:hover {
-      background: $surface2;
-    }
   }
   .settings-menu {
-    padding: $padding;
-    border-radius: $outer-radius;
-    background: $bg;
-    border: 1px solid $border;
     .icon-button {
       padding: 0;
     }
@@ -29,10 +20,6 @@
     }
   }
   .colourschemes {
-    padding: $padding;
-    border-radius: $outer-radius;
-    background: $bg;
-    border: 1px solid $border;
     /*.search-bar {
       margin: $padding;
       border: 1px solid $surface2;
@@ -74,7 +61,7 @@
           label {
             font-weight: bold;
           }
-          .window-buttons, .scheme-name {
+          .window-buttons {
             padding: $padding * 1.5;
           }
           .window-buttons label {
@@ -83,9 +70,9 @@
           }
         }
         .body {
-          padding: $padding * 1.5;
+          padding: $padding;
           .info-box {
-            padding: $padding * 2;
+            padding: $padding * 1.5;
             border-radius: $inner-radius;
           }
           .selected-text {
@@ -228,39 +215,14 @@
 }
 
 .weather-settings {
-  padding: $padding;
-  border-radius: $outer-radius;
-  background: $background;
-  border: 1px solid $border;
   button {
     padding: 0;
-    background-color: $surface2;
-    &:hover { 
-      background-color: $surface3; 
-    }
-  }
-  .weather-settings-box {
-    padding: $padding;
-    border-radius: $inner-radius;
-    background: $surface1;
-    .heading {
-      padding: 0;
-      padding-bottom: 8px;
-    }
-    .location-types {
-      background-color: $surface2;
-      padding: $padding * 2;
-      border-radius: $inner-radius;
-    }
-  }
-  entry {
-    background-color: $surface2;
-    border-radius: $inner-radius;
   }
   .placeholder {
-    font-style: italic;
-    opacity: 0.4;
     padding: $padding;
+  }
+  .location-types .heading {
+    margin-bottom: 8px;
   }
   .selected, .selected:hover {
     background-color: $accent;

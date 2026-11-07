@@ -21,7 +21,7 @@
       :spacing 4
       (control_center_menu)
       (box
-        :class "control-center-box"
+        :class "outer-box control-center-box"
         :orientation "vertical"
         :halign "fill"
         :space-evenly false

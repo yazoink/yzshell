@@ -43,7 +43,7 @@
     :vexpand false
     :spacing 8
     (box
-      :class "settings-menu"
+      :class "settings-menu outer-box"
       :orientation "v"
       :halign "start"
       :valign "end"

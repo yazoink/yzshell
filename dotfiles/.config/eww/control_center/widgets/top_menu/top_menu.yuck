@@ -8,10 +8,11 @@
   (box
     :orientation "v"
     :space-evenly false
-    :class "menu-container"
+    :class "outer-box"
+    :spacing 8
     (stack
       :selected control_center_menu_item
-      :class "menu-content"
+      :class "inner-box"
       :same-size false
       :transition stack_transition
       :same-size false
@@ -22,7 +23,7 @@
       (notes)
     )
     (box
-      :class "menu-box"
+      :class "top-menu-buttons"
       :halign "fill"
       :space-evenly true
       :hexpand true

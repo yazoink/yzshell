@@ -7,6 +7,7 @@
             (box
                 :orientation "v"
                 :halign "fill"
+                :space-evenly false
                 (label
                     :text {r.date}
                     :halign "start"
@@ -33,10 +34,10 @@
         )
         (box
             :halign "end"
-            :valign "center"
+            :valign "end"
             :hexpand true
             :vexpand true
-            :style "margin: 8px;"
+            ;:style "margin: 8px;"
             (icon_button
                 :tooltip "Delete reminder"
                 :icon ""
@@ -100,7 +101,7 @@
     (box
         :orientation "v"
         :space-evenly false
-        :class "reminders-box"
+        :class "outer-box reminders-box"
         :halign "fill"
         :valign "end"
         :spacing 8
@@ -155,6 +156,7 @@
         (stack
             :selected {edit_reminder ? 0 : 1}
             :transition {edit_reminder ? "slideup" : "slidedown"}
+            :class "reminders-content inner-box"
             (box
                 :class "edit-reminder"
                 :orientation "v"

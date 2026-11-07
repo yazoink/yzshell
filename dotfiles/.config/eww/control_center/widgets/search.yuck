@@ -26,19 +26,18 @@
 
 (defwidget search []
   (box ; main window
-    :class "outer-box"
+    :class "search-outer"
     :orientation "v"
     :space-evenly false
     :spacing 8
     :width 300
     :valign "fill"
     (box ; results
-      :class "inner-box"
       :halign "fill"
       :orientation "v"
       :valign "end"
       (scroll
-        :class "search-results-scroll"
+        :class "search-results-scroll inner-box"
         (stack
           :selected {search_results == "[]" ? 0 : 1}
           (label 

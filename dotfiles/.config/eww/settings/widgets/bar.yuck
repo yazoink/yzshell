@@ -3,7 +3,7 @@
         :orientation "v"
         :spacing 8
         :space-evenly false
-        :class "bar-settings"
+        :class "outer-box bar-settings"
         :halign "fill"
         :valign "end"
         :vexpand true

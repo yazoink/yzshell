@@ -20,15 +20,14 @@
     (box
       :orientation "vertical"
       :space-evenly false
-      :class "calendar-box"
+      :class "outer-box calendar-box"
       :spacing 8
       :halign "fill"
       :valign "end"
       :vexpand true
       (calendar_clock)
-      (box :class "calendar" :orientation "v" :valign "end" :vexpand true
+      (box :class "inner-box" :orientation "v" :valign "end" :vexpand true
         (calendar 
-          :class "cal" 
           :halign "center"
           :onclick "$YZSHELL_EWW_SCRIPT_DIR/reminders.py dateclicked {0} {1} {2}"
         )

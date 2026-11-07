@@ -1,12 +1,12 @@
 (defwidget notes []
     (box
-        :class "notes-box"
         :halign "fill"
         (overlay
             (scroll
                 :height 140
                 :hscroll false
                 :vscroll true
+                :class "notes-box"
                 (box
                     (stack
                         :selected {notes == "" ? 0 : 1}

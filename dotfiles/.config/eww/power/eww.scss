@@ -1,8 +1,4 @@
-.power-buttons-box{
-  padding: $padding;
-  border-radius: $outer-radius;
-  background: $bg;
-  border: 1px solid $border;
+.power-buttons-box {
   button {
     background-color: $surface2;
     border-radius: $inner-radius;
