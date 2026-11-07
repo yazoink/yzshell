@@ -106,6 +106,9 @@ def open_settings(screen, config):
         eww update current_scheme='{config["colourscheme"]}'
         eww update bar_show_battery={str(config["bar_show_battery"]).lower()}
         eww update bar_show_backlight={str(config["bar_show_backlight"]).lower()}
+        eww update terminal='{config["terminal"]}'
+        eww update file_manager='{config["file_manager"]}'
+        eww update web_browser='{config["web_browser"]}'
         """,
         shell=True,
         stdout=subprocess.DEVNULL,

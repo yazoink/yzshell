@@ -1,0 +1,75 @@
+(defwidget cmd_setting [ value variable heading ]
+    (box
+        :orientation "h"
+        :spacing 8
+        :space-evenly false
+        (label :text "${heading}:")
+        (box
+            :orientation "h"
+            :spacing 4
+            :space-evenly false
+            :halign "end"
+            :hexpand true
+            (input
+                :value value
+                :onchange "${EWW_CMD} update ${variable}='{}'"
+                :onaccept `(
+                    ${EWW_CMD} update setting_cmds=true
+                    ${EWW_CMD} update ${variable}="{}"
+                    yzconf set ${variable} "{}"
+                    ${EWW_CMD} update setting_cmds=false
+                ) &`
+            )
+            (icon_button
+                :icon ""
+                :tooltip "Confirm"
+                :size "small"
+                :colour "green"
+                :command `(
+                    yzwidgets close all
+                    ${EWW_CMD} update ${variable}="${value}"
+                    yzconf set ${variable} "${value}"
+                    yzconf deploy_configs -r
+                    yzshell reload --no-wallpaper
+                    eww update settings_menu_item=4
+                    yzwidgets open settings
+                ) &`
+            )
+        )
+    )
+)
+
+(defwidget commands []
+    (box
+        :orientation "v"
+        :spacing 8
+        :space-evenly false
+        :class "dir-settings"
+        :halign "fill"
+        :valign "end"
+        :vexpand true
+        :width 400
+        (heading :size "large" :text "Commands")
+        (box
+            :class "dir-settings-box"
+            :orientation "v"
+            :spacing 8
+            :space-evenly false
+            (cmd_setting
+                :heading "Terminal"
+                :value terminal
+                :variable "terminal"
+            )
+            (cmd_setting
+                :heading "Web Browser"
+                :value web_browser
+                :variable "web_browser"
+            )
+            (cmd_setting
+                :heading "File Manager"
+                :value file_manager
+                :variable "file_manager"
+            )
+        )
+    )
+)

@@ -184,6 +184,9 @@
 (defvar screenshot_dir "")
 (defvar recording_dir "")
 (defvar setting_dirs false)
+(defvar terminal "")
+(defvar web_browser "")
+(defvar file_manager "")
 
 (defwindow closer
   :monitor 0
