@@ -57,20 +57,38 @@ def filter_arr(qry, a):
     return r
 
 
-def get_current_page_index():
+def get_target_page_index(arg):
+    page = None
+    sch_num = len(schemes)
+    max_pages = ceil(sch_num / MAX_PER_PAGE)
+
     try:
-        r = int(subprocess.run(
+        page = int(arg)
+    except:
+        page = int(subprocess.run(
             ["eww", "get", "colourschemes_page"],
             text=True,
             capture_output=True
         ).stdout.strip())
-        return r
-    except:
-        return 0
+
+    if arg == "next":
+        page += 1
+        if page >= max_pages:
+            page = 0
+    elif arg == "prev":
+        page -= 1
+        if page < 0:
+            page = max_pages - 1
+    else:
+        if page >= max_pages:
+            page = max_pages - 1
+        elif page < 0:
+            page = 0
+    return page
 
 
-def get_page(index, a):
-    sch_num = len(a)
+def get_page(index, schemes):
+    sch_num = len(schemes)
     start_index = MAX_PER_PAGE * index
     end_index = start_index + MAX_PER_PAGE
     #print("sch_num: " + str(sch_num))
@@ -78,19 +96,33 @@ def get_page(index, a):
     #print("end_index: " + str(end_index))
     if end_index >= sch_num:
         end_index = sch_num
-    return a[start_index:end_index]
+    return schemes[start_index:end_index]
 
 
-def get_polarity():
-    r = subprocess.run(
-        ["eww", "get", "schemes_selected"],
-        capture_output=True,
-        text=True
-    ).stdout.strip()
-    if r == "1":
-        return "light"
-    else:
-        return "dark"
+def set_offsets(schemes):
+    offset_x = 0
+    offset_direction = "r"
+    offset_inc = 32
+    offset_max_l = -64
+    offset_max_r = 64
+    for i in range(0, len(schemes)):
+        schemes[i]["offset-x"] = str(offset_x)
+        schemes[i]["offset-y"] = str(randint(-48, 8))
+
+        if offset_direction == "l":
+            if offset_x == offset_max_l:
+                offset_direction = "r"
+                offset_x += offset_inc
+            else:
+                offset_x -= offset_inc
+        elif offset_direction == "r":
+            if offset_x == offset_max_r:
+                offset_direction = "l"
+                offset_x -= offset_inc
+            else:
+                offset_x += offset_inc
+    schemes[0]["offset-y"] = str(randint(0, 8))
+    return schemes
 
 
 if __name__ == "__main__":
@@ -101,10 +133,10 @@ if __name__ == "__main__":
     parser.add_argument("-r", "--refresh", action="store_true", default=False)
     args = parser.parse_args(argv[1:])
 
-    qry = args.query.strip()
-    polarity = args.polarity
-    schemes = None
-    arrs = None
+    qry = args.query.strip() # query
+    arrs = None # all schemes
+    schemes = None # schemes array to pass to eww
+    page = None # index of target page
 
     subprocess.run(
         f"""
@@ -114,65 +146,25 @@ if __name__ == "__main__":
         shell=True
     )
 
-    arrs = get_all(refresh=args.refresh)
-
     # get schemes
+    arrs = get_all(refresh=args.refresh)
     if qry != "":
-        schemes = filter_arr(args.query, arrs[polarity])
+        schemes = filter_arr(args.query, arrs[args.polarity])
     else:
-        schemes = arrs[polarity]
+        schemes = arrs[args.polarity]
 
-    current_page = get_current_page_index()
-    if args.page != None:
-        sch_num = len(schemes)
-        max_pages = ceil(sch_num / MAX_PER_PAGE)
-        target_page = args.page
-        if args.page == "next":
-            target_page = current_page + 1
-            if target_page >= max_pages:
-                target_page = 0
-        elif args.page == "prev":
-            target_page = current_page - 1
-            if target_page < 0:
-                target_page = max_pages - 1
-        else:
-            target_page = int(target_page)
-            if target_page >= max_pages:
-                target_page = max_pages - 1
-            elif target_page < 0:
-                target_page = 0
-        current_page = target_page
+    # get target page index
+    page = get_target_page_index(args.page)
                 
+    # set offsets
     if len(schemes) > 0:
-        schemes = get_page(current_page, schemes)
-        offset_x = 0
-        offset_direction = "r"
-        offset_inc = 32
-        offset_max_l = -64
-        offset_max_r = 64
-        for i in range(0, len(schemes)):
-            schemes[i]["offset-x"] = str(offset_x)
-            schemes[i]["offset-y"] = str(randint(-48, 8))
+        schemes = set_offsets(get_page(page, schemes))
 
-            if offset_direction == "l":
-                if offset_x == offset_max_l:
-                    offset_direction = "r"
-                    offset_x += offset_inc
-                else:
-                    offset_x -= offset_inc
-            elif offset_direction == "r":
-                if offset_x == offset_max_r:
-                    offset_direction = "l"
-                    offset_x -= offset_inc
-                else:
-                    offset_x += offset_inc
-        schemes[0]["offset-y"] = str(randint(0, 8))
-
-    #print(json.dumps(arrs[polarity], indent=4))
+    #print(json.dumps(arrs[args.polarity], indent=4))
     subprocess.run(
         f"""
         eww update colourschemes="{json.dumps(schemes).replace("\"", "\\\"")}"
-        eww update colourschemes_page='{str(current_page)}'
+        eww update colourschemes_page='{str(page)}'
         eww update schemes_loading=false
         """,
         shell=True
