@@ -46,5 +46,4 @@ if ! hyprpm list | grep -q hyprbars; then
     return 0
 fi
 
-hyprpm reload
-rm /tmp/install_plugins
+hyprpm reload && rm /tmp/install_plugins
