@@ -243,8 +243,9 @@
 }
 
 .notes-box {
+  padding: 0;
   .notes-body {
-    padding: $padding * 2;
+     padding: $padding;
   }
 }
 

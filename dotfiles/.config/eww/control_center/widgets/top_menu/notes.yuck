@@ -6,8 +6,8 @@
                 :height 140
                 :hscroll false
                 :vscroll true
-                :class "notes-box"
                 (box
+                    :class "notes-body"
                     (stack
                         :selected {notes == "" ? 0 : 1}
                         (label
@@ -15,7 +15,6 @@
                             :text "Nothing here..."
                         )
                         (label
-                            :class "notes-body"
                             :valign "start"
                             :halign "start"
                             :xalign 0
