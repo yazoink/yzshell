@@ -85,3 +85,23 @@
     )
   )
 )
+
+(defwidget list [items]
+    (box
+        :orientation "v"
+        :space-evenly false
+        :class "list"
+        (for i in items
+            (box
+                :class "list-item"
+                :orientation "h"
+                :space-evenly false
+                (label 
+                    :class "bullet"
+                    :text "-  " 
+                )
+                (label :text i)
+            )
+        )
+    )
+)

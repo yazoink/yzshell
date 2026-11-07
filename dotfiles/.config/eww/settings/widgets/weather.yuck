@@ -90,54 +90,16 @@
         :class "location-types inner-box"
         (heading :size "medium" :class "accent" :text "Supported location types")
         ;(label :text "Supported location types:")
-        (box
-            :orientation "h"
-            :space-evenly false
-            :style "padding-left: 8px;"
-            (label :text "-  " :class "accent" :style "font-weight: bold; font-family: 'Font Awesomee 7 Free';")
-            (label :text "City name (e.g. melbourne)")
-        )
-        (box
-            :orientation "h"
-            :space-evenly false
-            :style "padding-left: 8px;"
-            (label :text "-  " :class "accent" :style "font-weight: bold; font-family: 'Font Awesomee 7 Free';")
-            (label :text "Any location, + for spaces (e.g. Eiffel+tower)")
-        )
-        (box
-            :orientation "h"
-            :space-evenly false
-            :style "padding-left: 8px;"
-            (label :text "-  " :class "accent" :style "font-weight: bold; font-family: 'Font Awesomee 7 Free';")
-            (label :text "Unicode name of any location in any language")
-        )
-        (box
-            :orientation "h"
-            :space-evenly false
-            :style "padding-left: 8px;"
-            (label :text "-  " :class "accent" :style "font-weight: bold; font-family: 'Font Awesomee 7 Free';")
-            (label :text "Airport code (e.g. muc)")
-        )
-        (box
-            :orientation "h"
-            :space-evenly false
-            :style "padding-left: 8px;"
-            (label :text "-  " :class "accent" :style "font-weight: bold; font-family: 'Font Awesomee 7 Free';")
-            (label :text "Domain name (e.g. @stackoverflow.com)")
-        )
-        (box
-            :orientation "h"
-            :space-evenly false
-            :style "padding-left: 8px;"
-            (label :text "-  " :class "accent" :style "font-weight: bold; font-family: 'Font Awesomee 7 Free';")
-            (label :text "Area code (e.g. 94107)")
-        )
-        (box
-            :orientation "h"
-            :space-evenly false
-            :style "padding-left: 8px; padding-bottom: 8px;"
-            (label :text "-  " :class "accent" :style "font-weight: bold; font-family: 'Font Awesomee 7 Free';")
-            (label :text "GPS coordinates (e.g. -78.46,106.79)")
+        (list
+            :items `[
+                "City name (e.g. melbourne)",
+                "Any location, + for spaces (e.g. Eiffel+tower)",
+                "Unicode name of any location in any language",
+                "Airport code (e.g. muc)",
+                "Domain name (e.g. @stackoverflow.com)",
+                "Area code (e.g. 94107)",
+                "GPS coordinates (e.g. -78.46,106.79)"
+            ]`
         )
     )
 )

@@ -51,6 +51,15 @@ checkbutton:checked {
   }
 }
 
+.list {
+  margin: $padding;
+  .bullet {
+    font-weight: bold; 
+    font-family: 'Font Awesomee 7 Free';
+    color: $accent;
+  }
+}
+
 .red, .red label { 
   color: $red;
   .selected, &.selected, .selected:hover, &.selected:hover {
